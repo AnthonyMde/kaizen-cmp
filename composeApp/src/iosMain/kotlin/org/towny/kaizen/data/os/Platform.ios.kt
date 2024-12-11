@@ -1,4 +1,4 @@
-package org.towny.kaizen
+package org.towny.kaizen.data.os
 
 import platform.UIKit.UIDevice
 

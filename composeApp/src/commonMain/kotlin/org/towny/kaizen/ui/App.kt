@@ -1,4 +1,4 @@
-package org.towny.kaizen
+package org.towny.kaizen.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -23,6 +23,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.towny.kaizen.Greeting
 
 fun todaysDate(): String {
     fun LocalDateTime.format() = toString().substringBefore('T')
