@@ -25,7 +25,7 @@ fun UserView(challenger: Challenger, modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.width(120.dp).padding(top = 8.dp)
         )
-        Column(modifier = Modifier.padding(top = 8.dp)) {
+        Column(modifier = Modifier.padding(top = 12.dp)) {
             challenger.challenges.forEach { challenge ->
                 ChallengeView(challenge)
             }

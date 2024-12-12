@@ -30,7 +30,7 @@ fun ChallengeView(
                 else
                     MaterialTheme.customColors.challengeCardContainerTodo,
                 shape = RoundedCornerShape(16.dp)
-            ).padding(all = 12.dp)
+            ).padding(horizontal = 12.dp, vertical = 4.dp)
     ) {
         Checkbox(
             checked = challenge.isCompleted,

@@ -32,14 +32,14 @@ fun HomeScreen(
         Text(
             text = DateUtils.getTodaysDate(),
             modifier = Modifier.padding(20.dp).align(Alignment.CenterHorizontally),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
         UserView(
             homeViewModel.mockedUser,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp)
+                .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally)
         )
         HorizontalDivider(
