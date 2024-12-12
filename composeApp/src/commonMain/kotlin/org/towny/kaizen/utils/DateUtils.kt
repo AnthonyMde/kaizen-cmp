@@ -1,6 +1,7 @@
 package org.towny.kaizen.utils
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
@@ -16,5 +17,12 @@ object DateUtils {
         val year = localDate.year
 
         return "$dayOfWeek, $day $month $year"
+    }
+
+    fun getNumberOfDaysSince(date: LocalDate = LocalDate(year = 2024, monthNumber = 11, dayOfMonth = 5)): String {
+        val now = Clock.System.now()
+        val zone = TimeZone.currentSystemDefault()
+        val nowDays = now.toLocalDateTime(zone).date.toEpochDays()
+        return (nowDays - date.toEpochDays()).toString()
     }
 }

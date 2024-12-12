@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.towny.kaizen.ui.screens.home.components.ChallengerView
@@ -27,23 +28,29 @@ fun HomeScreen(
         Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
-            .padding(top = 8.dp),
+            .padding(top = 16.dp),
     ) {
         Text(
             text = DateUtils.getTodaysDate(),
-            modifier = Modifier.padding(20.dp).align(Alignment.CenterHorizontally),
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+        )
+        Text(
+            text = "Day ${DateUtils.getNumberOfDaysSince()}",
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold),
             color = MaterialTheme.colorScheme.primary
         )
         UserView(
             homeViewModel.mockedUser,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp)
+                .padding(top = 24.dp)
                 .align(Alignment.CenterHorizontally)
         )
         HorizontalDivider(
-            Modifier.padding(top = 16.dp),
+            Modifier.padding(top = 32.dp),
             color = MaterialTheme.colorScheme.primary
         )
         LazyColumn(modifier = Modifier.padding(top = 8.dp)) {

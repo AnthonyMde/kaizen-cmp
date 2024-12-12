@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.towny.kaizen.domain.entities.Challenge
-import org.towny.kaizen.ui.theme.customColors
 
 @Composable
 fun ChallengeView(
@@ -26,9 +25,9 @@ fun ChallengeView(
             .padding(vertical = 4.dp)
             .background(
                 color = if (challenge.isCompleted)
-                    MaterialTheme.customColors.challengeCardContainerDone
+                    MaterialTheme.colorScheme.tertiaryContainer
                 else
-                    MaterialTheme.customColors.challengeCardContainerTodo,
+                    MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(16.dp)
             ).padding(horizontal = 12.dp, vertical = 4.dp)
     ) {
@@ -44,9 +43,9 @@ fun ChallengeView(
         Text(
             challenge.name,
             color = if (challenge.isCompleted)
-                MaterialTheme.customColors.onChallengeCardContainerDone
+                MaterialTheme.colorScheme.onTertiaryContainer
             else
-                MaterialTheme.customColors.onChallengeCardContainerTodo,
+                MaterialTheme.colorScheme.onSecondaryContainer,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
