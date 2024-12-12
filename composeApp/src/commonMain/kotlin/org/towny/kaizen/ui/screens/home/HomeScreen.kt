@@ -26,9 +26,8 @@ fun HomeScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
             .padding(horizontal = 24.dp)
-            .padding(top = 24.dp),
+            .padding(top = 8.dp),
     ) {
         Text(
             text = DateUtils.getTodaysDate(),

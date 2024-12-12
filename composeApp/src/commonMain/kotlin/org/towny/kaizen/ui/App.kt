@@ -1,6 +1,12 @@
 package org.towny.kaizen.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.ui.screens.home.HomeScreen
 import org.towny.kaizen.ui.theme.AppTheme
@@ -9,6 +15,13 @@ import org.towny.kaizen.ui.theme.AppTheme
 @Preview
 fun App() {
     AppTheme {
-        HomeScreen()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .systemBarsPadding()
+        ) {
+            HomeScreen()
+        }
     }
 }
