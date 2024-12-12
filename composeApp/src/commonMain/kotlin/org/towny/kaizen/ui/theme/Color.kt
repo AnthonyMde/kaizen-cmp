@@ -1,5 +1,33 @@
 package org.towny.kaizen.ui.theme
+
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+
+// Custom colors
+
+@Immutable
+data class CustomColors(
+    val challengeCardContainerTodo: Color,
+    val onChallengeCardContainerTodo: Color,
+    val challengeCardContainerDone: Color,
+    val onChallengeCardContainerDone: Color
+)
+
+val lightCustomColors = CustomColors(
+    challengeCardContainerTodo = Color(0xFFFFDAD6),
+    onChallengeCardContainerTodo = Color(0xFF410002),
+    challengeCardContainerDone = Color(0xFFDCE8B4),
+    onChallengeCardContainerDone = Color(0xFF161E01)
+)
+
+val darkCustomColors = CustomColors(
+    challengeCardContainerTodo = Color(0xFF8B5E34), // Softer, more pastel orange for dark mode
+    onChallengeCardContainerTodo = Color(0xFFFFE1C2),
+    challengeCardContainerDone = Color(0xFF414B24),
+    onChallengeCardContainerDone = Color(0xFFDCE8B4)
+)
+
+// Generated colors
 
 val primaryLight = Color(0xFF855318)
 val onPrimaryLight = Color(0xFFFFFFFF)

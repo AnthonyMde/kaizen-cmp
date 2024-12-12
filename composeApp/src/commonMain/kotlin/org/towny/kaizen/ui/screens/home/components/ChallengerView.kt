@@ -14,9 +14,10 @@ import org.towny.kaizen.domain.entities.Challenger
 
 @Composable
 fun ChallengerView(
-    challenger: Challenger
+    challenger: Challenger,
+    modifier: Modifier = Modifier
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(challenger.name, color = MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.titleMedium)
         HorizontalDivider(
             modifier = Modifier.padding(top = 8.dp).width(120.dp),

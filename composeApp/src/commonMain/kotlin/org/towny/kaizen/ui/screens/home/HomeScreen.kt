@@ -27,7 +27,8 @@ fun HomeScreen(
         Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
-            .padding(all = 24.dp),
+            .padding(horizontal = 24.dp)
+            .padding(top = 24.dp),
     ) {
         Text(
             text = DateUtils.getTodaysDate(),
@@ -44,11 +45,14 @@ fun HomeScreen(
         )
         HorizontalDivider(
             Modifier.padding(top = 16.dp),
-            color = MaterialTheme.colorScheme.scrim
+            color = MaterialTheme.colorScheme.primary
         )
-        LazyColumn(modifier = Modifier.padding(top = 24.dp)) {
+        LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
             items(homeViewModel.mockedChallengers) { challenger ->
-                ChallengerView(challenger)
+                ChallengerView(
+                    modifier = Modifier.padding(top = 16.dp),
+                    challenger = challenger
+                )
             }
         }
     }

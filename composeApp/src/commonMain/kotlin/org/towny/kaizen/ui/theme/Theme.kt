@@ -1,11 +1,13 @@
 package org.towny.kaizen.ui.theme
+
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
+
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -235,27 +237,20 @@ private val highContrastDarkColorScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDarkHighContrast,
 )
 
-@Immutable
-data class ColorFamily(
-    val color: Color,
-    val onColor: Color,
-    val colorContainer: Color,
-    val onColorContainer: Color
-)
+val LocalCustomColors = staticCompositionLocalOf { lightCustomColors }
 
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
-  val colorScheme = when {
-      darkTheme -> darkScheme
-      else -> lightScheme
-  }
+    val colorScheme = if (darkTheme) darkScheme else lightScheme
+    val customColors = if (darkTheme) darkCustomColors else lightCustomColors
 
-  MaterialTheme(
-    colorScheme = colorScheme,
-    content = content
-  )
+    CompositionLocalProvider(LocalCustomColors provides customColors) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content
+        )
+    }
 }
-
