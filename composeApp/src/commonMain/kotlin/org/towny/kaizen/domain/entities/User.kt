@@ -1,15 +1,18 @@
 package org.towny.kaizen.domain.entities
 
-data class Challenger(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class User(
     val id: String,
     val name: String,
     val challenges: List<Challenge>,
     val isWasted: Boolean
 ) {
     companion object {
-        fun getMockedChallengers(): List<Challenger> {
+        fun getMockedChallengers(): List<User> {
             return listOf(
-                Challenger(
+                User(
                     id = "2",
                     name = "Clowie",
                     challenges = listOf(
@@ -22,7 +25,7 @@ data class Challenger(
                     ),
                     isWasted = false
                 ),
-                Challenger(
+                User(
                     id = "2",
                     name = "Jack",
                     challenges = listOf(
@@ -38,8 +41,8 @@ data class Challenger(
             )
         }
 
-        fun getMockedUser(): Challenger {
-            return Challenger(
+        fun getMockedUser(): User {
+            return User(
                 id = "1",
                 name = "Towny",
                 challenges = listOf(

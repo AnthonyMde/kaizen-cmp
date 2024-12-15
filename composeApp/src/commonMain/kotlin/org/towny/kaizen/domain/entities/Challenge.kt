@@ -1,5 +1,8 @@
 package org.towny.kaizen.domain.entities
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Challenge(
     val id: String,
     val name: String,

@@ -10,21 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.towny.kaizen.domain.entities.Challenger
+import org.towny.kaizen.domain.entities.User
 
 @Composable
 fun ChallengerView(
-    challenger: Challenger,
+    user: User,
     modifier: Modifier = Modifier
 ) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(challenger.name, color = MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.titleMedium)
+        Text(user.name, color = MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.titleMedium)
         HorizontalDivider(
             modifier = Modifier.padding(top = 8.dp).width(120.dp),
             color = MaterialTheme.colorScheme.onBackground
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            challenger.challenges.forEach { challenge ->
+            user.challenges.forEach { challenge ->
                 ChallengeView(challenge)
             }
         }

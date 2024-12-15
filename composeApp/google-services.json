@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087432737670",
+    "project_id": "kaizen-cmp",
+    "storage_bucket": "kaizen-cmp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087432737670:android:5d4d19e385ea492b7a6207",
+        "android_client_info": {
+          "package_name": "org.towny.kaizen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGCO8I6mgImlh8m8eOIe_K8aADB-KXAAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

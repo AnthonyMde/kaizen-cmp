@@ -1,6 +1,5 @@
 package org.towny.kaizen.ui.screens.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,19 +10,24 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.towny.kaizen.data.repository.UserRepositoryImpl
 import org.towny.kaizen.ui.screens.home.components.ChallengerView
 import org.towny.kaizen.ui.screens.home.components.UserView
 import org.towny.kaizen.utils.DateUtils
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = viewModel { HomeViewModel() }
+    homeViewModel: HomeViewModel = viewModel { HomeViewModel(UserRepositoryImpl()) }
 ) {
+    val users by homeViewModel.users.collectAsState(emptyList())
+
     Column(
         Modifier
             .fillMaxSize()
@@ -53,11 +57,12 @@ fun HomeScreen(
             Modifier.padding(top = 32.dp),
             color = MaterialTheme.colorScheme.primary
         )
+        Text("Number of users = ${users.size}")
         LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
-            items(homeViewModel.mockedChallengers) { challenger ->
+            items(homeViewModel.mockedUsers) { challenger ->
                 ChallengerView(
                     modifier = Modifier.padding(top = 16.dp),
-                    challenger = challenger
+                    user = challenger
                 )
             }
         }

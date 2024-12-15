@@ -11,10 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.towny.kaizen.domain.entities.Challenger
+import org.towny.kaizen.domain.entities.User
 
 @Composable
-fun UserView(challenger: Challenger, modifier: Modifier = Modifier) {
+fun UserView(user: User, modifier: Modifier = Modifier) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             "My challenges",
@@ -26,7 +26,7 @@ fun UserView(challenger: Challenger, modifier: Modifier = Modifier) {
             modifier = Modifier.width(120.dp).padding(top = 8.dp)
         )
         Column(modifier = Modifier.padding(top = 12.dp)) {
-            challenger.challenges.forEach { challenge ->
+            user.challenges.forEach { challenge ->
                 ChallengeView(challenge)
             }
         }
