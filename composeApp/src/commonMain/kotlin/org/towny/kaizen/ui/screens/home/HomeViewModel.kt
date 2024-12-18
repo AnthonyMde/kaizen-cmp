@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.models.Resource
+import org.towny.kaizen.domain.models.User
 import org.towny.kaizen.domain.repository.UsersRepository
 
 class HomeViewModel(
@@ -40,7 +41,14 @@ class HomeViewModel(
                         is Resource.Success -> {
                             _homeScreenState.update {
                                 it.copy(
-                                    users = result.data ?: emptyList(),
+                                    currentChallenger = getCurrentChallenger(
+                                        "Towny",
+                                        result.data ?: emptyList()
+                                    ),
+                                    otherChallengers = getOtherChallengers(
+                                        "Towny",
+                                        result.data ?: emptyList()
+                                    ),
                                     error = null,
                                     isLoading = false
                                 )
@@ -49,5 +57,13 @@ class HomeViewModel(
                     }
                 }
         }
+    }
+
+    private fun getCurrentChallenger(userName: String, users: List<User>): User? {
+        return users.firstOrNull { it.name == userName }
+    }
+
+    private fun getOtherChallengers(userName: String, users: List<User>): List<User> {
+        return users.filter { it.name != userName }
     }
 }

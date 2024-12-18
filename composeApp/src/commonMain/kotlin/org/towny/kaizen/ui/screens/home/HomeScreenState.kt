@@ -4,6 +4,7 @@ import org.towny.kaizen.domain.models.User
 
 data class HomeScreenState(
     val isLoading: Boolean = false,
-    val users: List<User> = emptyList(),
+    val currentChallenger: User? = null,
+    val otherChallengers: List<User> = emptyList(),
     val error: String? = null
 )

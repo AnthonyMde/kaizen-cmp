@@ -40,7 +40,7 @@ fun HomeScreen(
         Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
-            .padding(top = 16.dp),
+            .padding(top = 24.dp),
     ) {
         Text(
             text = DateUtils.getTodaysDate(),
@@ -54,7 +54,7 @@ fun HomeScreen(
             style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold),
             color = MaterialTheme.colorScheme.primary
         )
-        homeScreenState.users.firstOrNull()?.let {
+        homeScreenState.currentChallenger?.let {
             UserView(
                 it,
                 modifier = Modifier
@@ -69,7 +69,7 @@ fun HomeScreen(
         )
 
         LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
-            items(homeScreenState.users) { challenger ->
+            items(homeScreenState.otherChallengers) { challenger ->
                 ChallengerView(
                     modifier = Modifier.padding(top = 16.dp),
                     user = challenger
