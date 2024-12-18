@@ -34,6 +34,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.core.splashscreen)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

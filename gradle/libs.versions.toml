@@ -12,6 +12,7 @@ kotlinx-date = "0.6.0"
 firebase-bom = "33.7.0"
 google-play-services = "4.4.2"
 gitlive = "2.1.0"
+core-splascreen = "1.0.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -21,7 +22,8 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-date" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", name = "firebase-bom", version.ref = "firebase-bom" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-gitlive-firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive"}
+gitlive-firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "core-splascreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
