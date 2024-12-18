@@ -244,12 +244,13 @@ fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable() () -> Unit
 ) {
-    val colorScheme = if (darkTheme) darkScheme else lightScheme
+    // TODO: Have nice colors. As long as they are no good colors, disable dark theme.
+    //val colorScheme = if (darkTheme) darkScheme else lightScheme
     val customColors = if (darkTheme) darkCustomColors else lightCustomColors
 
     CompositionLocalProvider(LocalCustomColors provides customColors) {
         MaterialTheme(
-            colorScheme = colorScheme,
+            colorScheme = lightScheme,
             content = content
         )
     }
