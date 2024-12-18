@@ -12,9 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.towny.kaizen.domain.models.User
+import org.towny.kaizen.ui.screens.home.HomeAction
 
 @Composable
-fun UserView(user: User, modifier: Modifier = Modifier) {
+fun CurrentUserView(
+    user: User,
+    onAction: (HomeAction) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             "My challenges",
@@ -27,7 +32,12 @@ fun UserView(user: User, modifier: Modifier = Modifier) {
         )
         Column(modifier = Modifier.padding(top = 12.dp)) {
             user.challenges.forEach { challenge ->
-                ChallengeView(challenge)
+                ChallengeView(
+                    onToggleChallenge = { challengeId: String, isChecked: Boolean ->
+                        onAction(HomeAction.OnToggleChallenge(user.id, challengeId, isChecked))
+                    },
+                    challenge = challenge
+                )
             }
         }
     }

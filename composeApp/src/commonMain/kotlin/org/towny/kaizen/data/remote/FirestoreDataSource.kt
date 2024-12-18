@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
-import org.towny.kaizen.data.repository.UsersRemoteDataSource
+import org.towny.kaizen.data.repository.sources.RemoteDataSource
 
-class UsersFirestoreDataSource : UsersRemoteDataSource {
+class FirestoreDataSource : RemoteDataSource {
     private val firestore = Firebase.firestore
 
     companion object {
@@ -16,7 +16,7 @@ class UsersFirestoreDataSource : UsersRemoteDataSource {
         private const val CHALLENGE_COLLECTION = "challenges"
     }
 
-    override fun watchAll(): Flow<List<UserDTO>> = flow {
+    override fun watchAllUsers(): Flow<List<UserDTO>> = flow {
         firestore
             .collection(USER_COLLECTION)
             .snapshots
@@ -28,7 +28,7 @@ class UsersFirestoreDataSource : UsersRemoteDataSource {
             }
     }
 
-    override fun watchChallenges(userId: String): Flow<List<ChallengeDTO>> = flow {
+    override fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>> = flow {
         firestore
             .collection(USER_COLLECTION)
             .document(userId)
@@ -42,4 +42,16 @@ class UsersFirestoreDataSource : UsersRemoteDataSource {
             }
     }
 
+    override suspend fun toggleChallenge(
+        userId: String,
+        challengeId: String,
+        isChecked: Boolean
+    ) {
+        firestore
+            .collection(USER_COLLECTION)
+            .document(userId)
+            .collection(CHALLENGE_COLLECTION)
+            .document(challengeId)
+            .update(mapOf("isCompleted" to isChecked))
+    }
 }

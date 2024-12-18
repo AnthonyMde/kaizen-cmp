@@ -10,10 +10,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
+import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 
 class HomeViewModel(
-    private val userRepository: UsersRepository
+    private val usersRepository: UsersRepository,
+    private val challengesRepository: ChallengesRepository
 ) : ViewModel() {
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState = _homeScreenState.asStateFlow()
@@ -21,9 +23,23 @@ class HomeViewModel(
             watchUsers()
         }
 
+    fun onAction(action: HomeAction) {
+        when (action) {
+            is HomeAction.OnToggleChallenge -> {
+                viewModelScope.launch {
+                    challengesRepository.toggleChallenge(
+                        action.userId,
+                        action.challengeId,
+                        action.isChecked
+                    )
+                }
+            }
+        }
+    }
+
     private fun watchUsers() {
         viewModelScope.launch {
-            userRepository.watchAll
+            usersRepository.watchAll
                 .collectLatest { result ->
                     when (result) {
                         is Resource.Error -> {

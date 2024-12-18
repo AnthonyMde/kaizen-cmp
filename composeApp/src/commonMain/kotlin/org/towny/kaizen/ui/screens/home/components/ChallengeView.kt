@@ -17,7 +17,8 @@ import org.towny.kaizen.domain.models.Challenge
 
 @Composable
 fun ChallengeView(
-    challenge: Challenge
+    challenge: Challenge,
+    onToggleChallenge: (challengeId: String, isChecked: Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -33,7 +34,9 @@ fun ChallengeView(
     ) {
         Checkbox(
             checked = challenge.isCompleted,
-            onCheckedChange = {},
+            onCheckedChange = { isChecked ->
+                onToggleChallenge(challenge.id, isChecked)
+            },
             colors = CheckboxDefaults.colors()
                 .copy(
                     checkedBoxColor = MaterialTheme.colorScheme.tertiary,

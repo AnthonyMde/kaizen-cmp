@@ -15,6 +15,7 @@ import org.towny.kaizen.domain.models.User
 @Composable
 fun ChallengerView(
     user: User,
+    onToggleChallenge: (challengeId: String, isChecked: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -25,7 +26,10 @@ fun ChallengerView(
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
             user.challenges.forEach { challenge ->
-                ChallengeView(challenge)
+                ChallengeView(
+                    challenge = challenge,
+                    onToggleChallenge = onToggleChallenge,
+                )
             }
         }
     }
