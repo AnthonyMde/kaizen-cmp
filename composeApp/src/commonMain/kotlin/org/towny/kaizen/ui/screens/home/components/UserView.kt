@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.towny.kaizen.domain.entities.User
+import org.towny.kaizen.domain.models.User
 
 @Composable
 fun UserView(user: User, modifier: Modifier = Modifier) {

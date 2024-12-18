@@ -1,4 +1,4 @@
-package org.towny.kaizen.domain.entities
+package org.towny.kaizen.domain.models
 
 import kotlinx.serialization.Serializable
 

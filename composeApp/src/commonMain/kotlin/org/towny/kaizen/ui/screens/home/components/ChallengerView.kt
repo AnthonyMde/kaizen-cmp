@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.towny.kaizen.domain.entities.User
+import org.towny.kaizen.domain.models.User
 
 @Composable
 fun ChallengerView(

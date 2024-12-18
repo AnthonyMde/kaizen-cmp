@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.towny.kaizen.data.remote.UsersFirestoreDataSource
 import org.towny.kaizen.data.repository.UserRepositoryImpl
 import org.towny.kaizen.ui.screens.home.components.ChallengerView
 import org.towny.kaizen.ui.screens.home.components.UserView
@@ -24,9 +25,16 @@ import org.towny.kaizen.utils.DateUtils
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = viewModel { HomeViewModel(UserRepositoryImpl()) }
+    homeViewModel: HomeViewModel = viewModel {
+        // TODO: dependency injection
+        HomeViewModel(
+            UserRepositoryImpl(
+                UsersFirestoreDataSource()
+            )
+        )
+    }
 ) {
-    val users by homeViewModel.users.collectAsState(emptyList())
+    val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
 
     Column(
         Modifier
@@ -46,20 +54,22 @@ fun HomeScreen(
             style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold),
             color = MaterialTheme.colorScheme.primary
         )
-        UserView(
-            homeViewModel.mockedUser,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+        homeScreenState.users.firstOrNull()?.let {
+            UserView(
+                it,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+        }
         HorizontalDivider(
             Modifier.padding(top = 32.dp),
             color = MaterialTheme.colorScheme.primary
         )
-        Text("Number of users = ${users.size}")
+
         LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
-            items(homeViewModel.mockedUsers) { challenger ->
+            items(homeScreenState.users) { challenger ->
                 ChallengerView(
                     modifier = Modifier.padding(top = 16.dp),
                     user = challenger

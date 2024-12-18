@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.towny.kaizen.domain.entities.Challenge
+import org.towny.kaizen.domain.models.Challenge
 
 @Composable
 fun ChallengeView(
