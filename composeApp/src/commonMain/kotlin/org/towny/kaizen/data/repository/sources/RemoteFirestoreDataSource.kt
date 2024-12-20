@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 
-interface RemoteDataSource {
+interface RemoteFirestoreDataSource {
     fun watchAllUsers(): Flow<List<UserDTO>>
 
     fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>>

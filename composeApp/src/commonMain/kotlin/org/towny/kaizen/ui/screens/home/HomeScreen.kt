@@ -16,10 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.towny.kaizen.data.remote.FirestoreDataSource
-import org.towny.kaizen.data.repository.ChallengesRepositoryImpl
-import org.towny.kaizen.data.repository.UsersRepositoryImpl
+import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.home.components.ChallengerView
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
 import org.towny.kaizen.utils.DateUtils
@@ -27,13 +24,7 @@ import org.towny.kaizen.utils.DateUtils
 @Composable
 fun HomeScreenRoot(
     modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel = viewModel {
-        // TODO: dependency injection
-        HomeViewModel(
-            usersRepository = UsersRepositoryImpl(),
-            challengesRepository = ChallengesRepositoryImpl()
-        )
-    }
+    homeViewModel: HomeViewModel = koinViewModel()
 ) {
     val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
 

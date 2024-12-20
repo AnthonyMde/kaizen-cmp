@@ -13,7 +13,7 @@ import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.services.LoginService
 
 class LoginViewModel(
-    private val loginService: LoginService = LoginService()
+    private val loginService: LoginService
 ) : ViewModel() {
     private val _loginScreenState = MutableStateFlow(LoginScreenState())
     val loginScreenState = _loginScreenState.asStateFlow()

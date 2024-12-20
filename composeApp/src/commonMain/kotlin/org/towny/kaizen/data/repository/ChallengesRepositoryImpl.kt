@@ -1,11 +1,10 @@
 package org.towny.kaizen.data.repository
 
-import org.towny.kaizen.data.remote.FirestoreDataSource
-import org.towny.kaizen.data.repository.sources.RemoteDataSource
+import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 import org.towny.kaizen.domain.repository.ChallengesRepository
 
 class ChallengesRepositoryImpl(
-    private val remoteDataSource: RemoteDataSource = FirestoreDataSource()
+    private val remoteFirestoreDataSource: RemoteFirestoreDataSource
 ): ChallengesRepository {
 
     override suspend fun toggleChallenge(
@@ -13,6 +12,6 @@ class ChallengesRepositoryImpl(
         challengeId: String,
         isChecked: Boolean
     ) {
-        remoteDataSource.toggleChallenge(userId, challengeId, isChecked)
+        remoteFirestoreDataSource.toggleChallenge(userId, challengeId, isChecked)
     }
 }

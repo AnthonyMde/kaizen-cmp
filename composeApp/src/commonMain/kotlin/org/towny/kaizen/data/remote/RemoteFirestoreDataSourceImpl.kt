@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
-import org.towny.kaizen.data.repository.sources.RemoteDataSource
+import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 
-class FirestoreDataSource : RemoteDataSource {
+class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     private val firestore = Firebase.firestore
 
     companion object {
