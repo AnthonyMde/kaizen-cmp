@@ -2,8 +2,10 @@ package org.towny.kaizen.ui.screens.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -13,10 +15,17 @@ import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.services.LoginService
 
 class LoginViewModel(
-    private val loginService: LoginService
+    private val loginService: LoginService,
 ) : ViewModel() {
     private val _loginScreenState = MutableStateFlow(LoginScreenState())
     val loginScreenState = _loginScreenState.asStateFlow()
+
+    private val _navigationEvents = MutableSharedFlow<LoginNavigationEvent>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_LATEST
+    )
+    val navigationEvents = _navigationEvents.asSharedFlow()
 
     fun onAction(action: LoginAction) {
         when (action) {
@@ -47,13 +56,14 @@ class LoginViewModel(
                             }
 
                             is Resource.Success -> {
-                                delay(2000)
                                 _loginScreenState.update {
                                     it.copy(
                                         onSubmitLoading = false,
-                                        errorMessage = null
+                                        errorMessage = null,
+                                        goToHomeScreen = true
                                     )
                                 }
+                                _navigationEvents.tryEmit(LoginNavigationEvent.GoToHomeScreen)
                             }
                         }
                     }
