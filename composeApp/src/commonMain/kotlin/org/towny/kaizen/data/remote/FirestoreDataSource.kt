@@ -54,4 +54,17 @@ class FirestoreDataSource : RemoteDataSource {
             .document(challengeId)
             .update(mapOf("isCompleted" to isChecked))
     }
+
+    override suspend fun getUserBy(name: String): UserDTO? {
+        return firestore
+            .collection(USER_COLLECTION)
+            .get()
+            .documents
+            .map { documentSnapshot ->
+                documentSnapshot.data<UserDTO>()
+            }
+            .firstOrNull { user ->
+                user.name == name
+            }
+    }
 }

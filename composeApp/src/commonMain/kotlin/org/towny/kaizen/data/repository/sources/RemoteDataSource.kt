@@ -13,4 +13,6 @@ interface RemoteDataSource {
         challengeId: String,
         isChecked: Boolean
     )
+
+    suspend fun getUserBy(name: String): UserDTO?
 }

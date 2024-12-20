@@ -44,7 +44,7 @@ class HomeViewModel(
                     when (result) {
                         is Resource.Error -> {
                             _homeScreenState.update {
-                                it.copy(error = result.message, isLoading = false)
+                                it.copy(error = result.throwable?.message, isLoading = false)
                             }
                         }
 

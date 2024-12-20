@@ -30,8 +30,8 @@ fun HomeScreenRoot(
     homeViewModel: HomeViewModel = viewModel {
         // TODO: dependency injection
         HomeViewModel(
-            usersRepository = UsersRepositoryImpl(FirestoreDataSource()),
-            challengesRepository = ChallengesRepositoryImpl(FirestoreDataSource())
+            usersRepository = UsersRepositoryImpl(),
+            challengesRepository = ChallengesRepositoryImpl()
         )
     }
 ) {
