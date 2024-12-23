@@ -56,8 +56,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.gitlive.firebase.firestore)
 
-            implementation(libs.datastore)
-            implementation(libs.datastore.preferences)
+            implementation(libs.datastore.core)
+            implementation(libs.datastore.preferences.core)
 
             api(libs.koin.core)
             implementation(libs.koin.compose)
