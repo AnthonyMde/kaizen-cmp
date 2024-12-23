@@ -32,7 +32,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
+            implementation(libs.activity.compose)
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.core.splashscreen)
 
@@ -46,16 +46,18 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.compose.navigation)
 
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-
-            implementation(libs.jetbrains.compose.navigation)
+            implementation(libs.lifecycle.viewmodel)
+            implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.lifecycle.runtime.compose)
 
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.gitlive.firebase.firestore)
+
+            implementation(libs.datastore)
+            implementation(libs.datastore.preferences)
 
             api(libs.koin.core)
             implementation(libs.koin.compose)
