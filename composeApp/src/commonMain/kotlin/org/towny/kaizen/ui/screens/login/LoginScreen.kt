@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
@@ -18,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
@@ -47,11 +49,17 @@ fun LoginScreen(
     state: LoginScreenState,
     action: (LoginAction) -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+            .imePadding(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+
+        ) {
         Text(
             text = "Who are you?",
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal)
@@ -79,6 +87,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(24.dp))
         ElevatedButton(
             onClick = {
+                keyboardController?.hide()
                 action(LoginAction.OnLoginSubmit(state.loginInput))
             },
         ) {
