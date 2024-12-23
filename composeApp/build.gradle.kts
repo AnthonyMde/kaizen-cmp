@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
@@ -52,8 +51,8 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.lifecycle.runtime.compose)
 
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.datetime)
+            implementation(libs.serialization.json)
             implementation(libs.gitlive.firebase.firestore)
 
             implementation(libs.datastore.core)
@@ -62,6 +61,8 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.atomicfu)
         }
     }
 }
