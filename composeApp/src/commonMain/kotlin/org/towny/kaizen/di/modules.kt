@@ -1,5 +1,6 @@
 package org.towny.kaizen.di
 
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -35,3 +36,5 @@ val commonModules = module {
     singleOf(::LocalPreferencesDataSourceImpl).bind<LocalPreferencesDataSource>()
     singleOf(::RemoteFirestoreDataSourceImpl).bind<RemoteFirestoreDataSource>()
 }
+
+expect val targetModule: Module
