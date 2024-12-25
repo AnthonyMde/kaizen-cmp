@@ -2,12 +2,12 @@ package org.towny.kaizen.data.repository
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import org.towny.kaizen.data.repository.sources.LocalPreferencesDataSource
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
-import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
 import org.towny.kaizen.domain.repository.UsersRepository
@@ -32,12 +32,11 @@ class UsersRepositoryImpl(
             }
         }
 
-    override suspend fun getSavedUser(): Resource<User> {
-        val user = localPreferencesDataSource.getSavedUser()
-        return if (user != null) {
-            Resource.Success(user)
-        } else {
-            Resource.Error(DomainException.NoSavedUserFound)
+    override fun getSavedUsername(): Flow<Resource<String?>> {
+        return localPreferencesDataSource.getSavedUsername().map { name ->
+            Resource.Success<String?>(name)
+        }.catch<Resource<String?>> { throwable ->
+            emit(Resource.Error(throwable))
         }
     }
 }

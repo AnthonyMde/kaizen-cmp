@@ -17,7 +17,7 @@ class LoginRepositoryImpl(
         emit(Resource.Loading())
         val user = remoteFirestoreDataSource.getUserBy(username)
         if (user != null) {
-            preferencesDataSource.saveUser(user.toUser())
+            preferencesDataSource.saveUsername(user.name)
             emit(Resource.Success())
         } else {
             emit(Resource.Error(DomainException.Login.UserNotAuthorized))

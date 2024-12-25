@@ -6,5 +6,5 @@ import org.towny.kaizen.domain.models.User
 
 interface UsersRepository {
     val watchAll: Flow<Resource<List<User>>>
-    suspend fun getSavedUser(): Resource<User>
+    fun getSavedUsername(): Flow<Resource<String?>>
 }

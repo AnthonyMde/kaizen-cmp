@@ -1,8 +1,8 @@
 package org.towny.kaizen.data.repository.sources
 
-import org.towny.kaizen.domain.models.User
+import kotlinx.coroutines.flow.Flow
 
 interface LocalPreferencesDataSource {
-    suspend fun getSavedUser(): User?
-    suspend fun saveUser(user: User)
+    fun getSavedUsername(): Flow<String?>
+    suspend fun saveUsername(username: String)
 }
