@@ -56,15 +56,19 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     }
 
     override suspend fun getUserBy(name: String): UserDTO? {
-        return firestore
-            .collection(USER_COLLECTION)
-            .get()
-            .documents
-            .map { documentSnapshot ->
-                documentSnapshot.data<UserDTO>()
-            }
-            .firstOrNull { user ->
-                user.name == name
-            }
+        return try {
+            firestore
+                .collection(USER_COLLECTION)
+                .get()
+                .documents
+                .map { documentSnapshot ->
+                    documentSnapshot.data<UserDTO>()
+                }
+                .firstOrNull { user ->
+                    user.name == name
+                }
+        } catch (e: Exception) {
+            throw e
+        }
     }
 }

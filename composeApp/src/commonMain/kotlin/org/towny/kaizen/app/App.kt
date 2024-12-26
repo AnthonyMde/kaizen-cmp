@@ -9,42 +9,28 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.koinInject
 import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
-import org.towny.kaizen.domain.models.Resource
-import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.LoginScreenRoot
 import org.towny.kaizen.ui.theme.AppTheme
 
 @Composable
 @Preview
-fun App() {
+fun App(username: String? = null) {
     AppTheme {
         val navController = rememberNavController()
-        // TODO: extract this logic to an AppController
-        val userRepository = koinInject<UsersRepository>()
-        val username = userRepository.getSavedUsername().map { result ->
-            when (result) {
-                is Resource.Error -> null
-                is Resource.Loading -> null
-                is Resource.Success -> result.data
-            }
-        }.collectAsState(null)
 
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = if (username.value == null) Route.AuthenticationGraph else Route.HomeGraph,
+                startDestination = if (username == null) Route.AuthenticationGraph else Route.HomeGraph,
             ) {
                 navigation<Route.AuthenticationGraph>(
                     startDestination = Route.Login
@@ -89,4 +75,5 @@ fun App() {
             }
         }
     }
+
 }

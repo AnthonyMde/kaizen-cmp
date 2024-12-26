@@ -15,7 +15,12 @@ class LoginRepositoryImpl(
 
     override fun login(username: String): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
-        val user = remoteFirestoreDataSource.getUserBy(username)
+        val user = try {
+            remoteFirestoreDataSource.getUserBy(username)
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+            return@flow
+        }
         if (user != null) {
             preferencesDataSource.saveUsername(user.name)
             emit(Resource.Success())
@@ -23,5 +28,4 @@ class LoginRepositoryImpl(
             emit(Resource.Error(DomainException.Login.UserNotAuthorized))
         }
     }
-
 }
