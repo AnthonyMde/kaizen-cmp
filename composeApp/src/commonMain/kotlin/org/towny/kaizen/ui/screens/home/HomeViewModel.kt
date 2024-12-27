@@ -12,14 +12,18 @@ import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
 import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.UsersRepository
+import org.towny.kaizen.domain.services.GetUserSessionUseCase
 
 class HomeViewModel(
     private val usersRepository: UsersRepository,
-    private val challengesRepository: ChallengesRepository
+    private val challengesRepository: ChallengesRepository,
+    private val getUserSessionUseCase: GetUserSessionUseCase
 ) : ViewModel() {
+    private var userSession: String? = null
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState = _homeScreenState.asStateFlow()
         .onStart {
+            userSession = getUserSessionUseCase()
             watchUsers()
         }
 
@@ -55,14 +59,15 @@ class HomeViewModel(
                         }
 
                         is Resource.Success -> {
+                            val username = userSession ?: result.data!!.first().name
                             _homeScreenState.update {
                                 it.copy(
-                                    currentChallenger = getCurrentChallenger(
-                                        "Towny",
+                                    currentChallenger = filterCurrentChallenger(
+                                        username,
                                         result.data ?: emptyList()
                                     ),
-                                    otherChallengers = getOtherChallengers(
-                                        "Towny",
+                                    otherChallengers = filterOtherChallengers(
+                                        username,
                                         result.data ?: emptyList()
                                     ),
                                     error = null,
@@ -75,11 +80,11 @@ class HomeViewModel(
         }
     }
 
-    private fun getCurrentChallenger(username: String, users: List<User>): User? {
+    private fun filterCurrentChallenger(username: String, users: List<User>): User? {
         return users.firstOrNull { it.name == username }
     }
 
-    private fun getOtherChallengers(username: String, users: List<User>): List<User> {
+    private fun filterOtherChallengers(username: String, users: List<User>): List<User> {
         return users.filter { it.name != username }
     }
 }
