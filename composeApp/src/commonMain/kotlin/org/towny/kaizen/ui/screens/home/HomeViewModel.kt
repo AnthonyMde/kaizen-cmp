@@ -75,11 +75,11 @@ class HomeViewModel(
         }
     }
 
-    private fun getCurrentChallenger(userName: String, users: List<User>): User? {
-        return users.firstOrNull { it.name == userName }
+    private fun getCurrentChallenger(username: String, users: List<User>): User? {
+        return users.firstOrNull { it.name == username }
     }
 
-    private fun getOtherChallengers(userName: String, users: List<User>): List<User> {
-        return users.filter { it.name != userName }
+    private fun getOtherChallengers(username: String, users: List<User>): List<User> {
+        return users.filter { it.name != username }
     }
 }

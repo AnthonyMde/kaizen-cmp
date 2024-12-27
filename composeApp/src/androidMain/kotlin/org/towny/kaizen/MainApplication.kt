@@ -6,7 +6,7 @@ import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.towny.kaizen.di.initKoin
 import org.towny.kaizen.domain.repository.UsersRepository
-import org.towny.kaizen.domain.services.getUserSession
+import org.towny.kaizen.domain.services.GetUserSessionUseCase
 
 class MainApplication : Application() {
     var username: String? = null
@@ -20,7 +20,7 @@ class MainApplication : Application() {
 
         runBlocking {
             val usersRepository = getKoin().get<UsersRepository>()
-            username = getUserSession(usersRepository)
+            username = GetUserSessionUseCase(usersRepository).invoke()
         }
     }
 }
