@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 interface LocalPreferencesDataSource {
     fun getSavedUsername(): Flow<String?>
     suspend fun saveUsername(username: String)
+    suspend fun deleteUsername()
 }

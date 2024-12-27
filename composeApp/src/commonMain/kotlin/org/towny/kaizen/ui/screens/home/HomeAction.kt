@@ -6,4 +6,6 @@ sealed class HomeAction {
         val challengeId: String,
         val isChecked: Boolean
     ) : HomeAction()
+
+    data object OnLogout : HomeAction()
 }

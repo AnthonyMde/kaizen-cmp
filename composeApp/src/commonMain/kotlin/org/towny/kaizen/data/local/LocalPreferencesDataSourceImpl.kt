@@ -25,4 +25,10 @@ class LocalPreferencesDataSourceImpl(private val dataStore: DataStore<Preference
             preferences[usernamePreferenceKey] = username
         }
     }
+
+    override suspend fun deleteUsername() {
+        dataStore.edit { preferences ->
+            preferences.remove(usernamePreferenceKey)
+        }
+    }
 }

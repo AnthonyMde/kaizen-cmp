@@ -32,11 +32,15 @@ class UsersRepositoryImpl(
             }
         }
 
-    override fun getSavedUsername(): Flow<Resource<String?>> {
+    override fun getSavedUserSession(): Flow<Resource<String?>> {
         return localPreferencesDataSource.getSavedUsername().map { name ->
             Resource.Success<String?>(name)
         }.catch<Resource<String?>> { throwable ->
             emit(Resource.Error(throwable))
         }
+    }
+
+    override suspend fun deleteSavedUserSession() {
+        localPreferencesDataSource.deleteUsername()
     }
 }

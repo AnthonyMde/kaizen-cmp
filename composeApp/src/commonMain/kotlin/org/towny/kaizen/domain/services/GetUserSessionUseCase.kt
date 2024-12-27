@@ -6,7 +6,7 @@ import org.towny.kaizen.domain.repository.UsersRepository
 
 class GetUserSessionUseCase(private val usersRepository: UsersRepository) {
     suspend operator fun invoke(): String? {
-        return when (val result = usersRepository.getSavedUsername().first()) {
+        return when (val result = usersRepository.getSavedUserSession().first()) {
             is Resource.Error -> null
             is Resource.Loading -> null
             is Resource.Success -> result.data

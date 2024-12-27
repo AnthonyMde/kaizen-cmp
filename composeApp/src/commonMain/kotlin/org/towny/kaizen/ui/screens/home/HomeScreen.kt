@@ -8,29 +8,32 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.home.components.ChallengerView
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
-import org.towny.kaizen.utils.DateUtils
+import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
 fun HomeScreenRoot(
     modifier: Modifier = Modifier,
+    popToLogin: () -> Unit,
     homeViewModel: HomeViewModel = koinViewModel()
 ) {
     val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
 
     HomeScreen(
         state = homeScreenState,
-        onAction = homeViewModel::onAction,
+        onAction = { action ->
+            if (action is HomeAction.OnLogout)
+                popToLogin()
+            else homeViewModel.onAction(action)
+        },
         modifier = modifier
     )
 }
@@ -47,18 +50,7 @@ fun HomeScreen(
             .padding(horizontal = 24.dp)
             .padding(top = 24.dp),
     ) {
-        Text(
-            text = DateUtils.getTodaysDate(),
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-        )
-        Text(
-            text = "Day ${DateUtils.getNumberOfDaysSince()}",
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.SemiBold),
-            color = MaterialTheme.colorScheme.primary
-        )
+        Header(isLogoutLoading = state.isLogoutLoading, onAction = onAction)
         state.currentChallenger?.let {
             CurrentUserView(
                 user = it,
@@ -80,11 +72,13 @@ fun HomeScreen(
                     modifier = Modifier.padding(top = 16.dp),
                     user = challenger,
                     onToggleChallenge = { challengeId: String, isChecked: Boolean ->
-                        onAction(HomeAction.OnToggleChallenge(
-                            challenger.id,
-                            challengeId,
-                            isChecked
-                        ))
+                        onAction(
+                            HomeAction.OnToggleChallenge(
+                                challenger.id,
+                                challengeId,
+                                isChecked
+                            )
+                        )
                     }
                 )
             }

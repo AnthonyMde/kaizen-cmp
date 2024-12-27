@@ -35,7 +35,7 @@ fun App(username: String? = null) {
                 navigation<Route.AuthenticationGraph>(
                     startDestination = Route.Login
                 ) {
-                    composable<Route.Login>{
+                    composable<Route.Login> {
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -68,7 +68,11 @@ fun App(username: String? = null) {
                                 .background(color = MaterialTheme.colorScheme.surface)
                                 .systemBarsPadding()
                         ) {
-                            HomeScreenRoot()
+                            HomeScreenRoot(popToLogin = {
+                                navController.navigate(Route.Login) {
+                                    popUpTo(Route.Home) { inclusive = true }
+                                }
+                            })
                         }
                     }
                 }
