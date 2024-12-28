@@ -10,21 +10,24 @@ data class CustomColors(
     val challengeCardContainerTodo: Color,
     val onChallengeCardContainerTodo: Color,
     val challengeCardContainerDone: Color,
-    val onChallengeCardContainerDone: Color
+    val onChallengeCardContainerDone: Color,
+    val failedChallengeText: Color,
 )
 
 val lightCustomColors = CustomColors(
     challengeCardContainerTodo = Color(0xFFFFDAD6),
     onChallengeCardContainerTodo = Color(0xFF410002),
     challengeCardContainerDone = Color(0xFFDCE8B4),
-    onChallengeCardContainerDone = Color(0xFF161E01)
+    onChallengeCardContainerDone = Color(0xFF161E01),
+    failedChallengeText = Color(0xFF888888)
 )
 
 val darkCustomColors = CustomColors(
-    challengeCardContainerTodo = Color(0xFF8B5E34), // Softer, more pastel orange for dark mode
+    challengeCardContainerTodo = Color(0xFF8B5E34),
     onChallengeCardContainerTodo = Color(0xFFFFE1C2),
     challengeCardContainerDone = Color(0xFF414B24),
-    onChallengeCardContainerDone = Color(0xFFDCE8B4)
+    onChallengeCardContainerDone = Color(0xFFDCE8B4),
+    failedChallengeText = Color(0xFF888888)
 )
 
 // Generated colors
