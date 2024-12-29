@@ -36,7 +36,8 @@ fun CurrentUserView(
                     onToggleChallenge = { challengeId: String, isChecked: Boolean ->
                         onAction(HomeAction.OnToggleChallenge(user.id, challengeId, isChecked))
                     },
-                    challenge = challenge
+                    challenge = challenge,
+                    belongToCurrentUser = true
                 )
             }
         }

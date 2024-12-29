@@ -29,6 +29,7 @@ import org.towny.kaizen.ui.theme.customColors
 fun ChallengeView(
     challenge: Challenge,
     onToggleChallenge: (challengeId: String, isChecked: Boolean) -> Unit,
+    belongToCurrentUser: Boolean = false
 ) {
     Box(
         Modifier.padding(vertical = 4.dp)
@@ -48,7 +49,7 @@ fun ChallengeView(
                 onCheckedChange = { isChecked ->
                     onToggleChallenge(challenge.id, isChecked)
                 },
-                enabled = !challenge.isFailed(),
+                enabled = belongToCurrentUser && !challenge.isFailed(),
                 colors = CheckboxDefaults.colors()
                     .copy(
                         checkedBoxColor = MaterialTheme.colorScheme.tertiary,
