@@ -6,6 +6,5 @@ import kotlinx.serialization.Serializable
 data class User(
     val id: String,
     val name: String,
-    val challenges: List<Challenge>,
-    val isWasted: Boolean
+    val challenges: List<Challenge>
 )

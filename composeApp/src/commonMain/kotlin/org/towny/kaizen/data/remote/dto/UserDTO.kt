@@ -7,21 +7,18 @@ import org.towny.kaizen.domain.models.User
 @Serializable
 data class UserDTO(
     val id: String,
-    val name: String,
-    val isWasted: Boolean
+    val name: String
 ) {
     companion object {
         fun from(user: User) = UserDTO(
             id = user.id,
-            name = user.name,
-            isWasted = user.isWasted
+            name = user.name
         )
     }
 
     fun toUser(challenges: List<Challenge> = emptyList()) = User(
         id = id,
         name = name,
-        isWasted = isWasted,
         challenges = challenges
     )
 }
