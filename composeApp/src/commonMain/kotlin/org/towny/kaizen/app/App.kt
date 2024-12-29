@@ -2,14 +2,8 @@ package org.towny.kaizen.app
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
@@ -17,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
+import org.towny.kaizen.ui.screens.account.AccountScreen
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.LoginScreenRoot
 import org.towny.kaizen.ui.theme.AppTheme
@@ -36,18 +31,11 @@ fun App(username: String? = null) {
                     startDestination = Route.Login
                 ) {
                     composable<Route.Login> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(color = MaterialTheme.colorScheme.surface)
-                                .systemBarsPadding()
-                        ) {
-                            LoginScreenRoot(goToHomeScreen = {
-                                navController.navigate(Route.Home) {
-                                    popUpTo(Route.Login) { inclusive = true }
-                                }
-                            })
-                        }
+                        LoginScreenRoot(goToHomeScreen = {
+                            navController.navigate(Route.Home) {
+                                popUpTo(Route.Login) { inclusive = true }
+                            }
+                        })
                     }
                 }
 
@@ -62,20 +50,22 @@ fun App(username: String? = null) {
                             )
                         },
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(color = MaterialTheme.colorScheme.surface)
-                                .systemBarsPadding()
-                        ) {
-                            HomeScreenRoot(popToLogin = {
-                                navController.navigate(Route.Login) {
-                                    popUpTo(Route.Home) { inclusive = true }
-                                }
-                            })
-                        }
+                        HomeScreenRoot(popToLogin = {
+                            navController.navigate(Route.Login) {
+                                popUpTo(Route.Home) { inclusive = true }
+                            }
+                        })
                     }
                 }
+
+                navigation<Route.AccountGraph>(
+                    startDestination = Route.Account
+                ) {
+                    composable<Route.Account> {
+                        AccountScreen()
+                    }
+                }
+
             }
         }
     }

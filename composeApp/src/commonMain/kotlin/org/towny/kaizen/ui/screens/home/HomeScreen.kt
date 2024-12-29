@@ -1,9 +1,11 @@
 package org.towny.kaizen.ui.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
@@ -21,7 +23,6 @@ import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
 fun HomeScreenRoot(
-    modifier: Modifier = Modifier,
     popToLogin: () -> Unit,
     homeViewModel: HomeViewModel = koinViewModel()
 ) {
@@ -36,7 +37,9 @@ fun HomeScreenRoot(
             } else
                 homeViewModel.onAction(action)
         },
-        modifier = modifier
+        modifier = Modifier
+            .background(color = MaterialTheme.colorScheme.surface)
+            .systemBarsPadding()
     )
 }
 
