@@ -11,24 +11,24 @@ import org.towny.kaizen.data.repository.sources.LocalPreferencesDataSource
 class LocalPreferencesDataSourceImpl(private val dataStore: DataStore<Preferences>) :
     LocalPreferencesDataSource {
     companion object {
-        private const val USERNAME_KEY = "session_username"
-        private val usernamePreferenceKey = stringPreferencesKey(USERNAME_KEY)
+        private const val USER_SESSION_KEY = "session_user"
+        private val userIdPreferenceKey = stringPreferencesKey(USER_SESSION_KEY)
     }
 
     override fun getSavedUsername(): Flow<String?> =
         dataStore.data.map { preferences ->
-            preferences[usernamePreferenceKey]
+            preferences[userIdPreferenceKey]
         }
 
-    override suspend fun saveUsername(username: String) {
+    override suspend fun saveUserId(userId: String) {
         dataStore.edit { preferences ->
-            preferences[usernamePreferenceKey] = username
+            preferences[userIdPreferenceKey] = userId
         }
     }
 
-    override suspend fun deleteUsername() {
+    override suspend fun deleteUserId() {
         dataStore.edit { preferences ->
-            preferences.remove(usernamePreferenceKey)
+            preferences.remove(userIdPreferenceKey)
         }
     }
 }

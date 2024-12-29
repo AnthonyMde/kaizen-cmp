@@ -30,9 +30,11 @@ fun HomeScreenRoot(
     HomeScreen(
         state = homeScreenState,
         onAction = { action ->
-            if (action is HomeAction.OnLogout)
+            if (action is HomeAction.OnLogout) {
+                homeViewModel.onAction(action)
                 popToLogin()
-            else homeViewModel.onAction(action)
+            } else
+                homeViewModel.onAction(action)
         },
         modifier = modifier
     )

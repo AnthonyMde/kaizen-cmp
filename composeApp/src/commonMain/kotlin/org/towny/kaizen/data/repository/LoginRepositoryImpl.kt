@@ -22,7 +22,7 @@ class LoginRepositoryImpl(
             return@flow
         }
         if (user != null) {
-            preferencesDataSource.saveUsername(user.name)
+            preferencesDataSource.saveUserId(user.id)
             emit(Resource.Success())
         } else {
             emit(Resource.Error(DomainException.Login.UserNotAuthorized))

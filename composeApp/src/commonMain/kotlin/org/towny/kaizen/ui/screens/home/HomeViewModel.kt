@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
-import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.UsersRepository
+import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.GetUserSessionUseCase
 
 class HomeViewModel(
     private val usersRepository: UsersRepository,
-    private val challengesRepository: ChallengesRepository,
+    private val challengesService: ChallengesService,
     private val getUserSessionUseCase: GetUserSessionUseCase
 ) : ViewModel() {
     private var userSession: String? = null
@@ -31,7 +31,7 @@ class HomeViewModel(
         when (action) {
             is HomeAction.OnToggleChallenge -> {
                 viewModelScope.launch {
-                    challengesRepository.toggleChallenge(
+                    challengesService.toggleChallenge(
                         action.userId,
                         action.challengeId,
                         action.isChecked
@@ -67,15 +67,15 @@ class HomeViewModel(
                         }
 
                         is Resource.Success -> {
-                            val username = userSession ?: result.data!!.first().name
+                            val userId = userSession ?: result.data!!.first().id
                             _homeScreenState.update {
                                 it.copy(
                                     currentChallenger = filterCurrentChallenger(
-                                        username,
+                                        userId,
                                         result.data ?: emptyList()
                                     ),
                                     otherChallengers = filterOtherChallengers(
-                                        username,
+                                        userId,
                                         result.data ?: emptyList()
                                     ),
                                     error = null,
@@ -88,11 +88,11 @@ class HomeViewModel(
         }
     }
 
-    private fun filterCurrentChallenger(username: String, users: List<User>): User? {
-        return users.firstOrNull { it.name == username }
+    private fun filterCurrentChallenger(userId: String, users: List<User>): User? {
+        return users.firstOrNull { it.id == userId }
     }
 
-    private fun filterOtherChallengers(username: String, users: List<User>): List<User> {
-        return users.filter { it.name != username }
+    private fun filterOtherChallengers(userId: String, users: List<User>): List<User> {
+        return users.filter { it.id != userId }
     }
 }

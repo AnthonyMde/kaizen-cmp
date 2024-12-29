@@ -41,6 +41,6 @@ class UsersRepositoryImpl(
     }
 
     override suspend fun deleteSavedUserSession() {
-        localPreferencesDataSource.deleteUsername()
+        localPreferencesDataSource.deleteUserId()
     }
 }

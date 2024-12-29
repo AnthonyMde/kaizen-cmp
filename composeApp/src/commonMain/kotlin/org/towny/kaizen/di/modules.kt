@@ -15,6 +15,7 @@ import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.LoginRepository
 import org.towny.kaizen.domain.repository.UsersRepository
+import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.GetUserSessionUseCase
 import org.towny.kaizen.domain.services.LoginService
 import org.towny.kaizen.ui.screens.home.HomeViewModel
@@ -27,6 +28,7 @@ val commonModules = module {
 
     // Service
     singleOf(::LoginService)
+    singleOf(::ChallengesService)
 
     // Use cases
     singleOf(::GetUserSessionUseCase)
