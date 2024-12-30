@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
-import org.towny.kaizen.ui.screens.account.AccountScreen
+import org.towny.kaizen.ui.screens.account.AccountScreenRoot
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.LoginScreenRoot
 import org.towny.kaizen.ui.theme.AppTheme
@@ -44,11 +44,6 @@ fun App(username: String? = null) {
                 ) {
                     composable<Route.Home> {
                         HomeScreenRoot(
-//                            popToLogin = {
-//                                navController.navigate(Route.Login) {
-//                                    popUpTo(Route.Home) { inclusive = true }
-//                                }
-//                            },
                             goToAccount = {
                                 navController.navigate(Route.Account)
                             })
@@ -72,9 +67,16 @@ fun App(username: String? = null) {
                             )
                         }
                     ) {
-                        AccountScreen(popToHome = {
-                            navController.navigateUp()
-                        })
+                        AccountScreenRoot(
+                            popToLogin = {
+                                navController.navigate(Route.Login) {
+                                    popUpTo(Route.Account) { inclusive = true }
+                                }
+                            },
+                            popToHome = {
+                                navController.navigateUp()
+                            }
+                        )
                     }
                 }
 

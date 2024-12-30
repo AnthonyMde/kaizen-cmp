@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package org.towny.kaizen.ui.screens.account
 
 import androidx.compose.foundation.Image
@@ -24,6 +26,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,18 +37,49 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.avatar_1_x3
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun AccountScreen(popToHome: () -> Unit) {
+fun AccountScreenRoot(
+    popToHome: () -> Unit,
+    popToLogin: () -> Unit,
+    viewModel: AccountViewModel = koinViewModel()
+) {
+    val scope = rememberCoroutineScope()
+    val state by viewModel.accountScreenState.collectAsState()
+
+    AccountScreen(
+        state = state,
+        onAction = { action ->
+        when (action) {
+            AccountAction.OnLogout -> {
+                scope.launch {
+                    viewModel.onAction(action)
+                    popToLogin()
+                }
+            }
+            AccountAction.OnNavigateUp -> {
+                popToHome()
+            }
+        }
+    })
+}
+
+@Composable
+fun AccountScreen(
+    state: AccountScreenState,
+    onAction: (AccountAction) -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Account") },
                 navigationIcon = {
                     IconButton(
-                        onClick = popToHome,
+                        onClick = { onAction(AccountAction.OnNavigateUp) },
                         content = {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
@@ -92,14 +128,14 @@ fun AccountScreen(popToHome: () -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
                     .background(
                         color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
-                        shape = RoundedCornerShape(16.dp)
                     )
-                    .padding(16.dp)
-                    .clickable {
-                        // TODO: logout
-                    },
+                    .clickable(enabled = !state.isLogoutLoading) {
+                        onAction(AccountAction.OnLogout)
+                    }
+                    .padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
