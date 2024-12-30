@@ -39,13 +39,7 @@ class HomeViewModel(
                 }
             }
 
-            HomeAction.OnLogout -> {
-                viewModelScope.launch {
-                    _homeScreenState.update { it.copy(isLogoutLoading = true) }
-                    usersRepository.deleteSavedUserSession()
-                    _homeScreenState.update { it.copy(isLogoutLoading = false) }
-                }
-            }
+            HomeAction.OnAccountClicked -> {}
         }
     }
 

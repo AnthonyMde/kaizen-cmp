@@ -7,5 +7,5 @@ sealed class HomeAction {
         val isChecked: Boolean
     ) : HomeAction()
 
-    data object OnLogout : HomeAction()
+    data object OnAccountClicked : HomeAction()
 }

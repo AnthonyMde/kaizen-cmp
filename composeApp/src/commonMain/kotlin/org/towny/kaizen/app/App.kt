@@ -42,27 +42,39 @@ fun App(username: String? = null) {
                 navigation<Route.HomeGraph>(
                     startDestination = Route.Home
                 ) {
-                    composable<Route.Home>(
-                        enterTransition = {
-                            slideIntoContainer(
-                                AnimatedContentTransitionScope.SlideDirection.Start,
-                                tween(300)
-                            )
-                        },
-                    ) {
-                        HomeScreenRoot(popToLogin = {
-                            navController.navigate(Route.Login) {
-                                popUpTo(Route.Home) { inclusive = true }
-                            }
-                        })
+                    composable<Route.Home> {
+                        HomeScreenRoot(
+//                            popToLogin = {
+//                                navController.navigate(Route.Login) {
+//                                    popUpTo(Route.Home) { inclusive = true }
+//                                }
+//                            },
+                            goToAccount = {
+                                navController.navigate(Route.Account)
+                            })
                     }
                 }
 
                 navigation<Route.AccountGraph>(
                     startDestination = Route.Account
                 ) {
-                    composable<Route.Account> {
-                        AccountScreen()
+                    composable<Route.Account>(
+                        enterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Start,
+                                tween(300)
+                            )
+                        },
+                        popExitTransition = {
+                            slideOutOfContainer(
+                                AnimatedContentTransitionScope.SlideDirection.End,
+                                tween(300)
+                            )
+                        }
+                    ) {
+                        AccountScreen(popToHome = {
+                            navController.navigateUp()
+                        })
                     }
                 }
 

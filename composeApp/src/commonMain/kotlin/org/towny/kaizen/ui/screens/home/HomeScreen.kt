@@ -23,7 +23,7 @@ import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
 fun HomeScreenRoot(
-    popToLogin: () -> Unit,
+    goToAccount: () -> Unit,
     homeViewModel: HomeViewModel = koinViewModel()
 ) {
     val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
@@ -31,11 +31,10 @@ fun HomeScreenRoot(
     HomeScreen(
         state = homeScreenState,
         onAction = { action ->
-            if (action is HomeAction.OnLogout) {
-                homeViewModel.onAction(action)
-                popToLogin()
-            } else
-                homeViewModel.onAction(action)
+            when(action) {
+                HomeAction.OnAccountClicked -> goToAccount()
+                else -> homeViewModel.onAction(action)
+            }
         },
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.surface)
@@ -55,7 +54,7 @@ fun HomeScreen(
             .padding(horizontal = 24.dp)
             .padding(top = 24.dp),
     ) {
-        Header(isLogoutLoading = state.isLogoutLoading, onAction = onAction)
+        Header(onAction = onAction)
         state.currentChallenger?.let {
             CurrentUserView(
                 user = it,
