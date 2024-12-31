@@ -2,6 +2,7 @@ package org.towny.kaizen.domain.models
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+import org.towny.kaizen.utils.DateUtils
 
 @Serializable
 data class Challenge(
@@ -13,4 +14,5 @@ data class Challenge(
     val maxFailures: Int
 ) {
     fun isFailed(): Boolean = failures > maxFailures
+    val progressionInDays = DateUtils.getNumberOfDaysSince(createdAt)
 }

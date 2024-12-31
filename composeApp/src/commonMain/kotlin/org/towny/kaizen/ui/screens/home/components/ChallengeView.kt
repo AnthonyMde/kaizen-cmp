@@ -18,7 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_failed_stamp
 import org.jetbrains.compose.resources.painterResource
@@ -42,7 +44,8 @@ fun ChallengeView(
                     else MaterialTheme.colorScheme.secondaryContainer,
                     shape = RoundedCornerShape(16.dp)
                 )
-                .padding(horizontal = 12.dp, vertical = 4.dp)
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
                 checked = challenge.isCompleted,
@@ -61,12 +64,23 @@ fun ChallengeView(
             )
             Text(
                 challenge.name,
+                style = MaterialTheme.typography.bodyLarge,
+                color = challenge.getChallengeTextColor(),
+                modifier = Modifier.weight(1f),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                "Day ${challenge.progressionInDays}",
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontSize = 16.sp
+                ),
                 color = when {
                     challenge.isFailed() -> MaterialTheme.customColors.failedChallengeText
-                    challenge.isCompleted -> MaterialTheme.colorScheme.onTertiaryContainer
-                    else -> MaterialTheme.colorScheme.onSecondaryContainer
+                    challenge.isCompleted -> MaterialTheme.colorScheme.tertiary
+                    else -> MaterialTheme.colorScheme.secondary
                 },
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier.padding(end = 8.dp),
             )
         }
         if (challenge.isFailed()) {
@@ -89,5 +103,14 @@ fun ChallengeView(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun Challenge.getChallengeTextColor(): Color {
+    return when {
+        isFailed() -> MaterialTheme.customColors.failedChallengeText
+        isCompleted -> MaterialTheme.colorScheme.onTertiaryContainer
+        else -> MaterialTheme.colorScheme.onSecondaryContainer
     }
 }

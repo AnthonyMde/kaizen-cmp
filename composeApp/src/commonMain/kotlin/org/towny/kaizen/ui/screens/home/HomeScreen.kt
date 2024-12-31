@@ -61,7 +61,7 @@ fun HomeScreen(
                 onAction = onAction,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp)
+                    .padding(top = 16.dp)
                     .align(Alignment.CenterHorizontally)
             )
         }
