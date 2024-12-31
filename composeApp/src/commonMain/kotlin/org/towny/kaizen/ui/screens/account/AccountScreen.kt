@@ -3,8 +3,6 @@
 package org.towny.kaizen.ui.screens.account
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,10 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -29,17 +27,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.avatar_1_x3
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.towny.kaizen.ui.screens.account.components.AccountRowView
 
 
 @Composable
@@ -125,33 +122,25 @@ fun AccountScreen(
 
             HorizontalDivider(Modifier.fillMaxWidth().padding(24.dp))
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
-                    )
-                    .clickable(enabled = !state.isLogoutLoading) {
-                        onAction(AccountAction.OnLogout)
-                    }
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    "Logout",
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp
-                    )
-                )
-                Image(
-                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                    contentDescription = "Logout",
-                    modifier = Modifier.size(26.dp)
-                )
-            }
+            AccountRowView(
+                onAction = {
+                    // TODO: go to add friend screen.
+                },
+                title = "Add friends",
+                icon = Icons.Filled.Face,
+                description = "Add a friends",
+            )
+
+            AccountRowView(
+                onAction = {
+                    onAction(AccountAction.OnLogout)
+                },
+                title = "Logout",
+                icon = Icons.AutoMirrored.Default.ExitToApp,
+                description = "Logout",
+                enabled = !state.isLogoutLoading,
+                modifier = Modifier.padding(top = 8.dp)
+            )
         }
     }
 }
