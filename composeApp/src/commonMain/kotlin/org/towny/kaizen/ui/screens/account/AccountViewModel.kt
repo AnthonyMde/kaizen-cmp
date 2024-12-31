@@ -20,9 +20,7 @@ class AccountViewModel(
                 _accountScreenState.update { it.copy(isLogoutLoading = true) }
             }
 
-            AccountAction.OnNavigateUp -> {
-                // nothing
-            }
+            else -> {}
         }
     }
 }

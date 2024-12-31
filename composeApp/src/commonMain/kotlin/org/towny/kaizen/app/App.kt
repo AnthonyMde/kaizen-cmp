@@ -12,6 +12,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
 import org.towny.kaizen.ui.screens.account.AccountScreenRoot
+import org.towny.kaizen.ui.screens.add_friends.AddFriendsScreenRoot
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.LoginScreenRoot
 import org.towny.kaizen.ui.theme.AppTheme
@@ -60,6 +61,12 @@ fun App(username: String? = null) {
                                 tween(300)
                             )
                         },
+                        popEnterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.End,
+                                tween(300)
+                            )
+                        },
                         popExitTransition = {
                             slideOutOfContainer(
                                 AnimatedContentTransitionScope.SlideDirection.End,
@@ -75,13 +82,35 @@ fun App(username: String? = null) {
                             },
                             popToHome = {
                                 navController.navigateUp()
+                            },
+                            goToAddFriends = {
+                                navController.navigate(Route.AddFriends)
+                            }
+                        )
+                    }
+
+                    composable<Route.AddFriends>(
+                        enterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Start,
+                                tween(300)
+                            )
+                        },
+                        popExitTransition = {
+                            slideOutOfContainer(
+                                AnimatedContentTransitionScope.SlideDirection.End,
+                                tween(300)
+                            )
+                        }
+                    ) {
+                        AddFriendsScreenRoot(
+                            popToAccount = {
+                                navController.navigateUp()
                             }
                         )
                     }
                 }
-
             }
         }
     }
-
 }

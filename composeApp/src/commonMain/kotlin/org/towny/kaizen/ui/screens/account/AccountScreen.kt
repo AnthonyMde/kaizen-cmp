@@ -12,17 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -37,12 +33,14 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.account.components.AccountRowView
+import org.towny.kaizen.ui.screens.components.BackTopAppBar
 
 
 @Composable
 fun AccountScreenRoot(
     popToHome: () -> Unit,
     popToLogin: () -> Unit,
+    goToAddFriends: () -> Unit,
     viewModel: AccountViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -51,18 +49,19 @@ fun AccountScreenRoot(
     AccountScreen(
         state = state,
         onAction = { action ->
-        when (action) {
-            AccountAction.OnLogout -> {
-                scope.launch {
-                    viewModel.onAction(action)
-                    popToLogin()
+            when (action) {
+                AccountAction.OnLogout -> {
+                    scope.launch {
+                        viewModel.onAction(action)
+                        popToLogin()
+                    }
                 }
+
+                AccountAction.OnNavigateUp -> popToHome()
+
+                AccountAction.GoToAddFriends -> goToAddFriends()
             }
-            AccountAction.OnNavigateUp -> {
-                popToHome()
-            }
-        }
-    })
+        })
 }
 
 @Composable
@@ -72,19 +71,10 @@ fun AccountScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Account") },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { onAction(AccountAction.OnNavigateUp) },
-                        content = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                                contentDescription = "Go back home"
-                            )
-                        }
-                    )
-                }
+            BackTopAppBar(
+                title = "Account",
+                onNavigateUp = { onAction(AccountAction.OnNavigateUp) },
+                backDescription = "Go back home."
             )
         }
     ) { innerPadding ->
@@ -124,7 +114,7 @@ fun AccountScreen(
 
             AccountRowView(
                 onAction = {
-                    // TODO: go to add friend screen.
+                    onAction(AccountAction.GoToAddFriends)
                 },
                 title = "Add friends",
                 icon = Icons.Filled.Face,

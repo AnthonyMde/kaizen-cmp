@@ -20,4 +20,7 @@ sealed class Route {
 
     @Serializable
     data object Account : Route()
+
+    @Serializable
+    data object AddFriends : Route()
 }
