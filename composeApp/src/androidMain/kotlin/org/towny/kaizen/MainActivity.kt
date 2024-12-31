@@ -19,7 +19,9 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val insetsController = WindowCompat.getInsetsController(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = isLightTheme()
+        // TODO: Use this line when lightTheme is not forced anymore.
+        //insetsController.isAppearanceLightStatusBars = isLightTheme()
+        insetsController.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.TRANSPARENT
 
         setContent {
