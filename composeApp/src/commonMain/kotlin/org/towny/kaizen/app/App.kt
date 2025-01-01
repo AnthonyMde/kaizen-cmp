@@ -12,6 +12,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
 import org.towny.kaizen.ui.screens.account.AccountScreenRoot
+import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import org.towny.kaizen.ui.screens.add_friends.AddFriendsScreenRoot
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.LoginScreenRoot
@@ -85,6 +86,9 @@ fun App(username: String? = null) {
                             },
                             goToAddFriends = {
                                 navController.navigate(Route.AddFriends)
+                            },
+                            goToCreateChallenge = {
+                                navController.navigate(Route.CreateChallenge)
                             }
                         )
                     }
@@ -105,6 +109,27 @@ fun App(username: String? = null) {
                     ) {
                         AddFriendsScreenRoot(
                             popToAccount = {
+                                navController.navigateUp()
+                            }
+                        )
+                    }
+
+                    composable<Route.CreateChallenge>(
+                        enterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Start,
+                                tween(300)
+                            )
+                        },
+                        popExitTransition = {
+                            slideOutOfContainer(
+                                AnimatedContentTransitionScope.SlideDirection.End,
+                                tween(300)
+                            )
+                        }
+                    ) {
+                        CreateChallengeScreenRoot(
+                            navigateUp = {
                                 navController.navigateUp()
                             }
                         )

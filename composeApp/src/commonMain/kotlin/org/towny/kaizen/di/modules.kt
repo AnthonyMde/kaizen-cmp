@@ -19,6 +19,7 @@ import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.GetUserSessionUseCase
 import org.towny.kaizen.domain.services.LoginService
 import org.towny.kaizen.ui.screens.account.AccountViewModel
+import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import org.towny.kaizen.ui.screens.add_friends.AddFriendsViewModel
 import org.towny.kaizen.ui.screens.home.HomeViewModel
 import org.towny.kaizen.ui.screens.login.LoginViewModel
@@ -29,6 +30,7 @@ val commonModules = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::AccountViewModel)
     viewModelOf(::AddFriendsViewModel)
+    viewModelOf(::CreateChallengeViewModel)
 
     // Service
     singleOf(::LoginService)

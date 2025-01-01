@@ -25,10 +25,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.avatar_1_x3
+import kaizen.composeapp.generated.resources.hiking_icon
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -41,6 +43,7 @@ fun AccountScreenRoot(
     popToHome: () -> Unit,
     popToLogin: () -> Unit,
     goToAddFriends: () -> Unit,
+    goToCreateChallenge: () -> Unit,
     viewModel: AccountViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -56,10 +59,9 @@ fun AccountScreenRoot(
                         popToLogin()
                     }
                 }
-
                 AccountAction.OnNavigateUp -> popToHome()
-
                 AccountAction.GoToAddFriends -> goToAddFriends()
+                AccountAction.GoToCreateChallenge -> goToCreateChallenge()
             }
         })
 }
@@ -114,11 +116,21 @@ fun AccountScreen(
 
             AccountRowView(
                 onAction = {
+                    onAction(AccountAction.GoToCreateChallenge)
+                },
+                title = "Create challenge",
+                icon = painterResource(Res.drawable.hiking_icon),
+                description = "Create a new challenge.",
+            )
+
+            AccountRowView(
+                onAction = {
                     onAction(AccountAction.GoToAddFriends)
                 },
                 title = "Add friends",
-                icon = Icons.Filled.Face,
-                description = "Add a friends",
+                icon = rememberVectorPainter(Icons.Filled.Face),
+                description = "Add a friends.",
+                modifier = Modifier.padding(top = 8.dp)
             )
 
             AccountRowView(
@@ -126,7 +138,7 @@ fun AccountScreen(
                     onAction(AccountAction.OnLogout)
                 },
                 title = "Logout",
-                icon = Icons.AutoMirrored.Default.ExitToApp,
+                icon = rememberVectorPainter(Icons.AutoMirrored.Default.ExitToApp),
                 description = "Logout",
                 enabled = !state.isLogoutLoading,
                 modifier = Modifier.padding(top = 8.dp)
