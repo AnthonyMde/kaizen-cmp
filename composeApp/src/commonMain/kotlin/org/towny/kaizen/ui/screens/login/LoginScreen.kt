@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -25,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
@@ -45,7 +47,7 @@ fun LoginScreenRoot(
     }
     LoginScreen(
         state = loginScreenState,
-        action = viewModel::onAction,
+        onAction = viewModel::onAction,
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.surface)
             .systemBarsPadding()
@@ -55,7 +57,7 @@ fun LoginScreenRoot(
 @Composable
 fun LoginScreen(
     state: LoginScreenState,
-    action: (LoginAction) -> Unit,
+    onAction: (LoginAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -71,18 +73,29 @@ fun LoginScreen(
         ) {
         Text(
             text = "Who are you?",
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal)
+            style = MaterialTheme.typography.headlineMedium
         )
-        Spacer(modifier = Modifier.height(24.dp))
+
+        Spacer(modifier = Modifier.height(32.dp))
+
         TextField(
             value = state.loginInput,
             onValueChange = { text ->
-                action(LoginAction.OnLoginInputTextChanged(text))
+                onAction(LoginAction.OnLoginInputTextChanged(text))
             },
             placeholder = { Text("Enter your name") },
             textStyle = MaterialTheme.typography.bodyLarge,
             singleLine = true,
             isError = state.errorMessage != null,
+            keyboardOptions = KeyboardOptions().copy(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                    onAction(LoginAction.OnLoginSubmit(state.loginInput))
+                }
+            ),
             shape = RoundedCornerShape(16.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -92,7 +105,9 @@ fun LoginScreen(
             ),
             modifier = Modifier.fillMaxWidth()
         )
+
         Spacer(modifier = Modifier.height(6.dp))
+
         if (state.errorMessage != null) {
             Text(
                 state.errorMessage,
@@ -100,16 +115,20 @@ fun LoginScreen(
                 style = MaterialTheme.typography.bodyMedium,
             )
         }
-        Spacer(modifier = Modifier.height(24.dp))
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Button(
             onClick = {
                 keyboardController?.hide()
-                action(LoginAction.OnLoginSubmit(state.loginInput))
+                onAction(LoginAction.OnLoginSubmit(state.loginInput))
             },
         ) {
             Text("Access Kaizen")
         }
+
         Spacer(modifier = Modifier.height(24.dp))
+
         if (state.onSubmitLoading) {
             CircularProgressIndicator()
         }
