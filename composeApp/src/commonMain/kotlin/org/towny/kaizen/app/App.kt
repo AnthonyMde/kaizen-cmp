@@ -131,6 +131,11 @@ fun App(username: String? = null) {
                         CreateChallengeScreenRoot(
                             navigateUp = {
                                 navController.navigateUp()
+                            },
+                            goHome = {
+                                navController.navigate(Route.Home) {
+                                    popUpTo<Route.Home> { inclusive = true }
+                                }
                             }
                         )
                     }

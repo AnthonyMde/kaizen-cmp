@@ -10,9 +10,10 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -20,13 +21,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
 import org.towny.kaizen.ui.screens.components.FormErrorText
@@ -34,9 +39,20 @@ import org.towny.kaizen.ui.screens.components.FormErrorText
 @Composable
 fun CreateChallengeScreenRoot(
     viewModel: CreateChallengeViewModel = koinViewModel(),
-    navigateUp: () -> Unit
+    navigateUp: () -> Unit,
+    goHome: () -> Unit
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    scope.launch {
+        viewModel.navigationEvents.collectLatest { event ->
+            when (event) {
+                CreateChallengeNavigationEvent.GoHome -> goHome()
+            }
+        }
+    }
+
     CreateChallengeScreen(
         state = state,
         onAction = { action ->
@@ -53,6 +69,8 @@ fun CreateChallengeScreen(
     state: CreateChallengeScreenState,
     onAction: (CreateChallengeAction) -> Unit
 ) {
+    val keyboard = LocalSoftwareKeyboardController.current
+
     Scaffold(
         topBar = {
             BackTopAppBar(
@@ -133,6 +151,11 @@ fun CreateChallengeScreen(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        onAction(CreateChallengeAction.OnCreateChallengeFormSubmit)
+                    }
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -149,8 +172,9 @@ fun CreateChallengeScreen(
                     modifier = Modifier.padding(16.dp)
                 )
             }
-            FilledIconButton(
+            Button(
                 onClick = {
+                    keyboard?.hide()
                     onAction(CreateChallengeAction.OnCreateChallengeFormSubmit)
                 },
                 enabled = !state.isFormSubmissionLoading,
