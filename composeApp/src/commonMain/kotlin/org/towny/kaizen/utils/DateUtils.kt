@@ -33,4 +33,7 @@ object DateUtils {
         return Instant.fromEpochSeconds(this.seconds, this.nanoseconds)
             .toLocalDateTime(TimeZone.currentSystemDefault()).date
     }
+
+    fun getCurrentLocalDate(): LocalDate = Clock.System.now()
+        .toLocalDateTime(TimeZone.currentSystemDefault()).date
 }

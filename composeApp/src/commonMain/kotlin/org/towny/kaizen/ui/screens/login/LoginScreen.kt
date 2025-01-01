@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
+import org.towny.kaizen.ui.screens.components.FormErrorText
 
 @Composable
 fun LoginScreenRoot(
@@ -108,12 +109,8 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        if (state.errorMessage != null) {
-            Text(
-                state.errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium,
-            )
+        state.errorMessage?.let {
+            FormErrorText(state.errorMessage)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
