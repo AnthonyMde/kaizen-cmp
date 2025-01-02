@@ -46,14 +46,12 @@ fun AccountRowView(
         Text(
             title,
             style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp
+                fontWeight = FontWeight.SemiBold
             )
         )
         Icon(
             painter = icon,
-            contentDescription = description,
-            modifier = Modifier.size(26.dp)
+            contentDescription = description
         )
     }
 }

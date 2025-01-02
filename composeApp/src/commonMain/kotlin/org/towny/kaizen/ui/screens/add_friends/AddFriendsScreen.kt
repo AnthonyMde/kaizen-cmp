@@ -1,5 +1,6 @@
 package org.towny.kaizen.ui.screens.add_friends
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,7 +48,8 @@ fun AddFriendsScreen(
                 onNavigateUp = { onAction(AddFriendsAction.OnNavigateUp) },
                 backDescription = "Go back to account."
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Box(
             modifier = Modifier

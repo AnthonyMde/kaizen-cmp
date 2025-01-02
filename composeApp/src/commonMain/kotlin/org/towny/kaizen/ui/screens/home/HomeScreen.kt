@@ -66,11 +66,11 @@ fun HomeScreen(
             )
         }
         HorizontalDivider(
-            Modifier.padding(top = 32.dp),
+            Modifier.padding(top = 24.dp),
             color = MaterialTheme.colorScheme.primary
         )
 
-        LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
+        LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
             items(state.otherChallengers) { challenger ->
                 ChallengerView(
                     modifier = Modifier.padding(top = 16.dp),

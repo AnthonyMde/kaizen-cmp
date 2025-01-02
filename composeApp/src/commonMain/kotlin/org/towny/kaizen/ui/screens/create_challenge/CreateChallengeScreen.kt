@@ -72,15 +72,16 @@ fun CreateChallengeScreen(
     val keyboard = LocalSoftwareKeyboardController.current
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             BackTopAppBar(
                 title = "Create challenge",
                 onNavigateUp = {
                     onAction(CreateChallengeAction.OnNavigateUp)
                 },
-                backDescription = "Go back to account."
+                backDescription = "Go back to account.",
             )
-        }
+        },
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -184,12 +185,11 @@ fun CreateChallengeScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text("Create")
-                        CircularProgressIndicator(
+                        if (state.isFormSubmissionLoading) CircularProgressIndicator(
                             color = MaterialTheme.colorScheme.onPrimary,
                             strokeWidth = 2.dp,
                             modifier = Modifier
                                 .size(20.dp)
-                                .alpha(if (state.isFormSubmissionLoading) 1f else 0f)
                         )
                     }
                 },

@@ -3,6 +3,7 @@
 package org.towny.kaizen.ui.screens.account
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -30,7 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.avatar_1_x3
-import kaizen.composeapp.generated.resources.hiking_icon
+import kaizen.composeapp.generated.resources.landscape_icon
+import kaizen.composeapp.generated.resources.logout_icon
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -59,6 +60,7 @@ fun AccountScreenRoot(
                         popToLogin()
                     }
                 }
+
                 AccountAction.OnNavigateUp -> popToHome()
                 AccountAction.GoToAddFriends -> goToAddFriends()
                 AccountAction.GoToCreateChallenge -> goToCreateChallenge()
@@ -78,15 +80,20 @@ fun AccountScreen(
                 onNavigateUp = { onAction(AccountAction.OnNavigateUp) },
                 backDescription = "Go back home."
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(24.dp)
+                .padding(horizontal = 24.dp)
+                .padding(top = 24.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
                 Image(
                     painter = painterResource(Res.drawable.avatar_1_x3),
                     contentDescription = "Profile picture",
@@ -97,7 +104,7 @@ fun AccountScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp),
+                        .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
@@ -119,7 +126,7 @@ fun AccountScreen(
                     onAction(AccountAction.GoToCreateChallenge)
                 },
                 title = "Create challenge",
-                icon = painterResource(Res.drawable.hiking_icon),
+                icon = painterResource(Res.drawable.landscape_icon),
                 description = "Create a new challenge.",
             )
 
@@ -138,7 +145,7 @@ fun AccountScreen(
                     onAction(AccountAction.OnLogout)
                 },
                 title = "Logout",
-                icon = rememberVectorPainter(Icons.AutoMirrored.Default.ExitToApp),
+                icon = painterResource(Res.drawable.logout_icon),
                 description = "Logout",
                 enabled = !state.isLogoutLoading,
                 modifier = Modifier.padding(top = 8.dp)

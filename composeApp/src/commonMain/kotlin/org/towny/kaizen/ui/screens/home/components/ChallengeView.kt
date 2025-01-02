@@ -1,5 +1,6 @@
 package org.towny.kaizen.ui.screens.home.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,15 +38,19 @@ fun ChallengeView(
     Box(
         Modifier.padding(vertical = 4.dp)
     ) {
+        val backgroundColor by animateColorAsState(
+            targetValue = if (challenge.isCompleted) MaterialTheme.colorScheme.tertiaryContainer
+            else MaterialTheme.colorScheme.secondaryContainer
+        )
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    color = if (challenge.isCompleted) MaterialTheme.colorScheme.tertiaryContainer
-                    else MaterialTheme.colorScheme.secondaryContainer,
+                    color = backgroundColor,
                     shape = RoundedCornerShape(16.dp)
                 )
-                .padding(horizontal = 12.dp, vertical = 6.dp),
+                .padding(vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
@@ -60,7 +66,8 @@ fun ChallengeView(
                         disabledUncheckedBorderColor = if (challenge.isFailed())
                             MaterialTheme.customColors.failedChallengeText
                         else CheckboxDefaults.colors().disabledBorderColor
-                    )
+                    ),
+                modifier = Modifier.padding(start = 8.dp)
             )
             Text(
                 challenge.name,
@@ -80,7 +87,7 @@ fun ChallengeView(
                     challenge.isCompleted -> MaterialTheme.colorScheme.tertiary
                     else -> MaterialTheme.colorScheme.secondary
                 },
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier.padding(end = 16.dp),
             )
         }
         if (challenge.isFailed()) {

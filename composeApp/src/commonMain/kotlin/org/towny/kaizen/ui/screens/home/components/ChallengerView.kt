@@ -19,10 +19,14 @@ fun ChallengerView(
     modifier: Modifier = Modifier
 ) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(user.name, color = MaterialTheme.colorScheme.onBackground, style = MaterialTheme.typography.titleMedium)
+        Text(
+            user.name,
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.titleMedium
+        )
         HorizontalDivider(
             modifier = Modifier.padding(top = 8.dp).width(120.dp),
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onSurface
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
             user.challenges.forEach { challenge ->
