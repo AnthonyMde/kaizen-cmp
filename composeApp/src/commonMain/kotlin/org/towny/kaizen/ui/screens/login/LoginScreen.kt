@@ -1,5 +1,6 @@
 package org.towny.kaizen.ui.screens.login
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -16,20 +18,23 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.landscape_icon
 import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.FormErrorText
 
@@ -72,45 +77,68 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
+        Image(
+            painter = painterResource(Res.drawable.landscape_icon),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
+            modifier = Modifier.size(64.dp)
+        )
         Text(
-            text = "Who are you?",
-            style = MaterialTheme.typography.headlineMedium
+            text = "Welcome to Kaizen",
+            style = MaterialTheme.typography.headlineMedium,
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        TextField(
-            value = state.loginInput,
+        OutlinedTextField(
+            value = state.emailInputValue,
             onValueChange = { text ->
-                onAction(LoginAction.OnLoginInputTextChanged(text))
+                onAction(LoginAction.OnEmailInputTextChanged(text))
             },
-            placeholder = { Text("Enter your name") },
-            textStyle = MaterialTheme.typography.bodyLarge,
+            label = { Text("Email") },
+            placeholder = { Text("kaizen@challenge.com") },
             singleLine = true,
-            isError = state.errorMessage != null,
+            isError = state.emailInputError != null,
             keyboardOptions = KeyboardOptions().copy(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            ),
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = state.passwordInputValue,
+            onValueChange = { text ->
+                onAction(LoginAction.OnPasswordInputTextChanged(text))
+            },
+            label = { Text("Password") },
+            placeholder = { Text("St4ong pa55wo4d") },
+            singleLine = true,
+            isError = state.passwordInputError != null,
+            keyboardOptions = KeyboardOptions().copy(
+                keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
                     keyboardController?.hide()
-                    onAction(LoginAction.OnLoginSubmit(state.loginInput))
+                    onAction(
+                        LoginAction.OnLoginSubmit(state.emailInputValue, state.passwordInputValue)
+                    )
                 }
             ),
             shape = RoundedCornerShape(16.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent
-            ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        state.errorMessage?.let {
-            FormErrorText(state.errorMessage)
+        state.emailInputError?.let {
+            FormErrorText(state.emailInputError)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -118,7 +146,9 @@ fun LoginScreen(
         Button(
             onClick = {
                 keyboardController?.hide()
-                onAction(LoginAction.OnLoginSubmit(state.loginInput))
+                onAction(
+                    LoginAction.OnLoginSubmit(state.emailInputValue, state.passwordInputValue)
+                )
             },
         ) {
             Text("Access Kaizen")

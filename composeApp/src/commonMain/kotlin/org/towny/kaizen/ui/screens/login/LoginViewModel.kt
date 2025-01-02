@@ -29,19 +29,24 @@ class LoginViewModel(
 
     fun onAction(action: LoginAction) {
         when (action) {
-            is LoginAction.OnLoginInputTextChanged -> {
-                _loginScreenState.update { it.copy(loginInput = action.text) }
+            is LoginAction.OnEmailInputTextChanged -> {
+                _loginScreenState.update { it.copy(emailInputValue = action.text) }
+            }
+
+            is LoginAction.OnPasswordInputTextChanged -> {
+                _loginScreenState.update { it.copy(passwordInputValue = action.password) }
             }
 
             is LoginAction.OnLoginSubmit -> {
+                // TODO: check field errors
                 viewModelScope.launch {
-                    loginService.login(action.username).collectLatest { result ->
+                    loginService.login(action.email).collectLatest { result ->
                         when (result) {
                             is Resource.Error -> {
                                 _loginScreenState.update {
                                     it.copy(
                                         onSubmitLoading = false,
-                                        errorMessage = getLoginErrorMessage(result.throwable)
+                                        emailInputError = getLoginErrorMessage(result.throwable)
                                     )
                                 }
                             }
@@ -50,7 +55,7 @@ class LoginViewModel(
                                 _loginScreenState.update {
                                     it.copy(
                                         onSubmitLoading = true,
-                                        errorMessage = null
+                                        emailInputError = null
                                     )
                                 }
                             }
@@ -59,7 +64,7 @@ class LoginViewModel(
                                 _loginScreenState.update {
                                     it.copy(
                                         onSubmitLoading = false,
-                                        errorMessage = null,
+                                        emailInputError = null,
                                         goToHomeScreen = true
                                     )
                                 }
