@@ -54,6 +54,7 @@ kotlin {
             implementation(libs.datetime)
             implementation(libs.serialization.json)
             implementation(libs.gitlive.firebase.firestore)
+            implementation(libs.gitlive.firebase.auth)
 
             implementation(libs.datastore.core)
             implementation(libs.datastore.preferences.core)

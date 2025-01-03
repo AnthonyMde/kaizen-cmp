@@ -9,7 +9,6 @@ import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
-import org.towny.kaizen.data.repository.sources.entity.FirestoreChallengeKeys
 
 class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     private val firestore = Firebase.firestore

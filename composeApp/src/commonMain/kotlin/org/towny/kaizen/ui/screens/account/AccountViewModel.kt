@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.towny.kaizen.domain.repository.UsersRepository
+import org.towny.kaizen.domain.repository.AuthRepository
 
 class AccountViewModel(
-    private val usersRepository: UsersRepository
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _accountScreenState = MutableStateFlow(AccountScreenState())
     val accountScreenState = _accountScreenState.asStateFlow()
@@ -16,7 +16,7 @@ class AccountViewModel(
         when (action) {
             AccountAction.OnLogout -> {
                 _accountScreenState.update { it.copy(isLogoutLoading = true) }
-                usersRepository.deleteSavedUserSession()
+                authRepository.logout()
                 _accountScreenState.update { it.copy(isLogoutLoading = true) }
             }
 

@@ -1,4 +1,4 @@
-package org.towny.kaizen.data.repository.sources.entity
+package org.towny.kaizen.data.remote
 
 object FirestoreChallengeKeys {
     const val ID = "id"

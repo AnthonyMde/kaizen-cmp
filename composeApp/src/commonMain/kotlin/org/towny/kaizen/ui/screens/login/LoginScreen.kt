@@ -40,7 +40,7 @@ import org.towny.kaizen.ui.screens.components.FormErrorText
 
 @Composable
 fun LoginScreenRoot(
-    viewModel: LoginViewModel = koinViewModel(),
+    viewModel: AuthViewModel = koinViewModel(),
     goToHomeScreen: () -> Unit
 ) {
     val loginScreenState by viewModel.loginScreenState.collectAsState()

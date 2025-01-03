@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
+import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.GetUserSessionUseCase
@@ -17,7 +18,8 @@ import org.towny.kaizen.domain.services.GetUserSessionUseCase
 class HomeViewModel(
     private val usersRepository: UsersRepository,
     private val challengesService: ChallengesService,
-    private val getUserSessionUseCase: GetUserSessionUseCase
+    private val getUserSessionUseCase: GetUserSessionUseCase,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private var userSession: String? = null
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
@@ -25,6 +27,7 @@ class HomeViewModel(
         .onStart {
             userSession = getUserSessionUseCase()
             watchUsers()
+            watchUserSession()
         }
 
     fun onAction(action: HomeAction) {
@@ -40,6 +43,14 @@ class HomeViewModel(
             }
 
             HomeAction.OnAccountClicked -> {}
+        }
+    }
+
+    private fun watchUserSession() {
+        viewModelScope.launch {
+            authRepository.watchUserSession().collectLatest { user ->
+                _homeScreenState.update { it.copy(user = user) }
+            }
         }
     }
 
