@@ -108,6 +108,12 @@ fun LoginScreen(
                 .fillMaxWidth()
         )
 
+        Spacer(modifier = Modifier.height(6.dp))
+
+        state.emailInputError?.let {
+            FormErrorText(it)
+        }
+
         OutlinedTextField(
             value = state.passwordInputValue,
             onValueChange = { text ->
@@ -137,8 +143,8 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        state.emailInputError?.let {
-            FormErrorText(state.emailInputError)
+        state.passwordInputError?.let {
+            FormErrorText(it)
         }
 
         Spacer(modifier = Modifier.height(16.dp))

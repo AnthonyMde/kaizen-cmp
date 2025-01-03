@@ -30,24 +30,40 @@ class AuthViewModel(
     fun onAction(action: LoginAction) {
         when (action) {
             is LoginAction.OnEmailInputTextChanged -> {
-                _loginScreenState.update { it.copy(emailInputValue = action.text) }
+                _loginScreenState.update {
+                    it.copy(
+                        emailInputValue = action.text,
+                        emailInputError = null
+                    )
+                }
             }
 
             is LoginAction.OnPasswordInputTextChanged -> {
-                _loginScreenState.update { it.copy(passwordInputValue = action.password) }
+                _loginScreenState.update {
+                    it.copy(
+                        passwordInputValue = action.password,
+                        passwordInputError = null
+                    )
+                }
             }
 
             is LoginAction.OnLoginSubmit -> {
-                // TODO: check field errors
+                val email = action.email.trim()
+                val password = action.password.trim()
+
+                if (!requiredFields(email, password)) {
+                    return
+                }
+
                 viewModelScope.launch {
-                    authService.authenticate(action.email, action.password)
+                    authService.authenticate(email, password)
                         .collectLatest { result ->
                             when (result) {
                                 is Resource.Error -> {
                                     _loginScreenState.update {
                                         it.copy(
                                             onSubmitLoading = false,
-                                            emailInputError = getLoginErrorMessage(result.throwable)
+                                            passwordInputError = getLoginErrorMessage(result.throwable)
                                         )
                                     }
                                 }
@@ -76,6 +92,23 @@ class AuthViewModel(
                 }
             }
         }
+    }
+
+    private fun requiredFields(email: String, password: String): Boolean {
+        val isEmailEmpty = email.isBlank()
+        val isPasswordEmpty = password.isBlank()
+        if (isEmailEmpty) {
+            _loginScreenState.update {
+                it.copy(emailInputError = "Email field should not be empty.")
+            }
+        }
+        if (isPasswordEmpty) {
+            _loginScreenState.update {
+                it.copy(passwordInputError = "Password field should not be empty.")
+            }
+        }
+
+        return !isEmailEmpty && !isPasswordEmpty
     }
 
     private fun getLoginErrorMessage(throwable: Throwable?): String {
