@@ -11,7 +11,6 @@ kotlin = "2.0.21"
 kotlinx-serialization = "1.7.3"
 kotlinx-date = "0.6.0"
 kotlin-atomicfu = "0.23.2"
-firebase-bom = "33.7.0"
 google-play-services = "4.4.2"
 gitlive = "2.1.0"
 core-splascreen = "1.0.1"
@@ -33,7 +32,6 @@ core-splashscreen = { group = "androidx.core", name = "core-splashscreen", versi
 datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 datastore-preferences-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore" }
 
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 gitlive-firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive" }
 gitlive-firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "gitlive" }
 

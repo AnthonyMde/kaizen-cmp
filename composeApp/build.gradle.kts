@@ -32,7 +32,6 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.activity.compose)
-            implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.core.splashscreen)
 
             implementation(libs.koin.android)
