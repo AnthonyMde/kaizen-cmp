@@ -2,6 +2,7 @@ package org.towny.kaizen.data.remote
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.AuthResult
+import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
 
 class FirebaseAuth {
@@ -19,5 +20,5 @@ class FirebaseAuth {
         auth.signOut()
     }
 
-    fun watchUserSession() = auth.authStateChanged
+    fun getUserSession(): FirebaseUser? = auth.currentUser
 }

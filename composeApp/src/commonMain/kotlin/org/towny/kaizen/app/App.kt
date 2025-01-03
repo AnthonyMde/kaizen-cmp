@@ -8,26 +8,27 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import dev.gitlive.firebase.auth.FirebaseUser
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
 import org.towny.kaizen.ui.screens.account.AccountScreenRoot
-import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import org.towny.kaizen.ui.screens.add_friends.AddFriendsScreenRoot
+import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.LoginScreenRoot
 import org.towny.kaizen.ui.theme.AppTheme
 
 @Composable
 @Preview
-fun App(username: String? = null) {
+fun App(user: FirebaseUser? = null) {
     AppTheme {
         val navController = rememberNavController()
 
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = if (username == null) Route.AuthenticationGraph else Route.HomeGraph,
+                startDestination = if (user == null) Route.AuthenticationGraph else Route.HomeGraph,
             ) {
                 navigation<Route.AuthenticationGraph>(
                     startDestination = Route.Login

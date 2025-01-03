@@ -7,7 +7,7 @@ import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.ChallengesRepository
-import org.towny.kaizen.domain.services.GetUserSessionUseCase
+import org.towny.kaizen.domain.usecases.GetUserSessionUseCase
 
 class ChallengesRepositoryImpl(
     private val remoteFirestoreDataSource: RemoteFirestoreDataSource,

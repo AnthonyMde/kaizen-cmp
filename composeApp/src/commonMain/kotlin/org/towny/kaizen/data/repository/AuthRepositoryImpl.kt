@@ -3,8 +3,6 @@ package org.towny.kaizen.data.repository
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseAuthWeakPasswordException
 import dev.gitlive.firebase.auth.FirebaseUser
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import org.towny.kaizen.data.remote.FirebaseAuth
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.repository.AuthRepository
@@ -45,12 +43,8 @@ class AuthRepositoryImpl(
         return firebaseAuth.logout()
     }
 
-    override fun watchUserSession(): Flow<FirebaseUser?> {
-        return firebaseAuth.watchUserSession()
-    }
-
     override suspend fun getUserSession(): FirebaseUser? {
-        return firebaseAuth.watchUserSession().first()
+        return firebaseAuth.getUserSession()
     }
 
 //    override fun login(email: String, password: String): Flow<Resource<Unit>> = flow {

@@ -15,8 +15,6 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        FirebaseApp.initializeApp(this)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val insetsController = WindowCompat.getInsetsController(window, window.decorView)
         // TODO: Use this line when lightTheme is not forced anymore.
@@ -25,7 +23,7 @@ class MainActivity : ComponentActivity() {
         window.statusBarColor = Color.TRANSPARENT
 
         setContent {
-            App(username = (application as MainApplication).username)
+            App(user = (application as MainApplication).user)
         }
     }
 

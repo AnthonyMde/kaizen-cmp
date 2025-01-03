@@ -1,22 +1,23 @@
 package org.towny.kaizen
 
 import androidx.compose.ui.window.ComposeUIViewController
+import dev.gitlive.firebase.auth.FirebaseUser
 import kotlinx.coroutines.runBlocking
 import org.koin.mp.KoinPlatform
 import org.towny.kaizen.app.App
 import org.towny.kaizen.di.initKoin
-import org.towny.kaizen.domain.repository.UsersRepository
-import org.towny.kaizen.domain.services.GetUserSessionUseCase
+import org.towny.kaizen.domain.usecases.InitializeUserUseCase
 
 fun MainViewController() = ComposeUIViewController(
     configure = {
         initKoin()
     }
 ) {
-    var username: String?
+    var user: FirebaseUser?
     runBlocking {
-        val usersRepository = KoinPlatform.getKoin().get<UsersRepository>()
-        username = GetUserSessionUseCase(usersRepository).invoke()
+        val initializeSessionUseCase = KoinPlatform.getKoin().get<InitializeUserUseCase>()
+        user = initializeSessionUseCase()
     }
-    App(username = username)
+
+    App(user = user)
 }

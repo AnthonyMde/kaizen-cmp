@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.home.components.ChallengerView
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
+import org.towny.kaizen.ui.screens.home.components.EmailConfirmationModal
 import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
@@ -55,6 +56,9 @@ fun HomeScreen(
             .padding(top = 24.dp),
     ) {
         Header(onAction = onAction)
+        if (state.user?.isEmailVerified == false) {
+            EmailConfirmationModal(onAction = onAction)
+        }
         state.currentChallenger?.let {
             CurrentUserView(
                 user = it,

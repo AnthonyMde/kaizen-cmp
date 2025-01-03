@@ -8,4 +8,5 @@ sealed class HomeAction {
     ) : HomeAction()
 
     data object OnAccountClicked : HomeAction()
+    data object OnEmailVerified : HomeAction()
 }

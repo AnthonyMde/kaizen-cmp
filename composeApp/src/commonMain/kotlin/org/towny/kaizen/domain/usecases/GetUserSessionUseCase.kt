@@ -1,4 +1,4 @@
-package org.towny.kaizen.domain.services
+package org.towny.kaizen.domain.usecases
 
 import kotlinx.coroutines.flow.first
 import org.towny.kaizen.domain.models.Resource

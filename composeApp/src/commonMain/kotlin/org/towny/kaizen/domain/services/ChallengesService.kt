@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flowOf
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.ChallengesRepository
+import org.towny.kaizen.domain.usecases.GetUserSessionUseCase
 
 class ChallengesService(
     private val challengesRepository: ChallengesRepository,

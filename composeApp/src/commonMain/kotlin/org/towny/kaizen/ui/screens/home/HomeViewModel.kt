@@ -13,21 +13,25 @@ import org.towny.kaizen.domain.models.User
 import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
-import org.towny.kaizen.domain.services.GetUserSessionUseCase
+import org.towny.kaizen.domain.usecases.GetUserSessionUseCase
+import org.towny.kaizen.domain.usecases.ReloadUserSessionUseCase
 
 class HomeViewModel(
     private val usersRepository: UsersRepository,
+    private val authRepository: AuthRepository,
     private val challengesService: ChallengesService,
     private val getUserSessionUseCase: GetUserSessionUseCase,
-    private val authRepository: AuthRepository
+    private val reloadUserSessionUseCase: ReloadUserSessionUseCase
 ) : ViewModel() {
-    private var userSession: String? = null
+    private var userName: String? = null
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState = _homeScreenState.asStateFlow()
         .onStart {
-            userSession = getUserSessionUseCase()
+            userName = getUserSessionUseCase()
             watchUsers()
-            watchUserSession()
+            _homeScreenState.update {
+                it.copy(user = authRepository.getUserSession())
+            }
         }
 
     fun onAction(action: HomeAction) {
@@ -42,15 +46,16 @@ class HomeViewModel(
                 }
             }
 
-            HomeAction.OnAccountClicked -> {}
-        }
-    }
-
-    private fun watchUserSession() {
-        viewModelScope.launch {
-            authRepository.watchUserSession().collectLatest { user ->
-                _homeScreenState.update { it.copy(user = user) }
+            is HomeAction.OnEmailVerified -> {
+                viewModelScope.launch {
+                    _homeScreenState.update {
+                        val reloadedUser = reloadUserSessionUseCase()
+                        it.copy(user = reloadedUser)
+                    }
+                }
             }
+
+            else -> {}
         }
     }
 
@@ -72,7 +77,7 @@ class HomeViewModel(
                         }
 
                         is Resource.Success -> {
-                            val userId = userSession ?: result.data!!.first().id
+                            val userId = userName ?: result.data!!.first().id
                             _homeScreenState.update {
                                 it.copy(
                                     currentChallenger = filterCurrentChallenger(
