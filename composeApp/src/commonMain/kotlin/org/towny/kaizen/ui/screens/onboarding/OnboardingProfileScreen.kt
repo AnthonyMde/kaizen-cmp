@@ -167,7 +167,6 @@ fun OnboardingProfileScreen(
             label = {
                 Text(
                     "username",
-                    color = Color.Gray
                 )
             },
             singleLine = true,
