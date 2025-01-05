@@ -7,44 +7,78 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.avatar_1_x3
+import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
+import org.towny.kaizen.ui.screens.components.FormErrorText
+import org.towny.kaizen.ui.screens.components.LoadingButton
+
+@Composable
+fun OnboardingProfileScreenRoot(
+    viewModel: OnboardingProfileViewModel = koinInject(),
+    goToHomeScreen: () -> Unit
+) {
+    val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(true) {
+        viewModel.navigationEvents.collectLatest { event ->
+            when (event) {
+                OnBoardingProfileNavigationEvent.GoToHomeScreen -> {
+                    goToHomeScreen()
+                }
+            }
+        }
+    }
+
+    OnboardingProfileScreen(
+        state = state,
+        onAction = { action ->
+            viewModel.onAction(action)
+        }
+    )
+}
 
 @Composable
 fun OnboardingProfileScreen(
-    selectedAvatarIndex: Int = 0,
-    onAvatarSelected: (Int) -> Unit
+    state: OnBoardingProfileScreenState,
+    onAction: (OnBoardingProfileAction) -> Unit
 ) {
+    val keyboard = LocalSoftwareKeyboardController.current
     val avatars = remember {
         listOf(
             Avatar(
@@ -78,11 +112,12 @@ fun OnboardingProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
+            .systemBarsPadding()
             .padding(24.dp)
     ) {
         Image(
-            painter = painterResource(avatars[selectedAvatarIndex].drawable),
-            contentDescription = avatars[selectedAvatarIndex].description,
+            painter = painterResource(avatars[state.avatarSelectedIndex].drawable),
+            contentDescription = avatars[state.avatarSelectedIndex].description,
             modifier = Modifier
                 .clip(CircleShape)
                 .align(Alignment.CenterHorizontally)
@@ -91,7 +126,8 @@ fun OnboardingProfileScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("What's your name?",
+        Text(
+            "What's your name?",
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -101,11 +137,15 @@ fun OnboardingProfileScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         TextField(
-            value = "",
-            onValueChange = {},
+            value = state.usernameInputValue,
+            onValueChange = { username ->
+                onAction(OnBoardingProfileAction.OnUsernameInputValueChanged(username))
+            },
             label = {
-                Text("username",
-                    color = Color.LightGray)
+                Text(
+                    "username",
+                    color = Color.Gray
+                )
             },
             singleLine = true,
             supportingText = {
@@ -118,9 +158,24 @@ fun OnboardingProfileScreen(
                 disabledIndicatorColor = Color.Transparent
             ),
             shape = RoundedCornerShape(8.dp),
+            keyboardOptions = KeyboardOptions().copy(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onAction(OnBoardingProfileAction.OnSubmitProfile)
+                }
+            ),
             modifier = Modifier
                 .fillMaxWidth()
         )
+
+        state.usernameInputError?.let {
+            FormErrorText(
+                message = it,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -133,7 +188,8 @@ fun OnboardingProfileScreen(
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        Text("avatars",
+        Text(
+            "avatars",
             style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -149,9 +205,12 @@ fun OnboardingProfileScreen(
                     Box(
                         modifier = Modifier
                             .border(
-                                2.dp,
-                                if (avatars.indexOf(avatar) == index) Color.Blue else Color.Transparent,
-                                CircleShape
+                                width = 2.dp,
+                                color = if (state.avatarSelectedIndex == index)
+                                    Color.Blue
+                                else
+                                    Color.Transparent,
+                                shape = CircleShape
                             )
                     ) {
                         Image(
@@ -159,6 +218,9 @@ fun OnboardingProfileScreen(
                             contentDescription = avatar.description,
                             modifier = Modifier
                                 .clip(CircleShape)
+                                .clickable {
+                                    onAction(OnBoardingProfileAction.OnAvatarSelected(index))
+                                }
                         )
                     }
                 }
@@ -166,6 +228,20 @@ fun OnboardingProfileScreen(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        LoadingButton(
+            onClick = {
+                keyboard?.hide()
+                onAction(OnBoardingProfileAction.OnSubmitProfile)
+            },
+            enabled = !state.isFormSubmissionLoading,
+            isLoading = state.isFormSubmissionLoading,
+            label = "Create",
+            modifier = Modifier
+                .fillMaxWidth()
         )
     }
 }

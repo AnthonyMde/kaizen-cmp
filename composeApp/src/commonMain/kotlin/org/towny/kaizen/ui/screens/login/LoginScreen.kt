@@ -41,13 +41,15 @@ import org.towny.kaizen.ui.screens.components.FormErrorText
 @Composable
 fun LoginScreenRoot(
     viewModel: AuthViewModel = koinViewModel(),
-    goToHomeScreen: () -> Unit
+    goToHomeScreen: () -> Unit,
+    goToOnboardingProfile: () ->  Unit
 ) {
-    val loginScreenState by viewModel.loginScreenState.collectAsState()
+    val loginScreenState by viewModel.authScreenState.collectAsState()
     LaunchedEffect(true) {
         viewModel.navigationEvents.collectLatest { event ->
             when (event) {
                 LoginNavigationEvent.GoToHomeScreen -> goToHomeScreen()
+                LoginNavigationEvent.GoToOnboardingProfile -> goToOnboardingProfile()
             }
         }
     }
@@ -63,7 +65,7 @@ fun LoginScreenRoot(
 @Composable
 fun LoginScreen(
     state: LoginScreenState,
-    onAction: (LoginAction) -> Unit,
+    onAction: (AuthAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -93,7 +95,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = state.emailInputValue,
             onValueChange = { text ->
-                onAction(LoginAction.OnEmailInputTextChanged(text))
+                onAction(AuthAction.OnEmailInputTextChanged(text))
             },
             label = { Text("Email") },
             placeholder = { Text("kaizen@challenge.com") },
@@ -117,7 +119,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = state.passwordInputValue,
             onValueChange = { text ->
-                onAction(LoginAction.OnPasswordInputTextChanged(text))
+                onAction(AuthAction.OnPasswordInputTextChanged(text))
             },
             label = { Text("Password") },
             placeholder = { Text("St4ong pa55wo4d") },
@@ -131,7 +133,7 @@ fun LoginScreen(
                 onDone = {
                     keyboardController?.hide()
                     onAction(
-                        LoginAction.OnLoginSubmit(state.emailInputValue, state.passwordInputValue)
+                        AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
                     )
                 }
             ),
@@ -153,7 +155,7 @@ fun LoginScreen(
             onClick = {
                 keyboardController?.hide()
                 onAction(
-                    LoginAction.OnLoginSubmit(state.emailInputValue, state.passwordInputValue)
+                    AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
                 )
             },
         ) {

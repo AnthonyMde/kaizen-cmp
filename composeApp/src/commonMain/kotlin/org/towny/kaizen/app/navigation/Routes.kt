@@ -14,6 +14,11 @@ sealed class Route {
     data object Login : Route()
 
     @Serializable
+    data object OnboardingGraph : Route()
+    @Serializable
+    data object OnboardingProfile : Route()
+
+    @Serializable
     data object AccountGraph : Route()
     @Serializable
     data object Account : Route()

@@ -6,5 +6,4 @@ data class LoginScreenState(
     val passwordInputValue: String = "",
     val passwordInputError: String? = null,
     val onSubmitLoading: Boolean = false,
-    val goToHomeScreen: Boolean = false
 )

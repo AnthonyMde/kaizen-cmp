@@ -17,8 +17,8 @@ import org.towny.kaizen.domain.services.AuthService
 class AuthViewModel(
     private val authService: AuthService,
 ) : ViewModel() {
-    private val _loginScreenState = MutableStateFlow(LoginScreenState())
-    val loginScreenState = _loginScreenState.asStateFlow()
+    private val _authScreenState = MutableStateFlow(LoginScreenState())
+    val authScreenState = _authScreenState.asStateFlow()
 
     private val _navigationEvents = MutableSharedFlow<LoginNavigationEvent>(
         replay = 0,
@@ -27,10 +27,10 @@ class AuthViewModel(
     )
     val navigationEvents = _navigationEvents.asSharedFlow()
 
-    fun onAction(action: LoginAction) {
+    fun onAction(action: AuthAction) {
         when (action) {
-            is LoginAction.OnEmailInputTextChanged -> {
-                _loginScreenState.update {
+            is AuthAction.OnEmailInputTextChanged -> {
+                _authScreenState.update {
                     it.copy(
                         emailInputValue = action.text,
                         emailInputError = null
@@ -38,8 +38,8 @@ class AuthViewModel(
                 }
             }
 
-            is LoginAction.OnPasswordInputTextChanged -> {
-                _loginScreenState.update {
+            is AuthAction.OnPasswordInputTextChanged -> {
+                _authScreenState.update {
                     it.copy(
                         passwordInputValue = action.password,
                         passwordInputError = null
@@ -47,7 +47,7 @@ class AuthViewModel(
                 }
             }
 
-            is LoginAction.OnLoginSubmit -> {
+            is AuthAction.OnAuthSubmit -> {
                 val email = action.email.trim()
                 val password = action.password.trim()
 
@@ -60,7 +60,7 @@ class AuthViewModel(
                         .collectLatest { result ->
                             when (result) {
                                 is Resource.Error -> {
-                                    _loginScreenState.update {
+                                    _authScreenState.update {
                                         it.copy(
                                             onSubmitLoading = false,
                                             passwordInputError = getLoginErrorMessage(result.throwable)
@@ -69,7 +69,7 @@ class AuthViewModel(
                                 }
 
                                 is Resource.Loading -> {
-                                    _loginScreenState.update {
+                                    _authScreenState.update {
                                         it.copy(
                                             onSubmitLoading = true,
                                             emailInputError = null,
@@ -79,13 +79,19 @@ class AuthViewModel(
                                 }
 
                                 is Resource.Success -> {
-                                    _loginScreenState.update {
+                                    _authScreenState.update {
                                         it.copy(
                                             onSubmitLoading = false,
-                                            goToHomeScreen = true
                                         )
                                     }
-                                    _navigationEvents.tryEmit(LoginNavigationEvent.GoToHomeScreen)
+                                    // TODO: check if user already configured his account
+                                    // If not: redirect to onboarding
+                                    // Maybe we should do also the check when launching app : checking if FirebaseAuth user has a displayName saved or not.
+                                    val hasConfiguredAccount = false
+                                    if (hasConfiguredAccount)
+                                        _navigationEvents.tryEmit(LoginNavigationEvent.GoToHomeScreen)
+                                    else
+                                        _navigationEvents.tryEmit(LoginNavigationEvent.GoToOnboardingProfile)
                                 }
                             }
                         }
@@ -98,12 +104,12 @@ class AuthViewModel(
         val isEmailEmpty = email.isBlank()
         val isPasswordEmpty = password.isBlank()
         if (isEmailEmpty) {
-            _loginScreenState.update {
+            _authScreenState.update {
                 it.copy(emailInputError = "Email field should not be empty.")
             }
         }
         if (isPasswordEmpty) {
-            _loginScreenState.update {
+            _authScreenState.update {
                 it.copy(passwordInputError = "Password field should not be empty.")
             }
         }

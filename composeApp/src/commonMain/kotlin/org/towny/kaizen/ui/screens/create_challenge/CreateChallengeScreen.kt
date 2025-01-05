@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
 import org.towny.kaizen.ui.screens.components.FormErrorText
+import org.towny.kaizen.ui.screens.components.LoadingButton
 
 @Composable
 fun CreateChallengeScreenRoot(
@@ -173,26 +174,14 @@ fun CreateChallengeScreen(
                     modifier = Modifier.padding(16.dp)
                 )
             }
-            Button(
+            LoadingButton(
                 onClick = {
                     keyboard?.hide()
                     onAction(CreateChallengeAction.OnCreateChallengeFormSubmit)
                 },
                 enabled = !state.isFormSubmissionLoading,
-                content = {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("Create")
-                        if (state.isFormSubmissionLoading) CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            strokeWidth = 2.dp,
-                            modifier = Modifier
-                                .size(20.dp)
-                        )
-                    }
-                },
+                isLoading = state.isFormSubmissionLoading,
+                label = "Create",
                 modifier = Modifier
                     .fillMaxWidth()
             )

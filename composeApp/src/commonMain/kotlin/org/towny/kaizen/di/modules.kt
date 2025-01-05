@@ -26,6 +26,7 @@ import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import org.towny.kaizen.ui.screens.add_friends.AddFriendsViewModel
 import org.towny.kaizen.ui.screens.home.HomeViewModel
 import org.towny.kaizen.ui.screens.login.AuthViewModel
+import org.towny.kaizen.ui.screens.onboarding.OnboardingProfileViewModel
 
 val commonModules = module {
     // ViewModels
@@ -34,6 +35,7 @@ val commonModules = module {
     viewModelOf(::AccountViewModel)
     viewModelOf(::AddFriendsViewModel)
     viewModelOf(::CreateChallengeViewModel)
+    viewModelOf(::OnboardingProfileViewModel)
 
     // Service
     singleOf(::AuthService)

@@ -17,6 +17,7 @@ import org.towny.kaizen.ui.screens.add_friends.AddFriendsScreenRoot
 import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.LoginScreenRoot
+import org.towny.kaizen.ui.screens.onboarding.OnboardingProfileScreenRoot
 import org.towny.kaizen.ui.theme.AppTheme
 
 @Composable
@@ -28,20 +29,51 @@ fun App(user: FirebaseUser? = null) {
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = if (user == null) Route.AuthenticationGraph else Route.HomeGraph,
+                //startDestination = if (user == null) Route.AuthenticationGraph else Route.HomeGraph,
+                startDestination = Route.OnboardingGraph
             ) {
+                // AUTHENTICATION
                 navigation<Route.AuthenticationGraph>(
                     startDestination = Route.Login
                 ) {
                     composable<Route.Login> {
-                        LoginScreenRoot(goToHomeScreen = {
-                            navController.navigate(Route.Home) {
-                                popUpTo(Route.Login) { inclusive = true }
-                            }
-                        })
+                        LoginScreenRoot(
+                            goToHomeScreen = {
+                                navController.navigate(Route.Home) {
+                                    popUpTo(Route.Login) { inclusive = true }
+                                }
+                            },
+                            goToOnboardingProfile = {
+                                navController.navigate(Route.OnboardingProfile) {
+                                    popUpTo(Route.Login) { inclusive = true }
+                                }
+                            })
                     }
                 }
 
+                // ONBOARDING
+                navigation<Route.OnboardingGraph>(
+                    startDestination = Route.OnboardingProfile
+                ) {
+                    composable<Route.OnboardingProfile>(
+                        enterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Start,
+                                tween(300)
+                            )
+                        },
+                    ) {
+                        OnboardingProfileScreenRoot(
+                            goToHomeScreen = {
+                                navController.navigate(Route.Home) {
+                                    popUpTo(Route.OnboardingProfile) { inclusive = true }
+                                }
+                            },
+                        )
+                    }
+                }
+
+                // HOME
                 navigation<Route.HomeGraph>(
                     startDestination = Route.Home
                 ) {
@@ -53,6 +85,7 @@ fun App(user: FirebaseUser? = null) {
                     }
                 }
 
+                // ACCOUNT
                 navigation<Route.AccountGraph>(
                     startDestination = Route.Account
                 ) {
