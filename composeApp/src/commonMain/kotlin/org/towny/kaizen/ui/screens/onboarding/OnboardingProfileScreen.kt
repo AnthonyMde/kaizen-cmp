@@ -21,7 +21,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -169,7 +172,14 @@ fun OnboardingProfileScreen(
             },
             singleLine = true,
             supportingText = {
-                Text("It will be visible by others.")
+                Text(
+                    text = state.usernameInputError ?: "It will be visible by others."
+                )
+            },
+            isError = state.usernameInputError != null,
+            trailingIcon = {
+                if (state.usernameInputError != null)
+                    Icon(Icons.Default.Warning, contentDescription = null)
             },
             colors = TextFieldDefaults.colors().copy(
                 focusedIndicatorColor = Color.Transparent,
@@ -189,13 +199,6 @@ fun OnboardingProfileScreen(
             modifier = Modifier
                 .fillMaxWidth()
         )
-
-        state.usernameInputError?.let {
-            FormErrorText(
-                message = it,
-                modifier = Modifier.padding(start = 8.dp)
-            )
-        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
