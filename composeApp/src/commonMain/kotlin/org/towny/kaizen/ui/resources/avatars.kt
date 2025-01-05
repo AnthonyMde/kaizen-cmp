@@ -1,4 +1,4 @@
-package org.towny.kaizen.ui.screens.resources
+package org.towny.kaizen.ui.resources
 
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.avatar_1_x3
@@ -10,7 +10,7 @@ import kaizen.composeapp.generated.resources.avatar_6_x3
 import kaizen.composeapp.generated.resources.avatar_7_x3
 import kaizen.composeapp.generated.resources.avatar_8_x3
 import kaizen.composeapp.generated.resources.avatar_9_x3
-import org.towny.kaizen.ui.screens.onboarding.Avatar
+import org.towny.kaizen.ui.models.Avatar
 
 val avatars = listOf(
     Avatar(

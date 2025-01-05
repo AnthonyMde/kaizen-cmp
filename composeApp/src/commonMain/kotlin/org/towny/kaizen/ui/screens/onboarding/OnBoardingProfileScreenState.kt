@@ -1,6 +1,6 @@
 package org.towny.kaizen.ui.screens.onboarding
 
-import org.towny.kaizen.ui.screens.resources.avatars
+import org.towny.kaizen.ui.resources.avatars
 import kotlin.random.Random
 
 data class OnBoardingProfileScreenState(

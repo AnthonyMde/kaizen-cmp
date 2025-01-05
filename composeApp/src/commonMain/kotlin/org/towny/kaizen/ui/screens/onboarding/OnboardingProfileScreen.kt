@@ -42,11 +42,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
+import org.towny.kaizen.ui.models.Avatar
+import org.towny.kaizen.ui.resources.avatars
 import org.towny.kaizen.ui.screens.components.LoadingButton
-import org.towny.kaizen.ui.screens.resources.avatars
 
 @Composable
 fun OnboardingProfileScreenRoot(
@@ -79,7 +79,7 @@ fun OnboardingProfileScreen(
     onAction: (OnBoardingProfileAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
-    val avatars = remember { avatars }
+    val avatars: List<Avatar> = remember { avatars }
 
     Column(
         modifier = Modifier
@@ -216,8 +216,3 @@ fun OnboardingProfileScreen(
         )
     }
 }
-
-data class Avatar(
-    val drawable: DrawableResource,
-    val description: String
-)
