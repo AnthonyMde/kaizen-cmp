@@ -39,7 +39,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.FormErrorText
 
 @Composable
-fun LoginScreenRoot(
+fun AuthScreenRoot(
     viewModel: AuthViewModel = koinViewModel(),
     goToHomeScreen: () -> Unit,
     goToOnboardingProfile: () ->  Unit
@@ -53,7 +53,7 @@ fun LoginScreenRoot(
             }
         }
     }
-    LoginScreen(
+    AuthScreen(
         state = loginScreenState,
         onAction = viewModel::onAction,
         modifier = Modifier
@@ -63,7 +63,7 @@ fun LoginScreenRoot(
 }
 
 @Composable
-fun LoginScreen(
+fun AuthScreen(
     state: LoginScreenState,
     onAction: (AuthAction) -> Unit,
     modifier: Modifier = Modifier

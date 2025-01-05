@@ -16,9 +16,9 @@ class AuthService(
 
         try {
             authRepository.signUp(email, password)
-            val user = authRepository.getUserSession()
-            if (user != null) {
-                authRepository.sendEmailVerification(user)
+            val userSession = authRepository.getUserSession()
+            if (userSession != null) {
+                authRepository.sendEmailVerification()
                 emit(Resource.Success(AuthSuccess(hasSendVerificationEmail = true)))
             } else {
                 emit(Resource.Error(DomainException.Auth.FailedToSendEmailVerification))

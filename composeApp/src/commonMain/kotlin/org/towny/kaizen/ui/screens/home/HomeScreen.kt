@@ -11,11 +11,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.home.components.ChallengerView
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
@@ -25,8 +27,18 @@ import org.towny.kaizen.ui.screens.home.components.Header
 @Composable
 fun HomeScreenRoot(
     goToAccount: () -> Unit,
-    homeViewModel: HomeViewModel = koinViewModel()
+    homeViewModel: HomeViewModel = koinViewModel(),
+    popToLogin: () -> Unit
 ) {
+    LaunchedEffect(true) {
+        homeViewModel.navigationEvents.collectLatest { event ->
+            when(event) {
+                HomeNavigationEvent.PopToLogin -> {
+                    popToLogin()
+                }
+            }
+        }
+    }
     val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
 
     HomeScreen(
@@ -56,7 +68,7 @@ fun HomeScreen(
             .padding(top = 24.dp),
     ) {
         Header(onAction = onAction)
-        if (state.user?.isEmailVerified == false) {
+        if (state.userSession?.isEmailVerified == false) {
             EmailConfirmationModal(onAction = onAction)
         }
         state.currentChallenger?.let {

@@ -167,6 +167,11 @@ fun OnboardingProfileScreen(
             modifier = Modifier
                 .fillMaxWidth()
         )
+        Text("by pikisuperstar",
+            style = MaterialTheme.typography.labelSmall,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth())
 
         Spacer(modifier = Modifier.height(16.dp))
 

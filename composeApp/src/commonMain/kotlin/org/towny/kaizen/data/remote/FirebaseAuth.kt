@@ -12,8 +12,8 @@ class FirebaseAuth {
         return auth.createUserWithEmailAndPassword(email, password)
     }
 
-    suspend fun signIn(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
+    suspend fun signIn(email: String, password: String): AuthResult {
+        return auth.signInWithEmailAndPassword(email, password)
     }
 
     suspend fun logout() {

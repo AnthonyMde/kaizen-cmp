@@ -8,36 +8,35 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import dev.gitlive.firebase.auth.FirebaseUser
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
+import org.towny.kaizen.domain.models.UserSession
 import org.towny.kaizen.ui.screens.account.AccountScreenRoot
 import org.towny.kaizen.ui.screens.add_friends.AddFriendsScreenRoot
 import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
-import org.towny.kaizen.ui.screens.login.LoginScreenRoot
+import org.towny.kaizen.ui.screens.login.AuthScreenRoot
 import org.towny.kaizen.ui.screens.onboarding.OnboardingProfileScreenRoot
 import org.towny.kaizen.ui.theme.AppTheme
 
 @Composable
 @Preview
-fun App(user: FirebaseUser? = null) {
+fun App(user: UserSession? = null) {
     AppTheme {
         val navController = rememberNavController()
 
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                //startDestination = if (user == null) Route.AuthenticationGraph else Route.HomeGraph,
-                startDestination = Route.OnboardingGraph
+                startDestination = if (user == null) Route.AuthenticationGraph else Route.HomeGraph,
             ) {
                 // AUTHENTICATION
                 navigation<Route.AuthenticationGraph>(
                     startDestination = Route.Login
                 ) {
                     composable<Route.Login> {
-                        LoginScreenRoot(
+                        AuthScreenRoot(
                             goToHomeScreen = {
                                 navController.navigate(Route.Home) {
                                     popUpTo(Route.Login) { inclusive = true }
@@ -81,6 +80,11 @@ fun App(user: FirebaseUser? = null) {
                         HomeScreenRoot(
                             goToAccount = {
                                 navController.navigate(Route.Account)
+                            },
+                            popToLogin = {
+                                navController.navigate(Route.Login) {
+                                    popUpTo(Route.Home) { inclusive = true }
+                                }
                             })
                     }
                 }

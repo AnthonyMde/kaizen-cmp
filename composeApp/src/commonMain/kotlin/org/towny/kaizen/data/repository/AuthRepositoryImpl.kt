@@ -3,17 +3,25 @@ package org.towny.kaizen.data.repository
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseAuthWeakPasswordException
 import dev.gitlive.firebase.auth.FirebaseUser
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import org.towny.kaizen.data.remote.FirebaseAuth
 import org.towny.kaizen.domain.exceptions.DomainException
+import org.towny.kaizen.domain.models.UserSession
 import org.towny.kaizen.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
+    private val _watchUserSession =
+        MutableStateFlow(firebaseAuth.getUserSession()?.toUserSession())
+    override val watchUserSession = _watchUserSession.asStateFlow()
+
     override suspend fun signUp(email: String, password: String) {
         try {
             val authResult = firebaseAuth.signUp(email, password)
-            authResult.user?.sendEmailVerification()
+            _watchUserSession.tryEmit(authResult.user?.toUserSession())
         } catch (e: Exception) {
             if (e is FirebaseAuthWeakPasswordException) {
                 throw DomainException.Auth.WeakPassword
@@ -23,13 +31,14 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun sendEmailVerification(user: FirebaseUser) {
-        user.sendEmailVerification()
+    override suspend fun sendEmailVerification() {
+        firebaseAuth.getUserSession()?.sendEmailVerification()
     }
 
     override suspend fun signIn(email: String, password: String) {
         try {
-            firebaseAuth.signIn(email, password)
+            val authResult = firebaseAuth.signIn(email, password)
+            _watchUserSession.tryEmit(authResult.user?.toUserSession())
         } catch (e: Exception) {
             if (e is FirebaseAuthInvalidCredentialsException) {
                 throw DomainException.Auth.InvalidCredentials
@@ -40,26 +49,35 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun logout() {
-        return firebaseAuth.logout()
+        firebaseAuth.logout()
+        _watchUserSession.update { null }
     }
 
-    override suspend fun getUserSession(): FirebaseUser? {
-        return firebaseAuth.getUserSession()
+    override suspend fun getUserSession(): UserSession? {
+        return _watchUserSession.value
     }
 
-//    override fun login(email: String, password: String): Flow<Resource<Unit>> = flow {
-//        emit(Resource.Loading())
-//        val user = try {
-//            remoteFirestoreDataSource.getUserBy(username)
-//        } catch (e: Exception) {
-//            emit(Resource.Error(e))
-//            return@flow
-//        }
-//        if (user != null) {
-//            preferencesDataSource.saveUserId(user.id)
-//            emit(Resource.Success())
-//        } else {
-//            emit(Resource.Error(DomainException.Login.UserNotAuthorized))
-//        }
-//    }
+    /**
+     * Throws a firebase exception while trying to invoke reload() if the
+     * user session has been deleted from firebase auth console.
+     */
+    override suspend fun reloadUserSession(): UserSession? {
+        firebaseAuth.getUserSession()?.reload()
+
+        _watchUserSession.update {
+            firebaseAuth.getUserSession()?.toUserSession()
+        }
+
+        return _watchUserSession.value
+    }
+
+    private fun FirebaseUser.toUserSession(): UserSession? {
+        val email = email ?: return null
+
+        return UserSession(
+            uid = uid,
+            email = email,
+            isEmailVerified = isEmailVerified
+        )
+    }
 }

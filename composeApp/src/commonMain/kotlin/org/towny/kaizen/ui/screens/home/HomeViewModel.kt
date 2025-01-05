@@ -2,7 +2,10 @@ package org.towny.kaizen.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
@@ -13,26 +16,44 @@ import org.towny.kaizen.domain.models.User
 import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
+import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 import org.towny.kaizen.domain.usecases.GetUserSessionUseCase
-import org.towny.kaizen.domain.usecases.ReloadUserSessionUseCase
 
 class HomeViewModel(
     private val usersRepository: UsersRepository,
     private val authRepository: AuthRepository,
     private val challengesService: ChallengesService,
     private val getUserSessionUseCase: GetUserSessionUseCase,
-    private val reloadUserSessionUseCase: ReloadUserSessionUseCase
+    private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase
 ) : ViewModel() {
-    private var userName: String? = null
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState = _homeScreenState.asStateFlow()
         .onStart {
-            userName = getUserSessionUseCase()
             watchUsers()
             _homeScreenState.update {
-                it.copy(user = authRepository.getUserSession())
+                it.copy(userSession = authRepository.getUserSession())
             }
         }
+    private val _navigationEvents = MutableSharedFlow<HomeNavigationEvent>(
+        replay = 0,
+        onBufferOverflow = BufferOverflow.DROP_LATEST,
+        extraBufferCapacity = 1
+    )
+    val navigationEvents = _navigationEvents.asSharedFlow()
+
+    init {
+        watchUserSession()
+    }
+
+    private fun watchUserSession() {
+        viewModelScope.launch {
+            authRepository.watchUserSession.collectLatest { userSession ->
+                if (userSession == null) {
+                    _navigationEvents.tryEmit(HomeNavigationEvent.PopToLogin)
+                }
+            }
+        }
+    }
 
     fun onAction(action: HomeAction) {
         when (action) {
@@ -49,8 +70,8 @@ class HomeViewModel(
             is HomeAction.OnEmailVerified -> {
                 viewModelScope.launch {
                     _homeScreenState.update {
-                        val reloadedUser = reloadUserSessionUseCase()
-                        it.copy(user = reloadedUser)
+                        val reloadedUser = getReloadedUserSessionUseCase()
+                        it.copy(userSession = reloadedUser)
                     }
                 }
             }
@@ -77,7 +98,7 @@ class HomeViewModel(
                         }
 
                         is Resource.Success -> {
-                            val userId = userName ?: result.data!!.first().id
+                            val userId = result.data!!.first().id
                             _homeScreenState.update {
                                 it.copy(
                                     currentChallenger = filterCurrentChallenger(

@@ -2,15 +2,15 @@ package org.towny.kaizen
 
 import android.app.Application
 import com.google.firebase.FirebaseApp
-import dev.gitlive.firebase.auth.FirebaseUser
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.towny.kaizen.di.initKoin
-import org.towny.kaizen.domain.usecases.InitializeUserUseCase
+import org.towny.kaizen.domain.models.UserSession
+import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 
 class MainApplication : Application() {
-    var user: FirebaseUser? = null
+    var userSession: UserSession? = null
         private set
 
     override fun onCreate() {
@@ -22,8 +22,8 @@ class MainApplication : Application() {
         FirebaseApp.initializeApp(this)
 
         runBlocking {
-            val initializeUserUseCase = getKoin().get<InitializeUserUseCase>()
-            user = initializeUserUseCase()
+            val getReloadedUserSessionUseCase = getKoin().get<GetReloadedUserSessionUseCase>()
+            userSession = getReloadedUserSessionUseCase()
         }
     }
 }
