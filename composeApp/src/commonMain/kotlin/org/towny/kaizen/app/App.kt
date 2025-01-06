@@ -22,14 +22,14 @@ import org.towny.kaizen.ui.theme.AppTheme
 
 @Composable
 @Preview
-fun App(user: UserSession? = null) {
+fun App(userSession: UserSession? = null) {
     AppTheme {
         val navController = rememberNavController()
 
         CompositionLocalProvider(LocalNavController provides navController) {
             NavHost(
                 navController = navController,
-                startDestination = if (user == null) Route.AuthenticationGraph else Route.HomeGraph,
+                startDestination = if (userSession == null) Route.AuthenticationGraph else Route.HomeGraph,
             ) {
                 // AUTHENTICATION
                 navigation<Route.AuthenticationGraph>(

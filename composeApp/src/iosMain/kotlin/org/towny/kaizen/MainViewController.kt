@@ -6,18 +6,18 @@ import org.koin.mp.KoinPlatform
 import org.towny.kaizen.app.App
 import org.towny.kaizen.di.initKoin
 import org.towny.kaizen.domain.models.UserSession
-import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import org.towny.kaizen.domain.repository.AuthRepository
 
 fun MainViewController() = ComposeUIViewController(
     configure = {
         initKoin()
     }
 ) {
-    var user: UserSession?
+    var session: UserSession?
     runBlocking {
-        val initializeSessionUseCase = KoinPlatform.getKoin().get<GetReloadedUserSessionUseCase>()
-        user = initializeSessionUseCase()
+        val authRepository = KoinPlatform.getKoin().get<AuthRepository>()
+        session = authRepository.getUserSession()
     }
 
-    App(user = user)
+    App(userSession = session)
 }

@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         window.statusBarColor = Color.TRANSPARENT
 
         setContent {
-            App(user = (application as MainApplication).userSession)
+            App(userSession = (application as MainApplication).userSession)
         }
     }
 
