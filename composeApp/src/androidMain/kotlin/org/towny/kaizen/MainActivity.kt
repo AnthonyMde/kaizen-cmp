@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import org.towny.kaizen.app.App
+import org.towny.kaizen.domain.app.initializeUserSession
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
         window.statusBarColor = Color.TRANSPARENT
 
         setContent {
-            App(userSession = (application as MainApplication).userSession)
+            App(userSession = initializeUserSession())
         }
     }
 

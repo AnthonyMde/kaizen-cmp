@@ -53,7 +53,7 @@ class AuthRepositoryImpl(
         _watchUserSession.update { null }
     }
 
-    override suspend fun getUserSession(): UserSession? {
+    override fun getUserSession(): UserSession? {
         return _watchUserSession.value
     }
 

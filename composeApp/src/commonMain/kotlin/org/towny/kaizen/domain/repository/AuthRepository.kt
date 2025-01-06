@@ -8,7 +8,7 @@ interface AuthRepository {
     suspend fun signIn(email: String, password: String)
     suspend fun sendEmailVerification()
     suspend fun logout()
-    suspend fun getUserSession(): UserSession?
+    fun getUserSession(): UserSession?
     suspend fun reloadUserSession(): UserSession?
     val watchUserSession: StateFlow<UserSession?>
 }
