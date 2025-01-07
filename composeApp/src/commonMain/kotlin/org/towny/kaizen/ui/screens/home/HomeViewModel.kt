@@ -17,13 +17,11 @@ import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
-import org.towny.kaizen.domain.usecases.GetUserSessionUseCase
 
 class HomeViewModel(
     private val usersRepository: UsersRepository,
     private val authRepository: AuthRepository,
     private val challengesService: ChallengesService,
-    private val getUserSessionUseCase: GetUserSessionUseCase,
     private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase
 ) : ViewModel() {
     private val _homeScreenState = MutableStateFlow(HomeScreenState())

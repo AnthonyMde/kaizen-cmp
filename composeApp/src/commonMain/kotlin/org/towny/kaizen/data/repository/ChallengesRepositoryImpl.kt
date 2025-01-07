@@ -4,14 +4,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
-import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.ChallengesRepository
-import org.towny.kaizen.domain.usecases.GetUserSessionUseCase
 
 class ChallengesRepositoryImpl(
-    private val remoteFirestoreDataSource: RemoteFirestoreDataSource,
-    private val userSessionUseCase: GetUserSessionUseCase
+    private val remoteFirestoreDataSource: RemoteFirestoreDataSource
 ) : ChallengesRepository {
 
     override suspend fun toggleChallenge(
@@ -22,14 +19,10 @@ class ChallengesRepositoryImpl(
         remoteFirestoreDataSource.toggleChallenge(userId, challengeId, isChecked)
     }
 
-    override suspend fun create(name: String, numberOfErrors: Int): Flow<Resource<Unit>> {
+    override suspend fun create(userId: String, name: String, numberOfErrors: Int): Flow<Resource<Unit>> {
         return flow<Resource<Unit>> {
             emit(Resource.Loading())
 
-            val userId = userSessionUseCase.invoke() ?: run {
-                emit(Resource.Error(DomainException.User.NoUserSessionFound))
-                return@flow
-            }
             val request = CreateChallengeRequest(
                 userId = userId,
                 name = name,

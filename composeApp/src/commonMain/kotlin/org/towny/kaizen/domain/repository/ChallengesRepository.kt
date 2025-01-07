@@ -10,6 +10,7 @@ interface ChallengesRepository {
         isChecked: Boolean
     )
     suspend fun create(
+        userId: String,
         name: String,
         numberOfErrors: Int
     ): Flow<Resource<Unit>>

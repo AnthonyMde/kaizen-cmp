@@ -1,5 +1,6 @@
 package org.towny.kaizen.data.repository
 
+import dev.gitlive.firebase.FirebaseException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseAuthWeakPasswordException
 import dev.gitlive.firebase.auth.FirebaseUser
@@ -61,6 +62,7 @@ class AuthRepositoryImpl(
      * Throws a firebase exception while trying to invoke reload() if the
      * user session has been deleted from firebase auth console.
      */
+    @Throws(FirebaseException::class, IllegalStateException::class)
     override suspend fun reloadUserSession(): UserSession? {
         firebaseAuth.getUserSession()?.reload()
 
