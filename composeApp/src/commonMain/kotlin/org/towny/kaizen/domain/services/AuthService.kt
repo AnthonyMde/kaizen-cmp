@@ -19,7 +19,7 @@ class AuthService(
             val userSession = authRepository.getUserSession()
             if (userSession != null) {
                 authRepository.sendEmailVerification()
-                emit(Resource.Success(AuthSuccess(hasSendVerificationEmail = true)))
+                emit(Resource.Success(AuthSuccess(isSignUp = true)))
             } else {
                 emit(Resource.Error(DomainException.Auth.FailedToSendEmailVerification))
             }
@@ -42,7 +42,7 @@ class AuthService(
     ) {
         try {
             authRepository.signIn(email, password)
-            emit(Resource.Success())
+            emit(Resource.Success(AuthSuccess(isSignUp = false)))
         } catch (e: Exception) {
             emit(Resource.Error(e))
         }

@@ -84,14 +84,11 @@ class AuthViewModel(
                                             onSubmitLoading = false,
                                         )
                                     }
-                                    // TODO: check if user already configured his account
-                                    // If not: redirect to onboarding
-                                    // Maybe we should do also the check when launching app : checking if FirebaseAuth user has a displayName saved or not.
-                                    val hasConfiguredAccount = false
-                                    if (hasConfiguredAccount)
-                                        _navigationEvents.tryEmit(LoginNavigationEvent.GoToHomeScreen)
-                                    else
+
+                                    if (result.data?.isSignUp == true)
                                         _navigationEvents.tryEmit(LoginNavigationEvent.GoToOnboardingProfile)
+                                    else
+                                        _navigationEvents.tryEmit(LoginNavigationEvent.GoToHomeScreen)
                                 }
                             }
                         }

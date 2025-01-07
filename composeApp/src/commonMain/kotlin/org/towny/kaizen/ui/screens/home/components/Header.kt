@@ -15,15 +15,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kaizen.composeapp.generated.resources.Res
-import kaizen.composeapp.generated.resources.avatar_1_x3
 import org.jetbrains.compose.resources.painterResource
+import org.towny.kaizen.ui.resources.avatars
 import org.towny.kaizen.ui.screens.home.HomeAction
 import org.towny.kaizen.utils.DateUtils
 
 @Composable
 fun Header(
-    onAction: (HomeAction) -> Unit
+    onAction: (HomeAction) -> Unit,
+    profilePictureIndex: Int
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -38,7 +38,7 @@ fun Header(
         )
 
         Image(
-            painter = painterResource(Res.drawable.avatar_1_x3),
+            painter = painterResource(avatars[profilePictureIndex].drawable),
             contentDescription = "Go to your profile.",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier

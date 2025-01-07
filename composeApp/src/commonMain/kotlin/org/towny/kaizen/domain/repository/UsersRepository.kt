@@ -7,4 +7,5 @@ import org.towny.kaizen.domain.models.User
 interface UsersRepository {
     val watchAll: Flow<Resource<List<User>>>
     suspend fun createUser(user: User): Resource<Unit>
+    suspend fun getCurrentUser(): User?
 }

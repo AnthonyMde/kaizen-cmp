@@ -1,6 +1,7 @@
 package org.towny.kaizen.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -32,7 +34,7 @@ fun HomeScreenRoot(
 ) {
     LaunchedEffect(true) {
         homeViewModel.navigationEvents.collectLatest { event ->
-            when(event) {
+            when (event) {
                 HomeNavigationEvent.PopToLogin -> {
                     popToLogin()
                 }
@@ -44,7 +46,7 @@ fun HomeScreenRoot(
     HomeScreen(
         state = homeScreenState,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 HomeAction.OnAccountClicked -> goToAccount()
                 else -> homeViewModel.onAction(action)
             }
@@ -61,46 +63,54 @@ fun HomeScreen(
     onAction: (HomeAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp)
-            .padding(top = 24.dp),
-    ) {
-        Header(onAction = onAction)
-        if (state.userSession?.isEmailVerified == false) {
-            EmailConfirmationModal(onAction = onAction)
+    if (state.currentChallenger == null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
-        state.currentChallenger?.let {
+    } else {
+        Column(
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp)
+                .padding(top = 24.dp),
+        ) {
+            Header(onAction = onAction, state.currentChallenger.profilePictureIndex)
+            if (state.userSession?.isEmailVerified == false) {
+                EmailConfirmationModal(onAction = onAction)
+            }
             CurrentUserView(
-                user = it,
+                user = state.currentChallenger,
                 onAction = onAction,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
                     .align(Alignment.CenterHorizontally)
             )
-        }
-        HorizontalDivider(
-            Modifier.padding(top = 24.dp),
-            color = MaterialTheme.colorScheme.primary
-        )
+            HorizontalDivider(
+                Modifier.padding(top = 24.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
 
-        LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
-            items(state.otherChallengers) { challenger ->
-                ChallengerView(
-                    modifier = Modifier.padding(top = 16.dp),
-                    user = challenger,
-                    onToggleChallenge = { challengeId: String, isChecked: Boolean ->
-                        onAction(
-                            HomeAction.OnToggleChallenge(
-                                challenger.id,
-                                challengeId,
-                                isChecked
+            LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
+                items(state.otherChallengers) { challenger ->
+                    ChallengerView(
+                        modifier = Modifier.padding(top = 16.dp),
+                        user = challenger,
+                        onToggleChallenge = { challengeId: String, isChecked: Boolean ->
+                            onAction(
+                                HomeAction.OnToggleChallenge(
+                                    challenger.id,
+                                    challengeId,
+                                    isChecked
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
+                }
             }
         }
     }

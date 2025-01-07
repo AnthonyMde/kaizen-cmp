@@ -3,17 +3,20 @@ package org.towny.kaizen.data.repository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
+import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UsersRepositoryImpl(
-    private val remoteFirestoreDataSource: RemoteFirestoreDataSource
+    private val remoteFirestoreDataSource: RemoteFirestoreDataSource,
+    private val authRepository: AuthRepository
 ) : UsersRepository {
 
     override val watchAll: Flow<Resource<List<User>>> = remoteFirestoreDataSource.watchAllUsers()
@@ -29,6 +32,11 @@ class UsersRepositoryImpl(
                 Resource.Success(users.toList())
             }
         }
+
+    override suspend fun getCurrentUser(): User? {
+        val userId = authRepository.getUserSession()?.uid
+        return watchAll.firstOrNull()?.data?.firstOrNull { it.id == userId }
+    }
 
     override suspend fun createUser(user: User): Resource<Unit> {
         return remoteFirestoreDataSource.createUser(UserDTO.from(user))
