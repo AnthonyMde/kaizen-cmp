@@ -1,6 +1,7 @@
 package org.towny.kaizen.data.remote
 
 import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.firestore.DocumentReference
 import dev.gitlive.firebase.firestore.FieldValue
 import dev.gitlive.firebase.firestore.firestore
 import kotlinx.coroutines.flow.Flow
@@ -13,6 +14,7 @@ import org.towny.kaizen.domain.models.Resource
 
 class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     private val firestore = Firebase.firestore
+    private var currentUserDocumentReference: DocumentReference? = null
 
     companion object {
         private const val USER_COLLECTION = "users"
@@ -21,44 +23,36 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
 
     override fun watchAllUsers(): Flow<List<UserDTO>> = flow {
         try {
-            firestore
-                .collection(USER_COLLECTION)
-                .snapshots
-                .collect { querySnapshot ->
-                    val users = querySnapshot.documents.map { documentSnapshot ->
-                        documentSnapshot.data<UserDTO>()
-                    }
-                    emit(users)
+            firestore.collection(USER_COLLECTION).snapshots.collect { querySnapshot ->
+                val users = querySnapshot.documents.map { documentSnapshot ->
+                    documentSnapshot.data<UserDTO>()
                 }
+                emit(users)
+            }
         } catch (e: Exception) {
             println("Cannot watch users because $e")
             emit(emptyList())
         }
     }
 
-    override suspend fun createUser(userDTO: UserDTO): Resource<Unit> =
-        try {
-            firestore
-                .collection(USER_COLLECTION)
-                .add(
-                    mapOf(
-                        FirestoreUserKeys.ID to userDTO.id,
-                        FirestoreUserKeys.NAME to userDTO.name,
-                        FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
-                    )
-                )
+    override suspend fun createUser(userDTO: UserDTO): Resource<Unit> = try {
+        firestore.collection(USER_COLLECTION).add(
+            mapOf(
+                FirestoreUserKeys.ID to userDTO.id,
+                FirestoreUserKeys.NAME to userDTO.name,
+                FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
+            )
+        )
 
-            Resource.Success()
-        } catch (e: Exception) {
-            println("Cannot create user because $e")
-            throw e
-        }
+        Resource.Success()
+    } catch (e: Exception) {
+        println("Cannot create user because $e")
+        throw e
+    }
 
     override fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>> = flow {
         try {
-            firestore
-                .collection(USER_COLLECTION)
-                .document(userId)
+            getCurrentUserDocReference(userId)
                 .collection(CHALLENGE_COLLECTION)
                 .snapshots
                 .collect { querySnapshot ->
@@ -79,9 +73,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         isChecked: Boolean
     ) {
         try {
-            firestore
-                .collection(USER_COLLECTION)
-                .document(userId)
+            getCurrentUserDocReference(userId)
                 .collection(CHALLENGE_COLLECTION)
                 .document(challengeId)
                 .update(mapOf(FirestoreChallengeKeys.IS_COMPLETED to isChecked))
@@ -93,16 +85,11 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
 
     override suspend fun getUserBy(id: String): UserDTO? {
         return try {
-            firestore
-                .collection(USER_COLLECTION)
-                .get()
-                .documents
-                .map { documentSnapshot ->
-                    documentSnapshot.data<UserDTO>()
-                }
-                .firstOrNull { user ->
-                    user.id == id
-                }
+            firestore.collection(USER_COLLECTION).get().documents.map { documentSnapshot ->
+                documentSnapshot.data<UserDTO>()
+            }.firstOrNull { user ->
+                user.id == id
+            }
         } catch (e: Exception) {
             println("Cannot get user by name because $e")
             throw e
@@ -111,10 +98,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
 
     override suspend fun createChallenge(request: CreateChallengeRequest) {
         try {
-            val docRef = firestore
-
-                .collection(USER_COLLECTION)
-                .document(request.userId)
+            val docRef = getCurrentUserDocReference(request.userId)
                 .collection(CHALLENGE_COLLECTION)
                 .add(
                     mapOf(
@@ -125,11 +109,25 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
                         FirestoreChallengeKeys.MAX_FAILURES to request.maxFailures
                     )
                 )
-
             docRef.update(mapOf(FirestoreChallengeKeys.ID to docRef.id))
         } catch (e: Exception) {
             println("Cannot create challenge because $e")
             throw e
+        }
+    }
+
+    private suspend fun getCurrentUserDocReference(
+        userId: String,
+        refresh: Boolean = false
+    ): DocumentReference {
+        val ref = currentUserDocumentReference
+        return if (ref != null && !refresh) {
+            ref
+        } else {
+            val updatedRef = firestore.collection(USER_COLLECTION).where { "id" equalTo userId }
+                .get().documents.first().reference
+            currentUserDocumentReference = updatedRef
+            updatedRef
         }
     }
 }
