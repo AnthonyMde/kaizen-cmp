@@ -16,6 +16,7 @@ fun HomeScreenPreview() {
             currentChallenger = User(
                 id = "1",
                 name = "Towny",
+                profilePictureIndex = 0,
                 challenges = listOf(
                     Challenge(
                         id= "1",
@@ -39,6 +40,7 @@ fun HomeScreenPreview() {
                 User(
                     id = "2",
                     name = "Clowie",
+                    profilePictureIndex = 1,
                     challenges = listOf(
                         Challenge(
                             id= "1",
@@ -61,6 +63,7 @@ fun HomeScreenPreview() {
                 User(
                     id = "3",
                     name = "Jacques",
+                    profilePictureIndex = 2,
                     challenges = listOf(
                         Challenge(
                             id= "1",

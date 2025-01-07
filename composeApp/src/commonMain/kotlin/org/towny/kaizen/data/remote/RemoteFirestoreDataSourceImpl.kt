@@ -9,6 +9,7 @@ import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
+import org.towny.kaizen.domain.models.Resource
 
 class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     private val firestore = Firebase.firestore
@@ -19,29 +20,57 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     }
 
     override fun watchAllUsers(): Flow<List<UserDTO>> = flow {
-        firestore
-            .collection(USER_COLLECTION)
-            .snapshots
-            .collect { querySnapshot ->
-                val users = querySnapshot.documents.map { documentSnapshot ->
-                    documentSnapshot.data<UserDTO>()
+        try {
+            firestore
+                .collection(USER_COLLECTION)
+                .snapshots
+                .collect { querySnapshot ->
+                    val users = querySnapshot.documents.map { documentSnapshot ->
+                        documentSnapshot.data<UserDTO>()
+                    }
+                    emit(users)
                 }
-                emit(users)
-            }
+        } catch (e: Exception) {
+            println("Cannot watch users because $e")
+            emit(emptyList())
+        }
     }
 
+    override suspend fun createUser(userDTO: UserDTO): Resource<Unit> =
+        try {
+            firestore
+                .collection(USER_COLLECTION)
+                .add(
+                    mapOf(
+                        FirestoreUserKeys.ID to userDTO.id,
+                        FirestoreUserKeys.NAME to userDTO.name,
+                        FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
+                    )
+                )
+
+            Resource.Success()
+        } catch (e: Exception) {
+            println("Cannot create user because $e")
+            throw e
+        }
+
     override fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>> = flow {
-        firestore
-            .collection(USER_COLLECTION)
-            .document(userId)
-            .collection(CHALLENGE_COLLECTION)
-            .snapshots
-            .collect { querySnapshot ->
-                val challenges = querySnapshot.documents.map { documentSnapshot ->
-                    documentSnapshot.data<ChallengeDTO>()
+        try {
+            firestore
+                .collection(USER_COLLECTION)
+                .document(userId)
+                .collection(CHALLENGE_COLLECTION)
+                .snapshots
+                .collect { querySnapshot ->
+                    val challenges = querySnapshot.documents.map { documentSnapshot ->
+                        documentSnapshot.data<ChallengeDTO>()
+                    }
+                    emit(challenges)
                 }
-                emit(challenges)
-            }
+        } catch (e: Exception) {
+            println("Cannot watch challenges because $e")
+            emit(emptyList())
+        }
     }
 
     override suspend fun toggleChallenge(
@@ -49,15 +78,20 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         challengeId: String,
         isChecked: Boolean
     ) {
-        firestore
-            .collection(USER_COLLECTION)
-            .document(userId)
-            .collection(CHALLENGE_COLLECTION)
-            .document(challengeId)
-            .update(mapOf(FirestoreChallengeKeys.IS_COMPLETED to isChecked))
+        try {
+            firestore
+                .collection(USER_COLLECTION)
+                .document(userId)
+                .collection(CHALLENGE_COLLECTION)
+                .document(challengeId)
+                .update(mapOf(FirestoreChallengeKeys.IS_COMPLETED to isChecked))
+        } catch (e: Exception) {
+            println("Cannot toggle challenge's state because $e")
+            throw e
+        }
     }
 
-    override suspend fun getUserBy(name: String): UserDTO? {
+    override suspend fun getUserBy(id: String): UserDTO? {
         return try {
             firestore
                 .collection(USER_COLLECTION)
@@ -67,28 +101,35 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
                     documentSnapshot.data<UserDTO>()
                 }
                 .firstOrNull { user ->
-                    user.name == name
+                    user.id == id
                 }
         } catch (e: Exception) {
+            println("Cannot get user by name because $e")
             throw e
         }
     }
 
     override suspend fun createChallenge(request: CreateChallengeRequest) {
-        val docRef = firestore
-            .collection(USER_COLLECTION)
-            .document(request.userId)
-            .collection(CHALLENGE_COLLECTION)
-            .add(
-                mapOf(
-                    FirestoreChallengeKeys.NAME to request.name,
-                    FirestoreChallengeKeys.CREATED_AT to FieldValue.serverTimestamp,
-                    FirestoreChallengeKeys.IS_COMPLETED to false,
-                    FirestoreChallengeKeys.FAILURES to 0,
-                    FirestoreChallengeKeys.MAX_FAILURES to request.maxFailures
-                )
-            )
+        try {
+            val docRef = firestore
 
-        docRef.update(mapOf(FirestoreChallengeKeys.ID to docRef.id))
+                .collection(USER_COLLECTION)
+                .document(request.userId)
+                .collection(CHALLENGE_COLLECTION)
+                .add(
+                    mapOf(
+                        FirestoreChallengeKeys.NAME to request.name,
+                        FirestoreChallengeKeys.CREATED_AT to FieldValue.serverTimestamp,
+                        FirestoreChallengeKeys.IS_COMPLETED to false,
+                        FirestoreChallengeKeys.FAILURES to 0,
+                        FirestoreChallengeKeys.MAX_FAILURES to request.maxFailures
+                    )
+                )
+
+            docRef.update(mapOf(FirestoreChallengeKeys.ID to docRef.id))
+        } catch (e: Exception) {
+            println("Cannot create challenge because $e")
+            throw e
+        }
     }
 }

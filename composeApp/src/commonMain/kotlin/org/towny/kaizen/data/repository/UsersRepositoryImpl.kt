@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.sources.LocalPreferencesDataSource
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 import org.towny.kaizen.domain.models.Resource
@@ -31,6 +32,10 @@ class UsersRepositoryImpl(
                 Resource.Success(users.toList())
             }
         }
+
+    override suspend fun createUser(user: User): Resource<Unit> {
+        return remoteFirestoreDataSource.createUser(UserDTO.from(user))
+    }
 
     override fun getSavedUserSession(): Flow<Resource<String?>> {
         return localPreferencesDataSource.getSavedUsername().map { name ->

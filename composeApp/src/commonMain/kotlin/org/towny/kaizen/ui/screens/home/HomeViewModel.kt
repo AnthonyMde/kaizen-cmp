@@ -96,16 +96,17 @@ class HomeViewModel(
                         }
 
                         is Resource.Success -> {
-                            val userId = result.data!!.first().id
+                            val users = result.data ?: emptyList()
+                            val currentUserId = authRepository.getUserSession()?.uid
                             _homeScreenState.update {
                                 it.copy(
                                     currentChallenger = filterCurrentChallenger(
-                                        userId,
-                                        result.data ?: emptyList()
+                                        currentUserId,
+                                        users
                                     ),
                                     otherChallengers = filterOtherChallengers(
-                                        userId,
-                                        result.data ?: emptyList()
+                                        currentUserId,
+                                        users
                                     ),
                                     error = null,
                                     isLoading = false
@@ -117,11 +118,11 @@ class HomeViewModel(
         }
     }
 
-    private fun filterCurrentChallenger(userId: String, users: List<User>): User? {
+    private fun filterCurrentChallenger(userId: String?, users: List<User>): User? {
         return users.firstOrNull { it.id == userId }
     }
 
-    private fun filterOtherChallengers(userId: String, users: List<User>): List<User> {
+    private fun filterOtherChallengers(userId: String?, users: List<User>): List<User> {
         return users.filter { it.id != userId }
     }
 }
