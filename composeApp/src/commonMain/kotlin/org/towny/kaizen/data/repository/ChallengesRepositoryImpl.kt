@@ -28,8 +28,8 @@ class ChallengesRepositoryImpl(
                 name = name,
                 maxFailures = numberOfErrors
             )
-
             remoteFirestoreDataSource.createChallenge(request)
+
             emit(Resource.Success())
         }.catch { e ->
             emit(Resource.Error(e))
