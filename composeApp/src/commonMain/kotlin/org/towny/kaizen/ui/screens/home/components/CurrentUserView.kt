@@ -46,7 +46,7 @@ fun CurrentUserView(
             )
             Column(modifier = Modifier.padding(top = 12.dp)) {
                 if (user.challenges.isEmpty()) {
-                    CurrentUserEmptyChallengeView(
+                    CurrentUserEmptyChallengesView(
                         onAction = onAction
                     )
                 }
@@ -65,7 +65,7 @@ fun CurrentUserView(
 }
 
 @Composable
-fun CurrentUserEmptyChallengeView(
+fun CurrentUserEmptyChallengesView(
     modifier: Modifier = Modifier,
     onAction: (action: HomeAction) -> Unit
 ) {

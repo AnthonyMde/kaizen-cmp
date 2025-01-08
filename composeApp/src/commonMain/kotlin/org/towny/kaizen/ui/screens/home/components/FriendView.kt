@@ -1,15 +1,20 @@
 package org.towny.kaizen.ui.screens.home.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.towny.kaizen.domain.models.User
@@ -34,10 +39,44 @@ fun FriendView(
             color = MaterialTheme.colorScheme.onSurface
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
+            if (user.challenges.isEmpty()) {
+                FriendViewEmptyChallengesView(user.name)
+            }
             user.challenges.forEach { challenge ->
                 ChallengeView(
                     challenge = challenge,
                     onToggleChallenge = onToggleChallenge,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun FriendViewEmptyChallengesView(
+    friendName: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.surfaceContainer)
+                .padding(16.dp)
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "$friendName does not have any challenges yet",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
