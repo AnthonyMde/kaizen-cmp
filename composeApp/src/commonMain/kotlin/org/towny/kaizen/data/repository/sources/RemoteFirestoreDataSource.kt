@@ -18,7 +18,5 @@ interface RemoteFirestoreDataSource {
         isChecked: Boolean
     )
 
-    suspend fun getUserBy(id: String): UserDTO?
-
     suspend fun createChallenge(request: CreateChallengeRequest)
 }

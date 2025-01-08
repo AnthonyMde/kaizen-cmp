@@ -99,19 +99,6 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         }
     }
 
-    override suspend fun getUserBy(id: String): UserDTO? {
-        return try {
-            firestore.collection(USER_COLLECTION).get().documents.map { documentSnapshot ->
-                documentSnapshot.data<UserDTO>()
-            }.firstOrNull { user ->
-                user.id == id
-            }
-        } catch (e: Exception) {
-            println("DEBUG: (firestore) Cannot get user by name because $e")
-            throw e
-        }
-    }
-
     override suspend fun createChallenge(request: CreateChallengeRequest) {
         try {
             val docRef = getCurrentUserDocReference(request.userId)
