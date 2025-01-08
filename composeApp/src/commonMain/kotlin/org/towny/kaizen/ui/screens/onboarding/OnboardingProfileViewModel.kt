@@ -64,12 +64,11 @@ class OnboardingProfileViewModel(
         when (val result = createUserUseCase(params)) {
             is Resource.Error -> {
                 val errorMessage = when (result.throwable) {
-                    is DomainException.Auth.UsernameCannotBeVerified ->
-                        "Sorry, we cannot verify your username by now, retry later."
-
+                    is DomainException.Auth.UsernameCannotBeVerified -> "Sorry, we cannot verify your username by now, retry later."
+                    is DomainException.Auth.UsernameAlreadyUsed -> "This username is already used."
                     else -> result.throwable?.message
                 }
-                _state.update { it.copy(formSubmissionError = errorMessage) }
+                _state.update { it.copy(usernameInputError = errorMessage) }
             }
 
             is Resource.Success -> {
@@ -83,14 +82,12 @@ class OnboardingProfileViewModel(
     }
 
     private fun requiredField(username: String): Boolean {
-        if (username.isBlank()) {
-            _state.update {
-                it.copy(
-                    usernameInputError = "Username should not be empty."
-                )
-            }
+        val error = when {
+            username.isBlank() -> "Username should not be empty."
+            username.length < 2 -> "Username should at least be 2 characters long."
+            else -> null
         }
-
-        return username.isNotBlank()
+        _state.update { it.copy(usernameInputError = error) }
+        return error == null
     }
 }

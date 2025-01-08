@@ -3,6 +3,7 @@ package org.towny.kaizen.ui.screens.onboarding
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -37,7 +39,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -79,6 +84,7 @@ fun OnboardingProfileScreen(
     onAction: (OnBoardingProfileAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     val avatars: List<Avatar> = remember { avatars }
 
     Column(
@@ -86,8 +92,17 @@ fun OnboardingProfileScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
             .systemBarsPadding()
-            .padding(24.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        focusManager.clearFocus()
+                    }
+                )
+            }
+            .padding(horizontal = 24.dp)
+            .imePadding()
     ) {
+        Spacer(modifier = Modifier.height(24.dp))
         Image(
             painter = painterResource(avatars[state.avatarSelectedIndex].drawable),
             contentDescription = avatars[state.avatarSelectedIndex].description,
@@ -142,7 +157,7 @@ fun OnboardingProfileScreen(
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    onAction(OnBoardingProfileAction.OnSubmitProfile)
+                    submit(keyboard, onAction)
                 }
             ),
             modifier = Modifier
@@ -210,14 +225,22 @@ fun OnboardingProfileScreen(
 
         LoadingButton(
             onClick = {
-                keyboard?.hide()
-                onAction(OnBoardingProfileAction.OnSubmitProfile)
+                submit(keyboard, onAction)
             },
             enabled = !state.isFormSubmissionLoading,
             isLoading = state.isFormSubmissionLoading,
             label = "Create",
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(bottom = 24.dp)
         )
     }
+}
+
+private fun submit(
+    keyboard: SoftwareKeyboardController?,
+    onAction: (OnBoardingProfileAction) -> Unit
+) {
+    keyboard?.hide()
+    onAction(OnBoardingProfileAction.OnSubmitProfile)
 }

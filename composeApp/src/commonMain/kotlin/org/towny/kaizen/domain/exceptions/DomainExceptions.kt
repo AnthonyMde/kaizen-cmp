@@ -9,6 +9,7 @@ sealed class DomainException(message: String = "") : Exception(message) {
         data object EmailAddressAlreadyUsed: Auth()
         data object FailedToSendEmailVerification : Auth()
         data object UsernameCannotBeVerified : Auth()
+        data object UsernameAlreadyUsed: Auth()
     }
 
     sealed class User : DomainException() {

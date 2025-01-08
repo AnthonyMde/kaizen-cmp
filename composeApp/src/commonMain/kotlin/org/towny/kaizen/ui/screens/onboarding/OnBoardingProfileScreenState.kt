@@ -8,5 +8,4 @@ data class OnBoardingProfileScreenState(
     val usernameInputValue: String = "",
     val usernameInputError: String? = null,
     val isFormSubmissionLoading: Boolean = false,
-    val formSubmissionError: String? = null
 )

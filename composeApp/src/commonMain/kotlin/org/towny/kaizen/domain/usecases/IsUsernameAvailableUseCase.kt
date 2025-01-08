@@ -11,11 +11,11 @@ class IsUsernameAvailableUseCase(
         val isAvailableResult = usersRepository.isUsernameAvailable(username)
 
         if (isAvailableResult is Resource.Error) {
-            return Resource.Error(isAvailableResult.throwable)
+            return Resource.Error(DomainException.Auth.UsernameCannotBeVerified)
         }
 
         return if (isAvailableResult is Resource.Success && isAvailableResult.data != true) {
-            Resource.Error(DomainException.Auth.UsernameCannotBeVerified)
+            Resource.Error(DomainException.Auth.UsernameAlreadyUsed)
         } else {
             Resource.Success()
         }
