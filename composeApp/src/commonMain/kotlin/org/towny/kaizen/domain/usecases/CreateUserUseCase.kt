@@ -22,6 +22,7 @@ class CreateUserUseCase(
         return usersRepository.createUser(
             User(
                 id = session.uid,
+                email = session.email,
                 name = params.username,
                 profilePictureIndex = params.pictureProfileIndex,
                 challenges = emptyList()

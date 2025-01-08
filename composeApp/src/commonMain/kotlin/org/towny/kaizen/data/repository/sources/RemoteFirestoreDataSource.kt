@@ -9,7 +9,7 @@ import org.towny.kaizen.domain.models.Resource
 interface RemoteFirestoreDataSource {
     fun watchCurrentUser(userId: String): Flow<UserDTO?>
     fun watchOtherUsers(userId: String): Flow<List<UserDTO>>
-    suspend fun createUser(userDTO: UserDTO): Resource<Unit>
+    suspend fun createUser(userDTO: UserDTO)
     suspend fun findUserByName(username: String): UserDTO?
 
     fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>>

@@ -56,8 +56,11 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         }
         .firstOrNull()
 
-    override suspend fun createUser(userDTO: UserDTO): Resource<Unit> = try {
-        firestore.collection(USER_COLLECTION).add(
+    override suspend fun createUser(userDTO: UserDTO) {
+        firestore
+            .collection(USER_COLLECTION)
+            .document(userDTO.id)
+            .set(
             mapOf(
                 FirestoreUserKeys.ID to userDTO.id,
                 FirestoreUserKeys.EMAIL to userDTO.email,
@@ -65,15 +68,10 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
                 FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
             )
         )
-
-        Resource.Success()
-    } catch (e: Exception) {
-        println("DEBUG: (firestore) Cannot create user because $e")
-        throw e
     }
 
     override fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>> = flow {
-        getCurrentUserDocReference(userId)
+        getUserDocumentRef(userId)
             .collection(CHALLENGE_COLLECTION)
             .snapshots
             .catch { e ->
@@ -94,7 +92,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         isChecked: Boolean
     ) {
         try {
-            getCurrentUserDocReference(userId)
+            getUserDocumentRef(userId)
                 .collection(CHALLENGE_COLLECTION)
                 .document(challengeId)
                 .update(mapOf(FirestoreChallengeKeys.IS_COMPLETED to isChecked))
@@ -106,7 +104,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
 
     override suspend fun createChallenge(request: CreateChallengeRequest) {
         try {
-            val docRef = getCurrentUserDocReference(request.userId)
+            val docRef = getUserDocumentRef(request.userId)
                 .collection(CHALLENGE_COLLECTION)
                 .add(
                     mapOf(
@@ -124,7 +122,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         }
     }
 
-    private suspend fun getCurrentUserDocReference(userId: String): DocumentReference = firestore
+    private suspend fun getUserDocumentRef(userId: String): DocumentReference = firestore
         .collection(USER_COLLECTION)
         .where { FirestoreUserKeys.ID equalTo userId }
         .get()

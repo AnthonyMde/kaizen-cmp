@@ -7,12 +7,14 @@ import org.towny.kaizen.domain.models.User
 @Serializable
 data class UserDTO(
     val id: String,
+    val email: String,
     val name: String,
     val profilePictureIndex: Int
 ) {
     companion object {
         fun from(user: User) = UserDTO(
             id = user.id,
+            email = user.email,
             name = user.name,
             profilePictureIndex = user.profilePictureIndex
         )
@@ -20,6 +22,7 @@ data class UserDTO(
 
     fun toUser(challenges: List<Challenge> = emptyList()) = User(
         id = id,
+        email = email,
         name = name,
         profilePictureIndex = profilePictureIndex,
         challenges = challenges

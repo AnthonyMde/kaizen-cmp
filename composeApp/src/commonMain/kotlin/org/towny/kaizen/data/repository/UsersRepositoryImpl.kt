@@ -86,8 +86,11 @@ class UsersRepositoryImpl(
         return watchMe().firstOrNull()?.data
     }
 
-    override suspend fun createUser(user: User): Resource<Unit> {
-        return remoteFirestoreDataSource.createUser(UserDTO.from(user))
+    override suspend fun createUser(user: User): Resource<Unit> = try {
+        remoteFirestoreDataSource.createUser(UserDTO.from(user))
+        Resource.Success()
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {

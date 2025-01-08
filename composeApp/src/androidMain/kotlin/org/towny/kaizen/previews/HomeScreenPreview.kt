@@ -15,6 +15,7 @@ fun HomeScreenPreview() {
         state = HomeScreenState(
             currentChallenger = User(
                 id = "1",
+                email = "email@tony.com",
                 name = "Towny",
                 profilePictureIndex = 0,
                 challenges = listOf(
@@ -39,6 +40,7 @@ fun HomeScreenPreview() {
             friends = listOf(
                 User(
                     id = "2",
+                    email = "email@clowie.com",
                     name = "Clowie",
                     profilePictureIndex = 1,
                     challenges = listOf(
@@ -62,6 +64,7 @@ fun HomeScreenPreview() {
                 ),
                 User(
                     id = "3",
+                    email = "email@jackie.com",
                     name = "Jacques",
                     profilePictureIndex = 2,
                     challenges = listOf(
