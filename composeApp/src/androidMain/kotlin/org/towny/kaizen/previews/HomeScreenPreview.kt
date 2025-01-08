@@ -36,7 +36,7 @@ fun HomeScreenPreview() {
                     )
                 )
             ),
-            otherChallengers = listOf(
+            friends = listOf(
                 User(
                     id = "2",
                     name = "Clowie",

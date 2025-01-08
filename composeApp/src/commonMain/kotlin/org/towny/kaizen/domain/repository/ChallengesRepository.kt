@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import org.towny.kaizen.domain.models.Resource
 
 interface ChallengesRepository {
-    suspend fun toggleChallenge(
+    suspend fun toggleStatus(
         userId: String,
         challengeId: String,
         isChecked: Boolean

@@ -11,7 +11,7 @@ class ChallengesRepositoryImpl(
     private val remoteFirestoreDataSource: RemoteFirestoreDataSource
 ) : ChallengesRepository {
 
-    override suspend fun toggleChallenge(
+    override suspend fun toggleStatus(
         userId: String,
         challengeId: String,
         isChecked: Boolean
@@ -19,20 +19,22 @@ class ChallengesRepositoryImpl(
         remoteFirestoreDataSource.toggleChallenge(userId, challengeId, isChecked)
     }
 
-    override suspend fun create(userId: String, name: String, numberOfErrors: Int): Flow<Resource<Unit>> {
-        return flow<Resource<Unit>> {
-            emit(Resource.Loading())
+    override suspend fun create(
+        userId: String,
+        name: String,
+        numberOfErrors: Int
+    ): Flow<Resource<Unit>> = flow<Resource<Unit>> {
+        emit(Resource.Loading())
 
-            val request = CreateChallengeRequest(
-                userId = userId,
-                name = name,
-                maxFailures = numberOfErrors
-            )
-            remoteFirestoreDataSource.createChallenge(request)
+        val request = CreateChallengeRequest(
+            userId = userId,
+            name = name,
+            maxFailures = numberOfErrors
+        )
+        remoteFirestoreDataSource.createChallenge(request)
 
-            emit(Resource.Success())
-        }.catch { e ->
-            emit(Resource.Error(e))
-        }
+        emit(Resource.Success())
+    }.catch { e ->
+        emit(Resource.Error(e))
     }
 }

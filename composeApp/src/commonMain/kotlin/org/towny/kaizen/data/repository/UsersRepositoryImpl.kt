@@ -2,6 +2,7 @@ package org.towny.kaizen.data.repository
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
@@ -19,23 +20,50 @@ class UsersRepositoryImpl(
     private val authRepository: AuthRepository
 ) : UsersRepository {
 
-    override val watchAll: Flow<Resource<List<User>>> = remoteFirestoreDataSource.watchAllUsers()
-        .flatMapLatest { userDTOs ->
-            combine(
-                userDTOs.map { userDTO ->
-                    remoteFirestoreDataSource.watchAllChallenges(userDTO.id).map { challengeDTOs ->
+    private var currentUser: User? = null
+
+    override fun watchMe(): Flow<Resource<User?>> {
+        return remoteFirestoreDataSource
+            .watchCurrentUser(authRepository.getUserSession()!!.uid)
+            .flatMapLatest { userDTO ->
+                remoteFirestoreDataSource.watchAllChallenges(authRepository.getUserSession()!!.uid)
+                    .map { challengeDTOs ->
                         val challenges = challengeDTOs.map { it.toChallenge() }
-                        userDTO.toUser(challenges = challenges)
+                        userDTO?.toUser(challenges = challenges)
                     }
-                })
-            { users ->
-                Resource.Success(users.toList())
+            }.catch { e ->
+                Resource.Error<Resource<User?>>(e)
+            }.map { user ->
+                currentUser = user
+                Resource.Success(user)
             }
-        }
+    }
+
+    override fun watchFriends(): Flow<Resource<List<User>>> {
+        return remoteFirestoreDataSource
+            .watchOtherUsers(authRepository.getUserSession()!!.uid)
+            .flatMapLatest { userDTOs ->
+                combine(
+                    userDTOs.map { userDTO ->
+                        remoteFirestoreDataSource.watchAllChallenges(userDTO.id)
+                            .map { challengeDTOs ->
+                                val challenges = challengeDTOs.map { it.toChallenge() }
+                                userDTO.toUser(challenges = challenges)
+                            }
+                    })
+                { userArray ->
+                    Resource.Success(userArray.toList())
+                }
+            }.catch { e ->
+                Resource.Error<Resource<List<User>>>(e)
+            }
+    }
 
     override suspend fun getCurrentUser(): User? {
-        val userId = authRepository.getUserSession()?.uid
-        return watchAll.firstOrNull()?.data?.firstOrNull { it.id == userId }
+        if (currentUser != null) {
+            return currentUser
+        }
+        return watchMe().firstOrNull()?.data
     }
 
     override suspend fun createUser(user: User): Resource<Unit> {

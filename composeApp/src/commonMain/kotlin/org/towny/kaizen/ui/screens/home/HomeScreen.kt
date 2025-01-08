@@ -66,7 +66,8 @@ fun HomeScreen(
     if (state.currentChallenger == null) {
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
@@ -78,10 +79,13 @@ fun HomeScreen(
                 .padding(horizontal = 24.dp)
                 .padding(top = 24.dp),
         ) {
-            Header(onAction = onAction, state.currentChallenger.profilePictureIndex)
             if (state.userSession?.isEmailVerified == false) {
                 EmailConfirmationModal(onAction = onAction)
             }
+            Header(
+                onAction = onAction,
+                profilePictureIndex = state.currentChallenger.profilePictureIndex
+            )
             CurrentUserView(
                 user = state.currentChallenger,
                 onAction = onAction,
@@ -96,7 +100,7 @@ fun HomeScreen(
             )
 
             LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
-                items(state.otherChallengers) { challenger ->
+                items(state.friends) { challenger ->
                     ChallengerView(
                         modifier = Modifier.padding(top = 16.dp),
                         user = challenger,

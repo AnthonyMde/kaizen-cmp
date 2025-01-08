@@ -22,7 +22,7 @@ class ChallengesService(
         if (userSession == null || userId != userSession.uid) {
             return
         } else {
-            challengesRepository.toggleChallenge(userId, challengeId, isChecked)
+            challengesRepository.toggleStatus(userId, challengeId, isChecked)
         }
     }
 

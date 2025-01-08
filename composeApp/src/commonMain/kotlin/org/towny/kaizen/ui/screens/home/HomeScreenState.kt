@@ -4,9 +4,13 @@ import org.towny.kaizen.domain.models.User
 import org.towny.kaizen.domain.models.UserSession
 
 data class HomeScreenState(
-    val isLoading: Boolean = false,
+    val userSession: UserSession? = null,
+
     val currentChallenger: User? = null,
-    val otherChallengers: List<User> = emptyList(),
-    val error: String? = null,
-    val userSession: UserSession? = null
+    val isCurrentChallengerLoading: Boolean = false,
+    val currentChallengerError: String? = null,
+
+    val friends: List<User> = emptyList(),
+    val isFriendsLoading: Boolean = false,
+    val friendsError: String? = null,
 )
