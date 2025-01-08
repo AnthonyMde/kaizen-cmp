@@ -7,11 +7,17 @@ import org.towny.kaizen.domain.repository.UsersRepository
 
 class CreateUserUseCase(
     private val usersRepository: UsersRepository,
-    private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase
+    private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase,
+    private val isUsernameAvailableUseCase: IsUsernameAvailableUseCase
 ) {
     suspend operator fun invoke(params: CreateUserParams): Resource<Unit> {
         val session = getReloadedUserSessionUseCase()
             ?: return Resource.Error(DomainException.User.NoUserSessionFound)
+
+        val isAvailableResult = isUsernameAvailableUseCase(params.username)
+        if (isAvailableResult is Resource.Error) {
+            return Resource.Error(isAvailableResult.throwable)
+        }
 
         return usersRepository.createUser(
             User(
@@ -25,6 +31,5 @@ class CreateUserUseCase(
 }
 
 data class CreateUserParams(
-    val username: String,
-    val pictureProfileIndex: Int
+    val username: String, val pictureProfileIndex: Int
 )

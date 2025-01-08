@@ -6,7 +6,9 @@ sealed class DomainException(message: String = "") : Exception(message) {
         data object PasswordIsEmpty : Auth()
         data object WeakPassword : Auth()
         data object InvalidCredentials : Auth()
+        data object EmailAddressAlreadyUsed: Auth()
         data object FailedToSendEmailVerification : Auth()
+        data object UsernameCannotBeVerified : Auth()
     }
 
     sealed class User : DomainException() {

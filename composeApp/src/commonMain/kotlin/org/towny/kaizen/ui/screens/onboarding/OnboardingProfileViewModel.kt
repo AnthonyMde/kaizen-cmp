@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.usecases.CreateUserParams
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
@@ -62,11 +63,19 @@ class OnboardingProfileViewModel(
 
         when (val result = createUserUseCase(params)) {
             is Resource.Error -> {
-                _state.update { it.copy(formSubmissionError = result.throwable?.message) }
+                val errorMessage = when (result.throwable) {
+                    is DomainException.Auth.UsernameCannotBeVerified ->
+                        "Sorry, we cannot verify your username by now, retry later."
+
+                    else -> result.throwable?.message
+                }
+                _state.update { it.copy(formSubmissionError = errorMessage) }
             }
+
             is Resource.Success -> {
                 _navigationEvents.tryEmit(OnBoardingProfileNavigationEvent.GoToHomeScreen)
             }
+
             else -> {}
         }
 

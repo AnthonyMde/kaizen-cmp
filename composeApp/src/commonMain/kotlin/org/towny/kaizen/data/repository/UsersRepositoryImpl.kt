@@ -25,8 +25,11 @@ class UsersRepositoryImpl(
     private var currentUser: User? = null
 
     override fun watchMe(): Flow<Resource<User?>> {
-        val userId = authRepository.getUserSession()?.uid ?:
-        return flowOf(Resource.Error(DomainException.User.NoUserSessionFound))
+        val userId = authRepository.getUserSession()?.uid ?: return flowOf(
+            Resource.Error(
+                DomainException.User.NoUserSessionFound
+            )
+        )
 
         return remoteFirestoreDataSource
             .watchCurrentUser(userId)
@@ -45,8 +48,11 @@ class UsersRepositoryImpl(
     }
 
     override fun watchFriends(): Flow<Resource<List<User>>> {
-        val userId = authRepository.getUserSession()?.uid ?:
-        return flowOf(Resource.Error(DomainException.User.NoUserSessionFound))
+        val userId = authRepository.getUserSession()?.uid ?: return flowOf(
+            Resource.Error(
+                DomainException.User.NoUserSessionFound
+            )
+        )
 
         return remoteFirestoreDataSource
             .watchOtherUsers(userId)
@@ -76,5 +82,14 @@ class UsersRepositoryImpl(
 
     override suspend fun createUser(user: User): Resource<Unit> {
         return remoteFirestoreDataSource.createUser(UserDTO.from(user))
+    }
+
+    override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {
+        return try {
+            val isAvailable = remoteFirestoreDataSource.findUserByName(username) == null
+            Resource.Success(isAvailable)
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
     }
 }

@@ -52,6 +52,16 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
             users
         }
 
+    override suspend fun findUserByName(username: String): UserDTO? = firestore
+        .collection(USER_COLLECTION)
+        .where { FirestoreUserKeys.NAME equalTo username }
+        .get()
+        .documents
+        .map { documentSnapshot ->
+            documentSnapshot.data<UserDTO>()
+        }
+        .firstOrNull()
+
     override suspend fun createUser(userDTO: UserDTO): Resource<Unit> = try {
         firestore.collection(USER_COLLECTION).add(
             mapOf(
@@ -83,7 +93,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
             }
     }
 
-    override suspend fun toggleChallenge(
+    override suspend fun toggleChallengeStatus(
         userId: String,
         challengeId: String,
         isChecked: Boolean

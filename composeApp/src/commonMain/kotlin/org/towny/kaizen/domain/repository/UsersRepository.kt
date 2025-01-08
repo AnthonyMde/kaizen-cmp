@@ -9,4 +9,5 @@ interface UsersRepository {
     fun watchFriends(): Flow<Resource<List<User>>>
     suspend fun createUser(user: User): Resource<Unit>
     suspend fun getCurrentUser(): User?
+    suspend fun isUsernameAvailable(username: String): Resource<Boolean>
 }

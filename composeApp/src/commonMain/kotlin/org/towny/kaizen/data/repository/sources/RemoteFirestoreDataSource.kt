@@ -10,13 +10,13 @@ interface RemoteFirestoreDataSource {
     fun watchCurrentUser(userId: String): Flow<UserDTO?>
     fun watchOtherUsers(userId: String): Flow<List<UserDTO>>
     suspend fun createUser(userDTO: UserDTO): Resource<Unit>
+    suspend fun findUserByName(username: String): UserDTO?
 
     fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>>
-    suspend fun toggleChallenge(
+    suspend fun toggleChallengeStatus(
         userId: String,
         challengeId: String,
         isChecked: Boolean
     )
-
     suspend fun createChallenge(request: CreateChallengeRequest)
 }

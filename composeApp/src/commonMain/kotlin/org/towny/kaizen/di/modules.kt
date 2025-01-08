@@ -20,6 +20,7 @@ import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.AuthService
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import org.towny.kaizen.domain.usecases.IsUsernameAvailableUseCase
 import org.towny.kaizen.ui.screens.account.AccountViewModel
 import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import org.towny.kaizen.ui.screens.add_friends.AddFriendsViewModel
@@ -43,6 +44,7 @@ val commonModules = module {
     // Use cases
     singleOf(::GetReloadedUserSessionUseCase)
     singleOf(::CreateUserUseCase)
+    singleOf(::IsUsernameAvailableUseCase)
 
     // Repository
     singleOf(::UsersRepositoryImpl).bind<UsersRepository>()

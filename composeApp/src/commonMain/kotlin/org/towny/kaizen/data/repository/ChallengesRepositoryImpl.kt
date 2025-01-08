@@ -16,7 +16,7 @@ class ChallengesRepositoryImpl(
         challengeId: String,
         isChecked: Boolean
     ) {
-        remoteFirestoreDataSource.toggleChallenge(userId, challengeId, isChecked)
+        remoteFirestoreDataSource.toggleChallengeStatus(userId, challengeId, isChecked)
     }
 
     override suspend fun create(
