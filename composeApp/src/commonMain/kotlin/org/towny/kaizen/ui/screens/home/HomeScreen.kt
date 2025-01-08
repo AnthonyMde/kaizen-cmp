@@ -63,58 +63,47 @@ fun HomeScreen(
     onAction: (HomeAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (state.currentChallenger == null) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
+    Column(
+        modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp)
+            .padding(top = 24.dp),
+    ) {
+        if (state.userSession?.isEmailVerified == false) {
+            EmailConfirmationModal(onAction = onAction)
         }
-    } else {
-        Column(
-            modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp)
-                .padding(top = 24.dp),
-        ) {
-            if (state.userSession?.isEmailVerified == false) {
-                EmailConfirmationModal(onAction = onAction)
-            }
-            Header(
-                onAction = onAction,
-                profilePictureIndex = state.currentChallenger.profilePictureIndex
-            )
-            CurrentUserView(
-                user = state.currentChallenger,
-                onAction = onAction,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-            HorizontalDivider(
-                Modifier.padding(top = 24.dp),
-                color = MaterialTheme.colorScheme.primary
-            )
+        Header(
+            onAction = onAction,
+            profilePictureIndex = state.currentChallenger?.profilePictureIndex
+        )
+        CurrentUserView(
+            user = state.currentChallenger,
+            onAction = onAction,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        HorizontalDivider(
+            Modifier.padding(top = 24.dp),
+            color = MaterialTheme.colorScheme.primary
+        )
 
-            LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
-                items(state.friends) { challenger ->
-                    ChallengerView(
-                        modifier = Modifier.padding(top = 16.dp),
-                        user = challenger,
-                        onToggleChallenge = { challengeId: String, isChecked: Boolean ->
-                            onAction(
-                                HomeAction.OnToggleChallenge(
-                                    challenger.id,
-                                    challengeId,
-                                    isChecked
-                                )
+        LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
+            items(state.friends) { challenger ->
+                ChallengerView(
+                    modifier = Modifier.padding(top = 16.dp),
+                    user = challenger,
+                    onToggleChallenge = { challengeId: String, isChecked: Boolean ->
+                        onAction(
+                            HomeAction.OnToggleChallenge(
+                                challenger.id,
+                                challengeId,
+                                isChecked
                             )
-                        }
-                    )
-                }
+                        )
+                    }
+                )
             }
         }
     }
