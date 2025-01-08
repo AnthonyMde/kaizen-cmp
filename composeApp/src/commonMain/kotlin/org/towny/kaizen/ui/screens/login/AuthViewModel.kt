@@ -17,10 +17,10 @@ import org.towny.kaizen.domain.usecases.AuthenticateUseCase
 class AuthViewModel(
     private val authenticateUseCase: AuthenticateUseCase,
 ) : ViewModel() {
-    private val _authScreenState = MutableStateFlow(LoginScreenState())
+    private val _authScreenState = MutableStateFlow(AuthScreenState())
     val authScreenState = _authScreenState.asStateFlow()
 
-    private val _navigationEvents = MutableSharedFlow<LoginNavigationEvent>(
+    private val _navigationEvents = MutableSharedFlow<AuthNavigationEvent>(
         replay = 0,
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_LATEST
@@ -86,9 +86,9 @@ class AuthViewModel(
                                     }
 
                                     if (result.data?.isSignUp == true)
-                                        _navigationEvents.tryEmit(LoginNavigationEvent.GoToOnboardingProfile)
+                                        _navigationEvents.tryEmit(AuthNavigationEvent.GoToOnboardingProfile)
                                     else
-                                        _navigationEvents.tryEmit(LoginNavigationEvent.GoToHomeScreen)
+                                        _navigationEvents.tryEmit(AuthNavigationEvent.GoToHomeScreen)
                                 }
                             }
                         }

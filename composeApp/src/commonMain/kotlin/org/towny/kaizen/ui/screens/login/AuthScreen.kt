@@ -48,8 +48,8 @@ fun AuthScreenRoot(
     LaunchedEffect(true) {
         viewModel.navigationEvents.collectLatest { event ->
             when (event) {
-                LoginNavigationEvent.GoToHomeScreen -> goToHomeScreen()
-                LoginNavigationEvent.GoToOnboardingProfile -> goToOnboardingProfile()
+                AuthNavigationEvent.GoToHomeScreen -> goToHomeScreen()
+                AuthNavigationEvent.GoToOnboardingProfile -> goToOnboardingProfile()
             }
         }
     }
@@ -64,7 +64,7 @@ fun AuthScreenRoot(
 
 @Composable
 fun AuthScreen(
-    state: LoginScreenState,
+    state: AuthScreenState,
     onAction: (AuthAction) -> Unit,
     modifier: Modifier = Modifier
 ) {

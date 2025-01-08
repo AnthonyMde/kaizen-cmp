@@ -1,6 +1,6 @@
 package org.towny.kaizen.ui.screens.login
 
-data class LoginScreenState(
+data class AuthScreenState(
     val emailInputValue: String = "",
     val emailInputError: String? = null,
     val passwordInputValue: String = "",
