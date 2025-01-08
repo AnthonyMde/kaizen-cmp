@@ -1,4 +1,4 @@
-package org.towny.kaizen.domain.services
+package org.towny.kaizen.domain.usecases
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -8,31 +8,33 @@ import org.towny.kaizen.domain.models.AuthSuccess
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.AuthRepository
 
-class AuthService(
+class AuthenticateUseCase(
     private val authRepository: AuthRepository
 ) {
-    fun authenticate(email: String, password: String): Flow<Resource<AuthSuccess>> = flow {
-        emit(Resource.Loading())
+    operator fun invoke(email: String, password: String): Flow<Resource<AuthSuccess>> =
+        flow {
+            emit(Resource.Loading())
 
-        val signUpResult = authRepository.signUp(email, password)
+            val signUpResult = authRepository.signUp(email, password)
 
-        if (signUpResult is Resource.Error) {
-            when (signUpResult.throwable) {
-                // Try to login when account already exists.
-                is DomainException.Auth.EmailAddressAlreadyUsed -> {
-                    login(email, password)
-                }
-                else -> {
-                    emit(Resource.Error(signUpResult.throwable))
-                    return@flow
+            if (signUpResult is Resource.Error) {
+                when (signUpResult.throwable) {
+                    // Try to login when account already exists.
+                    is DomainException.Auth.EmailAddressAlreadyUsed -> {
+                        login(email, password)
+                    }
+
+                    else -> {
+                        emit(Resource.Error(signUpResult.throwable))
+                        return@flow
+                    }
                 }
             }
-        }
 
-        if (signUpResult is Resource.Success) {
-            sendVerificationEmail()
+            if (signUpResult is Resource.Success) {
+                sendVerificationEmail()
+            }
         }
-    }
 
     private suspend fun FlowCollector<Resource<AuthSuccess>>.login(
         email: String,

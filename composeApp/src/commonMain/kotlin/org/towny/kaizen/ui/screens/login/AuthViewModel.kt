@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
-import org.towny.kaizen.domain.services.AuthService
+import org.towny.kaizen.domain.usecases.AuthenticateUseCase
 
 class AuthViewModel(
-    private val authService: AuthService,
+    private val authenticateUseCase: AuthenticateUseCase,
 ) : ViewModel() {
     private val _authScreenState = MutableStateFlow(LoginScreenState())
     val authScreenState = _authScreenState.asStateFlow()
@@ -56,7 +56,7 @@ class AuthViewModel(
                 }
 
                 viewModelScope.launch {
-                    authService.authenticate(email, password)
+                    authenticateUseCase(email, password)
                         .collectLatest { result ->
                             when (result) {
                                 is Resource.Error -> {

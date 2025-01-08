@@ -17,7 +17,7 @@ import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
-import org.towny.kaizen.domain.services.AuthService
+import org.towny.kaizen.domain.usecases.AuthenticateUseCase
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 import org.towny.kaizen.domain.usecases.IsUsernameAvailableUseCase
@@ -38,7 +38,7 @@ val commonModules = module {
     viewModelOf(::OnboardingProfileViewModel)
 
     // Service
-    singleOf(::AuthService)
+    singleOf(::AuthenticateUseCase)
     singleOf(::ChallengesService)
 
     // Use cases
