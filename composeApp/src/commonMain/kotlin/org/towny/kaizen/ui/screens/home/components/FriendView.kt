@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import org.towny.kaizen.domain.models.User
 
 @Composable
-fun ChallengerView(
+fun FriendView(
     user: User,
     onToggleChallenge: (challengeId: String, isChecked: Boolean) -> Unit,
     modifier: Modifier = Modifier
