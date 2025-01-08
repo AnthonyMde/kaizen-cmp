@@ -48,6 +48,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     override suspend fun findUserByName(username: String): UserDTO? = firestore
         .collection(USER_COLLECTION)
         .where { FirestoreUserKeys.NAME equalTo username }
+        .limit(1)
         .get()
         .documents
         .map { documentSnapshot ->
@@ -59,6 +60,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         firestore.collection(USER_COLLECTION).add(
             mapOf(
                 FirestoreUserKeys.ID to userDTO.id,
+                FirestoreUserKeys.EMAIL to userDTO.email,
                 FirestoreUserKeys.NAME to userDTO.name,
                 FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
             )
