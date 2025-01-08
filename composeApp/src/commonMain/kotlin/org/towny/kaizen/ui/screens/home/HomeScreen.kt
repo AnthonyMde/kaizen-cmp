@@ -28,9 +28,10 @@ import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
 fun HomeScreenRoot(
-    goToAccount: () -> Unit,
     homeViewModel: HomeViewModel = koinViewModel(),
-    popToLogin: () -> Unit
+    goToAccount: () -> Unit,
+    popToLogin: () -> Unit,
+    goToCreateChallenge: () -> Unit
 ) {
     LaunchedEffect(true) {
         homeViewModel.navigationEvents.collectLatest { event ->
@@ -48,6 +49,7 @@ fun HomeScreenRoot(
         onAction = { action ->
             when (action) {
                 HomeAction.OnAccountClicked -> goToAccount()
+                HomeAction.OnCreateFirstChallengeClicked -> goToCreateChallenge()
                 else -> homeViewModel.onAction(action)
             }
         },

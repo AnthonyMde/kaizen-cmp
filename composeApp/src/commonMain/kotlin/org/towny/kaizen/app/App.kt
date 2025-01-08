@@ -85,6 +85,9 @@ fun App(userSession: UserSession? = null) {
                                 navController.navigate(Route.Login) {
                                     popUpTo(Route.Home) { inclusive = true }
                                 }
+                            },
+                            goToCreateChallenge = {
+                                navController.navigate(Route.CreateChallenge)
                             })
                     }
                 }
