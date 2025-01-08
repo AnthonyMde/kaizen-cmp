@@ -13,6 +13,7 @@ sealed class DomainException(message: String = "") : Exception(message) {
 
     sealed class User : DomainException() {
         data object NoUserSessionFound : User()
+        data object NoUserAccountFound : User()
     }
 
     sealed class Challenge : DomainException() {

@@ -88,6 +88,11 @@ fun App(userSession: UserSession? = null) {
                             },
                             goToCreateChallenge = {
                                 navController.navigate(Route.CreateChallenge)
+                            },
+                            goToCreateUserAccount = {
+                                navController.navigate(Route.OnboardingProfile) {
+                                    popUpTo<Route.Home> { inclusive = true }
+                                }
                             })
                     }
                 }

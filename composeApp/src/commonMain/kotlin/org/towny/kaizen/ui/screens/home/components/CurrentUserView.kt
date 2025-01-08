@@ -23,16 +23,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.towny.kaizen.domain.models.User
+import org.towny.kaizen.ui.screens.components.FormErrorText
 import org.towny.kaizen.ui.screens.home.HomeAction
 
 @Composable
 fun CurrentUserView(
     user: User?,
     onAction: (HomeAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    error: String? = null,
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        if (user == null) {
+        if (error != null) {
+            FormErrorText(error, textAlign = TextAlign.Center)
+        } else if (user == null) {
             CircularProgressIndicator()
         } else {
             Text(

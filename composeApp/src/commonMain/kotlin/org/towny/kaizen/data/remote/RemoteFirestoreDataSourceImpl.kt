@@ -26,9 +26,6 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         .collection(USER_COLLECTION)
         .where { FirestoreUserKeys.ID equalTo userId }
         .snapshots
-        .catch { e ->
-            println("DEBUG: (firestore) Cannot watch challenges because $e")
-        }
         .map { querySnapshot ->
             val users = querySnapshot.documents.map { documentSnapshot ->
                 documentSnapshot.data<UserDTO>()
@@ -41,10 +38,6 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         .collection(USER_COLLECTION)
         .where { "id" notEqualTo userId }
         .snapshots
-        .catch { e ->
-            println("DEBUG: (firestore) Cannot watch other users because $e")
-            emptyList<List<UserDTO>>()
-        }
         .map { querySnapshot ->
             val users = querySnapshot.documents.map { documentSnapshot ->
                 documentSnapshot.data<UserDTO>()

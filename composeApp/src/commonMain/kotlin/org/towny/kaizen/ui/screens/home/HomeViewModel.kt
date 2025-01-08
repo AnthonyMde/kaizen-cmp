@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
@@ -78,77 +79,70 @@ class HomeViewModel(
         }
     }
 
-    private fun watchMe() {
-        viewModelScope.launch {
-            usersRepository.watchMe()
-                .collectLatest { result ->
-                    when (result) {
-                        is Resource.Error -> {
-                            _homeScreenState.update {
-                                it.copy(
-                                    currentChallengerError = result.throwable?.message,
-                                    isCurrentChallengerLoading = false
-                                )
-                            }
-                        }
-
-                        is Resource.Loading -> {
-                            _homeScreenState.update {
-                                it.copy(
-                                    currentChallengerError = null,
-                                    isCurrentChallengerLoading = true
-                                )
-                            }
-                        }
-
-                        is Resource.Success -> {
-                            _homeScreenState.update {
-                                it.copy(
-                                    currentChallenger = result.data,
-                                    currentChallengerError = null,
-                                    isCurrentChallengerLoading = false
-                                )
-                            }
+    private fun watchMe() = viewModelScope.launch {
+        usersRepository.watchMe().collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    if (result.throwable is DomainException.User.NoUserAccountFound) {
+                        _navigationEvents.tryEmit(HomeNavigationEvent.GoToUserAccountCreation)
+                    } else {
+                        _homeScreenState.update {
+                            it.copy(currentChallengerError = result.throwable?.message)
                         }
                     }
                 }
+
+                is Resource.Loading -> {
+                    _homeScreenState.update {
+                        it.copy(
+                            currentChallengerError = null,
+                        )
+                    }
+                }
+
+                is Resource.Success -> {
+                    _homeScreenState.update {
+                        it.copy(
+                            currentChallenger = result.data,
+                            currentChallengerError = null,
+                        )
+                    }
+                }
+            }
         }
     }
 
-    private fun watchFriends() {
-        viewModelScope.launch {
-            usersRepository.watchFriends()
-                .collectLatest { result ->
-                    when (result) {
-                        is Resource.Error -> {
-                            _homeScreenState.update {
-                                it.copy(
-                                    friendsError = result.throwable?.message,
-                                    isFriendsLoading = false
-                                )
-                            }
-                        }
-
-                        is Resource.Loading -> {
-                            _homeScreenState.update {
-                                it.copy(
-                                    friendsError = null,
-                                    isFriendsLoading = true
-                                )
-                            }
-                        }
-
-                        is Resource.Success -> {
-                            _homeScreenState.update {
-                                it.copy(
-                                    friends = result.data ?: emptyList(),
-                                    friendsError = null,
-                                    isFriendsLoading = false
-                                )
-                            }
-                        }
+    private fun watchFriends() = viewModelScope.launch {
+        usersRepository.watchFriends().collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _homeScreenState.update {
+                        it.copy(
+                            friendsError = result.throwable?.message,
+                            isFriendsLoading = false
+                        )
                     }
                 }
+
+                is Resource.Loading -> {
+                    _homeScreenState.update {
+                        it.copy(
+                            friendsError = null,
+                            isFriendsLoading = true
+                        )
+                    }
+                }
+
+                is Resource.Success -> {
+                    _homeScreenState.update {
+                        it.copy(
+                            friends = result.data ?: emptyList(),
+                            friendsError = null,
+                            isFriendsLoading = false
+                        )
+                    }
+                }
+            }
         }
     }
 }

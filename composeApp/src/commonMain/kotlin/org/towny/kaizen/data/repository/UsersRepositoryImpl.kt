@@ -39,11 +39,16 @@ class UsersRepositoryImpl(
                         val challenges = challengeDTOs.map { it.toChallenge() }
                         userDTO?.toUser(challenges = challenges)
                     }
-            }.catch { e ->
-                Resource.Error<Resource<User?>>(e)
             }.map { user ->
                 currentUser = user
-                Resource.Success(user)
+                Resource.Success(user) as Resource<User?> // Do we have a better way?
+            }.catch { e ->
+                println("DEBUG: (repository) Cannot watch me because $e")
+                if (e is NoSuchElementException) {
+                    emit(Resource.Error(DomainException.User.NoUserAccountFound))
+                } else {
+                    emit(Resource.Error(e))
+                }
             }
     }
 
@@ -66,10 +71,11 @@ class UsersRepositoryImpl(
                             }
                     })
                 { userArray ->
-                    Resource.Success(userArray.toList())
+                    Resource.Success(userArray.toList()) as Resource<List<User>>
                 }
             }.catch { e ->
-                Resource.Error<Resource<List<User>>>(e)
+                println("DEBUG: (repository) Cannot watch friends because $e")
+                emit(Resource.Error(e))
             }
     }
 

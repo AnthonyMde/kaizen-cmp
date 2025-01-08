@@ -7,7 +7,6 @@ data class HomeScreenState(
     val userSession: UserSession? = null,
 
     val currentChallenger: User? = null,
-    val isCurrentChallengerLoading: Boolean = false,
     val currentChallengerError: String? = null,
 
     val friends: List<User> = emptyList(),

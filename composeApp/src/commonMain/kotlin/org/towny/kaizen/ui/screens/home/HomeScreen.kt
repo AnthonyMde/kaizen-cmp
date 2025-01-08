@@ -29,14 +29,14 @@ fun HomeScreenRoot(
     homeViewModel: HomeViewModel = koinViewModel(),
     goToAccount: () -> Unit,
     popToLogin: () -> Unit,
-    goToCreateChallenge: () -> Unit
+    goToCreateChallenge: () -> Unit,
+    goToCreateUserAccount: () -> Unit
 ) {
     LaunchedEffect(true) {
         homeViewModel.navigationEvents.collectLatest { event ->
             when (event) {
-                HomeNavigationEvent.PopToLogin -> {
-                    popToLogin()
-                }
+                HomeNavigationEvent.PopToLogin -> popToLogin()
+                HomeNavigationEvent.GoToUserAccountCreation -> goToCreateUserAccount()
             }
         }
     }
@@ -69,6 +69,7 @@ fun HomeScreen(
             .padding(horizontal = 24.dp)
             .padding(top = 24.dp),
     ) {
+        // TODO: make it a non-blocking snackbar + implement a cron to remove unverified accounts.
         if (state.userSession?.isEmailVerified == false) {
             EmailConfirmationModal(onAction = onAction)
         }
@@ -79,6 +80,7 @@ fun HomeScreen(
         CurrentUserView(
             user = state.currentChallenger,
             onAction = onAction,
+            error = state.currentChallengerError,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)
