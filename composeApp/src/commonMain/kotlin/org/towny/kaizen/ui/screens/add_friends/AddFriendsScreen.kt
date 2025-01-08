@@ -1,10 +1,10 @@
 package org.towny.kaizen.ui.screens.add_friends
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -59,15 +59,27 @@ fun AddFriendsScreen(
             contentAlignment = Alignment.Center
         ) {
             TextField(
-                value = state.friendIdInputValue,
+                value = state.friendUsernameInputValue,
                 onValueChange = { text ->
-                    onAction(AddFriendsAction.OnFriendIdInputChanged(text))
+                    onAction(AddFriendsAction.OnFriendUsernameInputChanged(text))
                 },
-                placeholder = { Text("Enter your friend id") },
+                placeholder = { Text("Enter your friend username") },
                 textStyle = MaterialTheme.typography.bodyLarge,
                 singleLine = true,
-                isError = state.friendIdInputError != null,
+                isError = state.friendUsernameInputError != null,
                 modifier = Modifier.fillMaxWidth()
+            )
+            Button(
+                onClick = {
+                    onAction(AddFriendsAction.OnAddFriendFormSubmit)
+                },
+                content = {
+                    Text("Submit")
+                },
+                enabled = !state.isFormSubmissionLoading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
             )
         }
     }
