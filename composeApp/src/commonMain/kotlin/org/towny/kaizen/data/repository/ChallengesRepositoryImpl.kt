@@ -16,8 +16,12 @@ class ChallengesRepositoryImpl(
         userId: String,
         challengeId: String,
         isChecked: Boolean
-    ) {
+    ): Resource<Unit> = try {
         remoteFirestoreDataSource.toggleChallengeStatus(userId, challengeId, isChecked)
+        Resource.Success()
+    } catch (e: Exception) {
+        println("DEBUG: (firestore) Cannot toggle challenge's state because $e")
+        Resource.Error(e)
     }
 
     override suspend fun create(
@@ -32,10 +36,11 @@ class ChallengesRepositoryImpl(
             name = name,
             maxFailures = numberOfErrors
         )
-        remoteFirestoreDataSource.createChallenge(request)
 
+        remoteFirestoreDataSource.createChallenge(request)
         emit(Resource.Success())
     }.catch { e ->
+        println("DEBUG: (firestore) Cannot create challenge because $e")
         emit(Resource.Error(e))
     }
 }

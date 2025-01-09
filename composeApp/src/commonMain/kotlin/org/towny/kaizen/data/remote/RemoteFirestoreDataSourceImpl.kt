@@ -62,13 +62,13 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
             .collection(USER_COLLECTION)
             .document(userDTO.id)
             .set(
-            mapOf(
-                FirestoreUserKeys.ID to userDTO.id,
-                FirestoreUserKeys.EMAIL to userDTO.email,
-                FirestoreUserKeys.NAME to userDTO.name,
-                FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
+                mapOf(
+                    FirestoreUserKeys.ID to userDTO.id,
+                    FirestoreUserKeys.EMAIL to userDTO.email,
+                    FirestoreUserKeys.NAME to userDTO.name,
+                    FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
+                )
             )
-        )
     }
 
     override fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>> = flow {
@@ -92,35 +92,25 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
         challengeId: String,
         isChecked: Boolean
     ) {
-        try {
-            getUserDocumentRef(userId)
-                .collection(CHALLENGE_COLLECTION)
-                .document(challengeId)
-                .update(mapOf(FirestoreChallengeKeys.IS_COMPLETED to isChecked))
-        } catch (e: Exception) {
-            println("DEBUG: (firestore) Cannot toggle challenge's state because $e")
-            throw e
-        }
+        getUserDocumentRef(userId)
+            .collection(CHALLENGE_COLLECTION)
+            .document(challengeId)
+            .update(mapOf(FirestoreChallengeKeys.IS_COMPLETED to isChecked))
     }
 
     override suspend fun createChallenge(request: CreateChallengeRequest) {
-        try {
-            val docRef = getUserDocumentRef(request.userId)
-                .collection(CHALLENGE_COLLECTION)
-                .add(
-                    mapOf(
-                        FirestoreChallengeKeys.NAME to request.name,
-                        FirestoreChallengeKeys.CREATED_AT to FieldValue.serverTimestamp,
-                        FirestoreChallengeKeys.IS_COMPLETED to false,
-                        FirestoreChallengeKeys.FAILURES to 0,
-                        FirestoreChallengeKeys.MAX_FAILURES to request.maxFailures
-                    )
+        val docRef = getUserDocumentRef(request.userId)
+            .collection(CHALLENGE_COLLECTION)
+            .add(
+                mapOf(
+                    FirestoreChallengeKeys.NAME to request.name,
+                    FirestoreChallengeKeys.CREATED_AT to FieldValue.serverTimestamp,
+                    FirestoreChallengeKeys.IS_COMPLETED to false,
+                    FirestoreChallengeKeys.FAILURES to 0,
+                    FirestoreChallengeKeys.MAX_FAILURES to request.maxFailures
                 )
-            docRef.update(mapOf(FirestoreChallengeKeys.ID to docRef.id))
-        } catch (e: Exception) {
-            println("DEBUG: (firestore) Cannot create challenge because $e")
-            throw e
-        }
+            )
+        docRef.update(mapOf(FirestoreChallengeKeys.ID to docRef.id))
     }
 
     override suspend fun createOrUpdateFriendRequest(userId: String, request: FriendRequest) {
