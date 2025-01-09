@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -37,6 +35,7 @@ import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.FormErrorText
+import org.towny.kaizen.ui.screens.components.LoadingButton
 
 @Composable
 fun AuthScreenRoot(
@@ -68,7 +67,7 @@ fun AuthScreen(
     onAction: (AuthAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val keyboard = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = modifier
@@ -131,7 +130,7 @@ fun AuthScreen(
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    keyboardController?.hide()
+                    keyboard?.hide()
                     onAction(
                         AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
                     )
@@ -151,21 +150,18 @@ fun AuthScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
+        LoadingButton(
             onClick = {
-                keyboardController?.hide()
+                keyboard?.hide()
                 onAction(
                     AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
                 )
             },
-        ) {
-            Text("Access Kaizen")
-        }
+            enabled = !state.onSubmitLoading,
+            isLoading = state.onSubmitLoading,
+            label = "Access Kaizen"
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
-
-        if (state.onSubmitLoading) {
-            CircularProgressIndicator()
-        }
     }
 }

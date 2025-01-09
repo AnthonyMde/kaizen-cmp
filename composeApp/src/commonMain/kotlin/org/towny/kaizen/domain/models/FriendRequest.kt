@@ -1,11 +1,16 @@
 package org.towny.kaizen.domain.models
 
 data class FriendRequest(
-    val sendTo: String,
-    val from: String,
-    val state: FriendRequestState
+    val sender: FriendRequestProfile,
+    val receiver: FriendRequestProfile,
+    val state: State
 ) {
-    enum class FriendRequestState {
-        PENDING, DECLINED, ACCEPTED
+    enum class State {
+        PENDING, DECLINED, ACCEPTED, CANCELED
     }
 }
+
+data class FriendRequestProfile(
+    val username: String,
+    val profilePictureIndex: Int? = null
+)

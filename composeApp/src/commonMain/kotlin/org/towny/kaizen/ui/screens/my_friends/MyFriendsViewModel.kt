@@ -45,7 +45,7 @@ class MyFriendsViewModel(
             )
         }
 
-        friendsService.createFriendRequest(friendUsername = username).let { result ->
+        friendsService.createFriendRequest(friendId = username).let { result ->
             when (result) {
                 is Resource.Error -> {
                     _myFriendsState.update { it.copy(friendUsernameInputError = result.throwable?.message) }

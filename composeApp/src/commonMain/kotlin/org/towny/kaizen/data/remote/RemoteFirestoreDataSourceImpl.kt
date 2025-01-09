@@ -118,8 +118,8 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
             .collection(FRIEND_REQUESTS_COLLECTION)
             .add(
                 mapOf(
-                    FirestoreFriendRequestsKeys.SEND_TO to request.sendTo,
-                    FirestoreFriendRequestsKeys.FROM to request.from,
+                    FirestoreFriendRequestsKeys.SEND_TO to request.sender,
+                    FirestoreFriendRequestsKeys.FROM to request.receiver,
                     FirestoreFriendRequestsKeys.STATE to request.state
                 )
             )
