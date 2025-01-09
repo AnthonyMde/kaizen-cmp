@@ -14,14 +14,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
-import org.towny.kaizen.ui.screens.home.components.FriendView
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
 import org.towny.kaizen.ui.screens.home.components.EmailConfirmationModal
+import org.towny.kaizen.ui.screens.home.components.FriendView
 import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
@@ -32,15 +34,19 @@ fun HomeScreenRoot(
     goToCreateChallenge: () -> Unit,
     goToCreateUserAccount: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
+
     LaunchedEffect(true) {
-        homeViewModel.navigationEvents.collectLatest { event ->
-            when (event) {
-                HomeNavigationEvent.PopToLogin -> popToLogin()
-                HomeNavigationEvent.GoToUserAccountCreation -> goToCreateUserAccount()
+        scope.launch {
+            homeViewModel.navigationEvents.collectLatest { event ->
+                when (event) {
+                    HomeNavigationEvent.PopToLogin -> popToLogin()
+                    HomeNavigationEvent.GoToUserAccountCreation -> goToCreateUserAccount()
+                }
             }
         }
     }
-    val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
 
     HomeScreen(
         state = homeScreenState,
