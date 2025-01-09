@@ -13,7 +13,7 @@ import org.towny.kaizen.app.navigation.LocalNavController
 import org.towny.kaizen.app.navigation.Route
 import org.towny.kaizen.domain.models.UserSession
 import org.towny.kaizen.ui.screens.account.AccountScreenRoot
-import org.towny.kaizen.ui.screens.add_friends.AddFriendsScreenRoot
+import org.towny.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
 import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import org.towny.kaizen.ui.screens.home.HomeScreenRoot
 import org.towny.kaizen.ui.screens.login.AuthScreenRoot
@@ -130,8 +130,8 @@ fun App(userSession: UserSession? = null) {
                             popToHome = {
                                 navController.navigateUp()
                             },
-                            goToAddFriends = {
-                                navController.navigate(Route.AddFriends)
+                            goToMyFriends = {
+                                navController.navigate(Route.MyFriends)
                             },
                             goToCreateChallenge = {
                                 navController.navigate(Route.CreateChallenge)
@@ -139,7 +139,7 @@ fun App(userSession: UserSession? = null) {
                         )
                     }
 
-                    composable<Route.AddFriends>(
+                    composable<Route.MyFriends>(
                         enterTransition = {
                             slideIntoContainer(
                                 AnimatedContentTransitionScope.SlideDirection.Start,
@@ -153,7 +153,7 @@ fun App(userSession: UserSession? = null) {
                             )
                         }
                     ) {
-                        AddFriendsScreenRoot(
+                        MyFriendsScreenRoot(
                             popToAccount = {
                                 navController.navigateUp()
                             }

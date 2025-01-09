@@ -1,4 +1,4 @@
-package org.towny.kaizen.ui.screens.add_friends
+package org.towny.kaizen.ui.screens.my_friends
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,17 +20,17 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
 
 @Composable
-fun AddFriendsScreenRoot(
-    viewModel: AddFriendsViewModel = koinViewModel(),
+fun MyFriendsScreenRoot(
+    viewModel: MyFriendsViewModel = koinViewModel(),
     popToAccount: () -> Unit
 ) {
-    val state by viewModel.addFriendsState.collectAsState()
+    val state by viewModel.myFriendsState.collectAsState()
 
-    AddFriendsScreen(
+    MyFriendsScreen(
         state = state,
         onAction = { action ->
             when (action) {
-                AddFriendsAction.OnNavigateUp -> popToAccount()
+                MyFriendsAction.OnNavigateUp -> popToAccount()
                 else -> viewModel.onAction(action)
             }
         }
@@ -38,15 +38,15 @@ fun AddFriendsScreenRoot(
 }
 
 @Composable
-fun AddFriendsScreen(
-    state: AddFriendsState,
-    onAction: (AddFriendsAction) -> Unit
+fun MyFriendsScreen(
+    state: MyFriendsState,
+    onAction: (MyFriendsAction) -> Unit
 ) {
     Scaffold(
         topBar = {
             BackTopAppBar(
-                title = "Add friends",
-                onNavigateUp = { onAction(AddFriendsAction.OnNavigateUp) },
+                title = "My friends",
+                onNavigateUp = { onAction(MyFriendsAction.OnNavigateUp) },
                 backDescription = "Go back to account."
             )
         },
@@ -63,7 +63,7 @@ fun AddFriendsScreen(
             TextField(
                 value = state.friendUsernameInputValue,
                 onValueChange = { text ->
-                    onAction(AddFriendsAction.OnFriendUsernameInputChanged(text))
+                    onAction(MyFriendsAction.OnFriendUsernameInputChanged(text))
                 },
                 placeholder = { Text("Enter your friend username") },
                 supportingText = { Text(state.friendUsernameInputError ?: "") },
@@ -74,7 +74,7 @@ fun AddFriendsScreen(
             )
             Button(
                 onClick = {
-                    onAction(AddFriendsAction.OnAddFriendFormSubmit)
+                    onAction(MyFriendsAction.OnMyFriendFormSubmit)
                 },
                 content = {
                     Text("Submit")

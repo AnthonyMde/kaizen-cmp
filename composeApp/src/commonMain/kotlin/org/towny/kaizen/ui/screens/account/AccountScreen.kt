@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package org.towny.kaizen.ui.screens.account
 
 import androidx.compose.foundation.Image
@@ -15,7 +13,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -45,7 +42,7 @@ import org.towny.kaizen.ui.screens.components.BackTopAppBar
 fun AccountScreenRoot(
     popToHome: () -> Unit,
     popToLogin: () -> Unit,
-    goToAddFriends: () -> Unit,
+    goToMyFriends: () -> Unit,
     goToCreateChallenge: () -> Unit,
     viewModel: AccountViewModel = koinViewModel()
 ) {
@@ -64,7 +61,7 @@ fun AccountScreenRoot(
                 }
 
                 AccountAction.OnNavigateUp -> popToHome()
-                AccountAction.GoToAddFriends -> goToAddFriends()
+                AccountAction.GoToMyFriends -> goToMyFriends()
                 AccountAction.GoToCreateChallenge -> goToCreateChallenge()
             }
         })
@@ -143,11 +140,11 @@ fun AccountScreen(
 
                 AccountRowView(
                     onAction = {
-                        onAction(AccountAction.GoToAddFriends)
+                        onAction(AccountAction.GoToMyFriends)
                     },
-                    title = "Add friends",
+                    title = "My friends",
                     icon = rememberVectorPainter(Icons.Filled.Face),
-                    description = "Add a friends.",
+                    description = "My friends.",
                     modifier = Modifier.padding(top = 8.dp)
                 )
 

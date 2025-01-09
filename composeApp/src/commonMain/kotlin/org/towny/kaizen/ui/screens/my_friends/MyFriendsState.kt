@@ -1,6 +1,6 @@
-package org.towny.kaizen.ui.screens.add_friends
+package org.towny.kaizen.ui.screens.my_friends
 
-data class AddFriendsState(
+data class MyFriendsState(
     val friendUsernameInputValue: String = "",
     val friendUsernameInputError: String? = null,
     val isFormSubmissionLoading: Boolean = false

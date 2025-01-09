@@ -1,4 +1,4 @@
-package org.towny.kaizen.ui.screens.add_friends
+package org.towny.kaizen.ui.screens.my_friends
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,16 +9,16 @@ import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.services.FriendsService
 
-class AddFriendsViewModel(
+class MyFriendsViewModel(
     private val friendsService: FriendsService,
 ) : ViewModel() {
-    private val _addFriendsState = MutableStateFlow(AddFriendsState())
-    val addFriendsState = _addFriendsState.asStateFlow()
+    private val _myFriendsState = MutableStateFlow(MyFriendsState())
+    val myFriendsState = _myFriendsState.asStateFlow()
 
-    fun onAction(action: AddFriendsAction) {
+    fun onAction(action: MyFriendsAction) {
         when (action) {
-            is AddFriendsAction.OnFriendUsernameInputChanged -> {
-                _addFriendsState.update {
+            is MyFriendsAction.OnFriendUsernameInputChanged -> {
+                _myFriendsState.update {
                     it.copy(
                         friendUsernameInputValue = action.username,
                         friendUsernameInputError = null
@@ -26,7 +26,7 @@ class AddFriendsViewModel(
                 }
             }
 
-            AddFriendsAction.OnAddFriendFormSubmit -> viewModelScope.launch {
+            MyFriendsAction.OnMyFriendFormSubmit -> viewModelScope.launch {
                 createFriendRequest()
             }
 
@@ -35,10 +35,10 @@ class AddFriendsViewModel(
     }
 
     private suspend fun createFriendRequest() {
-        val username = _addFriendsState.value.friendUsernameInputValue.trim()
+        val username = _myFriendsState.value.friendUsernameInputValue.trim()
         if (!requiredField(username)) return
 
-        _addFriendsState.update {
+        _myFriendsState.update {
             it.copy(
                 isFormSubmissionLoading = true,
                 friendUsernameInputError = null
@@ -48,17 +48,17 @@ class AddFriendsViewModel(
         friendsService.createFriendRequest(friendUsername = username).let { result ->
             when (result) {
                 is Resource.Error -> {
-                    _addFriendsState.update { it.copy(friendUsernameInputError = result.throwable?.message) }
+                    _myFriendsState.update { it.copy(friendUsernameInputError = result.throwable?.message) }
                 }
 
                 is Resource.Success -> {
-                    println("DEBUG: (AddFriendsViewModel) FriendRequest was created successfully")
+                    println("DEBUG: (MyFriendsViewModel) FriendRequest was created successfully")
                 }
 
                 is Resource.Loading -> {}
             }
         }
-        _addFriendsState.update { it.copy(isFormSubmissionLoading = false) }
+        _myFriendsState.update { it.copy(isFormSubmissionLoading = false) }
     }
 
     private fun requiredField(username: String): Boolean {
@@ -68,7 +68,7 @@ class AddFriendsViewModel(
             else -> null
         }
 
-        _addFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
+        _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
 
         return errorMessage == null
     }

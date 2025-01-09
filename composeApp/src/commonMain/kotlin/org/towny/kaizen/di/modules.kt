@@ -26,7 +26,7 @@ import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 import org.towny.kaizen.domain.usecases.IsUsernameAvailableUseCase
 import org.towny.kaizen.ui.screens.account.AccountViewModel
 import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
-import org.towny.kaizen.ui.screens.add_friends.AddFriendsViewModel
+import org.towny.kaizen.ui.screens.my_friends.MyFriendsViewModel
 import org.towny.kaizen.ui.screens.home.HomeViewModel
 import org.towny.kaizen.ui.screens.login.AuthViewModel
 import org.towny.kaizen.ui.screens.onboarding.OnboardingProfileViewModel
@@ -36,7 +36,7 @@ val commonModules = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::AuthViewModel)
     viewModelOf(::AccountViewModel)
-    viewModelOf(::AddFriendsViewModel)
+    viewModelOf(::MyFriendsViewModel)
     viewModelOf(::CreateChallengeViewModel)
     viewModelOf(::OnboardingProfileViewModel)
 
