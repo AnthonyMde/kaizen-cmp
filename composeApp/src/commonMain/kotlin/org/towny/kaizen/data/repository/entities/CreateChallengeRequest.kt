@@ -1,4 +1,4 @@
-package org.towny.kaizen.data.repository
+package org.towny.kaizen.data.repository.entities
 
 data class CreateChallengeRequest(
     val userId: String,

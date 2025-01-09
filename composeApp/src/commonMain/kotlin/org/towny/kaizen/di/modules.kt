@@ -10,13 +10,16 @@ import org.towny.kaizen.data.remote.FirebaseAuth
 import org.towny.kaizen.data.remote.RemoteFirestoreDataSourceImpl
 import org.towny.kaizen.data.repository.ChallengesRepositoryImpl
 import org.towny.kaizen.data.repository.AuthRepositoryImpl
+import org.towny.kaizen.data.repository.FriendsRepositoryImpl
 import org.towny.kaizen.data.repository.UsersRepositoryImpl
 import org.towny.kaizen.data.repository.sources.LocalPreferencesDataSource
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.AuthRepository
+import org.towny.kaizen.domain.repository.FriendsRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
+import org.towny.kaizen.domain.services.FriendsService
 import org.towny.kaizen.domain.usecases.AuthenticateUseCase
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
@@ -40,6 +43,7 @@ val commonModules = module {
     // Service
     singleOf(::AuthenticateUseCase)
     singleOf(::ChallengesService)
+    singleOf(::FriendsService)
 
     // Use cases
     singleOf(::GetReloadedUserSessionUseCase)
@@ -50,6 +54,7 @@ val commonModules = module {
     singleOf(::UsersRepositoryImpl).bind<UsersRepository>()
     singleOf(::ChallengesRepositoryImpl).bind<ChallengesRepository>()
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
+    singleOf(::FriendsRepositoryImpl).bind<FriendsRepository>()
 
     // Data sources
     singleOf(::LocalPreferencesDataSourceImpl).bind<LocalPreferencesDataSource>()

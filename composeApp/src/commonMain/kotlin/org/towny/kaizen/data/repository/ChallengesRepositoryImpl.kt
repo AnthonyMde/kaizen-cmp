@@ -3,6 +3,7 @@ package org.towny.kaizen.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.ChallengesRepository

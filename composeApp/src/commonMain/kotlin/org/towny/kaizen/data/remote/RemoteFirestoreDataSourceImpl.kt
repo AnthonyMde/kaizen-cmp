@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
-import org.towny.kaizen.data.repository.CreateChallengeRequest
+import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
-import org.towny.kaizen.domain.models.Resource
+import org.towny.kaizen.domain.models.FriendRequest
 
 class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     private val firestore = Firebase.firestore
@@ -20,6 +20,7 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
     companion object {
         private const val USER_COLLECTION = "users"
         private const val CHALLENGE_COLLECTION = "challenges"
+        private const val FRIEND_REQUESTS_COLLECTION = "friend_requests"
     }
 
     override fun watchCurrentUser(userId: String): Flow<UserDTO?> = firestore
@@ -120,6 +121,18 @@ class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
             println("DEBUG: (firestore) Cannot create challenge because $e")
             throw e
         }
+    }
+
+    override suspend fun createOrUpdateFriendRequest(userId: String, request: FriendRequest) {
+        getUserDocumentRef(userId)
+            .collection(FRIEND_REQUESTS_COLLECTION)
+            .add(
+                mapOf(
+                    FirestoreFriendRequestsKeys.SEND_TO to request.sendTo,
+                    FirestoreFriendRequestsKeys.FROM to request.from,
+                    FirestoreFriendRequestsKeys.STATE to request.state
+                )
+            )
     }
 
     private suspend fun getUserDocumentRef(userId: String): DocumentReference = firestore

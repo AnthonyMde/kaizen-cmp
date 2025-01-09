@@ -3,6 +3,7 @@ package org.towny.kaizen.ui.screens.add_friends
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -54,6 +55,7 @@ fun AddFriendsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .imePadding()
                 .padding(innerPadding)
                 .padding(24.dp),
             contentAlignment = Alignment.Center
@@ -64,6 +66,7 @@ fun AddFriendsScreen(
                     onAction(AddFriendsAction.OnFriendUsernameInputChanged(text))
                 },
                 placeholder = { Text("Enter your friend username") },
+                supportingText = { Text(state.friendUsernameInputError ?: "") },
                 textStyle = MaterialTheme.typography.bodyLarge,
                 singleLine = true,
                 isError = state.friendUsernameInputError != null,
