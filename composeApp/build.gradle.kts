@@ -1,3 +1,4 @@
+import com.android.build.api.variant.BuildConfigField
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
@@ -92,7 +93,13 @@ android {
     }
     buildTypes {
         getByName("release") {
+            isMinifyEnabled = true
+            manifestPlaceholders["usesClearTextTraffic"] = "false"
+        }
+
+        getByName("debug") {
             isMinifyEnabled = false
+            manifestPlaceholders["usesClearTextTraffic"] = "true"
         }
     }
     compileOptions {
