@@ -15,7 +15,7 @@ import org.towny.kaizen.domain.usecases.CreateUserParams
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
 
 class OnboardingProfileViewModel(
-    private val createUserUseCase: CreateUserUseCase
+    private val createUserUseCase: CreateUserUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow(OnBoardingProfileScreenState())
     val state = _state.asStateFlow()
@@ -49,9 +49,7 @@ class OnboardingProfileViewModel(
             OnBoardingProfileAction.OnSubmitProfile -> {
                 val username = _state.value.usernameInputValue.trim()
                 val chosenPictureIndex = _state.value.avatarSelectedIndex
-                if (!requiredField(username)) {
-                    return
-                }
+
                 submitForm(username, chosenPictureIndex)
             }
         }
@@ -64,8 +62,13 @@ class OnboardingProfileViewModel(
         when (val result = createUserUseCase(params)) {
             is Resource.Error -> {
                 val errorMessage = when (result.throwable) {
-                    is DomainException.Auth.UsernameCannotBeVerified -> "Sorry, we cannot verify your username by now, retry later."
-                    is DomainException.Auth.UsernameAlreadyUsed -> "This username is already used."
+                    is DomainException.User.Name.CannotBeVerified -> "Sorry, we cannot verify your username by now, retry later."
+                    is DomainException.User.Name.AlreadyUsed-> "This username is already used."
+                    is DomainException.User.Name.IsEmpty -> "Username must not be empty."
+                    is DomainException.User.Name.IncorrectLength -> "Username must be 1-30 characters long."
+                    is DomainException.User.Name.DoubleSpecialCharNotAuthorized -> "Characters \"_\" and \".\" must not be doubled."
+                    is DomainException.User.Name.SpecialCharAtStartOrEndNotAuthorized -> "Characters \"_\" and \".\" must not start or end username."
+                    is DomainException.User.Name.SpecialCharNotAuthorized -> "Only special characters \"_\" and \".\" are authorized."
                     else -> result.throwable?.message
                 }
                 _state.update { it.copy(usernameInputError = errorMessage) }
@@ -79,15 +82,5 @@ class OnboardingProfileViewModel(
         }
 
         _state.update { it.copy(isFormSubmissionLoading = false) }
-    }
-
-    private fun requiredField(username: String): Boolean {
-        val error = when {
-            username.isBlank() -> "Username should not be empty."
-            username.length < 2 -> "Username should at least be 2 characters long."
-            else -> null
-        }
-        _state.update { it.copy(usernameInputError = error) }
-        return error == null
     }
 }

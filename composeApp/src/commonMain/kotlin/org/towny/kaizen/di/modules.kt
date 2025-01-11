@@ -20,10 +20,11 @@ import org.towny.kaizen.domain.repository.FriendsRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.FriendsService
-import org.towny.kaizen.domain.usecases.AuthenticateUseCase
+import org.towny.kaizen.domain.services.AuthenticateService
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
-import org.towny.kaizen.domain.usecases.IsUsernameAvailableUseCase
+import org.towny.kaizen.domain.usecases.VerifyUsernameAvailableUseCase
+import org.towny.kaizen.domain.usecases.VerifyUsernameFormatUseCase
 import org.towny.kaizen.ui.screens.account.AccountViewModel
 import org.towny.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import org.towny.kaizen.ui.screens.my_friends.MyFriendsViewModel
@@ -41,14 +42,15 @@ val commonModules = module {
     viewModelOf(::OnboardingProfileViewModel)
 
     // Service
-    singleOf(::AuthenticateUseCase)
+    singleOf(::AuthenticateService)
     singleOf(::ChallengesService)
     singleOf(::FriendsService)
 
     // Use cases
     singleOf(::GetReloadedUserSessionUseCase)
     singleOf(::CreateUserUseCase)
-    singleOf(::IsUsernameAvailableUseCase)
+    singleOf(::VerifyUsernameAvailableUseCase)
+    singleOf(::VerifyUsernameFormatUseCase)
 
     // Repository
     singleOf(::UsersRepositoryImpl).bind<UsersRepository>()

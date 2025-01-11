@@ -1,15 +1,14 @@
-package org.towny.kaizen.domain.usecases
+package org.towny.kaizen.domain.services
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.AuthSuccess
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.AuthRepository
 
-class AuthenticateUseCase(
-    private val authRepository: AuthRepository
+class AuthenticateService(
+    private val authRepository: AuthRepository,
 ) {
     operator fun invoke(email: String, password: String): Flow<Resource<AuthSuccess>> =
         flow {
@@ -21,7 +20,7 @@ class AuthenticateUseCase(
                 when (signUpResult.throwable) {
                     // Try to login when account already exists.
                     is DomainException.Auth.EmailAddressAlreadyUsed -> {
-                        login(email, password)
+                        emit(login(email, password))
                     }
 
                     else -> {
@@ -32,29 +31,29 @@ class AuthenticateUseCase(
             }
 
             if (signUpResult is Resource.Success) {
-                sendVerificationEmail()
+                emit(sendVerificationEmail())
             }
         }
 
-    private suspend fun FlowCollector<Resource<AuthSuccess>>.login(
+    private suspend fun login(
         email: String,
         password: String
-    ) {
+    ): Resource<AuthSuccess> {
         val signInResult = authRepository.signIn(email, password)
-        if (signInResult is Resource.Error) {
-            emit(Resource.Error(signInResult.throwable))
+        return if (signInResult is Resource.Error) {
+            Resource.Error(signInResult.throwable)
         } else {
-            emit(Resource.Success(AuthSuccess(isSignUp = false)))
+            Resource.Success(AuthSuccess(isSignUp = false))
         }
     }
 
-    private suspend fun FlowCollector<Resource<AuthSuccess>>.sendVerificationEmail() {
+    private suspend fun sendVerificationEmail(): Resource<AuthSuccess> {
         val userSession = authRepository.getUserSession()
-        if (userSession != null) {
+        return if (userSession != null) {
             authRepository.sendVerificationEmail()
-            emit(Resource.Success(AuthSuccess(isSignUp = true)))
+            Resource.Success(AuthSuccess(isSignUp = true))
         } else {
-            emit(Resource.Error(DomainException.Auth.FailedToSendEmailVerification))
+            Resource.Error(DomainException.Auth.FailedToSendEmailVerification)
         }
     }
 }
