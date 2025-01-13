@@ -14,12 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
+import org.towny.kaizen.domain.models.FriendRequest
 import org.towny.kaizen.ui.resources.avatars
-import org.towny.kaizen.ui.screens.my_friends.models.FriendRequestUI
 
 @Composable
 fun ReceivedFriendRequestView(
-    request: FriendRequestUI,
+    request: FriendRequest,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -27,12 +27,12 @@ fun ReceivedFriendRequestView(
             .padding(horizontal = 24.dp, vertical = 16.dp)
             .background(color = MaterialTheme.colorScheme.primaryContainer)
     ) {
-        request.profilePictureIndex?.let { index ->
+        request.receiver.profilePictureIndex?.let { index ->
             Image(
                 painter = painterResource(avatars[index].drawable),
                 contentDescription = avatars[index].description
             )
-            Text(request.username,
+            Text(request.receiver.username,
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.weight(1f))

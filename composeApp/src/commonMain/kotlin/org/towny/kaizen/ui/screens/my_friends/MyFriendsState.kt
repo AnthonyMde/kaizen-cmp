@@ -1,7 +1,7 @@
 package org.towny.kaizen.ui.screens.my_friends
 
 import org.towny.kaizen.domain.models.FriendPreview
-import org.towny.kaizen.ui.screens.my_friends.models.FriendRequestUI
+import org.towny.kaizen.domain.models.FriendRequest
 
 data class MyFriendsState(
     val friendUsernameInputValue: String = "",
@@ -9,6 +9,6 @@ data class MyFriendsState(
     val isFriendPreviewLoading: Boolean = false,
     val friendPreview: FriendPreview? = null,
 
-    val pendingSentRequests: List<FriendRequestUI> = emptyList(),
-    val pendingReceivedRequests: List<FriendRequestUI> = emptyList()
+    val pendingSentRequests: List<FriendRequest> = emptyList(),
+    val pendingReceivedRequests: List<FriendRequest> = emptyList()
 )

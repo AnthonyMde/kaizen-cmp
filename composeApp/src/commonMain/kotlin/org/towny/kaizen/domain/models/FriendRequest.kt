@@ -11,6 +11,7 @@ data class FriendRequest(
 }
 
 data class FriendRequestProfile(
+    val id: String,
     val username: String,
     val profilePictureIndex: Int? = null
 )
