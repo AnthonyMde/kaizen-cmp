@@ -49,8 +49,7 @@ class MyFriendsViewModel(
                         DomainException.Common.NotFound -> "No user is matching this username."
                         DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
                         DomainException.Common.InvalidArguments -> "Username should not be empty."
-                        DomainException.Common.Unknown -> "An unknown error occurred."
-                        else -> result.throwable?.message ?: "Something went wrong."
+                        else -> "Something went wrong. Please, verify this username is valid or contact us."
                     }
                     _myFriendsState.update {
                         it.copy(
@@ -71,8 +70,7 @@ class MyFriendsViewModel(
     }
 
     private suspend fun createFriendRequest() {
-        val username = _myFriendsState.value.friendUsernameInputValue.trim()
-        if (!requiredField(username)) return
+        val friendId = _myFriendsState.value.friendPreview?.id
 
         _myFriendsState.update {
             it.copy(
@@ -81,10 +79,15 @@ class MyFriendsViewModel(
             )
         }
 
-        friendsService.createFriendRequest(friendId = username).let { result ->
+        friendsService.createFriendRequest(friendId).let { result ->
             when (result) {
                 is Resource.Error -> {
-                    _myFriendsState.update { it.copy(friendUsernameInputError = result.throwable?.message) }
+                    val errorMessage = when (result.throwable) {
+                        DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
+                        DomainException.Common.InvalidArguments -> "Cannot find friend id."
+                        else -> "Impossible to send your friend request."
+                    }
+                    _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
                 }
 
                 is Resource.Success -> {
@@ -95,17 +98,5 @@ class MyFriendsViewModel(
             }
         }
         _myFriendsState.update { it.copy(isFriendPreviewLoading = false) }
-    }
-
-    private fun requiredField(username: String): Boolean {
-        val errorMessage = when {
-            username.isBlank() -> "Username should be empty"
-            username.length < 2 -> "A username contains at least 2 characters."
-            else -> null
-        }
-
-        _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
-
-        return errorMessage == null
     }
 }

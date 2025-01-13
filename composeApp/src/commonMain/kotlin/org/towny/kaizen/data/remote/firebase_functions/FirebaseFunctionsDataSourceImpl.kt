@@ -23,6 +23,5 @@ class FirebaseFunctionsDataSourceImpl: FirebaseFunctionsDataSource {
         functions
             .httpsCallable("createFriendRequest")
             .invoke(body)
-            .data<Unit>()
     }
 }
