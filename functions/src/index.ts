@@ -10,29 +10,26 @@
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import * as logger from "firebase-functions/logger";
-import { onRequest } from "firebase-functions/v2/https";
+import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { Collection } from "./collection";
 import { ErrorMessage } from "./errors";
+import { FriendPreview } from "./dto/friend_preview";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 
 initializeApp();
 
-export const getFriendPreviewById = onRequest(async (request, response) => {
-    if (request.method != "GET") {
-        response.status(405).send({ error: ErrorMessage.METHOD_NOT_ALLOWED })
-        return;
+export const getFriendPreviewById = onCall(async (request) => {
+    if (request.auth == null || request.auth.uid == null) {
+        throw new HttpsError("unauthenticated", "You must be authenticated.")
     }
-
-    // TODO: check auth uid
 
     let friendId: String
     try {
-        friendId = request.query.id as String;
+        friendId = request.data.friendId as String
     } catch (e) {
-        response.status(400).send({ error: ErrorMessage.MISSING_REQUIRED_FIELDS + ":\"id\"" })
-        return;
+        throw new HttpsError("invalid-argument", "The function must be called with friend id.")
     }
 
     try {
@@ -43,13 +40,13 @@ export const getFriendPreviewById = onRequest(async (request, response) => {
 
         const user = snapshot.docs[0].data() as User
 
-        response.status(200).send({
+        return {
             id: user.id,
             name: user.name,
             profilePictureIndex: user.profilePictureIndex
-        });
+        } as FriendPreview
     } catch (err) {
         logger.info({ error: err });
-        response.status(500).send({ error: ErrorMessage.SERVER_INTERNAL_ERROR + "while retrieving friend preview" });
+        throw new HttpsError("internal", ErrorMessage.SERVER_INTERNAL_ERROR + "while retrieving friend preview")
     }
 });

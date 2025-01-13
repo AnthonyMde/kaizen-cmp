@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.landscape_icon
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.FormErrorText
@@ -41,14 +43,17 @@ import org.towny.kaizen.ui.screens.components.LoadingButton
 fun AuthScreenRoot(
     viewModel: AuthViewModel = koinViewModel(),
     goToHomeScreen: () -> Unit,
-    goToOnboardingProfile: () ->  Unit
+    goToOnboardingProfile: () -> Unit
 ) {
     val loginScreenState by viewModel.authScreenState.collectAsState()
+    val scope = rememberCoroutineScope()
     LaunchedEffect(true) {
-        viewModel.navigationEvents.collectLatest { event ->
-            when (event) {
-                AuthNavigationEvent.GoToHomeScreen -> goToHomeScreen()
-                AuthNavigationEvent.GoToOnboardingProfile -> goToOnboardingProfile()
+        scope.launch {
+            viewModel.navigationEvents.collectLatest { event ->
+                when (event) {
+                    AuthNavigationEvent.GoToHomeScreen -> goToHomeScreen()
+                    AuthNavigationEvent.GoToOnboardingProfile -> goToOnboardingProfile()
+                }
             }
         }
     }

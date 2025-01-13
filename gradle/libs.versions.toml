@@ -35,6 +35,7 @@ datastore-preferences-core = { group = "androidx.datastore", name = "datastore-p
 
 gitlive-firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive" }
 gitlive-firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "gitlive" }
+gitlive-firebase-functions = { group = "dev.gitlive", name = "firebase-functions", version.ref = "gitlive" }
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
@@ -46,7 +47,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 
-atomicfu = { group = "org.jetbrains.kotlinx", name= "atomicfu", version.ref = "kotlin-atomicfu" }
+atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version.ref = "kotlin-atomicfu" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

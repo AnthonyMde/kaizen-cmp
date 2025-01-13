@@ -1,6 +1,6 @@
-import com.android.build.api.variant.BuildConfigField
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.application)
@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.serialization.json)
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.auth)
+            implementation(libs.gitlive.firebase.functions)
 
             implementation(libs.datastore.core)
             implementation(libs.datastore.preferences.core)
