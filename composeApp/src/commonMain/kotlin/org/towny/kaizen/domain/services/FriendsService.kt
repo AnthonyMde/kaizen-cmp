@@ -20,17 +20,6 @@ class FriendsService(
     }
 
     suspend fun createFriendRequest(friendId: String): Resource<Unit> {
-        val username = usersRepository.getCurrentUser()?.name ?:
-            return Resource.Error(DomainException.User.NoUserAccountFound)
-
-        return updateFriendRequest(FriendRequest(
-            sender = FriendRequestProfile(username),
-            receiver = FriendRequestProfile(friendId),
-            state = FriendRequest.State.PENDING
-        ))
-    }
-
-    suspend fun updateFriendRequest(request: FriendRequest): Resource<Unit> {
-        return friendsRepository.createOrUpdateFriendRequest(request)
+        return friendsRepository.createFriendRequest(friendId)
     }
 }

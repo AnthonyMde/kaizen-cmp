@@ -12,7 +12,6 @@ import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.FirestoreDataSource
-import org.towny.kaizen.domain.models.FriendRequest
 
 class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
     private val firestore = Firebase.firestore
@@ -111,18 +110,6 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
                 )
             )
         docRef.update(mapOf(FirestoreChallengeKeys.ID to docRef.id))
-    }
-
-    override suspend fun createOrUpdateFriendRequest(userId: String, request: FriendRequest) {
-        getUserDocumentRef(userId)
-            .collection(FRIEND_REQUESTS_COLLECTION)
-            .add(
-                mapOf(
-                    FirestoreFriendRequestsKeys.SEND_TO to request.sender,
-                    FirestoreFriendRequestsKeys.FROM to request.receiver,
-                    FirestoreFriendRequestsKeys.STATE to request.state
-                )
-            )
     }
 
     private suspend fun getUserDocumentRef(userId: String): DocumentReference = firestore

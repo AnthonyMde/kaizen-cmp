@@ -3,18 +3,15 @@ package org.towny.kaizen.data.repository
 import dev.gitlive.firebase.functions.FirebaseFunctionsException
 import org.towny.kaizen.data.remote.firebase_functions.toDomainException
 import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
-import org.towny.kaizen.data.repository.sources.FirestoreDataSource
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.FriendPreview
-import org.towny.kaizen.domain.models.FriendRequest
 import org.towny.kaizen.domain.models.Resource
-import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.FriendsRepository
+import org.towny.kaizen.domain.repository.UsersRepository
 
 class FriendsRepositoryImpl(
-    private val firestore: FirestoreDataSource,
     private val firebaseFunctions: FirebaseFunctionsDataSource,
-    private val authRepository: AuthRepository
+    private val usersRepository: UsersRepository
 ) : FriendsRepository {
     override suspend fun getFriendPreview(username: String): Resource<FriendPreview> {
         return try {
@@ -27,12 +24,13 @@ class FriendsRepositoryImpl(
         }
     }
 
-    override suspend fun createOrUpdateFriendRequest(request: FriendRequest): Resource<Unit> {
-        val userId = authRepository.getUserSession()?.uid
-            ?: return Resource.Error(DomainException.User.NoUserSessionFound)
+    override suspend fun createFriendRequest(friendId: String): Resource<Unit> {
+        val userId = usersRepository.getCurrentUser()?.id ?: return Resource.Error(
+            DomainException.User.NoUserAccountFound
+        )
 
         return try {
-            firestore.createOrUpdateFriendRequest(userId = userId, request = request)
+            firebaseFunctions.createFriendRequest(userId)
             Resource.Success()
         } catch (e: Exception) {
             if (e is FirebaseFunctionsException) {

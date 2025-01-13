@@ -6,11 +6,23 @@ import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import org.towny.kaizen.domain.models.FriendPreview
 
 class FirebaseFunctionsDataSourceImpl: FirebaseFunctionsDataSource {
+    private val functions = Firebase.functions
+
     override suspend fun getFriendPreviewByName(username: String): FriendPreview {
-        val data = mapOf("username" to username)
-        return Firebase.functions
+        val body = mapOf("username" to username)
+
+        return functions
             .httpsCallable("getFriendPreviewById")
-            .invoke(data)
+            .invoke(body)
             .data<FriendPreview>()
+    }
+
+    override suspend fun createFriendRequest(friendId: String) {
+        val body = mapOf("friendId" to friendId)
+
+        functions
+            .httpsCallable("createFriendRequest")
+            .invoke(body)
+            .data<Unit>()
     }
 }
