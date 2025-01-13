@@ -25,9 +25,9 @@ export const getFriendPreviewById = onCall(async (request) => {
         throw new HttpsError("unauthenticated", "You must be authenticated.")
     }
 
-    let friendId: String
+    let friendUsername: String
     try {
-        friendId = request.data.friendId as String
+        friendUsername = request.data.username as String
     } catch (e) {
         throw new HttpsError("invalid-argument", "The function must be called with friend id.")
     }
@@ -35,7 +35,7 @@ export const getFriendPreviewById = onCall(async (request) => {
     try {
         const snapshot = await getFirestore()
             .collection(Collection.USERS)
-            .where("id", "==", friendId)
+            .where("name", "==", friendUsername)
             .get()
 
         const user = snapshot.docs[0].data() as User

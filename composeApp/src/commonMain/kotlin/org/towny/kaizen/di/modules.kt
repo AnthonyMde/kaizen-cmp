@@ -5,15 +5,18 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import org.towny.kaizen.data.local.LocalPreferencesDataSourceImpl
-import org.towny.kaizen.data.remote.FirebaseAuth
+import org.towny.kaizen.data.local.DataStoreDataSourceImpl
+import org.towny.kaizen.data.remote.firebase_auth.FirebaseAuthDataSourceImpl
+import org.towny.kaizen.data.remote.firebase_functions.FirebaseFunctionsDataSourceImpl
 import org.towny.kaizen.data.remote.firestore.RemoteFirestoreDataSourceImpl
 import org.towny.kaizen.data.repository.ChallengesRepositoryImpl
 import org.towny.kaizen.data.repository.AuthRepositoryImpl
 import org.towny.kaizen.data.repository.FriendsRepositoryImpl
 import org.towny.kaizen.data.repository.UsersRepositoryImpl
-import org.towny.kaizen.data.repository.sources.LocalPreferencesDataSource
-import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
+import org.towny.kaizen.data.repository.sources.DataStoreDataSource
+import org.towny.kaizen.data.repository.sources.FirebaseAuthDataSource
+import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
+import org.towny.kaizen.data.repository.sources.FirestoreDataSource
 import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.FriendsRepository
@@ -59,9 +62,10 @@ val commonModules = module {
     singleOf(::FriendsRepositoryImpl).bind<FriendsRepository>()
 
     // Data sources
-    singleOf(::LocalPreferencesDataSourceImpl).bind<LocalPreferencesDataSource>()
-    singleOf(::RemoteFirestoreDataSourceImpl).bind<RemoteFirestoreDataSource>()
-    singleOf(::FirebaseAuth)
+    singleOf(::DataStoreDataSourceImpl).bind<DataStoreDataSource>()
+    singleOf(::RemoteFirestoreDataSourceImpl).bind<FirestoreDataSource>()
+    singleOf(::FirebaseAuthDataSourceImpl).bind<FirebaseAuthDataSource>()
+    singleOf(::FirebaseFunctionsDataSourceImpl).bind<FirebaseFunctionsDataSource>()
 }
 
 expect val targetModule: Module

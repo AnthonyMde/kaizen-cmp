@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.towny.kaizen.data.remote.dto.UserDTO
-import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
+import org.towny.kaizen.data.repository.sources.FirestoreDataSource
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
@@ -18,7 +18,7 @@ import org.towny.kaizen.domain.repository.UsersRepository
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UsersRepositoryImpl(
-    private val remoteFirestoreDataSource: RemoteFirestoreDataSource,
+    private val firestore: FirestoreDataSource,
     private val authRepository: AuthRepository
 ) : UsersRepository {
 
@@ -31,10 +31,10 @@ class UsersRepositoryImpl(
             )
         )
 
-        return remoteFirestoreDataSource
+        return firestore
             .watchCurrentUser(userId)
             .flatMapLatest { userDTO ->
-                remoteFirestoreDataSource.watchAllChallenges(userId)
+                firestore.watchAllChallenges(userId)
                     .map { challengeDTOs ->
                         val challenges = challengeDTOs.map { it.toChallenge() }
                         userDTO?.toUser(challenges = challenges)
@@ -59,12 +59,12 @@ class UsersRepositoryImpl(
             )
         )
 
-        return remoteFirestoreDataSource
+        return firestore
             .watchOtherUsers(userId)
             .flatMapLatest { userDTOs ->
                 combine(
                     userDTOs.map { userDTO ->
-                        remoteFirestoreDataSource.watchAllChallenges(userDTO.id)
+                        firestore.watchAllChallenges(userDTO.id)
                             .map { challengeDTOs ->
                                 val challenges = challengeDTOs.map { it.toChallenge() }
                                 userDTO.toUser(challenges = challenges)
@@ -87,7 +87,7 @@ class UsersRepositoryImpl(
     }
 
     override suspend fun createUser(user: User): Resource<Unit> = try {
-        remoteFirestoreDataSource.createUser(UserDTO.from(user))
+        firestore.createUser(UserDTO.from(user))
         Resource.Success()
     } catch (e: Exception) {
         Resource.Error(e)
@@ -95,7 +95,7 @@ class UsersRepositoryImpl(
 
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {
         return try {
-            val isAvailable = remoteFirestoreDataSource.findUserByName(username) == null
+            val isAvailable = firestore.findUserByName(username) == null
             Resource.Success(isAvailable)
         } catch (e: Exception) {
             Resource.Error(e)

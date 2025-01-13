@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.map
 import org.towny.kaizen.data.remote.dto.ChallengeDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
-import org.towny.kaizen.data.repository.sources.RemoteFirestoreDataSource
+import org.towny.kaizen.data.repository.sources.FirestoreDataSource
 import org.towny.kaizen.domain.models.FriendRequest
 
-class RemoteFirestoreDataSourceImpl : RemoteFirestoreDataSource {
+class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
     private val firestore = Firebase.firestore
 
     companion object {

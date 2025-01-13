@@ -1,6 +1,5 @@
 package org.towny.kaizen.data.repository
 
-import dev.gitlive.firebase.FirebaseException
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseAuthUserCollisionException
 import dev.gitlive.firebase.auth.FirebaseAuthWeakPasswordException
@@ -8,14 +7,14 @@ import dev.gitlive.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.towny.kaizen.data.remote.FirebaseAuth
+import org.towny.kaizen.data.repository.sources.FirebaseAuthDataSource
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.UserSession
 import org.towny.kaizen.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuthDataSource
 ) : AuthRepository {
     private val _watchUserSession =
         MutableStateFlow(firebaseAuth.getUserSession()?.toUserSession())
@@ -67,7 +66,7 @@ class AuthRepositoryImpl(
      * Throws a firebase exception while trying to invoke reload() if the
      * user session has been deleted from firebase auth console.
      */
-    @Throws(FirebaseException::class, IllegalStateException::class)
+    @Throws(Exception::class)
     override suspend fun reloadUserSession(): UserSession? {
         firebaseAuth.getUserSession()?.reload()
 
