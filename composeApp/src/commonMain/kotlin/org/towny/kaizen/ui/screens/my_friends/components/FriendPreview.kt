@@ -5,8 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,7 +35,7 @@ fun FriendPreview(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .absoluteOffset(y = (-16).dp)
+            .height(72.dp)
             .clip(
                 shape = RoundedCornerShape(
                     topStart = 0.dp,
@@ -47,7 +47,7 @@ fun FriendPreview(
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
             )
-            .padding(top = 24.dp, bottom = 8.dp)
+            .padding(top = 16.dp)
             .padding(start = 16.dp, end = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +55,7 @@ fun FriendPreview(
         Image(
             painter = painterResource(avatars[friend.profilePictureIndex].drawable),
             contentDescription = null,
-            modifier = Modifier.size(40.dp)
+            modifier = Modifier.size(44.dp)
         )
         Text(
             friend.name,

@@ -1,5 +1,9 @@
 package org.towny.kaizen.ui.screens.my_friends
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -117,11 +122,19 @@ fun MyFriendsScreen(
                     .zIndex(2f)
             )
 
-            if (state.friendPreview != null) {
-                FriendPreview(
-                    friend = state.friendPreview,
-                    onAction = onAction
-                )
+            AnimatedVisibility(
+                visible = state.friendPreview != null,
+                enter = slideInVertically(
+                    animationSpec = tween(300),
+                ),
+                modifier = Modifier.offset(y = (-16).dp)
+            ) {
+                state.friendPreview?.let { friend ->
+                    FriendPreview(
+                        friend = friend,
+                        onAction = onAction
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
