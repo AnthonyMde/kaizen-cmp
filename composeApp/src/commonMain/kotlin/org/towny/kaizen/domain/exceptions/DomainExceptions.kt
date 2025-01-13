@@ -1,8 +1,16 @@
 package org.towny.kaizen.domain.exceptions
 
 sealed class DomainException(message: String = "") : Exception(message) {
+    sealed class Common : DomainException() {
+        data object Unknown : Common()
+        data object InvalidArguments : Common()
+        data object NotFound : Common()
+        data object ServerInternalError: Common()
+    }
+
     sealed class Auth : DomainException() {
         data object UserNotAuthorized : Auth()
+        data object UserNotAuthenticated : Auth()
         data object PasswordIsEmpty : Auth()
         data object WeakPassword : Auth()
         data object InvalidCredentials : Auth()
