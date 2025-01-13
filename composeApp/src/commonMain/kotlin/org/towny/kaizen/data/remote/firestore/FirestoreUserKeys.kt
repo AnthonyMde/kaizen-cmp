@@ -1,4 +1,4 @@
-package org.towny.kaizen.data.remote
+package org.towny.kaizen.data.remote.firestore
 
 object FirestoreUserKeys {
     const val ID = "id"

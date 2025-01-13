@@ -7,7 +7,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.towny.kaizen.data.local.LocalPreferencesDataSourceImpl
 import org.towny.kaizen.data.remote.FirebaseAuth
-import org.towny.kaizen.data.remote.RemoteFirestoreDataSourceImpl
+import org.towny.kaizen.data.remote.firestore.RemoteFirestoreDataSourceImpl
 import org.towny.kaizen.data.repository.ChallengesRepositoryImpl
 import org.towny.kaizen.data.repository.AuthRepositoryImpl
 import org.towny.kaizen.data.repository.FriendsRepositoryImpl

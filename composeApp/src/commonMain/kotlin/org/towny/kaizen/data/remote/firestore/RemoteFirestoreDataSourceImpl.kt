@@ -1,4 +1,4 @@
-package org.towny.kaizen.data.remote
+package org.towny.kaizen.data.remote.firestore
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.DocumentReference
