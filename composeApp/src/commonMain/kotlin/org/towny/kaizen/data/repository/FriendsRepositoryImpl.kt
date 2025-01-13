@@ -6,11 +6,9 @@ import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import org.towny.kaizen.domain.models.FriendPreview
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.FriendsRepository
-import org.towny.kaizen.domain.repository.UsersRepository
 
 class FriendsRepositoryImpl(
-    private val firebaseFunctions: FirebaseFunctionsDataSource,
-    private val usersRepository: UsersRepository
+    private val firebaseFunctions: FirebaseFunctionsDataSource
 ) : FriendsRepository {
     override suspend fun getFriendPreview(username: String): Resource<FriendPreview> {
         return try {
