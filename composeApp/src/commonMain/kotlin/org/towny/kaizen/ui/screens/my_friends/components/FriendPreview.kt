@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
@@ -69,6 +70,7 @@ fun FriendPreview(
 
         if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = (2.dp))
+            Spacer(modifier = Modifier.width(0.dp)) // Hack to avoid miscalculation with IconButton.
         } else {
             IconButton(
                 onClick = {
