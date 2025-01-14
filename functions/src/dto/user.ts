@@ -3,4 +3,5 @@ interface User {
     "email": String
     "name": String
     "profilePictureIndex": Number
+    "friendIds": Array<string>
 }

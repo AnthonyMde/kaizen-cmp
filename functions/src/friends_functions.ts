@@ -1,4 +1,4 @@
-import { getFirestore } from "firebase-admin/firestore";
+import { FieldValue, getFirestore } from "firebase-admin/firestore";
 //import * as logger from "firebase-functions/logger";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { Collection } from "./collection";
@@ -63,7 +63,7 @@ export const createFriendRequest = onCall(async (request) => {
     try {
         friendId = request.data.friendId as string
     } catch (e) {
-        throw new HttpsError("invalid-argument", "The function must be called with friend id.")
+        throw new HttpsError("invalid-argument", "Function must be called with friend id.")
     }
 
     if (userId === friendId) {
@@ -118,10 +118,62 @@ export const createFriendRequest = onCall(async (request) => {
 });
 
 export const updateFriendRequest = onCall(async (request) => {
-    
+    if (request.auth == null || request.auth.uid == null) {
+        throw new HttpsError("unauthenticated", "You must be authenticated.")
+    }
+
+    let friendRequestId: string
+    let newStatus: string
+    try {
+        friendRequestId = request.data.friendRequestId as string
+        newStatus = request.data.status as string
+    } catch (e) {
+        throw new HttpsError("invalid-argument", "Function must be called with friendRequestId and status.")
+    }
+
+    const firestore = getFirestore()
+    const userId = request.auth.uid
+    const friendRequestRef = firestore
+        .collection(Collection.USERS)
+        .doc(userId)
+        .collection(Collection.FRIEND_REQUESTS)
+        .doc(friendRequestId)
+    const friendRequestSnapshot = await friendRequestRef.get()
+    if (!friendRequestSnapshot.exists) {
+        throw new HttpsError("not-found", `No friend request was found for id ${friendRequestId}`)
+    }
+    const friendRequest = friendRequestSnapshot.data() as FriendRequest
+
+    const isAccepted = newStatus === FriendRequestStatus[FriendRequestStatus.ACCEPTED]
+    const isDeclined = newStatus === FriendRequestStatus[FriendRequestStatus.DECLINED]
+    const isCanceled = newStatus === FriendRequestStatus[FriendRequestStatus.CANCELED]
+    const senderId = friendRequest.sender.id
+    const receiverId = friendRequest.receiver.id
+
+    if (isCanceled && senderId != userId) {
+        throw new HttpsError("permission-denied", "Only the sender can cancel a friend request.")
+    }
+    if ((isAccepted || isDeclined) && receiverId != userId) {
+        throw new HttpsError("permission-denied", "Only the receiver can accept or decline a friend request.")
+    }
+
+    const batch = firestore.batch()
+    if (isAccepted) {
+        batch.update(firestore.collection(Collection.USERS).doc(senderId), {
+            friendIds: FieldValue.arrayUnion(receiverId)
+        })
+        batch.update(firestore.collection(Collection.USERS).doc(receiverId), {
+            friendIds: FieldValue.arrayUnion(senderId)
+        })
+    } else if (isCanceled || isDeclined) {
+        // Nothing we just delete as we will do for accepted status
+    }
+
+    batch.delete(friendRequestRef)
+    await batch.commit()
 });
 
 const generateUniqueId = (idA: string, idB: string): string => {
-    const sorted = [idA, idB].sort()
-    return sorted[0]+sorted[1]
+    const sorted = [idA.slice(0, 15), idB.slice(0, 15)].sort()
+    return sorted[0] + sorted[1]
 }
