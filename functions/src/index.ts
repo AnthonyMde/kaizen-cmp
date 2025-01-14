@@ -8,7 +8,8 @@
  */
 
 import { initializeApp } from "firebase-admin/app";
-import { createFriendRequest, getFriendPreviewById, getFriendRequests, updateFriendRequest } from "./friends_functions";
+import { createFriendRequest, getFriendRequests, updateFriendRequest } from "./friend_requests_functions";
+import { getFriendPreviewById } from "./friends_functions";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
