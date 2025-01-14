@@ -67,7 +67,8 @@ fun SentFriendRequestView(
             modifier = Modifier.matchParentSize().background(
                 color = Color.Gray.copy(alpha = 0.5f),
                 shape = RoundedCornerShape(16.dp)
-            ).padding(end = 16.dp)
+            ).padding(end = 16.dp),
+            contentAlignment = Alignment.CenterEnd
         ) {
             if (isUpdateRequestLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
@@ -101,6 +102,5 @@ private fun BoxScope.RequestActionButton(
         },
         modifier = Modifier
             .size(18.dp)
-            .align(Alignment.CenterEnd)
     )
 }
