@@ -5,7 +5,7 @@ sealed class DomainException(message: String = "") : Exception(message) {
         data object Unknown : Common()
         data object InvalidArguments : Common()
         data object NotFound : Common()
-        data object ServerInternalError: Common()
+        data object ServerInternalError : Common()
     }
 
     sealed class Auth : DomainException() {
@@ -31,6 +31,11 @@ sealed class DomainException(message: String = "") : Exception(message) {
             data object DoubleSpecialCharNotAuthorized : Name()
             data object SpecialCharNotAuthorized : Name()
         }
+    }
+
+    sealed class Friend : DomainException() {
+        data object CannotSearchForYourself : Friend()
+        data object CannotSendFriendRequestToYourself : Friend()
     }
 
     sealed class Challenge : DomainException() {

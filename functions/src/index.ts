@@ -64,6 +64,10 @@ export const createFriendRequest = onCall(async (request) => {
         throw new HttpsError("invalid-argument", "The function must be called with friend id.")
     }
 
+    if (userId === friendId) {
+        throw new HttpsError("invalid-argument", "You cannot create a friend request for yourself.")
+    }
+
     const firestore = getFirestore()
     const batch = firestore.batch()
 
