@@ -133,12 +133,13 @@ export const updateFriendRequest = onCall(async (request) => {
 
     const firestore = getFirestore()
     const userId = request.auth.uid
-    const friendRequestRef = firestore
+    const friendRequestSnapshot = await firestore
         .collection(Collection.USERS)
         .doc(userId)
         .collection(Collection.FRIEND_REQUESTS)
         .doc(friendRequestId)
-    const friendRequestSnapshot = await friendRequestRef.get()
+        .get()
+
     if (!friendRequestSnapshot.exists) {
         throw new HttpsError("not-found", `No friend request was found for id ${friendRequestId}`)
     }
@@ -169,7 +170,8 @@ export const updateFriendRequest = onCall(async (request) => {
         // Nothing we just delete as we will do for accepted status
     }
 
-    batch.delete(friendRequestRef)
+    batch.delete(firestore.collection(Collection.USERS).doc(senderId).collection(Collection.FRIEND_REQUESTS).doc(friendRequestId))
+    batch.delete(firestore.collection(Collection.USERS).doc(receiverId).collection(Collection.FRIEND_REQUESTS).doc(friendRequestId))
     await batch.commit()
 });
 
