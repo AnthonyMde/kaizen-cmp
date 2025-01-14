@@ -36,6 +36,23 @@ export const getFriendPreviewById = onCall(async (request) => {
     } as FriendPreview
 });
 
+export const getFriendRequests = onCall(async (request) => {
+    if (request.auth == null || request.auth.uid == null) {
+        throw new HttpsError("unauthenticated", "You must be authenticated.")
+    }
+
+    const userId = request.auth.uid
+
+    const friendRequestSnapshots = await getFirestore()
+        .collection(Collection.USERS)
+        .doc(userId)
+        .collection(Collection.FRIEND_REQUESTS)
+        .limit(10)
+        .get()
+
+    return friendRequestSnapshots.docs.map((doc) => doc.data() as FriendRequest);
+});
+
 export const createFriendRequest = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
         throw new HttpsError("unauthenticated", "You must be authenticated.")

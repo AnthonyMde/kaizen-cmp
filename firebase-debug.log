@@ -1,0 +1,273 @@
+[debug] [2025-01-14T16:15:39.061Z] ----------------------------------------------------------------------
+[debug] [2025-01-14T16:15:39.066Z] Command:       /Users/anthonymamode/.nvm/versions/node/v20.3.1/bin/node /Users/anthonymamode/.nvm/versions/node/v20.3.1/bin/firebase deploy --only functions
+[debug] [2025-01-14T16:15:39.066Z] CLI Version:   13.29.1
+[debug] [2025-01-14T16:15:39.066Z] Platform:      darwin
+[debug] [2025-01-14T16:15:39.066Z] Node Version:  v20.3.1
+[debug] [2025-01-14T16:15:39.066Z] Time:          Tue Jan 14 2025 17:15:39 GMT+0100 (Central European Standard Time)
+[debug] [2025-01-14T16:15:39.066Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-01-14T16:15:39.122Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-01-14T16:15:39.122Z] > authorizing via signed-in user (anthony.mamode@gmail.com)
+[debug] [2025-01-14T16:15:39.122Z] [iam] checking project kaizen-cmp for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-01-14T16:15:39.123Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:15:39.123Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:15:39.124Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions [none]
+[debug] [2025-01-14T16:15:39.124Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:15:39.124Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-01-14T16:15:39.827Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions 200
+[debug] [2025-01-14T16:15:39.827Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-01-14T16:15:39.827Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:15:39.827Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:15:39.827Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-01-14T16:15:39.827Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-01-14T16:15:40.537Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-01-14T16:15:40.537Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'kaizen-cmp'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[debug] [2025-01-14T16:16:46.829Z] ----------------------------------------------------------------------
+[debug] [2025-01-14T16:16:46.834Z] Command:       /Users/anthonymamode/.nvm/versions/node/v20.3.1/bin/node /Users/anthonymamode/.nvm/versions/node/v20.3.1/bin/firebase deploy --only functions:getFriendRequests
+[debug] [2025-01-14T16:16:46.835Z] CLI Version:   13.29.1
+[debug] [2025-01-14T16:16:46.835Z] Platform:      darwin
+[debug] [2025-01-14T16:16:46.835Z] Node Version:  v20.3.1
+[debug] [2025-01-14T16:16:46.835Z] Time:          Tue Jan 14 2025 17:16:46 GMT+0100 (Central European Standard Time)
+[debug] [2025-01-14T16:16:46.835Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-01-14T16:16:46.882Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-01-14T16:16:46.882Z] > authorizing via signed-in user (anthony.mamode@gmail.com)
+[debug] [2025-01-14T16:16:46.882Z] [iam] checking project kaizen-cmp for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-01-14T16:16:46.883Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:46.883Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:46.884Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions [none]
+[debug] [2025-01-14T16:16:46.884Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:16:46.884Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-01-14T16:16:47.618Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions 200
+[debug] [2025-01-14T16:16:47.618Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-01-14T16:16:47.619Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:47.619Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:47.619Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-01-14T16:16:47.619Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-01-14T16:16:48.330Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-01-14T16:16:48.330Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/kaizen-cmp/serviceAccounts/kaizen-cmp@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'kaizen-cmp'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[info] ✔  functions: Finished running predeploy script. 
+[debug] [2025-01-14T16:16:52.115Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.115Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.115Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp [none]
+[debug] [2025-01-14T16:16:52.298Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp 200
+[debug] [2025-01-14T16:16:52.298Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp {"projectNumber":"1087432737670","projectId":"kaizen-cmp","lifecycleState":"ACTIVE","name":"Kaizen-cmp","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2024-12-14T21:09:53.572212Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-01-14T16:16:52.299Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.299Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.299Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.299Z] Checked if tokens are valid: true, expires at: 1736873888185
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-01-14T16:16:52.299Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.300Z] Checked if tokens are valid: true, expires at: 1736873888185
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-01-14T16:16:52.300Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.300Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:52.300Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-01-14T16:16:52.300Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:16:52.301Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-01-14T16:16:52.301Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:16:52.301Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudbuild.googleapis.com [none]
+[debug] [2025-01-14T16:16:52.301Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudbuild.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:16:52.302Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/artifactregistry.googleapis.com [none]
+[debug] [2025-01-14T16:16:52.302Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/artifactregistry.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:16:53.241Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/runtimeconfig.googleapis.com 200
+[debug] [2025-01-14T16:16:53.241Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-01-14T16:16:53.242Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudbuild.googleapis.com 200
+[debug] [2025-01-14T16:16:53.242Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudbuild.googleapis.com [omitted]
+[info] ✔  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-01-14T16:16:53.243Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/artifactregistry.googleapis.com 200
+[debug] [2025-01-14T16:16:53.243Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/artifactregistry.googleapis.com [omitted]
+[info] ✔  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-01-14T16:16:53.244Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudfunctions.googleapis.com 200
+[debug] [2025-01-14T16:16:53.244Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/cloudfunctions.googleapis.com [omitted]
+[info] ✔  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-01-14T16:16:53.244Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:53.244Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:53.244Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/kaizen-cmp/adminSdkConfig [none]
+[debug] [2025-01-14T16:16:53.650Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/kaizen-cmp/adminSdkConfig 200
+[debug] [2025-01-14T16:16:53.650Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/kaizen-cmp/adminSdkConfig {"projectId":"kaizen-cmp","storageBucket":"kaizen-cmp.firebasestorage.app"}
+[debug] [2025-01-14T16:16:53.651Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:53.651Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:16:53.651Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/kaizen-cmp/configs [none]
+[debug] [2025-01-14T16:16:54.490Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/kaizen-cmp/configs 200
+[debug] [2025-01-14T16:16:54.490Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/kaizen-cmp/configs {}
+[debug] [2025-01-14T16:16:54.493Z] Validating nodejs source
+[debug] [2025-01-14T16:16:55.193Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2025-01-14T16:16:55.193Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-01-14T16:16:55.194Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-01-14T16:16:55.199Z] Found firebase-functions binary at '/Users/anthonymamode/AndroidStudioProjects/Kaizen/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8729
+
+[debug] [2025-01-14T16:16:55.471Z] Got response from /__/functions.yaml {"endpoints":{"createFriendRequest":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"createFriendRequest"},"getFriendPreviewById":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getFriendPreviewById"},"getFriendRequests":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getFriendRequests"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2025-01-14T16:17:00.491Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:00.491Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:00.491Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/firebaseextensions.googleapis.com [none]
+[debug] [2025-01-14T16:17:00.491Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/firebaseextensions.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:17:01.429Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/firebaseextensions.googleapis.com 200
+[debug] [2025-01-14T16:17:01.430Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/firebaseextensions.googleapis.com [omitted]
+[info] ✔  extensions: required API firebaseextensions.googleapis.com is enabled 
+[debug] [2025-01-14T16:17:01.430Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-01-14T16:17:01.430Z] > authorizing via signed-in user (anthony.mamode@gmail.com)
+[debug] [2025-01-14T16:17:01.430Z] [iam] checking project kaizen-cmp for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2025-01-14T16:17:01.430Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:01.430Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:01.430Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions [none]
+[debug] [2025-01-14T16:17:01.430Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:17:01.430Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-01-14T16:17:02.046Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions 200
+[debug] [2025-01-14T16:17:02.047Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-01-14T16:17:02.047Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:02.048Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:02.050Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/kaizen-cmp/instances pageSize=100&pageToken=
+[debug] [2025-01-14T16:17:02.967Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/kaizen-cmp/instances 200
+[debug] [2025-01-14T16:17:02.968Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/kaizen-cmp/instances {}
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged /Users/anthonymamode/AndroidStudioProjects/Kaizen/functions (69.65 KB) for uploading 
+[debug] [2025-01-14T16:17:03.017Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:03.017Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:03.017Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/kaizen-cmp/locations/-/functions [none]
+[debug] [2025-01-14T16:17:03.689Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/kaizen-cmp/locations/-/functions 200
+[debug] [2025-01-14T16:17:03.689Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/kaizen-cmp/locations/-/functions {}
+[debug] [2025-01-14T16:17:03.690Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:03.690Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:03.691Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-01-14T16:17:04.629Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/-/functions 200
+[debug] [2025-01-14T16:17:04.629Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/-/functions {"functions":[{"name":"projects/kaizen-cmp/locations/us-central1/functions/createFriendRequest","buildConfig":{"build":"projects/1087432737670/locations/us-central1/builds/25983c3d-f3a6-41e0-81e9-f580db31465c","runtime":"nodejs18","entryPoint":"createFriendRequest","source":{"storageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"createFriendRequest/function-source.zip","generation":"1736870610561181"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/kaizen-cmp/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"createFriendRequest/function-source.zip","generation":"1736870610561181"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/kaizen-cmp/serviceAccounts/1087432737670-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/kaizen-cmp/locations/us-central1/services/createfriendrequest","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/createFriendRequest","FUNCTION_TARGET":"createFriendRequest","LOG_EXECUTION_ID":"true","FUNCTION_SIGNATURE_TYPE":"http"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","uri":"https://createfriendrequest-eomme3sohq-uc.a.run.app","serviceAccountEmail":"1087432737670-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"createfriendrequest-00007-boc","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2025-01-14T16:04:19.678896896Z","labels":{"firebase-functions-hash":"9df944c32d6e8724b36bf8185936b72a6006e355","deployment-tool":"cli-firebase","deployment-callable":"true"},"environment":"GEN_2","url":"https://us-central1-kaizen-cmp.cloudfunctions.net/createFriendRequest","createTime":"2025-01-13T17:26:01.132113789Z"},{"name":"projects/kaizen-cmp/locations/us-central1/functions/getFriendPreviewById","buildConfig":{"build":"projects/1087432737670/locations/us-central1/builds/25983c3d-f3a6-41e0-81e9-f580db31465c","runtime":"nodejs18","entryPoint":"getFriendPreviewById","source":{"storageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"getFriendPreviewById/function-source.zip","generation":"1736870652653989"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/kaizen-cmp/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"getFriendPreviewById/function-source.zip","generation":"1736870652653989"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/kaizen-cmp/serviceAccounts/1087432737670-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/kaizen-cmp/locations/us-central1/services/getfriendpreviewbyid","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/getFriendPreviewById","FUNCTION_TARGET":"getFriendPreviewById","LOG_EXECUTION_ID":"true","FUNCTION_SIGNATURE_TYPE":"http"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","uri":"https://getfriendpreviewbyid-eomme3sohq-uc.a.run.app","serviceAccountEmail":"1087432737670-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"getfriendpreviewbyid-00006-pur","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2025-01-14T16:04:19.489021908Z","labels":{"deployment-callable":"true","firebase-functions-hash":"9df944c32d6e8724b36bf8185936b72a6006e355","deployment-tool":"cli-firebase"},"environment":"GEN_2","url":"https://us-central1-kaizen-cmp.cloudfunctions.net/getFriendPreviewById","createTime":"2025-01-13T14:10:35.843463717Z"}]}
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2025-01-14T16:17:04.631Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:04.631Z] Checked if tokens are valid: true, expires at: 1736873888185
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2025-01-14T16:17:04.632Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:04.632Z] Checked if tokens are valid: true, expires at: 1736873888185
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2025-01-14T16:17:04.632Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:04.632Z] Checked if tokens are valid: true, expires at: 1736873888185
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2025-01-14T16:17:04.632Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:04.632Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:04.632Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/run.googleapis.com [none]
+[debug] [2025-01-14T16:17:04.632Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/run.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:17:04.633Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/eventarc.googleapis.com [none]
+[debug] [2025-01-14T16:17:04.633Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/eventarc.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:17:04.634Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/pubsub.googleapis.com [none]
+[debug] [2025-01-14T16:17:04.634Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/pubsub.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:17:04.635Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/storage.googleapis.com [none]
+[debug] [2025-01-14T16:17:04.635Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/storage.googleapis.com x-goog-quota-user=projects/kaizen-cmp
+[debug] [2025-01-14T16:17:05.420Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/run.googleapis.com 200
+[debug] [2025-01-14T16:17:05.420Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/run.googleapis.com [omitted]
+[info] ✔  functions: required API run.googleapis.com is enabled 
+[debug] [2025-01-14T16:17:05.426Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/eventarc.googleapis.com 200
+[debug] [2025-01-14T16:17:05.426Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/eventarc.googleapis.com [omitted]
+[info] ✔  functions: required API eventarc.googleapis.com is enabled 
+[debug] [2025-01-14T16:17:05.433Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/pubsub.googleapis.com 200
+[debug] [2025-01-14T16:17:05.433Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/pubsub.googleapis.com [omitted]
+[info] ✔  functions: required API pubsub.googleapis.com is enabled 
+[debug] [2025-01-14T16:17:05.438Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/storage.googleapis.com 200
+[debug] [2025-01-14T16:17:05.438Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/kaizen-cmp/services/storage.googleapis.com [omitted]
+[info] ✔  functions: required API storage.googleapis.com is enabled 
+[info] i  functions: generating the service identity for pubsub.googleapis.com... 
+[debug] [2025-01-14T16:17:05.438Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:05.439Z] Checked if tokens are valid: true, expires at: 1736873888185
+[info] i  functions: generating the service identity for eventarc.googleapis.com... 
+[debug] [2025-01-14T16:17:05.439Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:05.439Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:05.439Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/1087432737670/services/pubsub.googleapis.com:generateServiceIdentity [none]
+[debug] [2025-01-14T16:17:05.439Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/1087432737670/services/eventarc.googleapis.com:generateServiceIdentity [none]
+[debug] [2025-01-14T16:17:06.221Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/1087432737670/services/eventarc.googleapis.com:generateServiceIdentity 200
+[debug] [2025-01-14T16:17:06.221Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/1087432737670/services/eventarc.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-1087432737670@gcp-sa-eventarc.iam.gserviceaccount.com","uniqueId":"102381337170839788764"}}
+[debug] [2025-01-14T16:17:06.266Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/1087432737670/services/pubsub.googleapis.com:generateServiceIdentity 200
+[debug] [2025-01-14T16:17:06.266Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/1087432737670/services/pubsub.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-1087432737670@gcp-sa-pubsub.iam.gserviceaccount.com","uniqueId":"103282665060555481996"}}
+[debug] [2025-01-14T16:17:06.269Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:06.269Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:06.269Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp [none]
+[debug] [2025-01-14T16:17:06.453Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp 200
+[debug] [2025-01-14T16:17:06.454Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/kaizen-cmp {"projectNumber":"1087432737670","projectId":"kaizen-cmp","lifecycleState":"ACTIVE","name":"Kaizen-cmp","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2024-12-14T21:09:53.572212Z"}
+[debug] [2025-01-14T16:17:06.456Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:06.456Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:06.456Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/kaizen-cmp/billingInfo [none]
+[debug] [2025-01-14T16:17:06.836Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/kaizen-cmp/billingInfo 200
+[debug] [2025-01-14T16:17:06.837Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/kaizen-cmp/billingInfo {"name":"projects/kaizen-cmp/billingInfo","projectId":"kaizen-cmp","billingAccountName":"billingAccounts/013FE2-DCF71F-8F3460","billingEnabled":true}
+[debug] [2025-01-14T16:17:06.840Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:06.840Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:06.840Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/functions:generateUploadUrl [none]
+[debug] [2025-01-14T16:17:07.600Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/functions:generateUploadUrl 200
+[debug] [2025-01-14T16:17:07.600Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/functions:generateUploadUrl {"uploadUrl":"https://storage.googleapis.com/gcf-v2-uploads-1087432737670.us-central1.cloudfunctions.appspot.com/8b173765-5615-4e7f-bd14-bbd25327ccf3.zip?GoogleAccessId=service-1087432737670@gcf-admin-robot.iam.gserviceaccount.com&Expires=1736873227&Signature=X%2Bt9Y3828H%2FSMQju7Zwq67EFnS1OI76xW3yy7heNsQsicJHVmCSmhRinMzIoodAI2ruwBcP%2Bgeo5OZwYkZers2l1xmIdB0u84qDZws9WDRr6f%2Bd3w3%2FHV58WIe5U3Rr%2FYgSdu2DSEnF7BeBOAn8XVkg1Bnk2mELdz4rU456N4cQAwBYJFlTb6DPt8SNvDus%2FIvvCswgXNV4u6lJkvcwIpBPa5AuE2rkKFcEEORJWJkOTNoqzO3xbRjb%2BqY23jL3TjLRyZFwnVKHw3AglkTNrQaXbAfWV5CwMa%2BumB%2BOYFgg%2FezqIT6ENkpFv8A7AlAGbs6d44mhI%2F4P4mJM26x6bNA%3D%3D","storageSource":{"bucket":"gcf-v2-uploads-1087432737670.us-central1.cloudfunctions.appspot.com","object":"8b173765-5615-4e7f-bd14-bbd25327ccf3.zip"}}
+[debug] [2025-01-14T16:17:07.601Z] >>> [apiv2][query] PUT https://storage.googleapis.com/gcf-v2-uploads-1087432737670.us-central1.cloudfunctions.appspot.com/8b173765-5615-4e7f-bd14-bbd25327ccf3.zip GoogleAccessId=service-1087432737670%40gcf-admin-robot.iam.gserviceaccount.com&Expires=1736873227&Signature=X%2Bt9Y3828H%2FSMQju7Zwq67EFnS1OI76xW3yy7heNsQsicJHVmCSmhRinMzIoodAI2ruwBcP%2Bgeo5OZwYkZers2l1xmIdB0u84qDZws9WDRr6f%2Bd3w3%2FHV58WIe5U3Rr%2FYgSdu2DSEnF7BeBOAn8XVkg1Bnk2mELdz4rU456N4cQAwBYJFlTb6DPt8SNvDus%2FIvvCswgXNV4u6lJkvcwIpBPa5AuE2rkKFcEEORJWJkOTNoqzO3xbRjb%2BqY23jL3TjLRyZFwnVKHw3AglkTNrQaXbAfWV5CwMa%2BumB%2BOYFgg%2FezqIT6ENkpFv8A7AlAGbs6d44mhI%2F4P4mJM26x6bNA%3D%3D
+[debug] [2025-01-14T16:17:07.601Z] >>> [apiv2][body] PUT https://storage.googleapis.com/gcf-v2-uploads-1087432737670.us-central1.cloudfunctions.appspot.com/8b173765-5615-4e7f-bd14-bbd25327ccf3.zip [stream]
+[debug] [2025-01-14T16:17:08.649Z] <<< [apiv2][status] PUT https://storage.googleapis.com/gcf-v2-uploads-1087432737670.us-central1.cloudfunctions.appspot.com/8b173765-5615-4e7f-bd14-bbd25327ccf3.zip 200
+[debug] [2025-01-14T16:17:08.649Z] <<< [apiv2][body] PUT https://storage.googleapis.com/gcf-v2-uploads-1087432737670.us-central1.cloudfunctions.appspot.com/8b173765-5615-4e7f-bd14-bbd25327ccf3.zip [omitted]
+[info] ✔  functions: functions folder uploaded successfully 
+[info] i  functions: creating Node.js 18 (2nd Gen) function getFriendRequests(us-central1)... 
+[debug] [2025-01-14T16:17:08.654Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:08.654Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:08.654Z] >>> [apiv2][query] POST https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/functions functionId=getFriendRequests
+[debug] [2025-01-14T16:17:08.654Z] >>> [apiv2][body] POST https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/functions {"name":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","buildConfig":{"runtime":"nodejs18","entryPoint":"getFriendRequests","source":{"storageSource":{"bucket":"gcf-v2-uploads-1087432737670.us-central1.cloudfunctions.appspot.com","object":"8b173765-5615-4e7f-bd14-bbd25327ccf3.zip"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""}},"serviceConfig":{"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/getFriendRequests","FUNCTION_TARGET":"getFriendRequests"},"ingressSettings":null,"timeoutSeconds":null,"serviceAccountEmail":null,"availableMemory":"256Mi","minInstanceCount":null,"maxInstanceCount":null,"maxInstanceRequestConcurrency":80,"availableCpu":"1","vpcConnector":null,"vpcConnectorEgressSettings":null},"labels":{"deployment-tool":"cli-firebase","deployment-callable":"true","firebase-functions-hash":"a4f7b6a654cfd07caf6e9ede6d6eafe96b2d7f15"}}
+[debug] [2025-01-14T16:17:09.894Z] <<< [apiv2][status] POST https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/functions 200
+[debug] [2025-01-14T16:17:09.894Z] <<< [apiv2][body] POST https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/functions {"name":"projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-01-14T16:17:09.856583271Z","target":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","verb":"create","cancelRequested":false,"apiVersion":"v2"},"done":false}
+[debug] [2025-01-14T16:17:09.895Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:09.895Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:09.895Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e [none]
+[debug] [2025-01-14T16:17:10.237Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e 200
+[debug] [2025-01-14T16:17:10.237Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e {"name":"projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-01-14T16:17:09.856583271Z","target":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","buildConfig":{"runtime":"nodejs18","entryPoint":"getFriendRequests","source":{"storageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"getFriendRequests/function-source.zip","generation":"1736871429594238"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"serviceAccount":"projects/kaizen-cmp/serviceAccounts/1087432737670-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/kaizen-cmp/locations/us-central1/services/getfriendrequests","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/getFriendRequests","FUNCTION_TARGET":"getFriendRequests","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"1087432737670-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","deployment-callable":"true","firebase-functions-hash":"a4f7b6a654cfd07caf6e9ede6d6eafe96b2d7f15"},"environment":"GEN_2"},"stages":[{"name":"BUILD","state":"NOT_STARTED"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"CREATE_FUNCTION"},"done":false}
+[debug] [2025-01-14T16:17:10.739Z] [create-default-us-central1-getFriendRequests] Retrying task index 0
+[debug] [2025-01-14T16:17:10.739Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:10.739Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:10.739Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e [none]
+[debug] [2025-01-14T16:17:11.424Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e 200
+[debug] [2025-01-14T16:17:11.424Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e {"name":"projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-01-14T16:17:09.856583271Z","target":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","buildConfig":{"runtime":"nodejs18","entryPoint":"getFriendRequests","source":{"storageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"getFriendRequests/function-source.zip","generation":"1736871429594238"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"serviceAccount":"projects/kaizen-cmp/serviceAccounts/1087432737670-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/kaizen-cmp/locations/us-central1/services/getfriendrequests","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/getFriendRequests","FUNCTION_TARGET":"getFriendRequests","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"1087432737670-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","deployment-callable":"true","firebase-functions-hash":"a4f7b6a654cfd07caf6e9ede6d6eafe96b2d7f15"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/65e42879-cae2-40a2-9c41-b891f7d582b2?project=1087432737670"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"CREATE_FUNCTION","buildName":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2"},"done":false}
+[debug] [2025-01-14T16:17:12.426Z] [create-default-us-central1-getFriendRequests] Retrying task index 0
+[debug] [2025-01-14T16:17:12.426Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:12.426Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:12.426Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e [none]
+[debug] [2025-01-14T16:17:13.205Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e 200
+[debug] [2025-01-14T16:17:13.206Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e {"name":"projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-01-14T16:17:09.856583271Z","target":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","buildConfig":{"runtime":"nodejs18","entryPoint":"getFriendRequests","source":{"storageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"getFriendRequests/function-source.zip","generation":"1736871429594238"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"serviceAccount":"projects/kaizen-cmp/serviceAccounts/1087432737670-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/kaizen-cmp/locations/us-central1/services/getfriendrequests","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/getFriendRequests","FUNCTION_TARGET":"getFriendRequests","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"1087432737670-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","deployment-callable":"true","firebase-functions-hash":"a4f7b6a654cfd07caf6e9ede6d6eafe96b2d7f15"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/65e42879-cae2-40a2-9c41-b891f7d582b2?project=1087432737670"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"CREATE_FUNCTION","buildName":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2"},"done":false}
+[debug] [2025-01-14T16:17:15.206Z] [create-default-us-central1-getFriendRequests] Retrying task index 0
+[debug] [2025-01-14T16:17:15.208Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:15.208Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:15.208Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e [none]
+[debug] [2025-01-14T16:17:15.974Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e 200
+[debug] [2025-01-14T16:17:15.974Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e {"name":"projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-01-14T16:17:09.856583271Z","target":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","buildConfig":{"runtime":"nodejs18","entryPoint":"getFriendRequests","source":{"storageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"getFriendRequests/function-source.zip","generation":"1736871429594238"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"serviceAccount":"projects/kaizen-cmp/serviceAccounts/1087432737670-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/kaizen-cmp/locations/us-central1/services/getfriendrequests","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/getFriendRequests","FUNCTION_TARGET":"getFriendRequests","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"1087432737670-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","deployment-callable":"true","firebase-functions-hash":"a4f7b6a654cfd07caf6e9ede6d6eafe96b2d7f15"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/65e42879-cae2-40a2-9c41-b891f7d582b2?project=1087432737670"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"CREATE_FUNCTION","buildName":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2"},"done":false}
+[debug] [2025-01-14T16:17:19.975Z] [create-default-us-central1-getFriendRequests] Retrying task index 0
+[debug] [2025-01-14T16:17:19.976Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:19.976Z] Checked if tokens are valid: true, expires at: 1736873888185
+[debug] [2025-01-14T16:17:19.976Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e [none]
+[debug] [2025-01-14T16:17:20.784Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e 200
+[debug] [2025-01-14T16:17:20.784Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e {"name":"projects/kaizen-cmp/locations/us-central1/operations/operation-1736871429325-62bace490c390-c05198f5-62048d5e","metadata":{"@type":"type.googleapis.com/google.cloud.functions.v2.OperationMetadata","createTime":"2025-01-14T16:17:09.856583271Z","target":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","verb":"create","cancelRequested":false,"apiVersion":"v2","requestResource":{"@type":"type.googleapis.com/google.cloud.functions.v2.Function","name":"projects/kaizen-cmp/locations/us-central1/functions/getFriendRequests","buildConfig":{"runtime":"nodejs18","entryPoint":"getFriendRequests","source":{"storageSource":{"bucket":"gcf-v2-sources-1087432737670-us-central1","object":"getFriendRequests/function-source.zip","generation":"1736871429594238"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"serviceAccount":"projects/kaizen-cmp/serviceAccounts/1087432737670-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/kaizen-cmp/locations/us-central1/services/getfriendrequests","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"kaizen-cmp\",\"storageBucket\":\"kaizen-cmp.firebasestorage.app\"}","GCLOUD_PROJECT":"kaizen-cmp","EVENTARC_CLOUD_EVENT_SOURCE":"projects/kaizen-cmp/locations/us-central1/services/getFriendRequests","FUNCTION_TARGET":"getFriendRequests","LOG_EXECUTION_ID":"true"},"ingressSettings":"ALLOW_ALL","serviceAccountEmail":"1087432737670-compute@developer.gserviceaccount.com","availableMemory":"256Mi","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"labels":{"deployment-tool":"cli-firebase","deployment-callable":"true","firebase-functions-hash":"a4f7b6a654cfd07caf6e9ede6d6eafe96b2d7f15"},"environment":"GEN_2"},"stages":[{"name":"BUILD","message":"Build in progress","state":"IN_PROGRESS","resource":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2","resourceUri":"https://console.cloud.google.com/cloud-build/builds;region=us-central1/65e42879-cae2-40a2-9c41-b891f7d582b2?project=1087432737670"},{"name":"SERVICE","state":"NOT_STARTED"}],"operationType":"CREATE_FUNCTION","buildName":"projects/1087432737670/locations/us-central1/builds/65e42879-cae2-40a2-9c41-b891f7d582b2"},"done":false}
