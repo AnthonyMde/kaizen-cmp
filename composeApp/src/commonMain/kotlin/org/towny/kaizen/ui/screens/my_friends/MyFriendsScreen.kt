@@ -156,7 +156,9 @@ fun MyFriendsScreen(
             } else if (state.totalRequests > 0) {
                 PendingRequestsView(
                     sentRequests = state.pendingSentRequests,
-                    receivedRequests = state.pendingReceivedRequests
+                    receivedRequests = state.pendingReceivedRequests,
+                    requestIdsCurrentlyUpdated = state.requestIdsCurrentlyUpdated,
+                    onAction = onAction
                 )
             }
         }

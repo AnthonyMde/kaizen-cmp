@@ -10,11 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.towny.kaizen.domain.models.FriendRequest
+import org.towny.kaizen.ui.screens.my_friends.MyFriendsAction
 
 @Composable
 fun PendingRequestsView(
     sentRequests: List<FriendRequest>,
-    receivedRequests: List<FriendRequest>
+    receivedRequests: List<FriendRequest>,
+    requestIdsCurrentlyUpdated: List<String>,
+    onAction: (MyFriendsAction) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -23,16 +26,28 @@ fun PendingRequestsView(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         receivedRequests.forEach { request ->
-            ReceivedFriendRequestView(request = request)
+            val isLoading = requestIdsCurrentlyUpdated.contains(request.id)
+            ReceivedFriendRequestView(
+                request = request,
+                isUpdateRequestLoading = isLoading,
+                onAction = onAction
+            )
         }
 
         if (sentRequests.isNotEmpty() && receivedRequests.isNotEmpty()) {
-            HorizontalDivider(modifier = Modifier
-                .width(120.dp))
+            HorizontalDivider(
+                modifier = Modifier
+                    .width(120.dp)
+            )
         }
 
         sentRequests.forEach { request ->
-            SentFriendRequestView(request = request)
+            val isLoading = requestIdsCurrentlyUpdated.contains(request.id)
+            SentFriendRequestView(
+                request = request,
+                isUpdateRequestLoading = isLoading,
+                onAction = onAction
+            )
         }
     }
 }

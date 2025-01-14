@@ -7,4 +7,5 @@ interface FirebaseFunctionsDataSource {
     suspend fun getFriendPreviewByName(username: String): FriendPreview
     suspend fun getFriendRequests(): List<FriendRequest>
     suspend fun createFriendRequest(friendId: String)
+    suspend fun updateFriendRequest(requestId: String, status: FriendRequest.Status)
 }

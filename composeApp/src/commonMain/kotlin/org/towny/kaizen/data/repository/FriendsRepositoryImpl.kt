@@ -43,4 +43,16 @@ class FriendsRepositoryImpl(
             }
         }
     }
+
+    override suspend fun updateFriendRequest(
+        requestId: String,
+        status: FriendRequest.Status
+    ): Resource<Unit> {
+        return try {
+            firebaseFunctions.updateFriendRequest(requestId, status)
+            Resource.Success()
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
 }

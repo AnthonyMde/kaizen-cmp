@@ -6,13 +6,16 @@ import org.towny.kaizen.domain.models.FriendRequest
 data class MyFriendsState(
     val friendUsernameInputValue: String = "",
     val friendUsernameInputError: String? = null,
+
     val isFriendPreviewLoading: Boolean = false,
     val friendPreview: FriendPreview? = null,
     val isSendFriendRequestLoading: Boolean = false,
 
+    val areFriendRequestsLoading: Boolean = true,
     val pendingSentRequests: List<FriendRequest> = emptyList(),
     val pendingReceivedRequests: List<FriendRequest> = emptyList(),
-    val areFriendRequestsLoading: Boolean = true
+
+    val requestIdsCurrentlyUpdated: List<String> = emptyList()
 ) {
     val totalRequests: Int
         get() = pendingReceivedRequests.size + pendingSentRequests.size

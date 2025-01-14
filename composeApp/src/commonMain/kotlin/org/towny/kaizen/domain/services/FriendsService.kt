@@ -33,6 +33,11 @@ class FriendsService(
         return friendsRepository.getFriendRequests()
     }
 
+    fun updateFriendRequest(requestId: String, status: FriendRequest.Status): Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading())
+        emit(friendsRepository.updateFriendRequest(requestId, status))
+    }
+
     suspend fun createFriendRequest(friendId: String?): Resource<Unit> {
         friendId ?: return Resource.Error(DomainException.Common.InvalidArguments)
         val userId = usersRepository.getCurrentUser()?.id

@@ -32,4 +32,15 @@ class FirebaseFunctionsDataSourceImpl: FirebaseFunctionsDataSource {
             .httpsCallable("createFriendRequest")
             .invoke(body)
     }
+
+    override suspend fun updateFriendRequest(requestId: String, status: FriendRequest.Status) {
+        val body = mapOf(
+            "friendRequestId" to requestId,
+            "status" to status
+        )
+
+        functions
+            .httpsCallable("updateFriendRequest")
+            .invoke(body)
+    }
 }

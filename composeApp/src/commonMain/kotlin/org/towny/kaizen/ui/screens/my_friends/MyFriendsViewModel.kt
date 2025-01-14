@@ -63,8 +63,67 @@ class MyFriendsViewModel(
                 createFriendRequest()
             }
 
+            is MyFriendsAction.OnFriendRequestUpdated -> viewModelScope.launch {
+                friendsService.updateFriendRequest(action.requestId, action.status)
+                    .collectLatest { result ->
+                        when (result) {
+                            is Resource.Error -> {
+                                // TODO: Add toast showing error
+                                _myFriendsState.update {
+                                    it.copy(
+                                        requestIdsCurrentlyUpdated =
+                                        getNewRequestIdsUnderUpdate(
+                                            _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                            action.requestId
+                                        )
+                                    )
+                                }
+                            }
+
+                            is Resource.Success -> {
+                                getFriendRequests()
+                                _myFriendsState.update {
+                                    it.copy(
+                                        requestIdsCurrentlyUpdated =
+                                        getNewRequestIdsUnderUpdate(
+                                            _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                            action.requestId
+                                        )
+                                    )
+                                }
+                            }
+
+                            is Resource.Loading -> {
+                                _myFriendsState.update {
+                                    it.copy(
+                                        requestIdsCurrentlyUpdated = getNewRequestIdsUnderUpdate(
+                                            _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                            action.requestId,
+                                            true
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+            }
+
             else -> {}
         }
+    }
+
+    private fun getNewRequestIdsUnderUpdate(
+        entry: List<String>,
+        id: String,
+        adding: Boolean = false
+    ): List<String> {
+        val list = entry.toMutableList()
+        if (adding) {
+            list.add(id)
+        } else {
+            list.remove(id)
+        }
+        return list
     }
 
     private suspend fun getFriendPreview(username: String) {

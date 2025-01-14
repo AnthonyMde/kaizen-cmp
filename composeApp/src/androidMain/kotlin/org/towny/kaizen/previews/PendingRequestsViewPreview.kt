@@ -11,7 +11,9 @@ import org.towny.kaizen.ui.screens.my_friends.components.PendingRequestsView
 fun PendingRequestsViewPreview() {
     PendingRequestsView(
         sentRequests = sentRequests,
-        receivedRequests = receivedRequests
+        receivedRequests = receivedRequests,
+        requestIdsCurrentlyUpdated = emptyList(),
+        onAction = {}
     )
 }
 

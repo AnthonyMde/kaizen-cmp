@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,10 +26,13 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.towny.kaizen.domain.models.FriendRequest
 import org.towny.kaizen.ui.resources.avatars
+import org.towny.kaizen.ui.screens.my_friends.MyFriendsAction
 
 @Composable
 fun ReceivedFriendRequestView(
     request: FriendRequest,
+    isUpdateRequestLoading: Boolean,
+    onAction: (MyFriendsAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -56,29 +60,56 @@ fun ReceivedFriendRequestView(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f)
             )
-            OutlinedButton(
-                onClick = {},
-                content = {
-                    Text("Accept", style = MaterialTheme.typography.bodyMedium.copy())
-                },
-                modifier = Modifier.height(28.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp)
-            )
 
-            Spacer(modifier = Modifier.width(8.dp))
-
-            IconButton(
-                onClick = {},
-                content = {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "Decline friend request",
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
-                },
-                modifier = Modifier
-                    .size(18.dp)
-            )
+            if (isUpdateRequestLoading) {
+                CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
+            } else {
+                RequestActionButtons(request.id, onAction)
+            }
         }
     }
+}
+
+@Composable
+private fun RequestActionButtons(
+    requestId: String,
+    onAction: (MyFriendsAction) -> Unit
+) {
+    OutlinedButton(
+        onClick = {
+            onAction(
+                MyFriendsAction.OnFriendRequestUpdated(
+                    requestId,
+                    FriendRequest.Status.ACCEPTED
+                )
+            )
+        },
+        content = {
+            Text("Accept", style = MaterialTheme.typography.bodyMedium.copy())
+        },
+        modifier = Modifier.height(28.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp)
+    )
+
+    Spacer(modifier = Modifier.width(8.dp))
+
+    IconButton(
+        onClick = {
+            onAction(
+                MyFriendsAction.OnFriendRequestUpdated(
+                    requestId,
+                    FriendRequest.Status.DECLINED
+                )
+            )
+        },
+        content = {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "Decline friend request",
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        },
+        modifier = Modifier
+            .size(18.dp)
+    )
 }
