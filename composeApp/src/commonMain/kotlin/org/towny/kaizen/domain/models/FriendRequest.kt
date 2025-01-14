@@ -9,6 +9,7 @@ data class FriendRequest(
     val receiver: FriendRequestProfile,
     val status: Status
 ) {
+    @Serializable
     enum class Status {
         PENDING, DECLINED, ACCEPTED, CANCELED
     }
