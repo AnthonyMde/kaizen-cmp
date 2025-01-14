@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,16 +13,15 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -41,15 +39,15 @@ import androidx.compose.ui.zIndex
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
 import org.towny.kaizen.ui.screens.my_friends.components.FriendPreview
-import org.towny.kaizen.ui.screens.my_friends.components.ReceivedFriendRequestView
-import org.towny.kaizen.ui.screens.my_friends.components.SentFriendRequestView
+import org.towny.kaizen.ui.screens.my_friends.components.FriendRequestsEmptyView
+import org.towny.kaizen.ui.screens.my_friends.components.PendingRequestsView
 
 @Composable
 fun MyFriendsScreenRoot(
     viewModel: MyFriendsViewModel = koinViewModel(),
     popToAccount: () -> Unit
 ) {
-    val state by viewModel.myFriendsState.collectAsState()
+    val state by viewModel.myFriendsState.collectAsState(MyFriendsState())
 
     MyFriendsScreen(
         state = state,
@@ -138,35 +136,27 @@ fun MyFriendsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (state.pendingSentRequests.isNotEmpty()) {
-                Text(
-                    "Pending requests (${state.pendingSentRequests.size})",
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
+            Text(
+                text = "Friend requests (${state.totalRequests})",
+                modifier = Modifier
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (state.areFriendRequestsLoading) {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth().height(2.dp).padding(horizontal = 24.dp)
                 )
-                HorizontalDivider(
-                    modifier = Modifier.width(120.dp).padding(top = 8.dp),
-                    color = MaterialTheme.colorScheme.onSurface
+            } else if (state.totalRequests == 0) {
+                FriendRequestsEmptyView()
+            } else if (state.totalRequests > 0) {
+                PendingRequestsView(
+                    sentRequests = state.pendingSentRequests,
+                    receivedRequests = state.pendingReceivedRequests
                 )
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    state.pendingSentRequests.forEach { request ->
-                        SentFriendRequestView(request = request)
-                    }
-
-                    HorizontalDivider(modifier = Modifier.width(120.dp))
-
-                    state.pendingReceivedRequests.forEach { request ->
-                        ReceivedFriendRequestView(request = request)
-                    }
-                }
             }
         }
     }

@@ -5,17 +5,39 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
+import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.FriendsService
 
 class MyFriendsViewModel(
     private val friendsService: FriendsService,
+    private val usersRepository: UsersRepository
 ) : ViewModel() {
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
     val myFriendsState = _myFriendsState.asStateFlow()
+        .onStart {
+            usersRepository.getCurrentUser().let { user ->
+                try {
+                    friendsService.getFriendRequests().data?.let { requests ->
+                        val sent = requests.filter { it.sender.id == user!!.id }
+                        val received = requests.filter { it.receiver.id == user!!.id }
+                        _myFriendsState.update {
+                            it.copy(
+                                pendingSentRequests = sent,
+                                pendingReceivedRequests = received,
+                                areFriendRequestsLoading = false
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    _myFriendsState.update { it.copy(areFriendRequestsLoading = false) }
+                }
+            }
+        }
 
     fun onAction(action: MyFriendsAction) {
         when (action) {

@@ -1,5 +1,8 @@
 package org.towny.kaizen.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class FriendRequest(
     val sender: FriendRequestProfile,
     val receiver: FriendRequestProfile,
@@ -10,6 +13,7 @@ data class FriendRequest(
     }
 }
 
+@Serializable
 data class FriendRequestProfile(
     val id: String,
     val username: String,

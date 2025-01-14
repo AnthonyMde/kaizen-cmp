@@ -4,6 +4,7 @@ import dev.gitlive.firebase.functions.FirebaseFunctionsException
 import org.towny.kaizen.data.remote.firebase_functions.toDomainException
 import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import org.towny.kaizen.domain.models.FriendPreview
+import org.towny.kaizen.domain.models.FriendRequest
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.FriendsRepository
 
@@ -18,6 +19,15 @@ class FriendsRepositoryImpl(
             if (e is FirebaseFunctionsException) {
                 Resource.Error(e.toDomainException())
             } else Resource.Error(e)
+        }
+    }
+
+    override suspend fun getFriendRequests(): Resource<List<FriendRequest>> {
+        return try {
+            val requests = firebaseFunctions.getFriendRequests()
+            Resource.Success(requests)
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 
