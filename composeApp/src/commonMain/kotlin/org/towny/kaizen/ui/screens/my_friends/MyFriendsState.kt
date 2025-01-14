@@ -8,6 +8,7 @@ data class MyFriendsState(
     val friendUsernameInputError: String? = null,
     val isFriendPreviewLoading: Boolean = false,
     val friendPreview: FriendPreview? = null,
+    val isSendFriendRequestLoading: Boolean = false,
 
     val pendingSentRequests: List<FriendRequest> = emptyList(),
     val pendingReceivedRequests: List<FriendRequest> = emptyList(),

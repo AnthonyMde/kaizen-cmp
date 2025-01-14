@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +31,7 @@ import org.towny.kaizen.ui.screens.my_friends.MyFriendsAction
 @Composable
 fun FriendPreview(
     friend: FriendPreview,
+    isLoading: Boolean,
     onAction: (MyFriendsAction) -> Unit
 ) {
     Row(
@@ -64,17 +66,22 @@ fun FriendPreview(
             )
         )
         Spacer(modifier = Modifier.weight(1f))
-        IconButton(
-            onClick = {
-                onAction(MyFriendsAction.OnFriendRequestSubmit)
-            },
-            content = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Send,
-                    contentDescription = "Send friend request",
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        )
+
+        if (isLoading) {
+            CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = (2.dp))
+        } else {
+            IconButton(
+                onClick = {
+                    onAction(MyFriendsAction.OnFriendRequestSubmit)
+                },
+                content = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Send,
+                        contentDescription = "Send friend request",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            )
+        }
     }
 }

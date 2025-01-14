@@ -129,6 +129,7 @@ fun MyFriendsScreen(
                 state.friendPreview?.let { friend ->
                     FriendPreview(
                         friend = friend,
+                        isLoading = state.isSendFriendRequestLoading,
                         onAction = onAction
                     )
                 }

@@ -20,24 +20,28 @@ class MyFriendsViewModel(
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
     val myFriendsState = _myFriendsState.asStateFlow()
         .onStart {
-            usersRepository.getCurrentUser().let { user ->
-                try {
-                    friendsService.getFriendRequests().data?.let { requests ->
-                        val sent = requests.filter { it.sender.id == user!!.id }
-                        val received = requests.filter { it.receiver.id == user!!.id }
-                        _myFriendsState.update {
-                            it.copy(
-                                pendingSentRequests = sent,
-                                pendingReceivedRequests = received,
-                                areFriendRequestsLoading = false
-                            )
-                        }
+            getFriendRequests()
+        }
+
+    private suspend fun getFriendRequests() {
+        usersRepository.getCurrentUser().let { user ->
+            try {
+                friendsService.getFriendRequests().data?.let { requests ->
+                    val sent = requests.filter { it.sender.id == user!!.id }
+                    val received = requests.filter { it.receiver.id == user!!.id }
+                    _myFriendsState.update {
+                        it.copy(
+                            pendingSentRequests = sent,
+                            pendingReceivedRequests = received,
+                            areFriendRequestsLoading = false
+                        )
                     }
-                } catch (e: Exception) {
-                    _myFriendsState.update { it.copy(areFriendRequestsLoading = false) }
                 }
+            } catch (e: Exception) {
+                _myFriendsState.update { it.copy(areFriendRequestsLoading = false) }
             }
         }
+    }
 
     fun onAction(action: MyFriendsAction) {
         when (action) {
@@ -104,7 +108,7 @@ class MyFriendsViewModel(
 
         _myFriendsState.update {
             it.copy(
-                isFriendPreviewLoading = true,
+                isSendFriendRequestLoading = true,
                 friendUsernameInputError = null
             )
         }
@@ -121,12 +125,13 @@ class MyFriendsViewModel(
                 }
 
                 is Resource.Success -> {
-                    println("DEBUG: (MyFriendsViewModel) FriendRequest was created successfully")
+                    getFriendRequests()
+                    _myFriendsState.update { it.copy(friendPreview = null) }
                 }
 
                 is Resource.Loading -> {}
             }
         }
-        _myFriendsState.update { it.copy(isFriendPreviewLoading = false) }
+        _myFriendsState.update { it.copy(isSendFriendRequestLoading = false) }
     }
 }
