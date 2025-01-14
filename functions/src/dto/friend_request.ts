@@ -1,4 +1,5 @@
 export interface FriendRequest {
+    id: string,
     sender: FriendRequestProfile,
     receiver: FriendRequestProfile,
     status: string

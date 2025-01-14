@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FriendRequest(
+    val id: String,
     val sender: FriendRequestProfile,
     val receiver: FriendRequestProfile,
     val status: Status

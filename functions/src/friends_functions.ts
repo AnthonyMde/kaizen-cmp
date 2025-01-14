@@ -92,7 +92,10 @@ export const createFriendRequest = onCall(async (request) => {
         throw new HttpsError("internal", `Cannot retrieve friend (User) with id ${userId}`)
     }
 
+    const uniqueId = generateUniqueId(userId, friendId)
+
     const friendRequest = {
+        id: uniqueId,
         sender: {
             id: user.id,
             username: user.name,
@@ -106,10 +109,19 @@ export const createFriendRequest = onCall(async (request) => {
         status: FriendRequestStatus[FriendRequestStatus.PENDING]
     } as FriendRequest
 
-    batch.set(userRef.collection(Collection.FRIEND_REQUESTS).doc(), friendRequest)
-    batch.set(friendRef.collection(Collection.FRIEND_REQUESTS).doc(), friendRequest)
+    batch.set(userRef.collection(Collection.FRIEND_REQUESTS).doc(uniqueId), friendRequest)
+    batch.set(friendRef.collection(Collection.FRIEND_REQUESTS).doc(uniqueId), friendRequest)
 
     await batch.commit()
 
     return friendRequest;
 });
+
+export const updateFriendRequest = onCall(async (request) => {
+    
+});
+
+const generateUniqueId = (idA: string, idB: string): string => {
+    const sorted = [idA, idB].sort()
+    return sorted[0]+sorted[1]
+}

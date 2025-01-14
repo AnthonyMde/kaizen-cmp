@@ -17,6 +17,7 @@ fun PendingRequestsViewPreview() {
 
 private val sentRequests = listOf(
     FriendRequest(
+        id = "1",
         sender = FriendRequestProfile(
             id = "1",
             username = "Towny",
@@ -30,6 +31,7 @@ private val sentRequests = listOf(
         FriendRequest.Status.PENDING
     ),
     FriendRequest(
+        id = "1",
         sender = FriendRequestProfile(
             id = "1",
             username = "Towny",
@@ -46,6 +48,7 @@ private val sentRequests = listOf(
 
 private val receivedRequests = listOf(
     FriendRequest(
+        id = "1",
         receiver = FriendRequestProfile(
             id = "1",
             username = "Towny",
@@ -59,6 +62,7 @@ private val receivedRequests = listOf(
         status = FriendRequest.Status.PENDING
     ),
     FriendRequest(
+        id = "1",
         receiver = FriendRequestProfile(
             id = "1",
             username = "Towny",
