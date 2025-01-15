@@ -16,12 +16,14 @@ import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.AuthRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
+import org.towny.kaizen.domain.services.FriendsService
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 
 class HomeViewModel(
     private val usersRepository: UsersRepository,
     private val authRepository: AuthRepository,
     private val challengesService: ChallengesService,
+    private val friendsService: FriendsService,
     private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase
 ) : ViewModel() {
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
@@ -113,7 +115,7 @@ class HomeViewModel(
     }
 
     private fun watchFriends() = viewModelScope.launch {
-        usersRepository.watchFriends().collectLatest { result ->
+        friendsService.getFriends().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     _homeScreenState.update {

@@ -4,11 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +27,7 @@ import org.towny.kaizen.domain.models.Friend
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
 import org.towny.kaizen.ui.screens.home.components.EmailConfirmationModal
 import org.towny.kaizen.ui.screens.home.components.FriendWithChallengesView
+import org.towny.kaizen.ui.screens.home.components.FriendsEmptyView
 import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
@@ -98,26 +101,25 @@ fun HomeScreen(
             color = MaterialTheme.colorScheme.primary
         )
 
+        if (state.isFriendsLoading) {
+            LinearProgressIndicator(modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp)
+                .padding(top = 8.dp)
+                .padding(horizontal = 24.dp))
+        } else if (state.friends.isEmpty()) {
+            FriendsEmptyView(modifier = Modifier.padding(top = 16.dp))
+        }
         LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
-            items(state.friends) { challenger ->
-                // TODO: Do not use User class anymore.
+            items(state.friends) { friend ->
                 FriendWithChallengesView(
                     modifier = Modifier.padding(top = 16.dp),
                     friend = Friend(
-                        id = challenger.id,
-                        name = challenger.name,
-                        profilePictureIndex = challenger.profilePictureIndex,
-                        challenges = challenger.challenges
-                    ),
-                    onToggleChallenge = { challengeId: String, isChecked: Boolean ->
-                        onAction(
-                            HomeAction.OnToggleChallenge(
-                                challenger.id,
-                                challengeId,
-                                isChecked
-                            )
-                        )
-                    }
+                        id = friend.id,
+                        name = friend.name,
+                        profilePictureIndex = friend.profilePictureIndex,
+                        challenges = friend.challenges
+                    )
                 )
             }
         }

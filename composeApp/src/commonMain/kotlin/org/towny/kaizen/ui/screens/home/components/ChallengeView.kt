@@ -32,7 +32,7 @@ import org.towny.kaizen.ui.theme.customColors
 @Composable
 fun ChallengeView(
     challenge: Challenge,
-    onToggleChallenge: (challengeId: String, isChecked: Boolean) -> Unit,
+    onToggleChallenge: ((challengeId: String, isChecked: Boolean) -> Unit)? = null,
     belongToCurrentUser: Boolean = false
 ) {
     Box(
@@ -56,7 +56,7 @@ fun ChallengeView(
             Checkbox(
                 checked = challenge.isCompleted,
                 onCheckedChange = { isChecked ->
-                    onToggleChallenge(challenge.id, isChecked)
+                    onToggleChallenge?.invoke(challenge.id, isChecked)
                 },
                 enabled = belongToCurrentUser && !challenge.isFailed(),
                 colors = CheckboxDefaults.colors()

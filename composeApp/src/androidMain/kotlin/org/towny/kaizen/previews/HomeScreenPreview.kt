@@ -3,6 +3,7 @@ package org.towny.kaizen.previews
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import org.towny.kaizen.domain.models.Challenge
+import org.towny.kaizen.domain.models.Friend
 import org.towny.kaizen.domain.models.User
 import org.towny.kaizen.ui.screens.home.HomeScreen
 import org.towny.kaizen.ui.screens.home.HomeScreenState
@@ -38,9 +39,8 @@ fun HomeScreenPreview() {
                 )
             ),
             friends = listOf(
-                User(
+                Friend(
                     id = "2",
-                    email = "email@clowie.com",
                     name = "Clowie",
                     profilePictureIndex = 1,
                     challenges = listOf(
@@ -62,9 +62,8 @@ fun HomeScreenPreview() {
                         )
                     )
                 ),
-                User(
+                Friend(
                     id = "3",
-                    email = "email@jackie.com",
                     name = "Jacques",
                     profilePictureIndex = 2,
                     challenges = listOf(

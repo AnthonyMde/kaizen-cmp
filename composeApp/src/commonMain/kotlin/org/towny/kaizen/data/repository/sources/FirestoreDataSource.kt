@@ -7,8 +7,9 @@ import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 
 interface FirestoreDataSource {
     fun watchCurrentUser(userId: String): Flow<UserDTO?>
-    fun watchOtherUsers(userId: String): Flow<List<UserDTO>>
     suspend fun createUser(userDTO: UserDTO)
+
+    //TODO: move to firebase functions
     suspend fun findUserByName(username: String): UserDTO?
 
     fun watchAllChallenges(userId: String): Flow<List<ChallengeFirestoreDTO>>

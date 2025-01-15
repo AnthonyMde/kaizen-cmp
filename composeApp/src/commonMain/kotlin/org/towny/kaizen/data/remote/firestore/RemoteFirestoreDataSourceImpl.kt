@@ -19,31 +19,13 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
     companion object {
         private const val USER_COLLECTION = "users"
         private const val CHALLENGE_COLLECTION = "challenges"
-        private const val FRIEND_REQUESTS_COLLECTION = "friend_requests"
     }
 
     override fun watchCurrentUser(userId: String): Flow<UserDTO?> = firestore
         .collection(USER_COLLECTION)
-        .where { FirestoreUserKeys.ID equalTo userId }
+        .document(userId)
         .snapshots
-        .map { querySnapshot ->
-            val users = querySnapshot.documents.map { documentSnapshot ->
-                documentSnapshot.data<UserDTO>()
-            }
-            users.firstOrNull()
-        }
-
-
-    override fun watchOtherUsers(userId: String): Flow<List<UserDTO>> = firestore
-        .collection(USER_COLLECTION)
-        .where { "id" notEqualTo userId }
-        .snapshots
-        .map { querySnapshot ->
-            val users = querySnapshot.documents.map { documentSnapshot ->
-                documentSnapshot.data<UserDTO>()
-            }
-            users
-        }
+        .map { querySnapshot -> querySnapshot.data<UserDTO>() }
 
     override suspend fun findUserByName(username: String): UserDTO? = firestore
         .collection(USER_COLLECTION)

@@ -53,33 +53,6 @@ class UsersRepositoryImpl(
             }
     }
 
-    override fun watchFriends(): Flow<Resource<List<User>>> {
-        val userId = authRepository.getUserSession()?.uid ?: return flowOf(
-            Resource.Error(
-                DomainException.User.NoUserSessionFound
-            )
-        )
-
-        return firestore
-            .watchOtherUsers(userId)
-            .flatMapLatest { userDTOs ->
-                combine(
-                    userDTOs.map { userDTO ->
-                        firestore.watchAllChallenges(userDTO.id)
-                            .map { challengeDTOs ->
-                                val challenges = challengeDTOs.map { it.toChallenge() }
-                                userDTO.toUser(challenges = challenges)
-                            }
-                    })
-                { userArray ->
-                    Resource.Success(userArray.toList()) as Resource<List<User>>
-                }
-            }.catch { e ->
-                println("DEBUG: (repository) Cannot watch friends because $e")
-                emit(Resource.Error(e.toDomainException()))
-            }
-    }
-
     override suspend fun getCurrentUser(): User? {
         if (currentUser != null) {
             return currentUser
@@ -94,6 +67,7 @@ class UsersRepositoryImpl(
         Resource.Error(e.toDomainException())
     }
 
+    // TODO: use backend functions instead of firestore
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {
         return try {
             val isAvailable = firestore.findUserByName(username) == null

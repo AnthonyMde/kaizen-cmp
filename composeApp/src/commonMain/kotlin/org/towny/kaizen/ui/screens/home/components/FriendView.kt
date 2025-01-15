@@ -22,7 +22,6 @@ import org.towny.kaizen.domain.models.Friend
 @Composable
 fun FriendWithChallengesView(
     friend: Friend,
-    onToggleChallenge: (challengeId: String, isChecked: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -43,10 +42,7 @@ fun FriendWithChallengesView(
                 FriendViewEmptyChallengesView(friend.name)
             }
             friend.challenges.forEach { challenge ->
-                ChallengeView(
-                    challenge = challenge,
-                    onToggleChallenge = onToggleChallenge,
-                )
+                ChallengeView(challenge)
             }
         }
     }
