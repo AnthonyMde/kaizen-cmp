@@ -1,7 +1,7 @@
 package org.towny.kaizen.data.repository.sources
 
 import kotlinx.coroutines.flow.Flow
-import org.towny.kaizen.data.remote.dto.ChallengeDTO
+import org.towny.kaizen.data.remote.dto.ChallengeFirestoreDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 
@@ -11,7 +11,7 @@ interface FirestoreDataSource {
     suspend fun createUser(userDTO: UserDTO)
     suspend fun findUserByName(username: String): UserDTO?
 
-    fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>>
+    fun watchAllChallenges(userId: String): Flow<List<ChallengeFirestoreDTO>>
     suspend fun toggleChallengeStatus(
         userId: String,
         challengeId: String,
