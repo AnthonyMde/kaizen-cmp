@@ -9,7 +9,7 @@
 
 import { initializeApp } from "firebase-admin/app";
 import { createFriendRequest, getFriendRequests, updateFriendRequest } from "./friend_requests_functions";
-import { getFriendPreviewById } from "./friends_functions";
+import { getFriendPreviewById, getFriends } from "./friends_functions";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -20,6 +20,7 @@ export {
     createFriendRequest,
     getFriendPreviewById,
     getFriendRequests,
-    updateFriendRequest
+    updateFriendRequest,
+    getFriends
 };
 

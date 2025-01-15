@@ -1,5 +1,5 @@
 export interface FriendPreview {
-    "id": String,
-    "name": String,
-    "profilePictureIndex": Number
+    "id": string,
+    "name": string,
+    "profilePictureIndex": number
 }

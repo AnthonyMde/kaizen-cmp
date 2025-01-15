@@ -2,7 +2,9 @@ import { getFirestore } from "firebase-admin/firestore";
 //import * as logger from "firebase-functions/logger";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { Collection } from "./collection";
+import { Challenge } from "./dto/challenge";
 import { FriendPreview } from "./dto/friend_preview";
+import { Friend } from "./dto/friend";
 
 export const getFriendPreviewById = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
@@ -34,3 +36,44 @@ export const getFriendPreviewById = onCall(async (request) => {
         profilePictureIndex: user.profilePictureIndex
     } as FriendPreview
 });
+
+export const getFriends = onCall(async (request) => {
+    if (request.auth == null || request.auth.uid == null) {
+        throw new HttpsError("unauthenticated", "You must be authenticated.")
+    }
+
+    const firestore = getFirestore()
+    const userId = request.auth.uid
+    const user = await firestore
+        .collection(Collection.USERS)
+        .doc(userId)
+        .get()
+        .then((snapshot) => snapshot.data() as User)
+
+    const friendUsers = await Promise.all(user.friendIds.map(async (id) => {
+        return await firestore
+            .collection(Collection.USERS)
+            .doc(id)
+            .get()
+            .then((snapshot) => snapshot.data() as User)
+    }))
+    const friendsWithChallengesPromises = friendUsers.map(async (friendUser) => {
+        const challenges = await firestore
+            .collection(Collection.USERS)
+            .doc(friendUser.id)
+            .collection(Collection.CHALLENGES)
+            .get()
+            .then((snapshot) => snapshot.docs.map((doc) => {
+                return doc.data() as Challenge
+            }))
+
+        return {
+            id: friendUser.id,
+            name: friendUser.name,
+            profilePictureIndex: friendUser.profilePictureIndex,
+            challenges: challenges
+        } as Friend
+    })
+
+    return await Promise.all(friendsWithChallengesPromises);
+})

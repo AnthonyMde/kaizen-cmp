@@ -1,7 +1,7 @@
 interface User {
-    "id": String
-    "email": String
-    "name": String
-    "profilePictureIndex": Number
+    "id": string
+    "email": string
+    "name": string
+    "profilePictureIndex": number
     "friendIds": Array<string>
 }
