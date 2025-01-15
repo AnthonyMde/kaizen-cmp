@@ -1,0 +1,3 @@
+interface isUsernameAvailable {
+    isAvailable: boolean
+}

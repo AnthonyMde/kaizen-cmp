@@ -9,9 +9,6 @@ interface FirestoreDataSource {
     fun watchCurrentUser(userId: String): Flow<UserDTO?>
     suspend fun createUser(userDTO: UserDTO)
 
-    //TODO: move to firebase functions
-    suspend fun findUserByName(username: String): UserDTO?
-
     fun watchAllChallenges(userId: String): Flow<List<ChallengeFirestoreDTO>>
     suspend fun toggleChallengeStatus(
         userId: String,
