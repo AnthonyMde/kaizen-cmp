@@ -11,6 +11,7 @@ import org.towny.kaizen.data.remote.firebase_functions.FirebaseFunctionsDataSour
 import org.towny.kaizen.data.remote.firestore.RemoteFirestoreDataSourceImpl
 import org.towny.kaizen.data.repository.ChallengesRepositoryImpl
 import org.towny.kaizen.data.repository.AuthRepositoryImpl
+import org.towny.kaizen.data.repository.FriendRequestsRepositoryImpl
 import org.towny.kaizen.data.repository.FriendsRepositoryImpl
 import org.towny.kaizen.data.repository.UsersRepositoryImpl
 import org.towny.kaizen.data.repository.sources.DataStoreDataSource
@@ -19,12 +20,14 @@ import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import org.towny.kaizen.data.repository.sources.FirestoreDataSource
 import org.towny.kaizen.domain.repository.ChallengesRepository
 import org.towny.kaizen.domain.repository.AuthRepository
+import org.towny.kaizen.domain.repository.FriendRequestsRepository
 import org.towny.kaizen.domain.repository.FriendsRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
-import org.towny.kaizen.domain.services.FriendsService
+import org.towny.kaizen.domain.services.FriendRequestsService
 import org.towny.kaizen.domain.services.AuthenticateService
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
+import org.towny.kaizen.domain.usecases.GetFriendPreviewUseCase
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 import org.towny.kaizen.domain.usecases.VerifyUsernameAvailableUseCase
 import org.towny.kaizen.domain.usecases.VerifyUsernameFormatUseCase
@@ -47,18 +50,20 @@ val commonModules = module {
     // Service
     singleOf(::AuthenticateService)
     singleOf(::ChallengesService)
-    singleOf(::FriendsService)
+    singleOf(::FriendRequestsService)
 
     // Use cases
     singleOf(::GetReloadedUserSessionUseCase)
     singleOf(::CreateUserUseCase)
     singleOf(::VerifyUsernameAvailableUseCase)
     singleOf(::VerifyUsernameFormatUseCase)
+    singleOf(::GetFriendPreviewUseCase)
 
     // Repository
     singleOf(::UsersRepositoryImpl).bind<UsersRepository>()
     singleOf(::ChallengesRepositoryImpl).bind<ChallengesRepository>()
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
+    singleOf(::FriendRequestsRepositoryImpl).bind<FriendRequestsRepository>()
     singleOf(::FriendsRepositoryImpl).bind<FriendsRepository>()
 
     // Data sources

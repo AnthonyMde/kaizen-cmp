@@ -11,10 +11,12 @@ import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.UsersRepository
-import org.towny.kaizen.domain.services.FriendsService
+import org.towny.kaizen.domain.services.FriendRequestsService
+import org.towny.kaizen.domain.usecases.GetFriendPreviewUseCase
 
 class MyFriendsViewModel(
-    private val friendsService: FriendsService,
+    private val friendRequestsService: FriendRequestsService,
+    private val getFriendPreviewUseCase: GetFriendPreviewUseCase,
     private val usersRepository: UsersRepository
 ) : ViewModel() {
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
@@ -26,7 +28,7 @@ class MyFriendsViewModel(
     private suspend fun getFriendRequests() {
         usersRepository.getCurrentUser().let { user ->
             try {
-                friendsService.getFriendRequests().data?.let { requests ->
+                friendRequestsService.getFriendRequests().data?.let { requests ->
                     val sent = requests.filter { it.sender.id == user!!.id }
                     val received = requests.filter { it.receiver.id == user!!.id }
                     _myFriendsState.update {
@@ -64,7 +66,7 @@ class MyFriendsViewModel(
             }
 
             is MyFriendsAction.OnFriendRequestUpdated -> viewModelScope.launch {
-                friendsService.updateFriendRequest(action.requestId, action.status)
+                friendRequestsService.updateFriendRequest(action.requestId, action.status)
                     .collectLatest { result ->
                         when (result) {
                             is Resource.Error -> {
@@ -127,7 +129,7 @@ class MyFriendsViewModel(
     }
 
     private suspend fun getFriendPreview(username: String) {
-        friendsService.getFriendPreview(username).collectLatest { result ->
+        getFriendPreviewUseCase(username).collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
@@ -172,7 +174,7 @@ class MyFriendsViewModel(
             )
         }
 
-        friendsService.createFriendRequest(friendId).let { result ->
+        friendRequestsService.createFriendRequest(friendId).let { result ->
             when (result) {
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
