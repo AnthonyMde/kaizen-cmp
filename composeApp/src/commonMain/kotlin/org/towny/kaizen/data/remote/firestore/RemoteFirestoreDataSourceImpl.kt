@@ -25,18 +25,7 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
         .collection(USER_COLLECTION)
         .document(userId)
         .snapshots
-        .map { querySnapshot -> querySnapshot.data<UserDTO>() }
-
-    override suspend fun findUserByName(username: String): UserDTO? = firestore
-        .collection(USER_COLLECTION)
-        .where { FirestoreUserKeys.NAME equalTo username }
-        .limit(1)
-        .get()
-        .documents
-        .map { documentSnapshot ->
-            documentSnapshot.data<UserDTO>()
-        }
-        .firstOrNull()
+        .map { querySnapshot -> querySnapshot.data<UserDTO?>() }
 
     override suspend fun createUser(userDTO: UserDTO) {
         firestore
