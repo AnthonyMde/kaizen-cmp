@@ -17,17 +17,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.towny.kaizen.domain.models.User
+import org.towny.kaizen.domain.models.Friend
 
 @Composable
-fun FriendView(
-    user: User,
+fun FriendWithChallengesView(
+    friend: Friend,
     onToggleChallenge: (challengeId: String, isChecked: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            user.name,
+            friend.name,
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
@@ -39,10 +39,10 @@ fun FriendView(
             color = MaterialTheme.colorScheme.onSurface
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
-            if (user.challenges.isEmpty()) {
-                FriendViewEmptyChallengesView(user.name)
+            if (friend.challenges.isEmpty()) {
+                FriendViewEmptyChallengesView(friend.name)
             }
-            user.challenges.forEach { challenge ->
+            friend.challenges.forEach { challenge ->
                 ChallengeView(
                     challenge = challenge,
                     onToggleChallenge = onToggleChallenge,

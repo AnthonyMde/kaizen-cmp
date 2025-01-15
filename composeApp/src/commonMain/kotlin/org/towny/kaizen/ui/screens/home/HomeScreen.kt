@@ -21,9 +21,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
+import org.towny.kaizen.domain.models.Friend
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
 import org.towny.kaizen.ui.screens.home.components.EmailConfirmationModal
-import org.towny.kaizen.ui.screens.home.components.FriendView
+import org.towny.kaizen.ui.screens.home.components.FriendWithChallengesView
 import org.towny.kaizen.ui.screens.home.components.Header
 
 @Composable
@@ -99,9 +100,15 @@ fun HomeScreen(
 
         LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
             items(state.friends) { challenger ->
-                FriendView(
+                // TODO: Do not use User class anymore.
+                FriendWithChallengesView(
                     modifier = Modifier.padding(top = 16.dp),
-                    user = challenger,
+                    friend = Friend(
+                        id = challenger.id,
+                        name = challenger.name,
+                        profilePictureIndex = challenger.profilePictureIndex,
+                        challenges = challenger.challenges
+                    ),
                     onToggleChallenge = { challengeId: String, isChecked: Boolean ->
                         onAction(
                             HomeAction.OnToggleChallenge(

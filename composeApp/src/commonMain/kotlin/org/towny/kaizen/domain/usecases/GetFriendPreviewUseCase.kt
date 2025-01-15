@@ -13,18 +13,19 @@ class GetFriendPreviewUseCase(
     private val friendsRepository: FriendsRepository
 ) {
     operator fun invoke(username: String): Flow<Resource<FriendPreview>> = flow {
-        if (username.isBlank()) {
+        val trimmedUsername = username.trim()
+        if (trimmedUsername.isBlank()) {
             emit(Resource.Error(DomainException.Common.InvalidArguments))
             return@flow
         }
         val currentUsername = usersRepository.getCurrentUser()?.name
-        if (currentUsername == username) {
+        if (currentUsername == trimmedUsername) {
             emit(Resource.Error(DomainException.Friend.CannotSearchForYourself))
             return@flow
         }
 
         emit(Resource.Loading())
-        val result = friendsRepository.getFriendPreview(username)
+        val result = friendsRepository.getFriendPreview(trimmedUsername)
         emit(result)
     }
 }

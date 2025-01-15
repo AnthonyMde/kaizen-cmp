@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,14 +34,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
+import org.towny.kaizen.ui.screens.home.components.FriendWithChallengesView
 import org.towny.kaizen.ui.screens.my_friends.components.FriendPreview
 import org.towny.kaizen.ui.screens.my_friends.components.FriendRequestsEmptyView
+import org.towny.kaizen.ui.screens.my_friends.components.FriendView
+import org.towny.kaizen.ui.screens.my_friends.components.FriendsEmptyView
 import org.towny.kaizen.ui.screens.my_friends.components.PendingRequestsView
 
 @Composable
@@ -48,12 +54,17 @@ fun MyFriendsScreenRoot(
     popToAccount: () -> Unit
 ) {
     val state by viewModel.myFriendsState.collectAsState(MyFriendsState())
+    val keyboard = LocalSoftwareKeyboardController.current
 
     MyFriendsScreen(
         state = state,
         onAction = { action ->
             when (action) {
                 MyFriendsAction.OnNavigateUp -> popToAccount()
+                MyFriendsAction.OnFriendRequestSubmit -> {
+                    keyboard?.hide()
+                    viewModel.onAction(action)
+                }
                 else -> viewModel.onAction(action)
             }
         }
@@ -160,6 +171,38 @@ fun MyFriendsScreen(
                     requestIdsCurrentlyUpdated = state.requestIdsCurrentlyUpdated,
                     onAction = onAction
                 )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Friends (${state.friends.size})",
+                modifier = Modifier
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (state.isFriendsLoading) {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth().height(2.dp).padding(horizontal = 24.dp)
+                )
+            } else if (state.friends.isEmpty()) {
+                FriendsEmptyView()
+            } else {
+                LazyColumn(modifier = Modifier
+                    .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(count = state.friends.size, itemContent = { index ->
+                        FriendView(
+                            friend = state.friends[index]
+                        )
+                    })
+                }
             }
         }
     }

@@ -10,19 +10,23 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
+import org.towny.kaizen.domain.repository.FriendsRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.FriendRequestsService
+import org.towny.kaizen.domain.services.FriendsService
 import org.towny.kaizen.domain.usecases.GetFriendPreviewUseCase
 
 class MyFriendsViewModel(
     private val friendRequestsService: FriendRequestsService,
     private val getFriendPreviewUseCase: GetFriendPreviewUseCase,
+    private val friendsService: FriendsService,
     private val usersRepository: UsersRepository
 ) : ViewModel() {
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
     val myFriendsState = _myFriendsState.asStateFlow()
         .onStart {
-            getFriendRequests()
+            viewModelScope.launch { getFriendRequests() }
+            viewModelScope.launch { getFriends() }
         }
 
     private suspend fun getFriendRequests() {
@@ -41,6 +45,36 @@ class MyFriendsViewModel(
                 }
             } catch (e: Exception) {
                 _myFriendsState.update { it.copy(areFriendRequestsLoading = false) }
+            }
+        }
+    }
+
+    private fun getFriends() = viewModelScope.launch {
+        friendsService.getFriends().collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    println("DEBUG: getFriends error ${result.throwable}")
+                    _myFriendsState.update {
+                        it.copy(
+                            friends = result.data ?: emptyList(),
+                            isFriendsLoading = false
+                        )
+                    }
+                }
+
+                is Resource.Success -> {
+                    println("DEBUG: getFriends succeeded: ${result.data}")
+                    _myFriendsState.update {
+                        it.copy(
+                            friends = result.data ?: emptyList(),
+                            isFriendsLoading = false
+                        )
+                    }
+                }
+
+                is Resource.Loading -> {
+                    _myFriendsState.update { it.copy(isFriendsLoading = true) }
+                }
             }
         }
     }
@@ -66,52 +100,57 @@ class MyFriendsViewModel(
             }
 
             is MyFriendsAction.OnFriendRequestUpdated -> viewModelScope.launch {
-                friendRequestsService.updateFriendRequest(action.requestId, action.status)
-                    .collectLatest { result ->
-                        when (result) {
-                            is Resource.Error -> {
-                                // TODO: Add toast showing error
-                                _myFriendsState.update {
-                                    it.copy(
-                                        requestIdsCurrentlyUpdated =
-                                        getNewRequestIdsUnderUpdate(
-                                            _myFriendsState.value.requestIdsCurrentlyUpdated,
-                                            action.requestId
-                                        )
-                                    )
-                                }
-                            }
-
-                            is Resource.Success -> {
-                                getFriendRequests()
-                                _myFriendsState.update {
-                                    it.copy(
-                                        requestIdsCurrentlyUpdated =
-                                        getNewRequestIdsUnderUpdate(
-                                            _myFriendsState.value.requestIdsCurrentlyUpdated,
-                                            action.requestId
-                                        )
-                                    )
-                                }
-                            }
-
-                            is Resource.Loading -> {
-                                _myFriendsState.update {
-                                    it.copy(
-                                        requestIdsCurrentlyUpdated = getNewRequestIdsUnderUpdate(
-                                            _myFriendsState.value.requestIdsCurrentlyUpdated,
-                                            action.requestId,
-                                            true
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    }
+                updateFriendRequest(action)
             }
 
             else -> {}
         }
+    }
+
+    private suspend fun updateFriendRequest(action: MyFriendsAction.OnFriendRequestUpdated) {
+        friendRequestsService.updateFriendRequest(action.requestId, action.status)
+            .collectLatest { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        // TODO: Add toast showing error
+                        _myFriendsState.update {
+                            it.copy(
+                                requestIdsCurrentlyUpdated =
+                                getNewRequestIdsUnderUpdate(
+                                    _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                    action.requestId
+                                )
+                            )
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        getFriendRequests()
+                        getFriends()
+                        _myFriendsState.update {
+                            it.copy(
+                                requestIdsCurrentlyUpdated =
+                                getNewRequestIdsUnderUpdate(
+                                    _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                    action.requestId
+                                )
+                            )
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        _myFriendsState.update {
+                            it.copy(
+                                requestIdsCurrentlyUpdated = getNewRequestIdsUnderUpdate(
+                                    _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                    action.requestId,
+                                    true
+                                )
+                            )
+                        }
+                    }
+                }
+            }
     }
 
     private fun getNewRequestIdsUnderUpdate(
@@ -187,7 +226,12 @@ class MyFriendsViewModel(
 
                 is Resource.Success -> {
                     getFriendRequests()
-                    _myFriendsState.update { it.copy(friendPreview = null) }
+                    _myFriendsState.update {
+                        it.copy(
+                            friendPreview = null,
+                            friendUsernameInputValue = ""
+                        )
+                    }
                 }
 
                 is Resource.Loading -> {}
