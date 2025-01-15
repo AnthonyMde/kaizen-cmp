@@ -2,8 +2,8 @@ package org.towny.kaizen.data.remote.firebase_functions
 
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.functions.functions
+import org.towny.kaizen.data.remote.dto.FriendDTO
 import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
-import org.towny.kaizen.domain.models.Friend
 import org.towny.kaizen.domain.models.FriendPreview
 import org.towny.kaizen.domain.models.FriendRequest
 
@@ -45,10 +45,11 @@ class FirebaseFunctionsDataSourceImpl: FirebaseFunctionsDataSource {
             .invoke(body)
     }
 
-    override suspend fun getFriends(): List<Friend> {
-        return functions
+    override suspend fun getFriends(): List<FriendDTO> {
+        val result = functions
             .httpsCallable("getFriends")
             .invoke()
-            .data<List<Friend>>()
+            .data<List<FriendDTO>>()
+        return result
     }
 }

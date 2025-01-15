@@ -26,6 +26,7 @@ import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.FriendRequestsService
 import org.towny.kaizen.domain.services.AuthenticateService
+import org.towny.kaizen.domain.services.FriendsService
 import org.towny.kaizen.domain.usecases.CreateUserUseCase
 import org.towny.kaizen.domain.usecases.GetFriendPreviewUseCase
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
@@ -51,6 +52,7 @@ val commonModules = module {
     singleOf(::AuthenticateService)
     singleOf(::ChallengesService)
     singleOf(::FriendRequestsService)
+    singleOf(::FriendsService)
 
     // Use cases
     singleOf(::GetReloadedUserSessionUseCase)

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import org.towny.kaizen.data.remote.dto.ChallengeDTO
+import org.towny.kaizen.data.remote.dto.ChallengeFirestoreDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.FirestoreDataSource
@@ -70,7 +70,7 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
             )
     }
 
-    override fun watchAllChallenges(userId: String): Flow<List<ChallengeDTO>> = flow {
+    override fun watchAllChallenges(userId: String): Flow<List<ChallengeFirestoreDTO>> = flow {
         getUserDocumentRef(userId)
             .collection(CHALLENGE_COLLECTION)
             .snapshots
@@ -80,7 +80,7 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
             }
             .collect { querySnapshot ->
                 val challenges = querySnapshot.documents.map { documentSnapshot ->
-                    documentSnapshot.data<ChallengeDTO>()
+                    documentSnapshot.data<ChallengeFirestoreDTO>()
                 }
                 emit(challenges)
             }
