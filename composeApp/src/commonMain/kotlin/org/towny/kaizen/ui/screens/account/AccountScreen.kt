@@ -14,10 +14,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -30,12 +33,14 @@ import androidx.compose.ui.unit.dp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.landscape_icon
 import kaizen.composeapp.generated.resources.logout_icon
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.resources.avatars
 import org.towny.kaizen.ui.screens.account.components.AccountRowView
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
+import org.towny.kaizen.ui.screens.components.ConfirmationModal
 
 
 @Composable
@@ -49,20 +54,24 @@ fun AccountScreenRoot(
     val scope = rememberCoroutineScope()
     val state by viewModel.accountScreenState.collectAsState(AccountScreenState())
 
+    LaunchedEffect(true) {
+        scope.launch {
+            viewModel.accountEvents.collectLatest { event ->
+                when (event) {
+                    AccountEvent.PopToLogin -> popToLogin()
+                }
+            }
+        }
+    }
+
     AccountScreen(
         state = state,
         onAction = { action ->
             when (action) {
-                AccountAction.OnLogout -> {
-                    scope.launch {
-                        viewModel.onAction(action)
-                        popToLogin()
-                    }
-                }
-
                 AccountAction.OnNavigateUp -> popToHome()
                 AccountAction.GoToMyFriends -> goToMyFriends()
                 AccountAction.GoToCreateChallenge -> goToCreateChallenge()
+                else -> viewModel.onAction(action)
             }
         })
 }
@@ -86,7 +95,20 @@ fun AccountScreen(
                 BackTopAppBar(
                     title = "Account",
                     onNavigateUp = { onAction(AccountAction.OnNavigateUp) },
-                    backDescription = "Go back home."
+                    backDescription = "Go back home.",
+                    actions = {
+                        IconButton(
+                            onClick = { onAction(AccountAction.OnLogoutClicked) },
+                            enabled = !state.isLogoutLoading,
+                            content = {
+                                Icon(
+                                    painter = painterResource(Res.drawable.logout_icon),
+                                    contentDescription = "Logout.",
+                                    tint = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+                        )
+                    }
                 )
             },
             containerColor = MaterialTheme.colorScheme.surface
@@ -98,6 +120,20 @@ fun AccountScreen(
                     .padding(horizontal = 24.dp)
                     .padding(top = 24.dp)
             ) {
+                if (state.showLogoutConfirmationModal) {
+                    ConfirmationModal(
+                        title = null,
+                        subtitle = "Please confirm to logout",
+                        confirmationButtonText = "Logout",
+                        onConfirmed = {
+                            onAction(AccountAction.OnLogoutConfirmed)
+                        },
+                        onDismissed = {
+                            onAction(AccountAction.OnLogoutDismissed)
+                        },
+                        isConfirmationLoading = state.isLogoutLoading
+                    )
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -145,17 +181,6 @@ fun AccountScreen(
                     title = "My friends",
                     icon = rememberVectorPainter(Icons.Filled.Face),
                     description = "My friends.",
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-
-                AccountRowView(
-                    onAction = {
-                        onAction(AccountAction.OnLogout)
-                    },
-                    title = "Logout",
-                    icon = painterResource(Res.drawable.logout_icon),
-                    description = "Logout",
-                    enabled = !state.isLogoutLoading,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }

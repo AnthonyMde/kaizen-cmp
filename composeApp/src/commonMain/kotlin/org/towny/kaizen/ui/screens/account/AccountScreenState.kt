@@ -4,5 +4,6 @@ import org.towny.kaizen.domain.models.User
 
 data class AccountScreenState(
     val isLogoutLoading: Boolean = false,
+    val showLogoutConfirmationModal: Boolean = false,
     val user: User? = null
 )

@@ -1,5 +1,6 @@
 package org.towny.kaizen.ui.screens.components
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,7 +15,8 @@ import androidx.compose.runtime.Composable
 fun BackTopAppBar(
     title: String,
     onNavigateUp: () -> Unit,
-    backDescription: String = "Go back"
+    backDescription: String = "Go back",
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -28,6 +30,7 @@ fun BackTopAppBar(
                     )
                 }
             )
-        }
+        },
+        actions = actions,
     )
 }

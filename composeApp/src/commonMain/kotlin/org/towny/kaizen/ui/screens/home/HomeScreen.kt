@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.domain.models.Friend
 import org.towny.kaizen.ui.screens.home.components.CurrentUserView
-import org.towny.kaizen.ui.screens.home.components.EmailConfirmationModal
+import org.towny.kaizen.ui.screens.components.ConfirmationModal
 import org.towny.kaizen.ui.screens.home.components.FriendWithChallengesView
 import org.towny.kaizen.ui.screens.home.components.FriendsEmptyView
 import org.towny.kaizen.ui.screens.home.components.Header
@@ -81,7 +81,15 @@ fun HomeScreen(
     ) {
         // TODO: make it a non-blocking snackbar + implement a cron to remove unverified accounts.
         if (state.userSession?.isEmailVerified == false) {
-            EmailConfirmationModal(onAction = onAction)
+            ConfirmationModal(
+                title = "Email verification",
+                subtitle = "Check your emails to verify your account and enjoy Kaizen.",
+                confirmationButtonText = "It's good now!",
+                onConfirmed = {
+                    onAction(HomeAction.OnEmailVerified)
+                },
+                canBeDismissed = false
+            )
         }
         Header(
             onAction = onAction,
@@ -102,11 +110,13 @@ fun HomeScreen(
         )
 
         if (state.isFriendsLoading) {
-            LinearProgressIndicator(modifier = Modifier
-                .fillMaxWidth()
-                .height(2.dp)
-                .padding(top = 8.dp)
-                .padding(horizontal = 24.dp))
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 24.dp)
+            )
         } else if (state.friends.isEmpty()) {
             FriendsEmptyView(modifier = Modifier.padding(top = 16.dp))
         }
