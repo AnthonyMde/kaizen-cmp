@@ -1,10 +1,10 @@
 import { getFirestore } from "firebase-admin/firestore";
-//import * as logger from "firebase-functions/logger";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { Collection } from "./collection";
 import { Challenge } from "./dto/challenge";
-import { FriendPreview } from "./dto/friend_preview";
 import { Friend } from "./dto/friend";
+import { FriendPreview } from "./dto/friend_preview";
+import { logger } from "firebase-functions/v2";
 
 export const getFriendPreviewById = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
@@ -75,5 +75,7 @@ export const getFriends = onCall(async (request) => {
         } as Friend
     })
 
-    return await Promise.all(friendsWithChallengesPromises);
+    const result = await Promise.all(friendsWithChallengesPromises);
+    logger.info(`Friends for user ${userId} are ${JSON.stringify(result)}`)
+    return result
 })
