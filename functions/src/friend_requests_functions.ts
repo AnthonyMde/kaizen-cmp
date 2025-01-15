@@ -11,14 +11,15 @@ export const getFriendRequests = onCall(async (request) => {
 
     const userId = request.auth.uid
 
-    const friendRequestSnapshots = await getFirestore()
+    const friendRequests = await getFirestore()
         .collection(Collection.USERS)
         .doc(userId)
         .collection(Collection.FRIEND_REQUESTS)
         .limit(10)
         .get()
+        .then((snapshot) => snapshot.docs.map((doc) => doc.data() as FriendRequest))
 
-    return friendRequestSnapshots.docs.map((doc) => doc.data() as FriendRequest);
+    return friendRequests
 });
 
 export const createFriendRequest = onCall(async (request) => {
@@ -45,17 +46,14 @@ export const createFriendRequest = onCall(async (request) => {
     const friendRef = firestore.collection(Collection.USERS).doc(friendId)
 
     let user: User
+    let friend: User
     try {
-        const userDoc = await userRef.get()
-        user = userDoc.data() as User
+        user = await userRef.get().then((doc) => doc.data() as User)
     } catch (e) {
         throw new HttpsError("internal", `Cannot retrieve User with id ${userId}`)
     }
-
-    let friend: User
     try {
-        const friendDoc = await friendRef.get()
-        friend = friendDoc.data() as User
+        friend = await friendRef.get().then((doc) => doc.data() as User)
     } catch (e) {
         throw new HttpsError("internal", `Cannot retrieve friend (User) with id ${userId}`)
     }

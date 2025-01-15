@@ -17,18 +17,18 @@ export const getFriendPreviewById = onCall(async (request) => {
     } catch (e) {
         throw new HttpsError("invalid-argument", "The function must be called with friend username.")
     }
-    const snapshot = await getFirestore()
+    const friendDocs = await getFirestore()
         .collection(Collection.USERS)
         .where("name", "==", friendUsername)
         .limit(1)
         .get()
-    const docs = snapshot.docs
+        .then((snapshot) => snapshot.docs)
 
-    if (docs.length == 0) {
+    if (friendDocs.length == 0) {
         throw new HttpsError("not-found", "Friend was not found")
     }
 
-    const user = docs[0].data() as User
+    const user = friendDocs[0].data() as User
 
     return {
         id: user.id,
