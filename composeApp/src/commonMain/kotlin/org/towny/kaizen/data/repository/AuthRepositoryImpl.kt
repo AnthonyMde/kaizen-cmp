@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.towny.kaizen.data.repository.sources.FirebaseAuthDataSource
+import org.towny.kaizen.data.toDomainException
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.UserSession
@@ -30,7 +31,7 @@ class AuthRepositoryImpl(
             is FirebaseAuthUserCollisionException -> {
                 Resource.Error(DomainException.Auth.EmailAddressAlreadyUsed)
             }
-            else -> Resource.Error(e)
+            else -> Resource.Error(e.toDomainException())
         }
     }
 
@@ -48,7 +49,7 @@ class AuthRepositoryImpl(
                 Resource.Error(DomainException.Auth.InvalidCredentials)
             }
 
-            else -> Resource.Error(e)
+            else -> Resource.Error(e.toDomainException())
         }
     }
 

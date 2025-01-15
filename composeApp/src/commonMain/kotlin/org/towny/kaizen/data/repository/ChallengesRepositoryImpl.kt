@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.FirestoreDataSource
+import org.towny.kaizen.data.toDomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.ChallengesRepository
 
@@ -21,7 +22,7 @@ class ChallengesRepositoryImpl(
         Resource.Success()
     } catch (e: Exception) {
         println("DEBUG: (firestore) Cannot toggle challenge's state because $e")
-        Resource.Error(e)
+        Resource.Error(e.toDomainException())
     }
 
     override suspend fun create(
@@ -41,6 +42,6 @@ class ChallengesRepositoryImpl(
         emit(Resource.Success())
     }.catch { e ->
         println("DEBUG: (firestore) Cannot create challenge because $e")
-        emit(Resource.Error(e))
+        emit(Resource.Error(e.toDomainException()))
     }
 }

@@ -1,11 +1,23 @@
-package org.towny.kaizen.data.remote.firebase_functions
+package org.towny.kaizen.data
 
 import dev.gitlive.firebase.functions.FirebaseFunctionsException
 import dev.gitlive.firebase.functions.FunctionsExceptionCode
 import dev.gitlive.firebase.functions.code
 import org.towny.kaizen.domain.exceptions.DomainException
 
-fun FirebaseFunctionsException.toDomainException(): DomainException {
+fun Throwable.toDomainException(): DomainException {
+    println("DEBUG (DataErrors) Raw exception thrown: $this")
+
+    return when(this) {
+        is FirebaseFunctionsException -> {
+            toDomainException()
+        }
+
+        else -> DomainException.Common.Unknown
+    }
+}
+
+private fun FirebaseFunctionsException.toDomainException(): DomainException {
     return when (this.code) {
         FunctionsExceptionCode.UNKNOWN -> DomainException.Common.Unknown
         FunctionsExceptionCode.INVALID_ARGUMENT -> DomainException.Common.InvalidArguments

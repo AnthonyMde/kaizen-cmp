@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.sources.FirestoreDataSource
+import org.towny.kaizen.data.toDomainException
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.models.User
@@ -47,7 +48,7 @@ class UsersRepositoryImpl(
                 if (e is NoSuchElementException) {
                     emit(Resource.Error(DomainException.User.NoUserAccountFound))
                 } else {
-                    emit(Resource.Error(e))
+                    emit(Resource.Error(e.toDomainException()))
                 }
             }
     }
@@ -75,7 +76,7 @@ class UsersRepositoryImpl(
                 }
             }.catch { e ->
                 println("DEBUG: (repository) Cannot watch friends because $e")
-                emit(Resource.Error(e))
+                emit(Resource.Error(e.toDomainException()))
             }
     }
 
@@ -90,7 +91,7 @@ class UsersRepositoryImpl(
         firestore.createUser(UserDTO.from(user))
         Resource.Success()
     } catch (e: Exception) {
-        Resource.Error(e)
+        Resource.Error(e.toDomainException())
     }
 
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {
@@ -98,7 +99,7 @@ class UsersRepositoryImpl(
             val isAvailable = firestore.findUserByName(username) == null
             Resource.Success(isAvailable)
         } catch (e: Exception) {
-            Resource.Error(e)
+            Resource.Error(e.toDomainException())
         }
     }
 }
