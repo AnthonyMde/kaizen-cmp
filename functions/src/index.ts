@@ -10,7 +10,7 @@
 import { initializeApp } from "firebase-admin/app";
 import { createFriendRequest, getFriendRequests, updateFriendRequest } from "./friend_requests_functions";
 import { getFriendPreviewById, getFriends } from "./friends_functions";
-import { isUsernameAvailable } from "./user_functions";
+import { deleteUserAccount, isUsernameAvailable } from "./user_functions";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -18,8 +18,7 @@ import { isUsernameAvailable } from "./user_functions";
 initializeApp();
 
 export {
-    createFriendRequest,
-    getFriendPreviewById,
+    createFriendRequest, deleteUserAccount, getFriendPreviewById,
     getFriendRequests, getFriends,
     isUsernameAvailable, updateFriendRequest
 };

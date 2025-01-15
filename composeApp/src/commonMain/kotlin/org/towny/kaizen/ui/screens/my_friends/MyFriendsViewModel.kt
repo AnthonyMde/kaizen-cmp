@@ -10,16 +10,16 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
-import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.FriendRequestsService
 import org.towny.kaizen.domain.services.FriendsService
+import org.towny.kaizen.domain.services.UsersService
 import org.towny.kaizen.domain.usecases.GetFriendPreviewUseCase
 
 class MyFriendsViewModel(
     private val friendRequestsService: FriendRequestsService,
     private val getFriendPreviewUseCase: GetFriendPreviewUseCase,
     private val friendsService: FriendsService,
-    private val usersRepository: UsersRepository
+    private val usersService: UsersService
 ) : ViewModel() {
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
     val myFriendsState = _myFriendsState.asStateFlow()
@@ -29,7 +29,7 @@ class MyFriendsViewModel(
         }
 
     private suspend fun getFriendRequests() {
-        usersRepository.getCurrentUser().let { user ->
+        usersService.getMe().let { user ->
             try {
                 friendRequestsService.getFriendRequests().data?.let { requests ->
                     val sent = requests.filter { it.sender.id == user!!.id }
@@ -52,7 +52,6 @@ class MyFriendsViewModel(
         friendsService.getFriendPreviews().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
-                    println("DEBUG: getFriends error ${result.throwable}")
                     _myFriendsState.update {
                         it.copy(
                             friendPreviews = result.data ?: emptyList(),
@@ -62,7 +61,6 @@ class MyFriendsViewModel(
                 }
 
                 is Resource.Success -> {
-                    println("DEBUG: getFriends succeeded: ${result.data}")
                     _myFriendsState.update {
                         it.copy(
                             friendPreviews = result.data ?: emptyList(),

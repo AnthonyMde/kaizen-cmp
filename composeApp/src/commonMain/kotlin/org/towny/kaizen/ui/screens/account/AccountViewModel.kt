@@ -7,21 +7,23 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.AuthRepository
-import org.towny.kaizen.domain.repository.UsersRepository
+import org.towny.kaizen.domain.services.UsersService
 
 class AccountViewModel(
     private val authRepository: AuthRepository,
-    usersRepository: UsersRepository
+    private val usersService: UsersService
 ) : ViewModel() {
     private val _accountScreenState = MutableStateFlow(AccountScreenState())
     val accountScreenState = _accountScreenState.asStateFlow()
         .onStart {
             _accountScreenState.update {
-                it.copy(user = usersRepository.getCurrentUser())
+                it.copy(user = usersService.getMe())
             }
         }
 
@@ -59,7 +61,27 @@ class AccountViewModel(
                 }
             }
 
+            AccountAction.OnDeleteAccountClicked -> {
+                deleteAccount()
+            }
+
             else -> {}
+        }
+    }
+
+    private fun deleteAccount() = viewModelScope.launch {
+        usersService.deleteUserAccount().collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    // TODO: display error
+                }
+                is Resource.Success -> {
+                    _accountEvents.tryEmit(AccountEvent.PopToLogin)
+                }
+                is Resource.Loading -> {
+                    // TODO: load
+                }
+            }
         }
     }
 }

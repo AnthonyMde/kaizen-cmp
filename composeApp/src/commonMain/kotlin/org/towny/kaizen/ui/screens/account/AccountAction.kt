@@ -7,4 +7,5 @@ sealed class AccountAction {
     data object OnLogoutDismissed : AccountAction()
     data object GoToMyFriends : AccountAction()
     data object GoToCreateChallenge : AccountAction()
+    data object OnDeleteAccountClicked : AccountAction()
 }

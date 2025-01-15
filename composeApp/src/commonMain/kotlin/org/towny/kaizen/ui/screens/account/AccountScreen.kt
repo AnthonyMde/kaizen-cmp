@@ -190,7 +190,9 @@ fun AccountScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 TextButton(
-                    onClick = {},
+                    onClick = {
+                        onAction(AccountAction.OnDeleteAccountClicked)
+                    },
                     content = {
                         Text(
                             "Delete my account",

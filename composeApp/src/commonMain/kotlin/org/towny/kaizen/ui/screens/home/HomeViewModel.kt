@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.AuthRepository
-import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.ChallengesService
 import org.towny.kaizen.domain.services.FriendsService
+import org.towny.kaizen.domain.services.UsersService
 import org.towny.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 
 class HomeViewModel(
-    private val usersRepository: UsersRepository,
+    private val usersService: UsersService,
     private val authRepository: AuthRepository,
     private val challengesService: ChallengesService,
     private val friendsService: FriendsService,
@@ -82,7 +82,7 @@ class HomeViewModel(
     }
 
     private fun watchMe() = viewModelScope.launch {
-        usersRepository.watchMe().collectLatest { result ->
+        usersService.watchMe().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     if (result.throwable is DomainException.User.NoUserAccountFound) {

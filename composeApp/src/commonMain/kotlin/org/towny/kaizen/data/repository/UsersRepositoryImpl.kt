@@ -29,7 +29,7 @@ class UsersRepositoryImpl(
 
     private var currentUser: User? = null
 
-    override fun watchMe(): Flow<Resource<User?>> {
+    override fun watchCurrentUser(): Flow<Resource<User?>> {
         val userId = authRepository.getUserSession()?.uid ?: return flowOf(
             Resource.Error(
                 DomainException.User.NoUserSessionFound
@@ -63,7 +63,7 @@ class UsersRepositoryImpl(
         if (currentUser != null) {
             return currentUser
         }
-        return watchMe().firstOrNull()?.data
+        return watchCurrentUser().firstOrNull()?.data
     }
 
     override suspend fun createUser(user: User): Resource<Unit> = try {
@@ -80,5 +80,12 @@ class UsersRepositoryImpl(
         } catch (e: Exception) {
             Resource.Error(e.toDomainException())
         }
+    }
+
+    override suspend fun deleteUserAccount(): Resource<Unit> = try {
+        firebaseFunctions.deleteUserAccount()
+        Resource.Success()
+    } catch (e: Exception) {
+        Resource.Error(e.toDomainException())
     }
 }

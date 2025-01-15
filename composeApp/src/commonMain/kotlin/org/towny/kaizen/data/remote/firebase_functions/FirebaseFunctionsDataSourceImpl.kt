@@ -67,4 +67,10 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
             .data<List<FriendDTO>>()
         return result
     }
+
+    override suspend fun deleteUserAccount() {
+        functions
+            .httpsCallable("deleteUserAccount")
+            .invoke()
+    }
 }
