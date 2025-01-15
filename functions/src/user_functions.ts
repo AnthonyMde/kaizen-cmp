@@ -37,16 +37,18 @@ export const deleteUserAccount = onCall(async (request) => {
     const user = await userRef.get().then((snapshot) => snapshot.data() as User)
 
     // Delete user reference from friends' user
-    const friendRefs = user.friendIds.map((friendId) => {
-        return firestore
-            .collection(Collection.USERS)
-            .doc(friendId)
-    })
-    friendRefs.forEach((friendRef) => {
-        batch.update(friendRef, {
-            friendIds: FieldValue.arrayRemove(userId)
+    if (user.friendIds && user.friendIds.length > 0) {
+        const friendRefs = user.friendIds.map((friendId) => {
+            return firestore
+                .collection(Collection.USERS)
+                .doc(friendId)
         })
-    })
+        friendRefs.forEach((friendRef) => {
+            batch.update(friendRef, {
+                friendIds: FieldValue.arrayRemove(userId)
+            })
+        })
+    }
 
     // Delete firestore user account.
     batch.delete(userRef)
