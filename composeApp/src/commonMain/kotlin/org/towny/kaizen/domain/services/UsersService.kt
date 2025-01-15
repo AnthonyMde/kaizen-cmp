@@ -13,7 +13,7 @@ class UsersService(
 
     suspend fun getMe(): User? = usersRepository.getCurrentUser()
 
-    fun deleteUserAccount(): Flow<Resource<Unit>> = flow{
+    fun deleteUserAccount(): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
         emit(usersRepository.deleteUserAccount())
     }

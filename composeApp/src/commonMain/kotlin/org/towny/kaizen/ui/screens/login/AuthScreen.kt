@@ -164,7 +164,8 @@ fun AuthScreen(
             },
             enabled = !state.onSubmitLoading,
             isLoading = state.onSubmitLoading,
-            label = "Access Kaizen"
+            label = "Access Kaizen",
+            shrinkToText = true
         )
 
         Spacer(modifier = Modifier.height(24.dp))

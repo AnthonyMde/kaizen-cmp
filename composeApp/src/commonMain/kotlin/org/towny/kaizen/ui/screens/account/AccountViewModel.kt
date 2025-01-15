@@ -62,7 +62,19 @@ class AccountViewModel(
             }
 
             AccountAction.OnDeleteAccountClicked -> {
+                _accountScreenState.update {
+                    it.copy(showDeleteUserAccountConfirmationModal = true)
+                }
+            }
+
+            AccountAction.OnDeleteAccountConfirmed -> {
                 deleteAccount()
+            }
+
+            AccountAction.OnDeleteAccountDismissed -> {
+                _accountScreenState.update {
+                    it.copy(showDeleteUserAccountConfirmationModal = false)
+                }
             }
 
             else -> {}
@@ -73,13 +85,31 @@ class AccountViewModel(
         usersService.deleteUserAccount().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
-                    // TODO: display error
+                    _accountScreenState.update {
+                        it.copy(
+                            isDeleteUserAccountLoading = false,
+                            deleteUserAccountError = "Something went wrong during deletion. Please, retry or contact support."
+                        )
+                    }
                 }
+
                 is Resource.Success -> {
+                    _accountScreenState.update {
+                        it.copy(
+                            isDeleteUserAccountLoading = false,
+                            showDeleteUserAccountConfirmationModal = false
+                        )
+                    }
                     _accountEvents.tryEmit(AccountEvent.PopToLogin)
                 }
+
                 is Resource.Loading -> {
-                    // TODO: load
+                    _accountScreenState.update {
+                        it.copy(
+                            deleteUserAccountError = null,
+                            isDeleteUserAccountLoading = true
+                        )
+                    }
                 }
             }
         }

@@ -44,6 +44,7 @@ import org.towny.kaizen.ui.resources.avatars
 import org.towny.kaizen.ui.screens.account.components.AccountRowView
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
 import org.towny.kaizen.ui.screens.components.ConfirmationModal
+import org.towny.kaizen.ui.screens.components.ConfirmationModalType
 
 
 @Composable
@@ -124,19 +125,16 @@ fun AccountScreen(
                     .padding(top = 24.dp)
             ) {
                 if (state.showLogoutConfirmationModal) {
-                    ConfirmationModal(
-                        title = null,
-                        subtitle = "Please confirm to logout",
-                        confirmationButtonText = "Logout",
-                        onConfirmed = {
-                            onAction(AccountAction.OnLogoutConfirmed)
-                        },
-                        onDismissed = {
-                            onAction(AccountAction.OnLogoutDismissed)
-                        },
-                        isConfirmationLoading = state.isLogoutLoading
+                    LogoutConfirmationModal(onAction, state.isLogoutLoading)
+                }
+                if (state.showDeleteUserAccountConfirmationModal) {
+                    DeleteAccountConfirmationModal(
+                        onAction = onAction,
+                        isLoading = state.isDeleteUserAccountLoading,
+                        error = state.deleteUserAccountError
                     )
                 }
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -208,4 +206,45 @@ fun AccountScreen(
             }
         }
     }
+}
+
+@Composable
+private fun LogoutConfirmationModal(
+    onAction: (AccountAction) -> Unit,
+    isLoading: Boolean
+) {
+    ConfirmationModal(
+        title = "Leaving?",
+        subtitle = "Please confirm to logout",
+        confirmationButtonText = "Logout",
+        onConfirmed = {
+            onAction(AccountAction.OnLogoutConfirmed)
+        },
+        onDismissed = {
+            onAction(AccountAction.OnLogoutDismissed)
+        },
+        isConfirmationLoading = isLoading
+    )
+}
+
+@Composable
+private fun DeleteAccountConfirmationModal(
+    onAction: (AccountAction) -> Unit,
+    isLoading: Boolean,
+    error: String?
+) {
+    ConfirmationModal(
+        title = "Be careful",
+        subtitle = "You are about to delete your account. This operation cannot be reverted.\n\nYou will lost all your friends, challenges and statictics.\n\nAll your data will be erased from our servers.",
+        confirmationButtonText = "Delete my account (irreversible)",
+        onConfirmed = {
+            onAction(AccountAction.OnDeleteAccountConfirmed)
+        },
+        onDismissed = {
+            onAction(AccountAction.OnDeleteAccountDismissed)
+        },
+        isConfirmationLoading = isLoading,
+        type = ConfirmationModalType.DANGER,
+        error = error
+    )
 }
