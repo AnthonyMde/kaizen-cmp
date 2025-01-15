@@ -1,10 +1,10 @@
 import { getFirestore } from "firebase-admin/firestore";
+//import { logger } from "firebase-functions/v2";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { Collection } from "./collection";
 import { Challenge } from "./dto/challenge";
 import { Friend } from "./dto/friend";
 import { FriendPreview } from "./dto/friend_preview";
-import { logger } from "firebase-functions/v2";
 
 export const getFriendPreviewById = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
@@ -57,25 +57,36 @@ export const getFriends = onCall(async (request) => {
             .get()
             .then((snapshot) => snapshot.data() as User)
     }))
-    const friendsWithChallengesPromises = friendUsers.map(async (friendUser) => {
-        const challenges = await firestore
-            .collection(Collection.USERS)
-            .doc(friendUser.id)
-            .collection(Collection.CHALLENGES)
-            .get()
-            .then((snapshot) => snapshot.docs.map((doc) => {
-                return doc.data() as Challenge
-            }))
 
-        return {
-            id: friendUser.id,
-            name: friendUser.name,
-            profilePictureIndex: friendUser.profilePictureIndex,
-            challenges: challenges
-        } as Friend
-    })
+    const includeChallenges = request.data.includeChallenges || false
 
-    const result = await Promise.all(friendsWithChallengesPromises);
-    logger.info(`Friends for user ${userId} are ${JSON.stringify(result)}`)
-    return result
+    if (includeChallenges) {
+        const friendsWithChallengesPromises = friendUsers.map(async (friendUser) => {
+            const challenges = await firestore
+                .collection(Collection.USERS)
+                .doc(friendUser.id)
+                .collection(Collection.CHALLENGES)
+                .get()
+                .then((snapshot) => snapshot.docs.map((doc) => {
+                    return doc.data() as Challenge
+                }))
+
+            return {
+                id: friendUser.id,
+                name: friendUser.name,
+                profilePictureIndex: friendUser.profilePictureIndex,
+                challenges: challenges
+            } as Friend
+        })
+
+        return await Promise.all(friendsWithChallengesPromises);
+    } else {
+        return friendUsers.map((friend) => {
+            return {
+                id: friend.id,
+                name: friend.name,
+                profilePictureIndex: friend.profilePictureIndex,
+            } as Friend
+        })
+    }
 })

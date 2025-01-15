@@ -16,12 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
-import org.towny.kaizen.domain.models.Friend
+import org.towny.kaizen.domain.models.FriendPreview
 import org.towny.kaizen.ui.resources.avatars
 
 @Composable
-fun FriendView(
-    friend: Friend,
+fun FriendRowView(
+    friend: FriendPreview,
     modifier: Modifier = Modifier
 ) {
     Row(

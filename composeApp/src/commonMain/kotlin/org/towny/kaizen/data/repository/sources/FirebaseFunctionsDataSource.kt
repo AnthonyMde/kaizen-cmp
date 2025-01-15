@@ -9,5 +9,5 @@ interface FirebaseFunctionsDataSource {
     suspend fun getFriendRequests(): List<FriendRequest>
     suspend fun createFriendRequest(friendId: String)
     suspend fun updateFriendRequest(requestId: String, status: FriendRequest.Status)
-    suspend fun getFriends(): List<FriendDTO>
+    suspend fun getFriends(includeChallenges: Boolean = true): List<FriendDTO>
 }

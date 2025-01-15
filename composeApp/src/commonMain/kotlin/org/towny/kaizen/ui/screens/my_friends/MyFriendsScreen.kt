@@ -41,10 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.BackTopAppBar
-import org.towny.kaizen.ui.screens.home.components.FriendWithChallengesView
 import org.towny.kaizen.ui.screens.my_friends.components.FriendPreview
 import org.towny.kaizen.ui.screens.my_friends.components.FriendRequestsEmptyView
-import org.towny.kaizen.ui.screens.my_friends.components.FriendView
+import org.towny.kaizen.ui.screens.my_friends.components.FriendRowView
 import org.towny.kaizen.ui.screens.my_friends.components.FriendsEmptyView
 import org.towny.kaizen.ui.screens.my_friends.components.PendingRequestsView
 
@@ -176,7 +175,7 @@ fun MyFriendsScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Friends (${state.friends.size})",
+                text = "Friends (${state.friendPreviews.size})",
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
@@ -189,7 +188,7 @@ fun MyFriendsScreen(
                 LinearProgressIndicator(
                     modifier = Modifier.fillMaxWidth().height(2.dp).padding(horizontal = 24.dp)
                 )
-            } else if (state.friends.isEmpty()) {
+            } else if (state.friendPreviews.isEmpty()) {
                 FriendsEmptyView()
             } else {
                 LazyColumn(modifier = Modifier
@@ -197,9 +196,9 @@ fun MyFriendsScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(count = state.friends.size, itemContent = { index ->
-                        FriendView(
-                            friend = state.friends[index]
+                    items(count = state.friendPreviews.size, itemContent = { index ->
+                        FriendRowView(
+                            friend = state.friendPreviews[index]
                         )
                     })
                 }

@@ -3,6 +3,7 @@ package org.towny.kaizen.domain.services
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.towny.kaizen.domain.models.Friend
+import org.towny.kaizen.domain.models.FriendPreview
 import org.towny.kaizen.domain.models.Resource
 import org.towny.kaizen.domain.repository.FriendsRepository
 
@@ -12,5 +13,10 @@ class FriendsService(
     fun getFriends(): Flow<Resource<List<Friend>>> = flow {
         emit(Resource.Loading())
         emit(friendsRepository.getFriends())
+    }
+
+    fun getFriendPreviews(): Flow<Resource<List<FriendPreview>>> = flow {
+        emit(Resource.Loading())
+        emit(friendsRepository.getFriendPreviews())
     }
 }

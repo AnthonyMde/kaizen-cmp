@@ -45,10 +45,13 @@ class FirebaseFunctionsDataSourceImpl: FirebaseFunctionsDataSource {
             .invoke(body)
     }
 
-    override suspend fun getFriends(): List<FriendDTO> {
+    override suspend fun getFriends(includeChallenges: Boolean): List<FriendDTO> {
+        val body = mapOf(
+            "includeChallenges" to includeChallenges
+        )
         val result = functions
             .httpsCallable("getFriends")
-            .invoke()
+            .invoke(body)
             .data<List<FriendDTO>>()
         return result
     }

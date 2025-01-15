@@ -17,7 +17,7 @@ data class MyFriendsState(
     val pendingReceivedRequests: List<FriendRequest> = emptyList(),
     val requestIdsCurrentlyUpdated: List<String> = emptyList(),
 
-    val friends: List<Friend> = emptyList(),
+    val friendPreviews: List<FriendPreview> = emptyList(),
     val isFriendsLoading: Boolean = false
 ) {
     val totalRequests: Int

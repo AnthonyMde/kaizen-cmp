@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.towny.kaizen.domain.exceptions.DomainException
 import org.towny.kaizen.domain.models.Resource
-import org.towny.kaizen.domain.repository.FriendsRepository
 import org.towny.kaizen.domain.repository.UsersRepository
 import org.towny.kaizen.domain.services.FriendRequestsService
 import org.towny.kaizen.domain.services.FriendsService
@@ -50,13 +49,13 @@ class MyFriendsViewModel(
     }
 
     private fun getFriends() = viewModelScope.launch {
-        friendsService.getFriends().collectLatest { result ->
+        friendsService.getFriendPreviews().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     println("DEBUG: getFriends error ${result.throwable}")
                     _myFriendsState.update {
                         it.copy(
-                            friends = result.data ?: emptyList(),
+                            friendPreviews = result.data ?: emptyList(),
                             isFriendsLoading = false
                         )
                     }
@@ -66,7 +65,7 @@ class MyFriendsViewModel(
                     println("DEBUG: getFriends succeeded: ${result.data}")
                     _myFriendsState.update {
                         it.copy(
-                            friends = result.data ?: emptyList(),
+                            friendPreviews = result.data ?: emptyList(),
                             isFriendsLoading = false
                         )
                     }
