@@ -1,14 +1,17 @@
 package org.towny.kaizen.data.repository
 
+import dev.gitlive.firebase.firestore.FirebaseFirestoreException
+import dev.gitlive.firebase.firestore.FirestoreExceptionCode
+import dev.gitlive.firebase.firestore.code
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.towny.kaizen.data.remote.dto.UserDTO
+import org.towny.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import org.towny.kaizen.data.repository.sources.FirestoreDataSource
 import org.towny.kaizen.data.toDomainException
 import org.towny.kaizen.domain.exceptions.DomainException
@@ -20,6 +23,7 @@ import org.towny.kaizen.domain.repository.UsersRepository
 @OptIn(ExperimentalCoroutinesApi::class)
 class UsersRepositoryImpl(
     private val firestore: FirestoreDataSource,
+    private val firebaseFunctions: FirebaseFunctionsDataSource,
     private val authRepository: AuthRepository
 ) : UsersRepository {
 
@@ -47,6 +51,8 @@ class UsersRepositoryImpl(
                 println("DEBUG: (repository) Cannot watch me because $e")
                 if (e is NoSuchElementException) {
                     emit(Resource.Error(DomainException.User.NoUserAccountFound))
+                } else if (e is FirebaseFirestoreException && e.code == FirestoreExceptionCode.PERMISSION_DENIED) {
+                    emit(Resource.Error(DomainException.User.NoUserAccountFound))
                 } else {
                     emit(Resource.Error(e.toDomainException()))
                 }
@@ -67,10 +73,9 @@ class UsersRepositoryImpl(
         Resource.Error(e.toDomainException())
     }
 
-    // TODO: use backend functions instead of firestore
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {
         return try {
-            val isAvailable = firestore.findUserByName(username) == null
+            val isAvailable = firebaseFunctions.isUsernameAvailable(username).isAvailable
             Resource.Success(isAvailable)
         } catch (e: Exception) {
             Resource.Error(e.toDomainException())
