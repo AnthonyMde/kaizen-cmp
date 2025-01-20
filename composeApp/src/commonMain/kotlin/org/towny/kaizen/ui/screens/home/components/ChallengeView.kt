@@ -39,7 +39,7 @@ fun ChallengeView(
         Modifier.padding(vertical = 4.dp)
     ) {
         val backgroundColor by animateColorAsState(
-            targetValue = if (challenge.isCompleted) MaterialTheme.colorScheme.tertiaryContainer
+            targetValue = if (challenge.isDoneForToday) MaterialTheme.colorScheme.tertiaryContainer
             else MaterialTheme.colorScheme.secondaryContainer
         )
 
@@ -54,7 +54,7 @@ fun ChallengeView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = challenge.isCompleted,
+                checked = challenge.isDoneForToday,
                 onCheckedChange = { isChecked ->
                     onToggleChallenge?.invoke(challenge.id, isChecked)
                 },
@@ -78,13 +78,13 @@ fun ChallengeView(
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                "Day ${challenge.progressionInDays}",
+                "Day ${challenge.days}",
                 style = MaterialTheme.typography.titleSmall.copy(
                     fontSize = 16.sp
                 ),
                 color = when {
                     challenge.isFailed() -> MaterialTheme.customColors.failedChallengeText
-                    challenge.isCompleted -> MaterialTheme.colorScheme.tertiary
+                    challenge.isDoneForToday -> MaterialTheme.colorScheme.tertiary
                     else -> MaterialTheme.colorScheme.secondary
                 },
                 modifier = Modifier.padding(end = 16.dp),
@@ -117,7 +117,7 @@ fun ChallengeView(
 private fun Challenge.getChallengeTextColor(): Color {
     return when {
         isFailed() -> MaterialTheme.customColors.failedChallengeText
-        isCompleted -> MaterialTheme.colorScheme.onTertiaryContainer
+        isDoneForToday -> MaterialTheme.colorScheme.onTertiaryContainer
         else -> MaterialTheme.colorScheme.onSecondaryContainer
     }
 }

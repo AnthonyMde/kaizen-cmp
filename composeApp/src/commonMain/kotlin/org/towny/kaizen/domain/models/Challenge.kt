@@ -2,17 +2,22 @@ package org.towny.kaizen.domain.models
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import org.towny.kaizen.utils.DateUtils
 
 @Serializable
 data class Challenge(
     val id: String,
     val name: String,
+    val status: Status,
     val createdAt: LocalDate,
-    val isCompleted: Boolean,
-    val failures: Int,
-    val maxFailures: Int
+    val days:  Int,
+    val isDoneForToday: Boolean,
+    val failureCount: Int,
+    val maxAuthorizedFailures: Int
 ) {
-    fun isFailed(): Boolean = failures > maxFailures
-    val progressionInDays = DateUtils.getNumberOfDaysSince(createdAt)
+    fun isFailed(): Boolean = status == Status.FAILED
+
+    @Serializable
+    enum class Status {
+        ON_GOING, PAUSED, DONE, FAILED
+    }
 }

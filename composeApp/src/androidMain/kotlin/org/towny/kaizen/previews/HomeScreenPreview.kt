@@ -23,18 +23,22 @@ fun HomeScreenPreview() {
                     Challenge(
                         id= "1",
                         name = "Writing",
-                        maxFailures = 0,
-                        failures = 0,
+                        maxAuthorizedFailures = 0,
+                        failureCount = 0,
                         createdAt = DateUtils.getCurrentLocalDate(),
-                        isCompleted = true
+                        isDoneForToday = true,
+                        status = Challenge.Status.ON_GOING,
+                        days = 23
                     ),
                     Challenge(
                         id= "2",
                         name = "Programming",
-                        maxFailures = 0,
-                        failures = 0,
+                        maxAuthorizedFailures = 0,
+                        failureCount = 0,
                         createdAt = DateUtils.getCurrentLocalDate(),
-                        isCompleted = true
+                        isDoneForToday = true,
+                        status = Challenge.Status.ON_GOING,
+                        days = 54
                     )
                 )
             ),
@@ -47,18 +51,22 @@ fun HomeScreenPreview() {
                         Challenge(
                             id= "1",
                             name = "Reading",
-                            maxFailures = 0,
-                            failures = 0,
+                            maxAuthorizedFailures = 0,
+                            failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
-                            isCompleted = true
+                            isDoneForToday = true,
+                            status = Challenge.Status.ON_GOING,
+                            days = 54
                         ),
                         Challenge(
                             id= "2",
                             name = "Fitness",
-                            maxFailures = 3,
-                            failures = 0,
+                            maxAuthorizedFailures = 3,
+                            failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
-                            isCompleted = true
+                            isDoneForToday = true,
+                            status = Challenge.Status.ON_GOING,
+                            days = 54
                         )
                     )
                 ),
@@ -70,18 +78,22 @@ fun HomeScreenPreview() {
                         Challenge(
                             id= "1",
                             name = "Dance",
-                            maxFailures = 0,
-                            failures = 0,
+                            maxAuthorizedFailures = 0,
+                            failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
-                            isCompleted = true
+                            isDoneForToday = true,
+                            status = Challenge.Status.ON_GOING,
+                            days = 54
                         ),
                         Challenge(
                             id= "2",
                             name = "Side projects",
-                            maxFailures = 0,
-                            failures = 0,
+                            maxAuthorizedFailures = 0,
+                            failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
-                            isCompleted = true
+                            isDoneForToday = true,
+                            status = Challenge.Status.ON_GOING,
+                            days = 54
                         )
                     )
                 )

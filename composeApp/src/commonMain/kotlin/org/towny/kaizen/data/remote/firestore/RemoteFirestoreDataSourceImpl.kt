@@ -12,6 +12,7 @@ import org.towny.kaizen.data.remote.dto.ChallengeFirestoreDTO
 import org.towny.kaizen.data.remote.dto.UserDTO
 import org.towny.kaizen.data.repository.entities.CreateChallengeRequest
 import org.towny.kaizen.data.repository.sources.FirestoreDataSource
+import org.towny.kaizen.domain.models.Challenge
 
 class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
     private val firestore = Firebase.firestore
@@ -65,7 +66,7 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
         getUserDocumentRef(userId)
             .collection(CHALLENGE_COLLECTION)
             .document(challengeId)
-            .update(mapOf(FirestoreChallengeKeys.IS_COMPLETED to isChecked))
+            .update(mapOf(FirestoreChallengeKeys.IS_DONE_FOR_TODAY to isChecked))
     }
 
     override suspend fun createChallenge(request: CreateChallengeRequest) {
@@ -75,9 +76,11 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
                 mapOf(
                     FirestoreChallengeKeys.NAME to request.name,
                     FirestoreChallengeKeys.CREATED_AT to FieldValue.serverTimestamp,
-                    FirestoreChallengeKeys.IS_COMPLETED to false,
-                    FirestoreChallengeKeys.FAILURES to 0,
-                    FirestoreChallengeKeys.MAX_FAILURES to request.maxFailures
+                    FirestoreChallengeKeys.STATUS to Challenge.Status.ON_GOING,
+                    FirestoreChallengeKeys.DAYS to 0,
+                    FirestoreChallengeKeys.IS_DONE_FOR_TODAY to false,
+                    FirestoreChallengeKeys.FAILURE_COUNT to 0,
+                    FirestoreChallengeKeys.MAX_AUTHORIZED_FAILURES to request.maxFailures
                 )
             )
         docRef.update(mapOf(FirestoreChallengeKeys.ID to docRef.id))
