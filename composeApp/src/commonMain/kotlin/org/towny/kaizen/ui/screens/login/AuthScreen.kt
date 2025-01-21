@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -38,6 +37,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.towny.kaizen.ui.screens.components.FormErrorText
 import org.towny.kaizen.ui.screens.components.LoadingButton
+import org.towny.kaizen.ui.screens.components.PasswordTextField
 
 @Composable
 fun AuthScreenRoot(
@@ -120,7 +120,7 @@ fun AuthScreen(
             FormErrorText(it)
         }
 
-        OutlinedTextField(
+        PasswordTextField(
             value = state.passwordInputValue,
             onValueChange = { text ->
                 onAction(AuthAction.OnPasswordInputTextChanged(text))
@@ -129,19 +129,6 @@ fun AuthScreen(
             placeholder = { Text("St4ong pa55wo4d") },
             singleLine = true,
             isError = state.passwordInputError != null,
-            keyboardOptions = KeyboardOptions().copy(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboard?.hide()
-                    onAction(
-                        AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
-                    )
-                }
-            ),
-            shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
