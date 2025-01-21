@@ -126,7 +126,7 @@ fun AuthScreen(
                 onAction(AuthAction.OnPasswordInputTextChanged(text))
             },
             label = { Text("Password") },
-            placeholder = { Text("St4ong pa55wo4d") },
+            placeholder = { Text("Strong password") },
             singleLine = true,
             isError = state.passwordInputError != null,
             modifier = Modifier
