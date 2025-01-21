@@ -8,6 +8,7 @@
  */
 
 import { initializeApp } from "firebase-admin/app";
+import { checkUserChallengesCron } from "./crons";
 import { createFriendRequest, getFriendRequests, updateFriendRequest } from "./friend_requests_functions";
 import { getFriendPreviewById, getFriends } from "./friends_functions";
 import { deleteUserAccount, isUsernameAvailable } from "./user_functions";
@@ -18,8 +19,7 @@ import { deleteUserAccount, isUsernameAvailable } from "./user_functions";
 initializeApp();
 
 export {
-    createFriendRequest, deleteUserAccount, getFriendPreviewById,
+    checkUserChallengesCron, createFriendRequest, deleteUserAccount, getFriendPreviewById,
     getFriendRequests, getFriends,
     isUsernameAvailable, updateFriendRequest
 };
-

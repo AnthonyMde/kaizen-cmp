@@ -69,6 +69,7 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
             .update(mapOf(FirestoreChallengeKeys.IS_DONE_FOR_TODAY to isChecked))
     }
 
+    // TODO: do not create directly on firestore.
     override suspend fun createChallenge(request: CreateChallengeRequest) {
         val docRef = getUserDocumentRef(request.userId)
             .collection(CHALLENGE_COLLECTION)
@@ -76,8 +77,8 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
                 mapOf(
                     FirestoreChallengeKeys.NAME to request.name,
                     FirestoreChallengeKeys.CREATED_AT to FieldValue.serverTimestamp,
-                    FirestoreChallengeKeys.STATUS to Challenge.Status.ON_GOING,
-                    FirestoreChallengeKeys.DAYS to 0,
+                    FirestoreChallengeKeys.STATUS to Challenge.Status.ON_GOING.name,
+                    FirestoreChallengeKeys.DAYS to 1,
                     FirestoreChallengeKeys.IS_DONE_FOR_TODAY to false,
                     FirestoreChallengeKeys.FAILURE_COUNT to 0,
                     FirestoreChallengeKeys.MAX_AUTHORIZED_FAILURES to request.maxFailures
