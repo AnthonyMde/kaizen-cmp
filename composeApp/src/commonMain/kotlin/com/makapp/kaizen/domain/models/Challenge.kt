@@ -18,6 +18,9 @@ data class Challenge(
 
     @Serializable
     enum class Status {
-        ON_GOING, PAUSED, DONE, FAILED
+        ON_GOING,
+        PAUSED,
+        DONE,
+        FAILED
     }
 }

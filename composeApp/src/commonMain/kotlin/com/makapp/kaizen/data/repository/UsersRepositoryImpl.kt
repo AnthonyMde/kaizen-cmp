@@ -46,6 +46,7 @@ class UsersRepositoryImpl(
                     }
             }.map { user ->
                 currentUser = user
+                @Suppress("UNCHECKED_CAST")
                 Resource.Success(user) as Resource<User?> // Do we have a better way?
             }.catch { e ->
                 println("DEBUG: (repository) Cannot watch me because $e")

@@ -1,6 +1,5 @@
 package com.makapp.kaizen.data.repository
 
-import dev.gitlive.firebase.functions.FirebaseFunctionsException
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.domain.models.FriendRequest

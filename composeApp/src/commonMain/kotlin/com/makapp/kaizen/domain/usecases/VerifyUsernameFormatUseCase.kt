@@ -8,7 +8,7 @@ class VerifyUsernameFormatUseCase {
         private const val USERNAME_LENGTH = "^.{1,30}\$"
         private const val USERNAME_AUTHORIZED_CHAR = "^[a-zA-Z0-9._]*\$"
         private const val USERNAME_NO_CONSECUTIVE_SPE_CHAR = "^(?!.*[_.]{2}).*\$"
-        private const val USERNAME_NO_SPE_CHAR_AT_START_OR_END = "^(?![._]{1}).*(?<![_.])\$";
+        private const val USERNAME_NO_SPE_CHAR_AT_START_OR_END = "^(?![._]{1}).*(?<![_.])\$"
     }
 
     operator fun invoke(username: String?): Resource<Unit> {

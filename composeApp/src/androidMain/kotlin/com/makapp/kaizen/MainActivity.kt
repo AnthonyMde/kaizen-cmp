@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Suppress("unused")
     private fun isLightTheme(): Boolean {
         return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO -> true // Light mode

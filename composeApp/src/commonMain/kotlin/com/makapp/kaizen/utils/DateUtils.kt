@@ -22,13 +22,6 @@ object DateUtils {
         return "$dayOfWeek, $day $month $year"
     }
 
-    fun getNumberOfDaysSince(date: LocalDate): String {
-        val now = Clock.System.now()
-        val zone = TimeZone.currentSystemDefault()
-        val nowDays = now.toLocalDateTime(zone).date.toEpochDays()
-        return (nowDays - date.toEpochDays()).toString()
-    }
-
     fun Timestamp.toLocalDate(): LocalDate {
         return Instant.fromEpochSeconds(this.seconds, this.nanoseconds)
             .toLocalDateTime(TimeZone.currentSystemDefault()).date

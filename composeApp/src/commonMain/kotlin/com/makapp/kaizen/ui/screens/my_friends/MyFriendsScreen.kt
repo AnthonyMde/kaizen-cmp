@@ -129,13 +129,16 @@ fun MyFriendsScreen(
                     .zIndex(2f)
             )
 
+            @Suppress("SENSELESS_COMPARISON")
+            val visible = state.friendPreview != null
             AnimatedVisibility(
-                visible = state.friendPreview != null,
+                visible = visible,
                 enter = slideInVertically(
                     animationSpec = tween(300),
                 ),
                 modifier = Modifier.offset(y = (-16).dp)
             ) {
+                @Suppress("UNNECESSARY_SAFE_CALL")
                 state.friendPreview?.let { friend ->
                     FriendPreview(
                         friend = friend,
