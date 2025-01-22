@@ -125,6 +125,12 @@ fun AuthScreen(
             onValueChange = { text ->
                 onAction(AuthAction.OnPasswordInputTextChanged(text))
             },
+            onDone = {
+                keyboard?.hide()
+                onAction(
+                    AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
+                )
+            },
             label = { Text("Password") },
             placeholder = { Text("Strong password") },
             singleLine = true,
