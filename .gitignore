@@ -16,5 +16,7 @@ captures
 !*.xcodeproj/project.xcworkspace/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
+composeApp/kaizen-release-key.jks
 kaizen-release-key.jks
 keystore.properties
+composeApp/release/

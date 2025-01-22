@@ -19,7 +19,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -85,15 +85,15 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "org.towny.kaizen"
+    namespace = "com.makapp.kaizen"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.towny.kaizen"
+        applicationId = "com.makapp.kaizen"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
     }
     packaging {
         resources {
@@ -111,11 +111,21 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             manifestPlaceholders["usesClearTextTraffic"] = "false"
             signingConfig = signingConfigs.getByName("release")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            ndk {
+                debugSymbolLevel = "FULL" // Generates full native debug symbols
+            }
         }
 
         getByName("debug") {
+            applicationIdSuffix = ".debug"
             isMinifyEnabled = false
             manifestPlaceholders["usesClearTextTraffic"] = "true"
         }
