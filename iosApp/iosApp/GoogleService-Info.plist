@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.towny.kaizen</string>
+	<string>com.makapp.kaizen</string>
 	<key>PROJECT_ID</key>
 	<string>kaizen-cmp</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1087432737670:ios:c6b82d2d8a3d91e67a6207</string>
+	<string>1:1087432737670:ios:e0bd70794547ce957a6207</string>
 </dict>
 </plist>
