@@ -23,7 +23,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -39,13 +38,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import org.koin.compose.viewmodel.koinViewModel
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendPreview
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendRequestsEmptyView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendRowView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.my_friends.components.PendingRequestsView
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MyFriendsScreenRoot(
@@ -64,6 +63,7 @@ fun MyFriendsScreenRoot(
                     keyboard?.hide()
                     viewModel.onAction(action)
                 }
+
                 else -> viewModel.onAction(action)
             }
         }
@@ -148,21 +148,18 @@ fun MyFriendsScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            if (state.totalRequests > 0) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Friend requests (${state.totalRequests})",
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
 
-            Text(
-                text = "Friend requests (${state.totalRequests})",
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+                Spacer(modifier = Modifier.height(8.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            if (state.totalRequests == 0) {
-                FriendRequestsEmptyView()
-            } else if (state.totalRequests > 0) {
                 PendingRequestsView(
                     sentRequests = state.pendingSentRequests,
                     receivedRequests = state.pendingReceivedRequests,
@@ -174,7 +171,7 @@ fun MyFriendsScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Friends (${state.friendPreviews.size})",
+                text = "Friends",
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
@@ -186,8 +183,9 @@ fun MyFriendsScreen(
             if (state.friendPreviews.isEmpty()) {
                 FriendsEmptyView()
             } else {
-                LazyColumn(modifier = Modifier
-                    .fillMaxWidth(),
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
