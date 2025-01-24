@@ -4,6 +4,7 @@ import com.makapp.kaizen.data.local.DataStoreDataSourceImpl
 import com.makapp.kaizen.data.local.room.AppDatabase
 import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewsDao
 import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestsDao
+import com.makapp.kaizen.data.local.room.friends.FriendsDao
 import com.makapp.kaizen.data.remote.firebase_auth.FirebaseAuthDataSourceImpl
 import com.makapp.kaizen.data.remote.firebase_functions.FirebaseFunctionsDataSourceImpl
 import com.makapp.kaizen.data.remote.firestore.RemoteFirestoreDataSourceImpl
@@ -82,13 +83,11 @@ val commonModules = module {
     singleOf(::RemoteFirestoreDataSourceImpl).bind<FirestoreDataSource>()
     singleOf(::FirebaseAuthDataSourceImpl).bind<FirebaseAuthDataSource>()
     singleOf(::FirebaseFunctionsDataSourceImpl).bind<FirebaseFunctionsDataSource>()
+
     // Dao
-    single<FriendRequestsDao> {
-        getFriendRequestsDao(get())
-    }
-    single<FriendPreviewsDao> {
-        getFriendsDao(get())
-    }
+    single<FriendRequestsDao> { getFriendRequestsDao(get()) }
+    single<FriendPreviewsDao> { getFriendPreviewsDao(get()) }
+    single<FriendsDao> { getFriendsDao(get()) }
 
     // Coroutines
     single<CoroutineScope> {
@@ -97,6 +96,7 @@ val commonModules = module {
 }
 
 private fun getFriendRequestsDao(db: AppDatabase): FriendRequestsDao = db.getFriendRequestsDao()
-private fun getFriendsDao(db: AppDatabase): FriendPreviewsDao = db.getFriendPreviewsDao()
+private fun getFriendPreviewsDao(db: AppDatabase): FriendPreviewsDao = db.getFriendPreviewsDao()
+private fun getFriendsDao(db: AppDatabase): FriendsDao = db.getFriendsDao()
 
 expect val targetModule: Module

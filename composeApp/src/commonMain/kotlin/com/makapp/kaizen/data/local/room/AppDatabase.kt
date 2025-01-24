@@ -10,6 +10,7 @@ import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestEntity
 import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestProfileEntity
 import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewsDao
 import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestsDao
+import com.makapp.kaizen.data.local.room.friends.FriendsDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
@@ -27,6 +28,7 @@ const val ROOM_DB_FILE_NAME = "kaizen_room.db"
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getFriendRequestsDao(): FriendRequestsDao
     abstract fun getFriendPreviewsDao(): FriendPreviewsDao
+    abstract fun getFriendsDao(): FriendsDao
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT", "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
