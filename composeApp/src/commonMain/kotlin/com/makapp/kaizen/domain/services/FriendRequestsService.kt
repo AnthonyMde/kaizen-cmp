@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class FriendRequestsService(
     private val friendRequestsRepository: FriendRequestsRepository,
     private val usersRepository: UsersRepository,
-    private val friendsService: FriendsService,
+    private val friendPreviewsService: FriendPreviewsService,
     private val scope: CoroutineScope
 ) {
     fun watchFriendRequests(): Flow<Resource<List<FriendRequest>>> {
@@ -31,7 +31,7 @@ class FriendRequestsService(
         if (result is Resource.Success) {
             scope.launch { refreshFriendRequests() }
             if (status == FriendRequest.Status.ACCEPTED) {
-                scope.launch { friendsService.refreshFriendPreviews() }
+                scope.launch { friendPreviewsService.refreshFriendPreviews() }
             }
         }
 

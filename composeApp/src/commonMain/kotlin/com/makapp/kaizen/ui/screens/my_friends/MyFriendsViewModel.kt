@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.services.FriendPreviewsService
 import com.makapp.kaizen.domain.services.FriendRequestsService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
@@ -19,12 +20,13 @@ class MyFriendsViewModel(
     private val friendRequestsService: FriendRequestsService,
     private val getFriendPreviewUseCase: GetFriendPreviewUseCase,
     private val friendsService: FriendsService,
+    private val friendPreviewsService: FriendPreviewsService,
     private val usersService: UsersService
 ) : ViewModel() {
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
     val myFriendsState = _myFriendsState.asStateFlow()
         .onStart {
-            viewModelScope.launch { friendsService.refreshFriendPreviews() }
+            viewModelScope.launch { friendPreviewsService.refreshFriendPreviews() }
             viewModelScope.launch { friendRequestsService.refreshFriendRequests() }
             watchFriendRequests()
             watchFriendPreviews()
@@ -178,7 +180,7 @@ class MyFriendsViewModel(
     }
 
     private fun watchFriendPreviews() = viewModelScope.launch {
-        friendsService.watchFriendPreviews().collectLatest { result ->
+        friendPreviewsService.watchFriendPreviews().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     _myFriendsState.update {

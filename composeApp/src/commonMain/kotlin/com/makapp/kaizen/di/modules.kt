@@ -10,6 +10,7 @@ import com.makapp.kaizen.data.remote.firebase_functions.FirebaseFunctionsDataSou
 import com.makapp.kaizen.data.remote.firestore.RemoteFirestoreDataSourceImpl
 import com.makapp.kaizen.data.repository.AuthRepositoryImpl
 import com.makapp.kaizen.data.repository.ChallengesRepositoryImpl
+import com.makapp.kaizen.data.repository.FriendPreviewsRepositoryImpl
 import com.makapp.kaizen.data.repository.FriendRequestsRepositoryImpl
 import com.makapp.kaizen.data.repository.FriendsRepositoryImpl
 import com.makapp.kaizen.data.repository.UsersRepositoryImpl
@@ -19,11 +20,13 @@ import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.repository.ChallengesRepository
+import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
 import com.makapp.kaizen.domain.repository.FriendRequestsRepository
 import com.makapp.kaizen.domain.repository.FriendsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
 import com.makapp.kaizen.domain.services.AuthenticateService
 import com.makapp.kaizen.domain.services.ChallengesService
+import com.makapp.kaizen.domain.services.FriendPreviewsService
 import com.makapp.kaizen.domain.services.FriendRequestsService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
@@ -63,6 +66,7 @@ val commonModules = module {
     singleOf(::ChallengesService)
     singleOf(::FriendRequestsService)
     singleOf(::FriendsService)
+    singleOf(::FriendPreviewsService)
 
     // Use cases
     singleOf(::GetReloadedUserSessionUseCase)
@@ -77,6 +81,7 @@ val commonModules = module {
     singleOf(::AuthRepositoryImpl).bind<AuthRepository>()
     singleOf(::FriendRequestsRepositoryImpl).bind<FriendRequestsRepository>()
     singleOf(::FriendsRepositoryImpl).bind<FriendsRepository>()
+    singleOf(::FriendPreviewsRepositoryImpl).bind<FriendPreviewsRepository>()
 
     // Data sources
     singleOf(::DataStoreDataSourceImpl).bind<DataStoreDataSource>()

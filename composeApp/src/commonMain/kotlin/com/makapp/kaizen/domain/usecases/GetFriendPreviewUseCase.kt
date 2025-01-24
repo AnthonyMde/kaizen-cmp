@@ -5,12 +5,13 @@ import kotlinx.coroutines.flow.flow
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
 import com.makapp.kaizen.domain.repository.FriendsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
 
 class GetFriendPreviewUseCase(
     private val usersRepository: UsersRepository,
-    private val friendsRepository: FriendsRepository
+    private val friendPreviewsRepository: FriendPreviewsRepository
 ) {
     operator fun invoke(username: String): Flow<Resource<FriendPreview>> = flow {
         val trimmedUsername = username.trim()
@@ -25,7 +26,7 @@ class GetFriendPreviewUseCase(
         }
 
         emit(Resource.Loading())
-        val result = friendsRepository.getFriendPreview(trimmedUsername)
+        val result = friendPreviewsRepository.getFriendPreview(trimmedUsername)
         emit(result)
     }
 }

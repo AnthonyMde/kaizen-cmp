@@ -14,12 +14,4 @@ class FriendsService(
         emit(Resource.Loading())
         emit(friendsRepository.getFriends())
     }
-
-    fun watchFriendPreviews(): Flow<Resource<List<FriendPreview>>> {
-        return friendsRepository.watchFriendPreviews()
-    }
-
-    suspend fun refreshFriendPreviews() {
-        friendsRepository.refreshFriendPreviews()
-    }
 }
