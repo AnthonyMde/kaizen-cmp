@@ -11,12 +11,10 @@ data class MyFriendsState(
     val friendPreview: FriendPreview? = null,
     val isSendFriendRequestLoading: Boolean = false,
 
-    val areFriendRequestsLoading: Boolean = true,
     val pendingSentRequests: List<FriendRequest> = emptyList(),
     val pendingReceivedRequests: List<FriendRequest> = emptyList(),
     val requestIdsCurrentlyUpdated: List<String> = emptyList(),
 
-    val areFriendPreviewsLoading: Boolean = false,
     val friendPreviews: List<FriendPreview> = emptyList()
 ) {
     val totalRequests: Int

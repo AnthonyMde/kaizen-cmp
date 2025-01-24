@@ -157,11 +157,6 @@ fun MyFriendsScreen(
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            if (state.areFriendRequestsLoading) {
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth().height(1.dp).padding(horizontal = 16.dp)
-                )
-            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -185,12 +180,6 @@ fun MyFriendsScreen(
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )
-
-            if (state.areFriendPreviewsLoading) {
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth().height(1.dp).padding(horizontal = 16.dp)
-                )
-            }
 
             Spacer(modifier = Modifier.height(8.dp))
 

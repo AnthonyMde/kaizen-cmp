@@ -26,9 +26,7 @@ class MyFriendsViewModel(
         .onStart {
             viewModelScope.launch { friendsService.refreshFriendPreviews() }
             viewModelScope.launch { friendRequestsService.refreshFriendRequests() }
-            watchFriendRequestsRefreshing()
             watchFriendRequests()
-            watchFriendPreviewsRefreshing()
             watchFriendPreviews()
         }
 
@@ -57,16 +55,6 @@ class MyFriendsViewModel(
             }
 
             else -> {}
-        }
-    }
-
-    private fun watchFriendRequestsRefreshing() = viewModelScope.launch {
-        friendRequestsService.isFriendRequestsRefreshing.collectLatest { isRefreshing ->
-            _myFriendsState.update {
-                it.copy(
-                    areFriendRequestsLoading = isRefreshing
-                )
-            }
         }
     }
 
@@ -209,16 +197,6 @@ class MyFriendsViewModel(
                 }
 
                 is Resource.Loading -> {}
-            }
-        }
-    }
-
-    private fun watchFriendPreviewsRefreshing() = viewModelScope.launch {
-        friendsService.isRefreshingPreviews.collectLatest { isRefreshing ->
-            _myFriendsState.update {
-                it.copy(
-                    areFriendPreviewsLoading = isRefreshing
-                )
             }
         }
     }

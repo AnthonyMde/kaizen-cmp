@@ -7,10 +7,7 @@ import com.makapp.kaizen.domain.repository.FriendRequestsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class FriendRequestsService(
@@ -19,17 +16,12 @@ class FriendRequestsService(
     private val friendsService: FriendsService,
     private val scope: CoroutineScope
 ) {
-    private val _isFriendRequestsRefreshing = MutableStateFlow(false)
-    val isFriendRequestsRefreshing = _isFriendRequestsRefreshing.asStateFlow()
-
     fun watchFriendRequests(): Flow<Resource<List<FriendRequest>>> {
         return friendRequestsRepository.watchFriendRequests()
     }
 
     suspend fun refreshFriendRequests() {
-        _isFriendRequestsRefreshing.update { true }
         friendRequestsRepository.refreshFriendRequests()
-        _isFriendRequestsRefreshing.update { false }
     }
 
     fun updateFriendRequest(requestId: String, status: FriendRequest.Status): Flow<Resource<Unit>> = flow {
