@@ -29,6 +29,34 @@ class MyFriendsViewModel(
             viewModelScope.launch { getFriends() }
         }
 
+    fun onAction(action: MyFriendsAction) {
+        when (action) {
+            is MyFriendsAction.OnFriendUsernameInputChanged -> {
+                _myFriendsState.update {
+                    it.copy(
+                        friendUsernameInputValue = action.username,
+                        friendUsernameInputError = null
+                    )
+                }
+            }
+
+            is MyFriendsAction.OnSearchFriendProfile -> viewModelScope.launch {
+                val username = _myFriendsState.value.friendUsernameInputValue
+                getFriendPreview(username)
+            }
+
+            is MyFriendsAction.OnFriendRequestSubmit -> viewModelScope.launch {
+                createFriendRequest()
+            }
+
+            is MyFriendsAction.OnFriendRequestUpdated -> viewModelScope.launch {
+                updateFriendRequest(action)
+            }
+
+            else -> {}
+        }
+    }
+
     private suspend fun refreshFriendRequests() {
         friendRequestsService.refreshFriendRequests().collectLatest { result ->
             when (result) {
@@ -76,60 +104,41 @@ class MyFriendsViewModel(
         }
     }
 
-    private fun getFriends() = viewModelScope.launch {
-        friendsService.getFriendPreviews().collectLatest { result ->
+    private suspend fun createFriendRequest() {
+        val friendId = _myFriendsState.value.friendPreview?.id
+
+        _myFriendsState.update {
+            it.copy(
+                isSendFriendRequestLoading = true,
+                friendUsernameInputError = null
+            )
+        }
+
+        friendRequestsService.createFriendRequest(friendId).let { result ->
             when (result) {
                 is Resource.Error -> {
-                    _myFriendsState.update {
-                        it.copy(
-                            friendPreviews = result.data ?: emptyList(),
-                            isFriendsLoading = false
-                        )
+                    val errorMessage = when (result.throwable) {
+                        DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
+                        DomainException.Common.InvalidArguments -> "Cannot find friend id."
+                        else -> "Impossible to send your friend request."
                     }
+                    _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
                 }
 
                 is Resource.Success -> {
+                    refreshFriendRequests()
                     _myFriendsState.update {
                         it.copy(
-                            friendPreviews = result.data ?: emptyList(),
-                            isFriendsLoading = false
+                            friendPreview = null,
+                            friendUsernameInputValue = ""
                         )
                     }
                 }
 
-                is Resource.Loading -> {
-                    _myFriendsState.update { it.copy(isFriendsLoading = true) }
-                }
+                is Resource.Loading -> {}
             }
         }
-    }
-
-    fun onAction(action: MyFriendsAction) {
-        when (action) {
-            is MyFriendsAction.OnFriendUsernameInputChanged -> {
-                _myFriendsState.update {
-                    it.copy(
-                        friendUsernameInputValue = action.username,
-                        friendUsernameInputError = null
-                    )
-                }
-            }
-
-            is MyFriendsAction.OnSearchFriendProfile -> viewModelScope.launch {
-                val username = _myFriendsState.value.friendUsernameInputValue
-                getFriendPreview(username)
-            }
-
-            is MyFriendsAction.OnFriendRequestSubmit -> viewModelScope.launch {
-                createFriendRequest()
-            }
-
-            is MyFriendsAction.OnFriendRequestUpdated -> viewModelScope.launch {
-                updateFriendRequest(action)
-            }
-
-            else -> {}
-        }
+        _myFriendsState.update { it.copy(isSendFriendRequestLoading = false) }
     }
 
     private suspend fun updateFriendRequest(action: MyFriendsAction.OnFriendRequestUpdated) {
@@ -192,6 +201,34 @@ class MyFriendsViewModel(
         return list
     }
 
+    private fun getFriends() = viewModelScope.launch {
+        friendsService.getFriendPreviews().collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _myFriendsState.update {
+                        it.copy(
+                            friendPreviews = result.data ?: emptyList(),
+                            isFriendsLoading = false
+                        )
+                    }
+                }
+
+                is Resource.Success -> {
+                    _myFriendsState.update {
+                        it.copy(
+                            friendPreviews = result.data ?: emptyList(),
+                            isFriendsLoading = false
+                        )
+                    }
+                }
+
+                is Resource.Loading -> {
+                    _myFriendsState.update { it.copy(isFriendsLoading = true) }
+                }
+            }
+        }
+    }
+
     private suspend fun getFriendPreview(username: String) {
         getFriendPreviewUseCase(username).collectLatest { result ->
             when (result) {
@@ -226,42 +263,5 @@ class MyFriendsViewModel(
                 }
             }
         }
-    }
-
-    private suspend fun createFriendRequest() {
-        val friendId = _myFriendsState.value.friendPreview?.id
-
-        _myFriendsState.update {
-            it.copy(
-                isSendFriendRequestLoading = true,
-                friendUsernameInputError = null
-            )
-        }
-
-        friendRequestsService.createFriendRequest(friendId).let { result ->
-            when (result) {
-                is Resource.Error -> {
-                    val errorMessage = when (result.throwable) {
-                        DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
-                        DomainException.Common.InvalidArguments -> "Cannot find friend id."
-                        else -> "Impossible to send your friend request."
-                    }
-                    _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
-                }
-
-                is Resource.Success -> {
-                    refreshFriendRequests()
-                    _myFriendsState.update {
-                        it.copy(
-                            friendPreview = null,
-                            friendUsernameInputValue = ""
-                        )
-                    }
-                }
-
-                is Resource.Loading -> {}
-            }
-        }
-        _myFriendsState.update { it.copy(isSendFriendRequestLoading = false) }
     }
 }
