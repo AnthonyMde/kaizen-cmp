@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ce68ce7b8e5d82dbd6a74319be1d554f",
+    "identityHash": "0721d59ce9575bec6d62ad96ff19b393",
     "entities": [
       {
         "tableName": "FriendRequestEntity",
@@ -68,11 +68,41 @@
             "id"
           ]
         }
+      },
+      {
+        "tableName": "FriendPreviewEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `profilePictureIndex` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profilePictureIndex",
+            "columnName": "profilePictureIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ce68ce7b8e5d82dbd6a74319be1d554f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0721d59ce9575bec6d62ad96ff19b393')"
     ]
   }
 }

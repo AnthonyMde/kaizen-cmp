@@ -1,4 +1,4 @@
-package com.makapp.kaizen.data.local.room.entities
+package com.makapp.kaizen.data.local.room.friendRequests
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

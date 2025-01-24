@@ -6,17 +6,28 @@ import com.makapp.kaizen.domain.models.Friend
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class FriendsService(
     private val friendsRepository: FriendsRepository
 ) {
+    private val _isRefreshingPreviews = MutableStateFlow(false)
+    val isRefreshingPreviews = _isRefreshingPreviews.asStateFlow()
+
     fun getFriends(): Flow<Resource<List<Friend>>> = flow {
         emit(Resource.Loading())
         emit(friendsRepository.getFriends())
     }
 
-    fun getFriendPreviews(): Flow<Resource<List<FriendPreview>>> = flow {
-        emit(Resource.Loading())
-        emit(friendsRepository.getFriendPreviews())
+    fun watchFriendPreviews(): Flow<Resource<List<FriendPreview>>> {
+        return friendsRepository.watchFriendPreviews()
+    }
+
+    suspend fun refreshFriendPreviews() {
+        _isRefreshingPreviews.update { true }
+        friendsRepository.refreshFriendPreviews()
+        _isRefreshingPreviews.update { false }
     }
 }

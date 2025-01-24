@@ -1,9 +1,9 @@
 package com.makapp.kaizen.data.repository
 
-import com.makapp.kaizen.data.local.room.FriendRequestsDao
-import com.makapp.kaizen.data.local.room.entities.FriendRequestEntity
-import com.makapp.kaizen.data.local.room.entities.FriendRequestProfileEntity
-import com.makapp.kaizen.data.local.room.entities.FriendRequestWithProfilesEntity
+import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestsDao
+import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestEntity
+import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestProfileEntity
+import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestWithProfilesEntity
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.domain.models.FriendRequest
@@ -30,7 +30,7 @@ class FriendRequestsRepositoryImpl(
     override suspend fun refreshFriendRequests(): Resource<Unit> {
         return try {
             val requests = firebaseFunctions.getFriendRequests()
-            friendRequestsDao.insert(requests.map { it.toRoomEntity() })
+            friendRequestsDao.refresh(requests.map { it.toRoomEntity() })
             Resource.Success()
         } catch (e: Exception) {
             Resource.Error(e.toDomainException())

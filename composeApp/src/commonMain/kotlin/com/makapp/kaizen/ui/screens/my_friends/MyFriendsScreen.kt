@@ -157,14 +157,15 @@ fun MyFriendsScreen(
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )
+            if (state.areFriendRequestsLoading) {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth().height(1.dp).padding(horizontal = 16.dp)
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            if (state.areFriendRequestsLoading) {
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth().height(2.dp).padding(horizontal = 24.dp)
-                )
-            } else if (state.totalRequests == 0) {
+            if (state.totalRequests == 0) {
                 FriendRequestsEmptyView()
             } else if (state.totalRequests > 0) {
                 PendingRequestsView(
@@ -185,13 +186,15 @@ fun MyFriendsScreen(
                 color = MaterialTheme.colorScheme.onSurface
             )
 
+            if (state.areFriendPreviewsLoading) {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth().height(1.dp).padding(horizontal = 16.dp)
+                )
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
 
-            if (state.isFriendsLoading) {
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth().height(2.dp).padding(horizontal = 24.dp)
-                )
-            } else if (state.friendPreviews.isEmpty()) {
+            if (state.friendPreviews.isEmpty()) {
                 FriendsEmptyView()
             } else {
                 LazyColumn(modifier = Modifier

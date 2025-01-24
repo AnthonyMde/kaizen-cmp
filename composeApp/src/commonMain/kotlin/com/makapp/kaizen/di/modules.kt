@@ -1,18 +1,14 @@
 package com.makapp.kaizen.di
 
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
-import org.koin.dsl.module
 import com.makapp.kaizen.data.local.DataStoreDataSourceImpl
 import com.makapp.kaizen.data.local.room.AppDatabase
-import com.makapp.kaizen.data.local.room.FriendRequestsDao
+import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewsDao
+import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestsDao
 import com.makapp.kaizen.data.remote.firebase_auth.FirebaseAuthDataSourceImpl
 import com.makapp.kaizen.data.remote.firebase_functions.FirebaseFunctionsDataSourceImpl
 import com.makapp.kaizen.data.remote.firestore.RemoteFirestoreDataSourceImpl
-import com.makapp.kaizen.data.repository.ChallengesRepositoryImpl
 import com.makapp.kaizen.data.repository.AuthRepositoryImpl
+import com.makapp.kaizen.data.repository.ChallengesRepositoryImpl
 import com.makapp.kaizen.data.repository.FriendRequestsRepositoryImpl
 import com.makapp.kaizen.data.repository.FriendsRepositoryImpl
 import com.makapp.kaizen.data.repository.UsersRepositoryImpl
@@ -20,14 +16,14 @@ import com.makapp.kaizen.data.repository.sources.DataStoreDataSource
 import com.makapp.kaizen.data.repository.sources.FirebaseAuthDataSource
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
-import com.makapp.kaizen.domain.repository.ChallengesRepository
 import com.makapp.kaizen.domain.repository.AuthRepository
+import com.makapp.kaizen.domain.repository.ChallengesRepository
 import com.makapp.kaizen.domain.repository.FriendRequestsRepository
 import com.makapp.kaizen.domain.repository.FriendsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
+import com.makapp.kaizen.domain.services.AuthenticateService
 import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.domain.services.FriendRequestsService
-import com.makapp.kaizen.domain.services.AuthenticateService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
 import com.makapp.kaizen.domain.usecases.CreateUserUseCase
@@ -37,10 +33,19 @@ import com.makapp.kaizen.domain.usecases.VerifyUsernameAvailableUseCase
 import com.makapp.kaizen.domain.usecases.VerifyUsernameFormatUseCase
 import com.makapp.kaizen.ui.screens.account.AccountViewModel
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
-import com.makapp.kaizen.ui.screens.my_friends.MyFriendsViewModel
 import com.makapp.kaizen.ui.screens.home.HomeViewModel
 import com.makapp.kaizen.ui.screens.login.AuthViewModel
+import com.makapp.kaizen.ui.screens.my_friends.MyFriendsViewModel
 import com.makapp.kaizen.ui.screens.onboarding.OnboardingProfileViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.SupervisorJob
+import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
 val commonModules = module {
     // ViewModels
@@ -81,8 +86,17 @@ val commonModules = module {
     single<FriendRequestsDao> {
         getFriendRequestsDao(get())
     }
+    single<FriendPreviewsDao> {
+        getFriendsDao(get())
+    }
+
+    // Coroutines
+    single<CoroutineScope> {
+        CoroutineScope(Dispatchers.IO + SupervisorJob())
+    }
 }
 
 private fun getFriendRequestsDao(db: AppDatabase): FriendRequestsDao = db.getFriendRequestsDao()
+private fun getFriendsDao(db: AppDatabase): FriendPreviewsDao = db.getFriendPreviewsDao()
 
 expect val targetModule: Module

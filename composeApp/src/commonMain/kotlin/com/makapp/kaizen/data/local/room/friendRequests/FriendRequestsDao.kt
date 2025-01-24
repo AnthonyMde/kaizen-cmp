@@ -1,22 +1,18 @@
-package com.makapp.kaizen.data.local.room
+package com.makapp.kaizen.data.local.room.friendRequests
 
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.makapp.kaizen.data.local.room.entities.FriendRequestEntity
-import com.makapp.kaizen.data.local.room.entities.FriendRequestProfileEntity
-import com.makapp.kaizen.data.local.room.entities.FriendRequestWithProfilesEntity
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FriendRequestsDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insert(requestEntity: FriendRequestEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insert(profileEntity: FriendRequestProfileEntity)
 
     @Transaction
@@ -26,6 +22,22 @@ interface FriendRequestsDao {
             insert(request.receiver)
             insert(request.friendRequest)
         }
+    }
+
+    @Query("DELETE FROM FriendRequestEntity WHERE id NOT IN (:keptIds)")
+    suspend fun deleteStaleRequests(keptIds: List<String>)
+
+    @Query("DELETE FROM FriendRequestProfileEntity WHERE id NOT IN (:keptIds)")
+    suspend fun deleteStateProfiles(keptIds: List<String>)
+
+    @Transaction
+    suspend fun refresh(requests: List<FriendRequestWithProfilesEntity>) {
+        val requestIds = requests.map { it.friendRequest.id }
+        val profileIds = requests.flatMap { listOf(it.sender.id, it.receiver.id) }
+
+        insert(requests)
+        deleteStaleRequests(keptIds = requestIds)
+        deleteStateProfiles(keptIds = profileIds)
     }
 
     @Query("SELECT * FROM FriendRequestEntity WHERE id = :id")

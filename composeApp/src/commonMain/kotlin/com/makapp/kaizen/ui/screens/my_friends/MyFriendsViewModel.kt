@@ -2,18 +2,18 @@ package com.makapp.kaizen.ui.screens.my_friends
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.services.FriendRequestsService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
 import com.makapp.kaizen.domain.usecases.GetFriendPreviewUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class MyFriendsViewModel(
     private val friendRequestsService: FriendRequestsService,
@@ -24,9 +24,12 @@ class MyFriendsViewModel(
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
     val myFriendsState = _myFriendsState.asStateFlow()
         .onStart {
-            viewModelScope.launch { refreshFriendRequests() }
-            viewModelScope.launch { watchFriendRequests() }
-            viewModelScope.launch { getFriends() }
+            viewModelScope.launch { friendsService.refreshFriendPreviews() }
+            viewModelScope.launch { friendRequestsService.refreshFriendRequests() }
+            watchFriendRequestsRefreshing()
+            watchFriendRequests()
+            watchFriendPreviewsRefreshing()
+            watchFriendPreviews()
         }
 
     fun onAction(action: MyFriendsAction) {
@@ -57,35 +60,24 @@ class MyFriendsViewModel(
         }
     }
 
-    private suspend fun refreshFriendRequests() {
-        friendRequestsService.refreshFriendRequests().collectLatest { result ->
-            when (result) {
-                is Resource.Error -> {
-                    _myFriendsState.update { it.copy(
-                        areFriendRequestsLoading = false
-                    ) }
-                }
-                is Resource.Loading -> {
-                    _myFriendsState.update { it.copy(
-                        areFriendRequestsLoading = true
-                    ) }
-                }
-                is Resource.Success -> {
-                    _myFriendsState.update { it.copy(
-                        areFriendRequestsLoading = false
-                    ) }
-                }
+    private fun watchFriendRequestsRefreshing() = viewModelScope.launch {
+        friendRequestsService.isFriendRequestsRefreshing.collectLatest { isRefreshing ->
+            _myFriendsState.update {
+                it.copy(
+                    areFriendRequestsLoading = isRefreshing
+                )
             }
         }
     }
 
-    private suspend fun watchFriendRequests() {
+    private fun watchFriendRequests() = viewModelScope.launch {
         usersService.getMe().let { user ->
             friendRequestsService.watchFriendRequests().collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
                         // TODO
                     }
+
                     is Resource.Loading -> {}
                     is Resource.Success -> {
                         val sent = result.data?.filter { it.sender.id == user!!.id } ?: emptyList()
@@ -94,8 +86,7 @@ class MyFriendsViewModel(
                         _myFriendsState.update {
                             it.copy(
                                 pendingSentRequests = sent,
-                                pendingReceivedRequests = received,
-                                areFriendRequestsLoading = false
+                                pendingReceivedRequests = received
                             )
                         }
                     }
@@ -126,7 +117,6 @@ class MyFriendsViewModel(
                 }
 
                 is Resource.Success -> {
-                    refreshFriendRequests()
                     _myFriendsState.update {
                         it.copy(
                             friendPreview = null,
@@ -159,8 +149,6 @@ class MyFriendsViewModel(
                     }
 
                     is Resource.Success -> {
-                        refreshFriendRequests()
-                        getFriends()
                         _myFriendsState.update {
                             it.copy(
                                 requestIdsCurrentlyUpdated =
@@ -201,14 +189,13 @@ class MyFriendsViewModel(
         return list
     }
 
-    private fun getFriends() = viewModelScope.launch {
-        friendsService.getFriendPreviews().collectLatest { result ->
+    private fun watchFriendPreviews() = viewModelScope.launch {
+        friendsService.watchFriendPreviews().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     _myFriendsState.update {
                         it.copy(
                             friendPreviews = result.data ?: emptyList(),
-                            isFriendsLoading = false
                         )
                     }
                 }
@@ -217,14 +204,21 @@ class MyFriendsViewModel(
                     _myFriendsState.update {
                         it.copy(
                             friendPreviews = result.data ?: emptyList(),
-                            isFriendsLoading = false
                         )
                     }
                 }
 
-                is Resource.Loading -> {
-                    _myFriendsState.update { it.copy(isFriendsLoading = true) }
-                }
+                is Resource.Loading -> {}
+            }
+        }
+    }
+
+    private fun watchFriendPreviewsRefreshing() = viewModelScope.launch {
+        friendsService.isRefreshingPreviews.collectLatest { isRefreshing ->
+            _myFriendsState.update {
+                it.copy(
+                    areFriendPreviewsLoading = isRefreshing
+                )
             }
         }
     }
