@@ -2,7 +2,9 @@ package com.makapp.kaizen.domain.repository
 
 import com.makapp.kaizen.domain.models.Friend
 import com.makapp.kaizen.domain.models.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface FriendsRepository {
-    suspend fun getFriends(): Resource<List<Friend>>
+    fun watchFriends(): Flow<Resource<List<Friend>>>
+    suspend fun refreshFriends(): Resource<Unit>
 }

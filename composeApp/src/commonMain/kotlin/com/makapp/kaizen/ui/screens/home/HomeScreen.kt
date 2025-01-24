@@ -117,20 +117,23 @@ fun HomeScreen(
                     .padding(top = 8.dp)
                     .padding(horizontal = 24.dp)
             )
-        } else if (state.friends.isEmpty()) {
-            FriendsEmptyView(modifier = Modifier.padding(top = 16.dp))
         }
-        LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
-            items(state.friends) { friend ->
-                FriendWithChallengesView(
-                    modifier = Modifier.padding(top = 16.dp),
-                    friend = Friend(
-                        id = friend.id,
-                        name = friend.name,
-                        profilePictureIndex = friend.profilePictureIndex,
-                        challenges = friend.challenges
+
+        if (state.friends.isEmpty() && !state.isFriendsLoading) {
+            FriendsEmptyView(modifier = Modifier.padding(top = 16.dp))
+        } else {
+            LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
+                items(state.friends) { friend ->
+                    FriendWithChallengesView(
+                        modifier = Modifier.padding(top = 16.dp),
+                        friend = Friend(
+                            id = friend.id,
+                            name = friend.name,
+                            profilePictureIndex = friend.profilePictureIndex,
+                            challenges = friend.challenges
+                        )
                     )
-                )
+                }
             }
         }
     }

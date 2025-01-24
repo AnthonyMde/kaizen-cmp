@@ -31,6 +31,8 @@ class HomeViewModel(
         .onStart {
             watchMe()
             watchFriends()
+            watchFriendsLoading()
+            viewModelScope.launch { friendsService.refreshFriends() }
             _homeScreenState.update {
                 it.copy(userSession = authRepository.getUserSession())
             }
@@ -115,23 +117,17 @@ class HomeViewModel(
     }
 
     private fun watchFriends() = viewModelScope.launch {
-        friendsService.getFriends().collectLatest { result ->
+        friendsService.watchFriends().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     _homeScreenState.update {
-                        it.copy(
-                            friendsError = result.throwable?.message,
-                            isFriendsLoading = false
-                        )
+                        it.copy(friendsError = result.throwable?.message,)
                     }
                 }
 
                 is Resource.Loading -> {
                     _homeScreenState.update {
-                        it.copy(
-                            friendsError = null,
-                            isFriendsLoading = true
-                        )
+                        it.copy(friendsError = null,)
                     }
                 }
 
@@ -140,11 +136,18 @@ class HomeViewModel(
                         it.copy(
                             friends = result.data ?: emptyList(),
                             friendsError = null,
-                            isFriendsLoading = false
                         )
                     }
                 }
             }
+        }
+    }
+
+    private fun watchFriendsLoading() = viewModelScope.launch {
+        friendsService.isRefreshFriendsLoading.collectLatest { isRefreshing ->
+            _homeScreenState.update { it.copy(
+                isFriendsLoading = isRefreshing
+            ) }
         }
     }
 }
