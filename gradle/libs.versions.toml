@@ -7,7 +7,7 @@ androidx-activityCompose = "1.9.3"
 androidx-lifecycle = "2.8.3"
 compose-multiplatform = "1.7.0"
 navigation-compose = "2.8.0-alpha10"
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 kotlinx-serialization = "1.7.3"
 kotlinx-date = "0.6.0"
 kotlin-atomicfu = "0.26.1"
@@ -17,6 +17,9 @@ core-splascreen = "1.0.1"
 koin = "4.0.0"
 datastore = "1.1.1"
 ktor = "3.0.3"
+room = "2.7.0-alpha12"
+ksp = "2.1.0-1.0.29"
+sqlite = "2.5.0-alpha12"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activityCompose" }
@@ -32,6 +35,9 @@ serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serializ
 core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "core-splascreen" }
 datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 datastore-preferences-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+sqlite = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
 
 gitlive-firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive" }
 gitlive-firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "gitlive" }
@@ -57,3 +63,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-playServices = { id = "com.google.gms.google-services", version.ref = "google-play-services" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }

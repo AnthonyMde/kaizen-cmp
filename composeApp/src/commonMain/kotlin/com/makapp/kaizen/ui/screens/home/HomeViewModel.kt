@@ -2,6 +2,13 @@ package com.makapp.kaizen.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.makapp.kaizen.domain.exceptions.DomainException
+import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.repository.AuthRepository
+import com.makapp.kaizen.domain.services.ChallengesService
+import com.makapp.kaizen.domain.services.FriendsService
+import com.makapp.kaizen.domain.services.UsersService
+import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,13 +18,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.makapp.kaizen.domain.exceptions.DomainException
-import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.repository.AuthRepository
-import com.makapp.kaizen.domain.services.ChallengesService
-import com.makapp.kaizen.domain.services.FriendsService
-import com.makapp.kaizen.domain.services.UsersService
-import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 
 class HomeViewModel(
     private val usersService: UsersService,

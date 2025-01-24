@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.playServices)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     kotlin("plugin.serialization")
 }
 
@@ -60,6 +62,9 @@ kotlin {
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.auth)
             implementation(libs.gitlive.firebase.functions)
+
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite)
 
             implementation(libs.datastore.core)
             implementation(libs.datastore.preferences.core)
@@ -136,6 +141,14 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas") // Used by automatic database migrations.
+}
+
 dependencies {
     debugImplementation(compose.uiTooling)
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
 }
