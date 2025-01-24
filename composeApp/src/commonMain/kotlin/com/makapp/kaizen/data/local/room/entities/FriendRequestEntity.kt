@@ -2,11 +2,22 @@ package com.makapp.kaizen.data.local.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.makapp.kaizen.domain.models.FriendRequest
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Entity
 data class FriendRequestEntity(
     @PrimaryKey val id: String,
-    val sender: String,
-    val receiver: String,
-    val status: String
+    val senderId: String,
+    val receiverId: String,
+    val status: FriendRequest.Status
+)
+
+@Serializable
+@Entity
+data class FriendRequestProfileEntity(
+    @PrimaryKey val id: String,
+    val username: String,
+    val profilePictureIndex: Int? = null
 )

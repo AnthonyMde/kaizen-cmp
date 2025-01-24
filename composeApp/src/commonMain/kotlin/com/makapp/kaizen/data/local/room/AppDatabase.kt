@@ -6,13 +6,17 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.makapp.kaizen.data.local.room.entities.FriendRequestEntity
+import com.makapp.kaizen.data.local.room.entities.FriendRequestProfileEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
 const val ROOM_DB_FILE_NAME = "kaizen_room.db"
 
 @Database(
-    entities = [FriendRequestEntity::class],
+    entities = [
+        FriendRequestEntity::class,
+        FriendRequestProfileEntity::class
+    ],
     version = 1
 )
 @ConstructedBy(AppDatabaseConstructor::class)

@@ -24,26 +24,54 @@ class MyFriendsViewModel(
     private val _myFriendsState = MutableStateFlow(MyFriendsState())
     val myFriendsState = _myFriendsState.asStateFlow()
         .onStart {
-            viewModelScope.launch { getFriendRequests() }
+            viewModelScope.launch { refreshFriendRequests() }
+            viewModelScope.launch { watchFriendRequests() }
             viewModelScope.launch { getFriends() }
         }
 
-    private suspend fun getFriendRequests() {
+    private suspend fun refreshFriendRequests() {
+        friendRequestsService.refreshFriendRequests().collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _myFriendsState.update { it.copy(
+                        areFriendRequestsLoading = false
+                    ) }
+                }
+                is Resource.Loading -> {
+                    _myFriendsState.update { it.copy(
+                        areFriendRequestsLoading = true
+                    ) }
+                }
+                is Resource.Success -> {
+                    _myFriendsState.update { it.copy(
+                        areFriendRequestsLoading = false
+                    ) }
+                }
+            }
+        }
+    }
+
+    private suspend fun watchFriendRequests() {
         usersService.getMe().let { user ->
-            try {
-                friendRequestsService.getFriendRequests().data?.let { requests ->
-                    val sent = requests.filter { it.sender.id == user!!.id }
-                    val received = requests.filter { it.receiver.id == user!!.id }
-                    _myFriendsState.update {
-                        it.copy(
-                            pendingSentRequests = sent,
-                            pendingReceivedRequests = received,
-                            areFriendRequestsLoading = false
-                        )
+            friendRequestsService.watchFriendRequests().collectLatest { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        // TODO
+                    }
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        val sent = result.data?.filter { it.sender.id == user!!.id } ?: emptyList()
+                        val received =
+                            result.data?.filter { it.receiver.id == user!!.id } ?: emptyList()
+                        _myFriendsState.update {
+                            it.copy(
+                                pendingSentRequests = sent,
+                                pendingReceivedRequests = received,
+                                areFriendRequestsLoading = false
+                            )
+                        }
                     }
                 }
-            } catch (e: Exception) {
-                _myFriendsState.update { it.copy(areFriendRequestsLoading = false) }
             }
         }
     }
@@ -122,7 +150,7 @@ class MyFriendsViewModel(
                     }
 
                     is Resource.Success -> {
-                        getFriendRequests()
+                        refreshFriendRequests()
                         getFriends()
                         _myFriendsState.update {
                             it.copy(
@@ -222,7 +250,7 @@ class MyFriendsViewModel(
                 }
 
                 is Resource.Success -> {
-                    getFriendRequests()
+                    refreshFriendRequests()
                     _myFriendsState.update {
                         it.copy(
                             friendPreview = null,

@@ -12,8 +12,13 @@ class FriendRequestsService(
     private val friendRequestsRepository: FriendRequestsRepository,
     private val usersRepository: UsersRepository
 ) {
-    suspend fun getFriendRequests(): Resource<List<FriendRequest>> {
-        return friendRequestsRepository.getFriendRequests()
+    fun watchFriendRequests(): Flow<Resource<List<FriendRequest>>> {
+        return friendRequestsRepository.watchFriendRequests()
+    }
+
+    fun refreshFriendRequests(): Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading())
+        emit(friendRequestsRepository.refreshFriendRequests())
     }
 
     fun updateFriendRequest(requestId: String, status: FriendRequest.Status): Flow<Resource<Unit>> = flow {
