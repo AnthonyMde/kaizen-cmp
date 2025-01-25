@@ -11,7 +11,7 @@ class UsersService(
 ) {
     fun watchMe(): Flow<Resource<User?>> = usersRepository.watchCurrentUser()
 
-    suspend fun getMe(): User? = usersRepository.getCurrentUser()
+    suspend fun getUser(): User? = usersRepository.getUser()
 
     fun deleteUserAccount(): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())

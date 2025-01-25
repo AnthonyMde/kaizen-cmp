@@ -6,7 +6,6 @@ import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
-import com.makapp.kaizen.domain.repository.FriendsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
 
 class GetFriendPreviewUseCase(
@@ -19,7 +18,7 @@ class GetFriendPreviewUseCase(
             emit(Resource.Error(DomainException.Common.InvalidArguments))
             return@flow
         }
-        val currentUsername = usersRepository.getCurrentUser()?.name
+        val currentUsername = usersRepository.getUser()?.name
         if (currentUsername == trimmedUsername) {
             emit(Resource.Error(DomainException.Friend.CannotSearchForYourself))
             return@flow

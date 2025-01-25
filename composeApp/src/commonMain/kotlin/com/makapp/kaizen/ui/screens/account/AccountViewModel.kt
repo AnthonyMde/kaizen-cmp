@@ -23,7 +23,7 @@ class AccountViewModel(
     val accountScreenState = _accountScreenState.asStateFlow()
         .onStart {
             _accountScreenState.update {
-                it.copy(user = usersService.getMe())
+                it.copy(user = usersService.getUser())
             }
         }
 

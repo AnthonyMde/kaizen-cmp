@@ -1,15 +1,8 @@
 package com.makapp.kaizen.data.repository
 
-import dev.gitlive.firebase.firestore.FirebaseFirestoreException
-import dev.gitlive.firebase.firestore.FirestoreExceptionCode
-import dev.gitlive.firebase.firestore.code
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import com.makapp.kaizen.data.local.room.user.UserDao
+import com.makapp.kaizen.data.local.room.user.toUserDTO
+import com.makapp.kaizen.data.local.room.user.toUserEntity
 import com.makapp.kaizen.data.remote.dto.UserDTO
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
@@ -19,16 +12,30 @@ import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.models.User
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
+import dev.gitlive.firebase.firestore.FirebaseFirestoreException
+import dev.gitlive.firebase.firestore.FirestoreExceptionCode
+import dev.gitlive.firebase.firestore.code
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UsersRepositoryImpl(
     private val firestore: FirestoreDataSource,
     private val firebaseFunctions: FirebaseFunctionsDataSource,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userDao: UserDao,
+    private val scope: CoroutineScope
 ) : UsersRepository {
-
-    private var currentUser: User? = null
-
+    /**
+     * This is the only part of the code which is using firebase realtime flow.
+     * Other parts of the code are using synchronous http calls + room caching.
+     */
     override fun watchCurrentUser(): Flow<Resource<User?>> {
         val userId = authRepository.getUserSession()?.uid ?: return flowOf(
             Resource.Error(
@@ -41,11 +48,12 @@ class UsersRepositoryImpl(
             .flatMapLatest { userDTO ->
                 firestore.watchAllChallenges(userId)
                     .map { challengeDTOs ->
+                        scope.launch { saveUserToRoom(userDTO) }
+
                         val challenges = challengeDTOs.map { it.toChallenge() }
                         userDTO?.toUser(challenges = challenges)
                     }
             }.map { user ->
-                currentUser = user
                 @Suppress("UNCHECKED_CAST")
                 Resource.Success(user) as Resource<User?> // Do we have a better way?
             }.catch { e ->
@@ -60,12 +68,15 @@ class UsersRepositoryImpl(
             }
     }
 
-    override suspend fun getCurrentUser(): User? {
-        if (currentUser != null) {
-            return currentUser
-        }
-        return watchCurrentUser().firstOrNull()?.data
+    private suspend fun saveUserToRoom(
+        userDTO: UserDTO?,
+    ) {
+        if (userDTO == null) return
+
+        userDao.refreshUser(userDTO.toUserEntity())
     }
+
+    override suspend fun getUser(): User? = userDao.getUser()?.toUserDTO()?.toUser()
 
     override suspend fun createUser(user: User): Resource<Unit> = try {
         firestore.createUser(UserDTO.from(user))

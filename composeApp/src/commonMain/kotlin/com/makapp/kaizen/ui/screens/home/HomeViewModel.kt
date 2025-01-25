@@ -34,7 +34,10 @@ class HomeViewModel(
             watchFriendsLoading()
             viewModelScope.launch { friendsService.refreshFriends() }
             _homeScreenState.update {
-                it.copy(userSession = authRepository.getUserSession())
+                it.copy(
+                    userSession = authRepository.getUserSession(),
+                    currentChallenger = usersService.getUser()
+                )
             }
         }
     private val _navigationEvents = MutableSharedFlow<HomeNavigationEvent>(
@@ -121,13 +124,13 @@ class HomeViewModel(
             when (result) {
                 is Resource.Error -> {
                     _homeScreenState.update {
-                        it.copy(friendsError = result.throwable?.message,)
+                        it.copy(friendsError = result.throwable?.message)
                     }
                 }
 
                 is Resource.Loading -> {
                     _homeScreenState.update {
-                        it.copy(friendsError = null,)
+                        it.copy(friendsError = null)
                     }
                 }
 
@@ -145,9 +148,11 @@ class HomeViewModel(
 
     private fun watchFriendsLoading() = viewModelScope.launch {
         friendsService.isRefreshFriendsLoading.collectLatest { isRefreshing ->
-            _homeScreenState.update { it.copy(
-                isFriendsLoading = isRefreshing
-            ) }
+            _homeScreenState.update {
+                it.copy(
+                    isFriendsLoading = isRefreshing
+                )
+            }
         }
     }
 }

@@ -61,7 +61,7 @@ class MyFriendsViewModel(
     }
 
     private fun watchFriendRequests() = viewModelScope.launch {
-        usersService.getMe().let { user ->
+        usersService.getUser().let { user ->
             friendRequestsService.watchFriendRequests().collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {

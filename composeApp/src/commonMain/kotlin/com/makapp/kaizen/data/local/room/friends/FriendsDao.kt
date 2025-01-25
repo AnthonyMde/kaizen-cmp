@@ -35,8 +35,9 @@ interface FriendsDao {
             friendWithChallenges.challenges.forEach { challenge ->
                 challengesIds.add(challenge.id)
             }
-            insertChallenges(friendWithChallenges.challenges)
         }
+
+        insertChallenges(friendsWithChallenges.flatMap { it.challenges })
         insertFriends(friendsWithChallenges.map { it.friend })
 
         deleteStaleFriendEntities(keptIds = friendIds)

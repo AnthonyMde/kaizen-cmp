@@ -7,7 +7,7 @@ import com.makapp.kaizen.domain.models.User
 interface UsersRepository {
     fun watchCurrentUser(): Flow<Resource<User?>>
     suspend fun createUser(user: User): Resource<Unit>
-    suspend fun getCurrentUser(): User?
+    suspend fun getUser(): User?
     suspend fun isUsernameAvailable(username: String): Resource<Boolean>
     suspend fun deleteUserAccount(): Resource<Unit>
 }
