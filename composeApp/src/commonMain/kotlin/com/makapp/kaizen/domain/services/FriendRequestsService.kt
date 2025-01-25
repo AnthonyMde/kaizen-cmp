@@ -47,7 +47,7 @@ class FriendRequestsService(
 
         val result = friendRequestsRepository.createFriendRequest(friendId)
         if (result is Resource.Success) {
-            scope.launch { refreshFriendRequests() }
+            refreshFriendRequests()
         }
 
         return result
