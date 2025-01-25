@@ -123,7 +123,7 @@ fun HomeScreen(
         if (state.friends.isEmpty() && !state.isFriendsLoading) {
             FriendsEmptyView(modifier = Modifier.padding(top = 16.dp))
         } else {
-            LazyColumn(modifier = Modifier.padding(top = 0.dp)) {
+            LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
                 items(state.friends) { friend ->
                     FriendWithChallengesView(
                         modifier = Modifier.padding(top = 16.dp),
