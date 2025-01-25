@@ -13,5 +13,6 @@ data class HomeScreenState(
 
     val friends: List<Friend> = emptyList(),
     val isFriendsLoading: Boolean = false,
+    val isSwipeToRefreshing: Boolean = false,
     val friendsError: String? = null,
 )

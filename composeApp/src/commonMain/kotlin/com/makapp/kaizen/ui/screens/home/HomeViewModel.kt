@@ -82,6 +82,18 @@ class HomeViewModel(
                 }
             }
 
+            is HomeAction.OnSwipeToRefreshFriendList -> {
+                viewModelScope.launch {
+                    _homeScreenState.update { it.copy(
+                        isSwipeToRefreshing = true
+                    ) }
+                    friendsService.refreshFriends()
+                    _homeScreenState.update { it.copy(
+                        isSwipeToRefreshing = false
+                    ) }
+                }
+            }
+
             else -> {}
         }
     }

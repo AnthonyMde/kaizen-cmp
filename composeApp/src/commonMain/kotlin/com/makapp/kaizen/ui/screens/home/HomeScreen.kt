@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -67,6 +69,7 @@ fun HomeScreenRoot(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     state: HomeScreenState,
@@ -123,17 +126,24 @@ fun HomeScreen(
         if (state.friends.isEmpty() && !state.isFriendsLoading) {
             FriendsEmptyView(modifier = Modifier.padding(top = 16.dp))
         } else {
-            LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
-                items(state.friends) { friend ->
-                    FriendWithChallengesView(
-                        modifier = Modifier.padding(top = 16.dp),
-                        friend = Friend(
-                            id = friend.id,
-                            name = friend.name,
-                            profilePictureIndex = friend.profilePictureIndex,
-                            challenges = friend.challenges
+            PullToRefreshBox(
+                isRefreshing = state.isSwipeToRefreshing,
+                onRefresh = {
+                    onAction(HomeAction.OnSwipeToRefreshFriendList)
+                }
+            ) {
+                LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
+                    items(state.friends) { friend ->
+                        FriendWithChallengesView(
+                            modifier = Modifier.padding(top = 16.dp),
+                            friend = Friend(
+                                id = friend.id,
+                                name = friend.name,
+                                profilePictureIndex = friend.profilePictureIndex,
+                                challenges = friend.challenges
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
