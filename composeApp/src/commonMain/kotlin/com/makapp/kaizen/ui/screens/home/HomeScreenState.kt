@@ -7,6 +7,7 @@ import com.makapp.kaizen.domain.models.UserSession
 data class HomeScreenState(
     val userSession: UserSession? = null,
 
+    val isCurrentChallengerLoading: Boolean = true,
     val currentChallenger: User? = null,
     val currentChallengerError: String? = null,
 

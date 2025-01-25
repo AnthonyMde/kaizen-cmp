@@ -99,6 +99,7 @@ fun HomeScreen(
             user = state.currentChallenger,
             onAction = onAction,
             error = state.currentChallengerError,
+            isLoading = state.isCurrentChallengerLoading,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)

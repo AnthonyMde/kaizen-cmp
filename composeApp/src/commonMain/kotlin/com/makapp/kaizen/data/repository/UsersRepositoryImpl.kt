@@ -20,7 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -36,14 +36,15 @@ class UsersRepositoryImpl(
      * This is the only part of the code which is using firebase realtime flow.
      * Other parts of the code are using synchronous http calls + room caching.
      */
-    override fun watchCurrentUser(): Flow<Resource<User?>> {
-        val userId = authRepository.getUserSession()?.uid ?: return flowOf(
-            Resource.Error(
-                DomainException.User.NoUserSessionFound
-            )
-        )
+    override fun watchCurrentUser(): Flow<Resource<User?>> = flow {
+        emit(Resource.Loading())
 
-        return firestore
+        val userId = authRepository.getUserSession()?.uid ?: run {
+            emit(Resource.Error(DomainException.User.NoUserSessionFound))
+            return@flow
+        }
+
+        firestore
             .watchCurrentUser(userId)
             .flatMapLatest { userDTO ->
                 firestore.watchAllChallenges(userId)
@@ -65,7 +66,7 @@ class UsersRepositoryImpl(
                 } else {
                     emit(Resource.Error(e.toDomainException()))
                 }
-            }
+            }.collect(this)
     }
 
     private suspend fun saveUserToRoom(

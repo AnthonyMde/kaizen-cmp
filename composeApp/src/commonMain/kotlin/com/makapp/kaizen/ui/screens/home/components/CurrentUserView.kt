@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,29 +32,41 @@ fun CurrentUserView(
     onAction: (HomeAction) -> Unit,
     modifier: Modifier = Modifier,
     error: String? = null,
+    isLoading: Boolean,
 ) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         if (error != null) {
             FormErrorText(error, textAlign = TextAlign.Center)
-        } else if (user == null) {
-            CircularProgressIndicator()
-        } else {
-            Text(
-                "My challenges",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp),
+            return@Column
+        }
+
+        Text(
+            "My challenges",
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp),
+        )
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.width(120.dp).padding(top = 8.dp)
+        )
+
+        if (user == null || isLoading) {
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(2.dp)
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 24.dp)
             )
-            HorizontalDivider(
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.width(120.dp).padding(top = 8.dp)
-            )
-            Column(modifier = Modifier.padding(top = 12.dp)) {
-                if (user.challenges.isEmpty()) {
-                    CurrentUserEmptyChallengesView(
-                        onAction = onAction
-                    )
-                }
-                user.challenges.forEach { challenge ->
+        }
+
+        Column(modifier = Modifier.padding(top = 12.dp)) {
+            if (user == null && !isLoading) {
+                CurrentUserEmptyChallengesView(
+                    onAction = onAction
+                )
+            } else {
+                user?.challenges?.forEach { challenge ->
                     ChallengeView(
                         onToggleChallenge = { challengeId: String, isChecked: Boolean ->
                             onAction(HomeAction.OnToggleChallenge(user.id, challengeId, isChecked))

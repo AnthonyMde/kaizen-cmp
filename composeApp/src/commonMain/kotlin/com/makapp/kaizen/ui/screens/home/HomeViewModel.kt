@@ -94,7 +94,10 @@ class HomeViewModel(
                         _navigationEvents.tryEmit(HomeNavigationEvent.GoToUserAccountCreation)
                     } else {
                         _homeScreenState.update {
-                            it.copy(currentChallengerError = result.throwable?.message)
+                            it.copy(
+                                currentChallengerError = result.throwable?.message,
+                                isCurrentChallengerLoading = false
+                            )
                         }
                     }
                 }
@@ -102,6 +105,7 @@ class HomeViewModel(
                 is Resource.Loading -> {
                     _homeScreenState.update {
                         it.copy(
+                            isCurrentChallengerLoading = true,
                             currentChallengerError = null,
                         )
                     }
@@ -112,6 +116,7 @@ class HomeViewModel(
                         it.copy(
                             currentChallenger = result.data,
                             currentChallengerError = null,
+                            isCurrentChallengerLoading = false
                         )
                     }
                 }
