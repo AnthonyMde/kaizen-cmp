@@ -92,7 +92,7 @@ fun OnboardingProfileScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
             .systemBarsPadding()
-            .pointerInput(Unit) {
+            .pointerInput(null) {
                 detectTapGestures(
                     onTap = {
                         focusManager.clearFocus()
