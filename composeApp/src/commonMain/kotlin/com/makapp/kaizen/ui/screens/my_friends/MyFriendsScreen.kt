@@ -112,7 +112,7 @@ fun MyFriendsScreen(
                 onValueChange = { text ->
                     onAction(MyFriendsAction.OnFriendUsernameInputChanged(text))
                 },
-                label = { Text("Find a friend") },
+                label = { Text("Add new friend") },
                 placeholder = { Text("Friend's username") },
                 supportingText = if (state.friendPreview == null && state.friendUsernameInputError != null) {
                     { Text(state.friendUsernameInputError) }
