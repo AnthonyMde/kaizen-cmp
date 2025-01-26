@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FriendsDao {
+    @Transaction
     @Query("SELECT * FROM FriendEntity")
     fun watchAll(): Flow<List<FriendWithChallengesEntity>>
 

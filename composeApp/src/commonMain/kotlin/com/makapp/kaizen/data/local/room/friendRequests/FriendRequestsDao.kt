@@ -40,6 +40,7 @@ interface FriendRequestsDao {
         deleteStateProfiles(keptIds = profileIds)
     }
 
+    @Transaction
     @Query("SELECT * FROM FriendRequestEntity WHERE id = :id")
     suspend fun findById(id: String): FriendRequestWithProfilesEntity
 
