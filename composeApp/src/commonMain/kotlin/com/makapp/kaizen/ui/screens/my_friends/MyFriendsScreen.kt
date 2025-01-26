@@ -100,8 +100,8 @@ fun MyFriendsScreen(
                 },
                 label = { Text("Find a friend") },
                 placeholder = { Text("Friend's username") },
-                supportingText = if (state.friendPreview == null) {
-                    { Text(state.friendUsernameInputError ?: "Username is case-sensitive.") }
+                supportingText = if (state.friendPreview == null && state.friendUsernameInputError != null) {
+                    { Text(state.friendUsernameInputError) }
                 } else {
                     null
                 },
