@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.makapp.kaizen.data.local.room.app.AppDao
 import com.makapp.kaizen.data.local.room.challenges.ChallengeEntity
 import com.makapp.kaizen.data.local.room.converters.StringListConverters
 import com.makapp.kaizen.data.local.room.converters.TimestampConverters
@@ -41,6 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getFriendPreviewsDao(): FriendPreviewsDao
     abstract fun getFriendsDao(): FriendsDao
     abstract fun getUserDao(): UserDao
+    abstract fun getAppDao(): AppDao
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT", "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")

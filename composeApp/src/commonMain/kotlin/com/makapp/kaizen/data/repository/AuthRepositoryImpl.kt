@@ -1,5 +1,6 @@
 package com.makapp.kaizen.data.repository
 
+import com.makapp.kaizen.data.local.room.app.AppDao
 import dev.gitlive.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dev.gitlive.firebase.auth.FirebaseAuthUserCollisionException
 import dev.gitlive.firebase.auth.FirebaseAuthWeakPasswordException
@@ -15,7 +16,8 @@ import com.makapp.kaizen.domain.models.UserSession
 import com.makapp.kaizen.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
-    private val firebaseAuth: FirebaseAuthDataSource
+    private val firebaseAuth: FirebaseAuthDataSource,
+    private val appDao: AppDao
 ) : AuthRepository {
     private val _watchUserSession =
         MutableStateFlow(firebaseAuth.getUserSession()?.toUserSession())
@@ -55,6 +57,7 @@ class AuthRepositoryImpl(
 
 
     override suspend fun logout() {
+        appDao.deleteNetworkCache()
         firebaseAuth.logout()
         _watchUserSession.update { null }
     }
