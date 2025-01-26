@@ -6,6 +6,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -90,7 +91,8 @@ fun MyFriendsScreen(
                 .fillMaxSize()
                 .imePadding()
                 .padding(innerPadding)
-                .padding(24.dp),
+                .padding(horizontal = 24.dp)
+                .padding(top = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             OutlinedTextField(
@@ -186,6 +188,7 @@ fun MyFriendsScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth(),
+                    contentPadding = PaddingValues(bottom = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {

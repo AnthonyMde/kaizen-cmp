@@ -2,6 +2,7 @@ package com.makapp.kaizen.ui.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -132,7 +133,7 @@ fun HomeScreen(
                     onAction(HomeAction.OnSwipeToRefreshFriendList)
                 }
             ) {
-                LazyColumn(modifier = Modifier.padding(bottom = 16.dp)) {
+                LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
                     items(state.friends) { friend ->
                         FriendWithChallengesView(
                             modifier = Modifier.padding(top = 16.dp),
