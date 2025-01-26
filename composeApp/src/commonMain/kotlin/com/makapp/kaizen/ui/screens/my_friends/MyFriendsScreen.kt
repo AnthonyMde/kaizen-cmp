@@ -79,7 +79,7 @@ fun MyFriendsScreen(
     Scaffold(
         topBar = {
             BackTopAppBar(
-                title = "My friends",
+                title = "Friends",
                 onNavigateUp = { onAction(MyFriendsAction.OnNavigateUp) },
                 backDescription = "Go back to account."
             )

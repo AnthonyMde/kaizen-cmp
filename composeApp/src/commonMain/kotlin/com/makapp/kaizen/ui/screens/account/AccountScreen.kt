@@ -179,7 +179,7 @@ fun AccountScreen(
                     onAction = {
                         onAction(AccountAction.GoToMyFriends)
                     },
-                    title = "My friends",
+                    title = "Friends",
                     icon = rememberVectorPainter(Icons.Filled.Face),
                     description = "My friends.",
                     modifier = Modifier.padding(top = 8.dp)
