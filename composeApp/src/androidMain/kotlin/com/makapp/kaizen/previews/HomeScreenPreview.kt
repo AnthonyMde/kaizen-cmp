@@ -17,7 +17,8 @@ fun HomeScreenPreview() {
             currentChallenger = User(
                 id = "1",
                 email = "email@tony.com",
-                name = "Towny",
+                name = "towny",
+                displayName = "Towny",
                 profilePictureIndex = 0,
                 challenges = listOf(
                     Challenge(
@@ -45,7 +46,8 @@ fun HomeScreenPreview() {
             friends = listOf(
                 Friend(
                     id = "2",
-                    name = "Clowie",
+                    name = "clowie",
+                    displayName = "Clowie",
                     profilePictureIndex = 1,
                     challenges = listOf(
                         Challenge(
@@ -72,7 +74,8 @@ fun HomeScreenPreview() {
                 ),
                 Friend(
                     id = "3",
-                    name = "Jacques",
+                    name = "j",
+                    displayName = "Jacques",
                     profilePictureIndex = 2,
                     challenges = listOf(
                         Challenge(

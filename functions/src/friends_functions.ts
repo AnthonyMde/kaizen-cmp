@@ -33,6 +33,7 @@ export const getFriendPreviewById = onCall(async (request) => {
     return {
         id: user.id,
         name: user.name,
+        displayName: user.displayName,
         profilePictureIndex: user.profilePictureIndex
     } as FriendPreview
 });
@@ -74,6 +75,7 @@ export const getFriends = onCall(async (request) => {
             return {
                 id: friendUser.id,
                 name: friendUser.name,
+                displayName: friendUser.displayName,
                 profilePictureIndex: friendUser.profilePictureIndex,
                 challenges: challenges
             } as Friend
@@ -85,6 +87,7 @@ export const getFriends = onCall(async (request) => {
             return {
                 id: friend.id,
                 name: friend.name,
+                displayName: friend.displayName,
                 profilePictureIndex: friend.profilePictureIndex,
             } as Friend
         })

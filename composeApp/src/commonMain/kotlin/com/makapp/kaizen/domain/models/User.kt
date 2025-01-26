@@ -7,6 +7,7 @@ data class User(
     val id: String,
     val email: String,
     val name: String,
+    val displayName: String,
     val profilePictureIndex: Int,
     val challenges: List<Challenge>
 )

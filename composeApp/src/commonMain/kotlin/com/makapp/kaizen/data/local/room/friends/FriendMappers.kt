@@ -9,6 +9,7 @@ fun FriendWithChallengesEntity.toFriendDTO(): FriendDTO {
     return FriendDTO(
         id = friend.id,
         name = friend.name,
+        displayName = friend.displayName,
         profilePictureIndex = friend.profilePictureIndex,
         challenges = challenges.map { it.toChallengeDTO() }
     )
@@ -19,6 +20,7 @@ fun FriendDTO.toFriendWithChallengesEntity(challenges: List<ChallengeDTO>): Frie
         friend = FriendEntity(
             id = id,
             name = name,
+            displayName = displayName,
             profilePictureIndex = profilePictureIndex
         ),
         challenges = challenges.map { it.toChallengeEntity(userId = id) }

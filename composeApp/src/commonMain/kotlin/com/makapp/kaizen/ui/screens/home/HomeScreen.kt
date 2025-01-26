@@ -136,12 +136,7 @@ fun HomeScreen(
                     items(state.friends) { friend ->
                         FriendWithChallengesView(
                             modifier = Modifier.padding(top = 16.dp),
-                            friend = Friend(
-                                id = friend.id,
-                                name = friend.name,
-                                profilePictureIndex = friend.profilePictureIndex,
-                                challenges = friend.challenges
-                            )
+                            friend = friend
                         )
                     }
                 }

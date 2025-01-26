@@ -9,6 +9,7 @@ data class UserDTO(
     val id: String,
     val email: String,
     val name: String,
+    val displayName: String,
     val profilePictureIndex: Int,
     val friendIds: List<String>
 ) {
@@ -17,6 +18,7 @@ data class UserDTO(
             id = user.id,
             email = user.email,
             name = user.name,
+            displayName = user.displayName,
             profilePictureIndex = user.profilePictureIndex,
             friendIds = friendIds
         )
@@ -26,6 +28,7 @@ data class UserDTO(
         id = id,
         email = email,
         name = name,
+        displayName = displayName,
         profilePictureIndex = profilePictureIndex,
         challenges = challenges
     )

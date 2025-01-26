@@ -30,6 +30,7 @@ class CreateUserUseCase(
                 id = session.uid,
                 email = session.email,
                 name = params.username,
+                displayName = params.username,
                 profilePictureIndex = params.pictureProfileIndex,
                 challenges = emptyList()
             )

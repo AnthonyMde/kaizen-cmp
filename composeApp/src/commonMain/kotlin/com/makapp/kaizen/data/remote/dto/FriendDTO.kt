@@ -8,6 +8,7 @@ import com.makapp.kaizen.domain.models.FriendPreview
 data class FriendDTO(
     val id: String,
     val name: String,
+    val displayName: String,
     val profilePictureIndex: Int,
     val challenges: List<ChallengeDTO> = emptyList()
 ) {
@@ -15,6 +16,7 @@ data class FriendDTO(
         return Friend(
             id = id,
             name = name,
+            displayName = displayName,
             profilePictureIndex = profilePictureIndex,
             challenges = challenges.map { it.toChallenge() }
         )
@@ -24,6 +26,7 @@ data class FriendDTO(
         return FriendPreview(
             id = id,
             name = name,
+            displayName = displayName,
             profilePictureIndex = profilePictureIndex,
         )
     }

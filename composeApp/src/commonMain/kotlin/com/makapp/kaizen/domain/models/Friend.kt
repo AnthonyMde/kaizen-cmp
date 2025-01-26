@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class Friend(
     val id: String,
     val name: String,
+    val displayName: String,
     val profilePictureIndex: Int,
     val challenges: List<Challenge>
 )

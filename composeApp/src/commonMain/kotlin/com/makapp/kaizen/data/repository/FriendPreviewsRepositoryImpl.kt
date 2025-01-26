@@ -45,6 +45,7 @@ private fun FriendPreviewEntity.toFriendPreview(): FriendPreview {
     return FriendPreview(
         id = id,
         name = name,
+        displayName = displayName,
         profilePictureIndex = profilePictureIndex
     )
 }
@@ -53,6 +54,7 @@ private fun FriendPreview.toFriendPreviewEntity(): FriendPreviewEntity {
     return FriendPreviewEntity(
         id = id,
         name = name,
+        displayName = displayName,
         profilePictureIndex = profilePictureIndex
     )
 }

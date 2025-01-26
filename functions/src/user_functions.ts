@@ -12,9 +12,13 @@ export const isUsernameAvailable = onCall(async (request) => {
     if (!username) {
         throw new HttpsError("invalid-argument", "Function must be called with username param.")
     }
+
+    const lowercased = username.toLowerCase()
+
     const docs = await getFirestore()
         .collection(Collection.USERS)
-        .where("name", "==", username)
+        .where("name", "==", lowercased)
+        .limit(1)
         .get()
 
     return {

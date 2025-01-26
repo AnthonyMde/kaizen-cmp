@@ -26,7 +26,7 @@ fun FriendWithChallengesView(
 ) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            friend.name,
+            friend.displayName,
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,

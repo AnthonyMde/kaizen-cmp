@@ -8,6 +8,7 @@ data class UserEntity(
     @PrimaryKey val id: String,
     val email: String,
     val name: String,
+    val displayName: String,
     val profilePictureIndex: Int,
     val friendIds: List<String>
 )
