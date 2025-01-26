@@ -61,7 +61,7 @@ fun CurrentUserView(
         }
 
         Column(modifier = Modifier.padding(top = 12.dp)) {
-            if (user == null && !isLoading) {
+            if (user != null && user.challenges.isEmpty() && !isLoading) {
                 CurrentUserEmptyChallengesView(
                     onAction = onAction
                 )
