@@ -32,7 +32,7 @@ const val ROOM_DB_FILE_NAME = "kaizen_room.db"
         FriendPreviewEntity::class,
         ChallengeEntity::class
     ],
-    version = 1
+    version = 2
 )
 @TypeConverters(TimestampConverters::class, StringListConverters::class)
 @ConstructedBy(AppDatabaseConstructor::class)
