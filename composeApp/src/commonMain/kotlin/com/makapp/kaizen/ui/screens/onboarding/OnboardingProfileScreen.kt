@@ -157,7 +157,7 @@ fun OnboardingProfileScreen(
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    submit(keyboard, onAction)
+                    keyboard?.hide()
                 }
             ),
             modifier = Modifier
@@ -232,8 +232,9 @@ fun OnboardingProfileScreen(
             label = "Create",
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 24.dp)
         )
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 

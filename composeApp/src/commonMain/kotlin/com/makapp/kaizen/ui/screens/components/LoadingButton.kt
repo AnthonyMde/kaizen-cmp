@@ -40,7 +40,7 @@ fun LoadingButton(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Center,
-                    modifier = getModifier(modifier, shrinkToText)
+                    modifier = getTextModifier(modifier, shrinkToText)
                 )
                 if (isLoading) CircularProgressIndicator(
                     color = MaterialTheme.colorScheme.onPrimary,
@@ -56,7 +56,7 @@ fun LoadingButton(
 }
 
 @Composable
-private fun RowScope.getModifier(
+private fun RowScope.getTextModifier(
     modifier: Modifier,
     shrinkToText: Boolean
 ): Modifier {
