@@ -55,8 +55,7 @@ import com.makapp.kaizen.ui.screens.components.LoadingButton
 
 @Composable
 fun OnboardingProfileScreenRoot(
-    viewModel: OnboardingProfileViewModel = koinInject(),
-    goToHomeScreen: () -> Unit
+    viewModel: OnboardingProfileViewModel = koinInject(), goToHomeScreen: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -70,80 +69,85 @@ fun OnboardingProfileScreenRoot(
         }
     }
 
-    OnboardingProfileScreen(
-        state = state,
-        onAction = { action ->
-            viewModel.onAction(action)
-        }
-    )
+    OnboardingProfileScreen(state = state, onAction = { action ->
+        viewModel.onAction(action)
+    })
 }
 
 @Composable
 fun OnboardingProfileScreen(
-    state: OnBoardingProfileScreenState,
-    onAction: (OnBoardingProfileAction) -> Unit
+    state: OnBoardingProfileScreenState, onAction: (OnBoardingProfileAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val avatars: List<Avatar> = remember { avatars }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
-            .systemBarsPadding()
-            .pointerInput(null) {
-                detectTapGestures(
-                    onTap = {
-                        focusManager.clearFocus()
-                    }
-                )
-            }
-            .padding(horizontal = 24.dp)
-            .imePadding()
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface)
+            .systemBarsPadding().pointerInput(null) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            }.padding(horizontal = 24.dp).imePadding()
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         Image(
             painter = painterResource(avatars[state.avatarSelectedIndex].drawable),
             contentDescription = avatars[state.avatarSelectedIndex].description,
-            modifier = Modifier
-                .clip(CircleShape)
-                .align(Alignment.CenterHorizontally)
-                .size(90.dp)
+            modifier = Modifier.clip(CircleShape).align(Alignment.CenterHorizontally).size(90.dp)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            "What's your name?",
+            "Nice to meet you!",
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = state.usernameInputValue,
+        TextField(value = state.usernameInputValue,
             onValueChange = { username ->
                 onAction(OnBoardingProfileAction.OnUsernameInputValueChanged(username))
             },
-            label = {
-                Text(
-                    "username",
-                )
-            },
+            label = { Text("Your username") },
             singleLine = true,
-            supportingText = {
-                Text(
-                    text = state.usernameInputError ?: "It will be visible by others."
-                )
-            },
+            supportingText = { Text(state.usernameInputError ?: "It should be unique.") },
             isError = state.usernameInputError != null,
             trailingIcon = {
-                if (state.usernameInputError != null)
-                    Icon(Icons.Default.Warning, contentDescription = null)
+                if (state.usernameInputError != null) Icon(
+                    Icons.Default.Warning, contentDescription = null
+                )
+            },
+            colors = TextFieldDefaults.colors().copy(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(8.dp),
+            keyboardOptions = KeyboardOptions().copy(
+                imeAction = ImeAction.Next
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(value = state.displayNameInputValue,
+            onValueChange = { displayName ->
+                onAction(OnBoardingProfileAction.OnDisplayNameInputValueChanged(displayName))
+            },
+            label = { Text("Your display name") },
+            singleLine = true,
+            supportingText = { Text(state.displayNameInputError ?: "What others will see.") },
+            isError = state.displayNameInputError != null,
+            trailingIcon = {
+                if (state.displayNameInputError != null) Icon(
+                    Icons.Default.Warning, contentDescription = null
+                )
             },
             colors = TextFieldDefaults.colors().copy(
                 focusedIndicatorColor = Color.Transparent,
@@ -155,22 +159,17 @@ fun OnboardingProfileScreen(
             keyboardOptions = KeyboardOptions().copy(
                 imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboard?.hide()
-                }
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
+            keyboardActions = KeyboardActions(onDone = {
+                keyboard?.hide()
+            }),
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
         HorizontalDivider(
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .height(2.dp)
-                .padding(horizontal = 24.dp)
+            modifier = Modifier.height(2.dp).padding(horizontal = 24.dp)
         )
 
         Spacer(modifier = Modifier.height(2.dp))
@@ -179,14 +178,14 @@ fun OnboardingProfileScreen(
             "avatars",
             style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
-        Text("by pikisuperstar",
+        Text(
+            "by pikisuperstar",
             style = MaterialTheme.typography.labelSmall,
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth())
+            modifier = Modifier.fillMaxWidth()
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -196,20 +195,14 @@ fun OnboardingProfileScreen(
                 itemsIndexed(avatars) { index, avatar ->
                     val isSelected = state.avatarSelectedIndex == index
                     Box {
-                        Image(
-                            painter = painterResource(avatar.drawable),
+                        Image(painter = painterResource(avatar.drawable),
                             contentDescription = avatar.description,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .clickable {
-                                    onAction(OnBoardingProfileAction.OnAvatarSelected(index))
-                                }
-                        )
+                            modifier = Modifier.clip(CircleShape).clickable {
+                                onAction(OnBoardingProfileAction.OnAvatarSelected(index))
+                            })
                         if (!isSelected) {
                             Box(
-                                modifier = Modifier
-                                    .matchParentSize()
-                                    .clip(CircleShape)
+                                modifier = Modifier.matchParentSize().clip(CircleShape)
                                     .background(Color.Black.copy(alpha = 0.5f))
                             )
                         }
@@ -230,8 +223,7 @@ fun OnboardingProfileScreen(
             enabled = !state.isFormSubmissionLoading,
             isLoading = state.isFormSubmissionLoading,
             label = "Create",
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -239,8 +231,7 @@ fun OnboardingProfileScreen(
 }
 
 private fun submit(
-    keyboard: SoftwareKeyboardController?,
-    onAction: (OnBoardingProfileAction) -> Unit
+    keyboard: SoftwareKeyboardController?, onAction: (OnBoardingProfileAction) -> Unit
 ) {
     keyboard?.hide()
     onAction(OnBoardingProfileAction.OnSubmitProfile)

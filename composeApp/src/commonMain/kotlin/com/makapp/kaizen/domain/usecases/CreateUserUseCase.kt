@@ -9,15 +9,21 @@ class CreateUserUseCase(
     private val usersRepository: UsersRepository,
     private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase,
     private val verifyUsernameAvailableUseCase: VerifyUsernameAvailableUseCase,
-    private val verifyUsernameFormatUseCase: VerifyUsernameFormatUseCase
+    private val verifyUsernameFormatUseCase: VerifyUsernameFormatUseCase,
+    private val verifyDisplayNameUseCase: VerifyDisplayNameUseCase
 ) {
     suspend operator fun invoke(params: CreateUserParams): Resource<Unit> {
         val session = getReloadedUserSessionUseCase()
             ?: return Resource.Error(DomainException.User.NoUserSessionFound)
 
-        val formatCheckResult = verifyUsernameFormatUseCase(params.username)
-        if (formatCheckResult is Resource.Error) {
-            return Resource.Error(formatCheckResult.throwable)
+        val usernameFormatCheckResult = verifyUsernameFormatUseCase(params.username)
+        if (usernameFormatCheckResult is Resource.Error) {
+            return Resource.Error(usernameFormatCheckResult.throwable)
+        }
+
+        val displayNameFormatCheckResult = verifyDisplayNameUseCase(params.displayName)
+        if (displayNameFormatCheckResult is Resource.Error) {
+            return Resource.Error(displayNameFormatCheckResult.throwable)
         }
 
         val availableCheckResult = verifyUsernameAvailableUseCase(params.username)
@@ -30,7 +36,7 @@ class CreateUserUseCase(
                 id = session.uid,
                 email = session.email,
                 name = params.username,
-                displayName = params.username,
+                displayName = params.displayName,
                 profilePictureIndex = params.pictureProfileIndex,
                 challenges = emptyList()
             )
@@ -39,5 +45,7 @@ class CreateUserUseCase(
 }
 
 data class CreateUserParams(
-    val username: String, val pictureProfileIndex: Int
+    val username: String,
+    val displayName: String,
+    val pictureProfileIndex: Int
 )

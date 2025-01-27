@@ -35,6 +35,7 @@ import com.makapp.kaizen.domain.services.UsersService
 import com.makapp.kaizen.domain.usecases.CreateUserUseCase
 import com.makapp.kaizen.domain.usecases.GetFriendPreviewUseCase
 import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import com.makapp.kaizen.domain.usecases.VerifyDisplayNameUseCase
 import com.makapp.kaizen.domain.usecases.VerifyUsernameAvailableUseCase
 import com.makapp.kaizen.domain.usecases.VerifyUsernameFormatUseCase
 import com.makapp.kaizen.ui.screens.account.AccountViewModel
@@ -75,6 +76,7 @@ val commonModules = module {
     singleOf(::CreateUserUseCase)
     singleOf(::VerifyUsernameAvailableUseCase)
     singleOf(::VerifyUsernameFormatUseCase)
+    singleOf(::VerifyDisplayNameUseCase)
     singleOf(::GetFriendPreviewUseCase)
 
     // Repository

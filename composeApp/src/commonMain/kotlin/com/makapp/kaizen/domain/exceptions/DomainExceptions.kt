@@ -22,14 +22,19 @@ sealed class DomainException(message: String = "") : Exception(message) {
         data object NoUserSessionFound : User()
         data object NoUserAccountFound : User()
 
-        sealed class Name : User() {
-            data object CannotBeVerified : Name()
-            data object AlreadyUsed : Name()
-            data object IsEmpty : Name()
-            data object IncorrectLength : Name()
-            data object SpecialCharAtStartOrEndNotAuthorized : Name()
-            data object DoubleSpecialCharNotAuthorized : Name()
-            data object SpecialCharNotAuthorized : Name()
+        sealed class Username : User() {
+            data object CannotBeVerified : Username()
+            data object AlreadyUsed : Username()
+            data object IsEmpty : Username()
+            data object IncorrectLength : Username()
+            data object SpecialCharAtStartOrEndNotAuthorized : Username()
+            data object DoubleSpecialCharNotAuthorized : Username()
+            data object SpecialCharNotAuthorized : Username()
+        }
+
+        sealed class DisplayName : User() {
+            data object IsEmpty : DisplayName()
+            data object IncorrectLength: DisplayName()
         }
     }
 

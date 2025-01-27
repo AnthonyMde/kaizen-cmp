@@ -46,41 +46,76 @@ class OnboardingProfileViewModel(
                 }
             }
 
+            is OnBoardingProfileAction.OnDisplayNameInputValueChanged -> {
+                _state.update {
+                    it.copy(
+                        displayNameInputValue = action.displayName,
+                        displayNameInputError = null
+                    )
+                }
+            }
+
             OnBoardingProfileAction.OnSubmitProfile -> {
-                val username = _state.value.usernameInputValue.trim()
+                val username = _state.value.usernameInputValue
+                val displayName = _state.value.displayNameInputValue
                 val chosenPictureIndex = _state.value.avatarSelectedIndex
 
-                submitForm(username, chosenPictureIndex)
+                submitForm(username, displayName, chosenPictureIndex)
             }
         }
     }
 
-    private fun submitForm(username: String, chosenPictureIndex: Int) = viewModelScope.launch {
-        _state.update { it.copy(isFormSubmissionLoading = true) }
-        val params = CreateUserParams(username = username, pictureProfileIndex = chosenPictureIndex)
+    private fun submitForm(username: String, displayName: String, chosenPictureIndex: Int) =
+        viewModelScope.launch {
+            _state.update { it.copy(isFormSubmissionLoading = true) }
 
-        when (val result = createUserUseCase(params)) {
-            is Resource.Error -> {
+            val params = CreateUserParams(username, displayName, chosenPictureIndex)
+
+            when (val result = createUserUseCase(params)) {
+                is Resource.Error -> {
+                    handleSubmitFormErrors(result)
+                }
+
+                is Resource.Success -> {
+                    _navigationEvents.tryEmit(OnBoardingProfileNavigationEvent.GoToHomeScreen)
+                }
+
+                else -> {}
+            }
+
+            _state.update { it.copy(isFormSubmissionLoading = false) }
+        }
+
+    private fun handleSubmitFormErrors(result: Resource.Error<Unit>) {
+        when (result.throwable) {
+            is DomainException.User.Username -> {
                 val errorMessage = when (result.throwable) {
-                    is DomainException.User.Name.CannotBeVerified -> "Sorry, we cannot verify your username by now, retry later."
-                    is DomainException.User.Name.AlreadyUsed-> "This username is already used."
-                    is DomainException.User.Name.IsEmpty -> "Username must not be empty."
-                    is DomainException.User.Name.IncorrectLength -> "Username must be 1-30 characters long."
-                    is DomainException.User.Name.DoubleSpecialCharNotAuthorized -> "Characters \"_\" and \".\" must not be doubled."
-                    is DomainException.User.Name.SpecialCharAtStartOrEndNotAuthorized -> "Characters \"_\" and \".\" must not start or end username."
-                    is DomainException.User.Name.SpecialCharNotAuthorized -> "Only special characters \"_\" and \".\" are authorized."
-                    else -> result.throwable?.message
+                    DomainException.User.Username.CannotBeVerified -> "Sorry, we cannot verify your username by now, retry later."
+                    DomainException.User.Username.AlreadyUsed -> "This username is already used."
+                    DomainException.User.Username.IsEmpty -> "Username must not be empty."
+                    DomainException.User.Username.IncorrectLength -> "Username must be 1-30 characters long."
+                    DomainException.User.Username.DoubleSpecialCharNotAuthorized -> "Characters \"_\" and \".\" must not be doubled."
+                    DomainException.User.Username.SpecialCharAtStartOrEndNotAuthorized -> "Characters \"_\" and \".\" must not start or end username."
+                    DomainException.User.Username.SpecialCharNotAuthorized -> "Only special characters \"_\" and \".\" are authorized."
                 }
                 _state.update { it.copy(usernameInputError = errorMessage) }
             }
 
-            is Resource.Success -> {
-                _navigationEvents.tryEmit(OnBoardingProfileNavigationEvent.GoToHomeScreen)
+            is DomainException.User.DisplayName -> {
+                val errorMessage = when (result.throwable) {
+                    DomainException.User.DisplayName.IncorrectLength -> "Display name must be 1-30 characters long."
+                    DomainException.User.DisplayName.IsEmpty -> "Display name must not be empty."
+                }
+                _state.update { it.copy(displayNameInputError = errorMessage) }
             }
 
-            else -> {}
+            else -> {
+                _state.update {
+                    it.copy(
+                        usernameInputError = result.throwable?.message ?: ""
+                    )
+                }
+            }
         }
-
-        _state.update { it.copy(isFormSubmissionLoading = false) }
     }
 }

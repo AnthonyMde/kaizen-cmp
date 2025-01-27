@@ -13,15 +13,15 @@ class VerifyUsernameFormatUseCase {
 
     operator fun invoke(username: String?): Resource<Unit> {
         val error = if (username == null || username.trim().isBlank()) {
-            DomainException.User.Name.IsEmpty
+            DomainException.User.Username.IsEmpty
         } else if (!isLengthValid(username)) {
-            DomainException.User.Name.IncorrectLength
+            DomainException.User.Username.IncorrectLength
         } else if (!isUsernameCharsAuthorized(username)) {
-            DomainException.User.Name.SpecialCharNotAuthorized
+            DomainException.User.Username.SpecialCharNotAuthorized
         } else if (!hasNoConsecutiveSpeChar(username)) {
-            DomainException.User.Name.DoubleSpecialCharNotAuthorized
+            DomainException.User.Username.DoubleSpecialCharNotAuthorized
         } else if (!hasNoSpeCharAtEndOrStart(username)) {
-            DomainException.User.Name.SpecialCharAtStartOrEndNotAuthorized
+            DomainException.User.Username.SpecialCharAtStartOrEndNotAuthorized
         } else {
             null
         }
