@@ -15,6 +15,7 @@ data class Challenge(
     val maxAuthorizedFailures: Int
 ) {
     fun isFailed(): Boolean = status == Status.FAILED
+    fun isPaused(): Boolean = status == Status.PAUSED
 
     @Serializable
     enum class Status {

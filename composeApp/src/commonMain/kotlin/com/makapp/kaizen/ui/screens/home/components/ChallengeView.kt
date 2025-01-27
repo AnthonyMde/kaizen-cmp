@@ -20,7 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kaizen.composeapp.generated.resources.Res
@@ -107,6 +111,26 @@ fun ChallengeView(
                         .padding(end = 24.dp)
                         .align(Alignment.CenterEnd),
                     contentScale = ContentScale.FillBounds
+                )
+            }
+        } else if (challenge.isPaused()) {
+            Box(
+                Modifier.matchParentSize()
+                    .background(
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                        shape = RoundedCornerShape(16.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    "PAUSED",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = TextUnit(1.0f, TextUnitType.Sp)
+                    ),
+                    color = MaterialTheme.customColors.challengeCardContainerDone,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
