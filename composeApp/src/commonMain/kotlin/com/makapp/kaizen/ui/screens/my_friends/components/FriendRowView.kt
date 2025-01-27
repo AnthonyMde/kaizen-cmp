@@ -59,7 +59,7 @@ fun FriendRowView(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f)
         )
-        Spacer(modifier = Modifier.weight(1f))
+
         IconButton(
             onClick = {
                 onAction(MyFriendsAction.OnToggleFriendAsFavorite(friend.id))
