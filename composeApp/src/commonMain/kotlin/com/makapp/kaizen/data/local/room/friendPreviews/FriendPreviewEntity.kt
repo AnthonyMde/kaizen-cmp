@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class FriendPreviewEntity(
     @PrimaryKey val id: String,
     val name: String,
-    val displayName: String,
+    val displayName: String? = null,
     val profilePictureIndex: Int,
     val isFavorite: Boolean
 )

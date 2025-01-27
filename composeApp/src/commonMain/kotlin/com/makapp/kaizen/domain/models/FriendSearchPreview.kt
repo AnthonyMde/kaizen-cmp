@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class FriendSearchPreview(
     val id: String,
     val name: String,
-    val displayName: String,
+    val displayName: String? = null,
     val profilePictureIndex: Int
 )

@@ -142,7 +142,7 @@ fun OnboardingProfileScreen(
             },
             label = { Text("Your display name") },
             singleLine = true,
-            supportingText = { Text(state.displayNameInputError ?: "What others will see.") },
+            supportingText = { Text(state.displayNameInputError ?: "What others will see (optional).") },
             isError = state.displayNameInputError != null,
             trailingIcon = {
                 if (state.displayNameInputError != null) Icon(

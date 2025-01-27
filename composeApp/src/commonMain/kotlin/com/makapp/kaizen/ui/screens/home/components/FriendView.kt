@@ -43,7 +43,7 @@ fun FriendWithChallengesView(
                     .clip(CircleShape)
             )
             Text(
-                friend.displayName,
+                friend.displayName ?: friend.name,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,

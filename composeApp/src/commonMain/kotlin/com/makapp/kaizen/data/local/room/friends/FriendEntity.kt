@@ -10,7 +10,7 @@ import com.makapp.kaizen.data.local.room.challenges.ChallengeEntity
 data class FriendEntity(
     @PrimaryKey val id: String,
     val name: String,
-    val displayName: String,
+    val displayName: String? = null,
     val profilePictureIndex: Int,
     val isFavorite: Boolean
 )

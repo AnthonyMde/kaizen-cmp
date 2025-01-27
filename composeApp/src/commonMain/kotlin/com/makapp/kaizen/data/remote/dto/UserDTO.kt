@@ -9,7 +9,7 @@ data class UserDTO(
     val id: String,
     val email: String,
     val name: String,
-    val displayName: String,
+    val displayName: String? = null,
     val profilePictureIndex: Int,
     val friendIds: List<String>,
 ) {

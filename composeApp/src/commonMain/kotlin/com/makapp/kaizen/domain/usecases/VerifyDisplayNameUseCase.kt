@@ -9,9 +9,7 @@ class VerifyDisplayNameUseCase {
     }
 
     operator fun invoke(displayName: String): Resource<Unit> =
-        if (displayName.isBlank()) {
-            Resource.Error(DomainException.User.DisplayName.IsEmpty)
-        } else if (displayName.length > MAXIMUM_DISPLAY_NAME_LENGTH) {
+        if (displayName.length > MAXIMUM_DISPLAY_NAME_LENGTH) {
             Resource.Error(DomainException.User.DisplayName.IncorrectLength)
         } else {
             Resource.Success()

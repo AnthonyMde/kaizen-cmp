@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class FriendDTO(
     val id: String,
     val name: String,
-    val displayName: String,
+    val displayName: String? = null,
     val profilePictureIndex: Int,
     val challenges: List<ChallengeDTO> = emptyList(),
     val isFavorite: Boolean

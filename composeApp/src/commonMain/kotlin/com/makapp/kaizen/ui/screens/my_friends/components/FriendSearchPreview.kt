@@ -61,7 +61,7 @@ fun FriendSearchPreview(
             modifier = Modifier.size(44.dp)
         )
         Text(
-            friend.displayName,
+            friend.displayName ?: friend.name,
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.SemiBold
             )

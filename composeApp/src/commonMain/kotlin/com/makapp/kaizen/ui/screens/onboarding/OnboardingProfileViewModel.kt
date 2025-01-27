@@ -104,7 +104,6 @@ class OnboardingProfileViewModel(
             is DomainException.User.DisplayName -> {
                 val errorMessage = when (result.throwable) {
                     DomainException.User.DisplayName.IncorrectLength -> "Display name must be 1-30 characters long."
-                    DomainException.User.DisplayName.IsEmpty -> "Display name must not be empty."
                 }
                 _state.update { it.copy(displayNameInputError = errorMessage) }
             }

@@ -37,7 +37,7 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
                     FirestoreUserKeys.ID to userDTO.id,
                     FirestoreUserKeys.EMAIL to userDTO.email,
                     FirestoreUserKeys.USERNAME to userDTO.name.lowercase(),
-                    FirestoreUserKeys.DISPLAY_NAME to userDTO.displayName,
+                    FirestoreUserKeys.DISPLAY_NAME to userDTO.displayName?.ifBlank { null },
                     FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
                 )
             )

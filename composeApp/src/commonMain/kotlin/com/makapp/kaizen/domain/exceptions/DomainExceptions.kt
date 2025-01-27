@@ -33,7 +33,6 @@ sealed class DomainException(message: String = "") : Exception(message) {
         }
 
         sealed class DisplayName : User() {
-            data object IsEmpty : DisplayName()
             data object IncorrectLength: DisplayName()
         }
     }

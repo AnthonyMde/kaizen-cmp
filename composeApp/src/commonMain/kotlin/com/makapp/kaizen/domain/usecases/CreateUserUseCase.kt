@@ -16,17 +16,20 @@ class CreateUserUseCase(
         val session = getReloadedUserSessionUseCase()
             ?: return Resource.Error(DomainException.User.NoUserSessionFound)
 
-        val usernameFormatCheckResult = verifyUsernameFormatUseCase(params.username)
+        val username = params.username.trim()
+        val displayName = params.displayName.trim()
+
+        val usernameFormatCheckResult = verifyUsernameFormatUseCase(username)
         if (usernameFormatCheckResult is Resource.Error) {
             return Resource.Error(usernameFormatCheckResult.throwable)
         }
 
-        val displayNameFormatCheckResult = verifyDisplayNameUseCase(params.displayName)
+        val displayNameFormatCheckResult = verifyDisplayNameUseCase(displayName)
         if (displayNameFormatCheckResult is Resource.Error) {
             return Resource.Error(displayNameFormatCheckResult.throwable)
         }
 
-        val availableCheckResult = verifyUsernameAvailableUseCase(params.username)
+        val availableCheckResult = verifyUsernameAvailableUseCase(username)
         if (availableCheckResult is Resource.Error) {
             return Resource.Error(availableCheckResult.throwable)
         }
@@ -35,8 +38,8 @@ class CreateUserUseCase(
             User(
                 id = session.uid,
                 email = session.email,
-                name = params.username,
-                displayName = params.displayName,
+                name = username,
+                displayName = displayName,
                 profilePictureIndex = params.pictureProfileIndex,
                 challenges = emptyList()
             )
