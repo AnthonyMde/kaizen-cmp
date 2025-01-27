@@ -4,6 +4,6 @@ interface User {
     displayName: string
     name: string
     profilePictureIndex: number
-    friendIds: Array<string>
-    favoriteFriends: Array<string>
+    friendIds?: Array<string>
+    favoriteFriends?: Array<string>
 }

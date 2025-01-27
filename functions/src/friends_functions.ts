@@ -53,6 +53,10 @@ export const getFriends = onCall(async (request) => {
         .get()
         .then((snapshot) => snapshot.data() as User)
 
+    if (user.friendIds == null || user.friendIds.length == 0) {
+        return []
+    }
+
     const friendUsers = await Promise.all(user.friendIds.map(async (id) => {
         return await firestore
             .collection(Collection.USERS)
@@ -80,7 +84,7 @@ export const getFriends = onCall(async (request) => {
                 displayName: friend.displayName,
                 profilePictureIndex: friend.profilePictureIndex,
                 challenges: challenges,
-                isFavorite: user.favoriteFriends.includes(friend.id)
+                isFavorite: user.favoriteFriends?.includes(friend.id) ?? false
             } as Friend
         })
 
@@ -92,7 +96,7 @@ export const getFriends = onCall(async (request) => {
                 name: friend.name,
                 displayName: friend.displayName,
                 profilePictureIndex: friend.profilePictureIndex,
-                isFavorite: user.favoriteFriends.includes(friend.id)
+                isFavorite: user.favoriteFriends?.includes(friend.id) ?? false
             } as Friend
         })
     }
