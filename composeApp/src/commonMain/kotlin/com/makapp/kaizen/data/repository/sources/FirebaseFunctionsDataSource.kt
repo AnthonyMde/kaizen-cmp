@@ -4,10 +4,11 @@ import com.makapp.kaizen.data.remote.dto.FriendDTO
 import com.makapp.kaizen.data.remote.dto.IsUsernameAvailableDTO
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.FriendSearchPreview
 
 interface FirebaseFunctionsDataSource {
     suspend fun isUsernameAvailable(username: String): IsUsernameAvailableDTO
-    suspend fun getFriendPreviewByName(username: String): FriendPreview
+    suspend fun getFriendSearchPreview(username: String): FriendSearchPreview
     suspend fun getFriendRequests(): List<FriendRequest>
     suspend fun createFriendRequest(friendId: String)
     suspend fun updateFriendRequest(requestId: String, status: FriendRequest.Status)

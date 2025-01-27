@@ -44,8 +44,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
-import com.makapp.kaizen.ui.screens.my_friends.components.FriendPreview
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendRowView
+import com.makapp.kaizen.ui.screens.my_friends.components.FriendSearchPreview
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.my_friends.components.PendingRequestsView
 import org.koin.compose.viewmodel.koinViewModel
@@ -114,7 +114,7 @@ fun MyFriendsScreen(
                 },
                 label = { Text("Add new friend") },
                 placeholder = { PlaceholderText("Friend's username") },
-                supportingText = if (state.friendPreview == null && state.friendUsernameInputError != null) {
+                supportingText = if (state.friendSearchPreview == null && state.friendUsernameInputError != null) {
                     { Text(state.friendUsernameInputError) }
                 } else {
                     null
@@ -143,7 +143,7 @@ fun MyFriendsScreen(
                     .zIndex(2f)
             )
 
-            val visible = state.friendPreview != null
+            val visible = state.friendSearchPreview != null
             AnimatedVisibility(
                 visible = visible,
                 enter = slideInVertically(
@@ -151,8 +151,8 @@ fun MyFriendsScreen(
                 ),
                 modifier = Modifier.offset(y = (-16).dp)
             ) {
-                state.friendPreview?.let { friend ->
-                    FriendPreview(
+                state.friendSearchPreview?.let { friend ->
+                    FriendSearchPreview(
                         friend = friend,
                         isLoading = state.isSendFriendRequestLoading,
                         onAction = onAction

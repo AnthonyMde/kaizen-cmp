@@ -4,9 +4,9 @@ import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { Collection } from "./collection";
 import { Challenge } from "./dto/challenge";
 import { Friend } from "./dto/friend";
-import { FriendPreview } from "./dto/friend_preview";
+import { FriendSearchPreview } from "./dto/friend_search_preview";
 
-export const getFriendPreviewById = onCall(async (request) => {
+export const getFriendSearchPreview = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
         throw new HttpsError("unauthenticated", "You must be authenticated.")
     }
@@ -37,7 +37,7 @@ export const getFriendPreviewById = onCall(async (request) => {
         name: user.name,
         displayName: user.displayName,
         profilePictureIndex: user.profilePictureIndex
-    } as FriendPreview
+    } as FriendSearchPreview
 });
 
 export const getFriends = onCall(async (request) => {

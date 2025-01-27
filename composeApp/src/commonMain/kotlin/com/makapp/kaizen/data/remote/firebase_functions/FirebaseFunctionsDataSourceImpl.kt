@@ -7,6 +7,7 @@ import com.makapp.kaizen.data.remote.dto.IsUsernameAvailableDTO
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.FriendSearchPreview
 
 class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
     private val functions = Firebase.functions
@@ -22,13 +23,13 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
             .data<IsUsernameAvailableDTO>()
     }
 
-    override suspend fun getFriendPreviewByName(username: String): FriendPreview {
+    override suspend fun getFriendSearchPreview(username: String): FriendSearchPreview {
         val body = mapOf("username" to username)
 
         return functions
-            .httpsCallable("getFriendPreviewById")
+            .httpsCallable("getFriendSearchPreview")
             .invoke(body)
-            .data<FriendPreview>()
+            .data<FriendSearchPreview>()
     }
 
     override suspend fun getFriendRequests(): List<FriendRequest> {

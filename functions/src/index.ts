@@ -10,7 +10,7 @@
 import { initializeApp } from "firebase-admin/app";
 import { checkUserChallengesCron } from "./crons";
 import { createFriendRequest, getFriendRequests, updateFriendRequest } from "./friend_requests_functions";
-import { getFriendPreviewById, getFriends } from "./friends_functions";
+import { getFriendSearchPreview, getFriends } from "./friends_functions";
 import { deleteUserAccount, isUsernameAvailable, toggleFriendAsFavorite } from "./user_functions";
 
 // Start writing functions
@@ -19,8 +19,7 @@ import { deleteUserAccount, isUsernameAvailable, toggleFriendAsFavorite } from "
 initializeApp();
 
 export {
-    checkUserChallengesCron, createFriendRequest, deleteUserAccount, getFriendPreviewById,
-    getFriendRequests, getFriends,
+    checkUserChallengesCron, createFriendRequest, deleteUserAccount, getFriendRequests, getFriendSearchPreview, getFriends,
     isUsernameAvailable, toggleFriendAsFavorite, updateFriendRequest
 };
 

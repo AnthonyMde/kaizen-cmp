@@ -90,7 +90,7 @@ class MyFriendsViewModel(
     }
 
     private suspend fun createFriendRequest() {
-        val friendId = _myFriendsState.value.friendPreview?.id
+        val friendId = _myFriendsState.value.friendSearchPreview?.id
 
         _myFriendsState.update {
             it.copy(
@@ -113,7 +113,7 @@ class MyFriendsViewModel(
                 is Resource.Success -> {
                     _myFriendsState.update {
                         it.copy(
-                            friendPreview = null,
+                            friendSearchPreview = null,
                             friendUsernameInputValue = ""
                         )
                     }
@@ -221,7 +221,7 @@ class MyFriendsViewModel(
                     _myFriendsState.update {
                         it.copy(
                             friendUsernameInputError = errorMessage,
-                            friendPreview = null,
+                            friendSearchPreview = null,
                             isFriendPreviewLoading = false
                         )
                     }
@@ -230,7 +230,7 @@ class MyFriendsViewModel(
                 is Resource.Success -> {
                     _myFriendsState.update {
                         it.copy(
-                            friendPreview = result.data,
+                            friendSearchPreview = result.data,
                             isFriendPreviewLoading = false
                         )
                     }

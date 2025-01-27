@@ -24,14 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
-import com.makapp.kaizen.domain.models.FriendPreview
+import com.makapp.kaizen.domain.models.FriendSearchPreview
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun FriendPreview(
-    friend: FriendPreview,
+fun FriendSearchPreview(
+    friend: FriendSearchPreview,
     isLoading: Boolean,
     onAction: (MyFriendsAction) -> Unit
 ) {
@@ -61,7 +61,7 @@ fun FriendPreview(
             modifier = Modifier.size(44.dp)
         )
         Text(
-            friend.name,
+            friend.displayName,
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.SemiBold
             )

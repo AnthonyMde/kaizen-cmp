@@ -6,6 +6,7 @@ import com.makapp.kaizen.data.local.room.user.UserDao
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.domain.models.FriendPreview
+import com.makapp.kaizen.domain.models.FriendSearchPreview
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
 import kotlinx.coroutines.flow.Flow
@@ -17,8 +18,8 @@ class FriendPreviewsRepositoryImpl(
     private val friendPreviewsDao: FriendPreviewsDao,
     private val userDao: UserDao
 ) : FriendPreviewsRepository {
-    override suspend fun getFriendPreview(username: String): Resource<FriendPreview> = try {
-        val preview = firebaseFunctions.getFriendPreviewByName(username)
+    override suspend fun getFriendSearchPreview(username: String): Resource<FriendSearchPreview> = try {
+        val preview = firebaseFunctions.getFriendSearchPreview(username)
         Resource.Success(preview)
     } catch (e: Exception) {
         Resource.Error(e.toDomainException())

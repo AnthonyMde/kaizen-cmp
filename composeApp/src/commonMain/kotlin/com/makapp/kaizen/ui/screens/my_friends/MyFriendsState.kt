@@ -2,6 +2,7 @@ package com.makapp.kaizen.ui.screens.my_friends
 
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.FriendSearchPreview
 
 data class MyFriendsState(
     // Search friend
@@ -10,7 +11,7 @@ data class MyFriendsState(
 
     // Search Friend Preview
     val isFriendPreviewLoading: Boolean = false,
-    val friendPreview: FriendPreview? = null,
+    val friendSearchPreview: FriendSearchPreview? = null,
     val isSendFriendRequestLoading: Boolean = false,
 
     // Friend requests
