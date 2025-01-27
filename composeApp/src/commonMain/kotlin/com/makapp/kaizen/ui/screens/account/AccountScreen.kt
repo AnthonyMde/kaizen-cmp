@@ -157,7 +157,7 @@ fun AccountScreen(
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
-                            "Golden Kaizen", // TODO: create kaizen status
+                            "@${state.user.name}",
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(top = 4.dp)
                         )
