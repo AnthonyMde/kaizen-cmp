@@ -138,7 +138,7 @@ class HomeViewModel(
     }
 
     private fun watchFriends() = viewModelScope.launch {
-        friendsService.watchFriends().collectLatest { result ->
+        friendsService.watchFavoriteFriends().collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
                     _homeScreenState.update {

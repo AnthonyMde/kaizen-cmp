@@ -4,18 +4,23 @@ import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.FriendRequest
 
 data class MyFriendsState(
+    // Search friend
     val friendUsernameInputValue: String = "",
     val friendUsernameInputError: String? = null,
 
+    // Search Friend Preview
     val isFriendPreviewLoading: Boolean = false,
     val friendPreview: FriendPreview? = null,
     val isSendFriendRequestLoading: Boolean = false,
 
+    // Friend requests
     val pendingSentRequests: List<FriendRequest> = emptyList(),
     val pendingReceivedRequests: List<FriendRequest> = emptyList(),
-    val requestIdsCurrentlyUpdated: List<String> = emptyList(),
+    val requestIdsUnderUpdate: List<String> = emptyList(),
 
-    val friendPreviews: List<FriendPreview> = emptyList()
+    // Friends
+    val friendPreviews: List<FriendPreview> = emptyList(),
+    val friendIdsUnderUpdate: List<String> = emptyList()
 ) {
     val totalRequests: Int
         get() = pendingReceivedRequests.size + pendingSentRequests.size

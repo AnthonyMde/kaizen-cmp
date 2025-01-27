@@ -52,9 +52,6 @@ class FriendRequestsRepositoryImpl(
     ): Resource<Unit> {
         return try {
             firebaseFunctions.updateFriendRequest(requestId, status)
-            if (status == FriendRequest.Status.CANCELED || status == FriendRequest.Status.DECLINED) {
-                friendRequestsDao.delete(requestId)
-            }
             Resource.Success()
         } catch (e: Exception) {
             Resource.Error(e.toDomainException())

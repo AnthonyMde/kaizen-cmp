@@ -45,7 +45,7 @@ class MyFriendsViewModel(
 
             is MyFriendsAction.OnSearchFriendProfile -> viewModelScope.launch {
                 val username = _myFriendsState.value.friendUsernameInputValue
-                getFriendPreview(username)
+                getSearchFriendPreview(username)
             }
 
             is MyFriendsAction.OnFriendRequestSubmit -> viewModelScope.launch {
@@ -56,29 +56,33 @@ class MyFriendsViewModel(
                 updateFriendRequest(action)
             }
 
+            is MyFriendsAction.OnToggleFriendAsFavorite -> viewModelScope.launch {
+                toggleFriendAsFavorite(action.friendId)
+            }
+
             else -> {}
         }
     }
 
     private fun watchFriendRequests() = viewModelScope.launch {
-        usersService.getUser().let { user ->
-            friendRequestsService.watchFriendRequests().collectLatest { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        // TODO
-                    }
+        val user = usersService.getUser() ?: return@launch
 
-                    is Resource.Loading -> {}
-                    is Resource.Success -> {
-                        val sent = result.data?.filter { it.sender.id == user!!.id } ?: emptyList()
-                        val received =
-                            result.data?.filter { it.receiver.id == user!!.id } ?: emptyList()
-                        _myFriendsState.update {
-                            it.copy(
-                                pendingSentRequests = sent,
-                                pendingReceivedRequests = received
-                            )
-                        }
+        friendRequestsService.watchFriendRequests().collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    // TODO
+                }
+
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    val sent = result.data?.filter { it.sender.id == user.id } ?: emptyList()
+                    val received =
+                        result.data?.filter { it.receiver.id == user.id } ?: emptyList()
+                    _myFriendsState.update {
+                        it.copy(
+                            pendingSentRequests = sent,
+                            pendingReceivedRequests = received
+                        )
                     }
                 }
             }
@@ -129,9 +133,9 @@ class MyFriendsViewModel(
                         // TODO: Add toast showing error
                         _myFriendsState.update {
                             it.copy(
-                                requestIdsCurrentlyUpdated =
-                                getNewRequestIdsUnderUpdate(
-                                    _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                requestIdsUnderUpdate =
+                                getIdsUnderUpdate(
+                                    _myFriendsState.value.requestIdsUnderUpdate,
                                     action.requestId
                                 )
                             )
@@ -141,9 +145,9 @@ class MyFriendsViewModel(
                     is Resource.Success -> {
                         _myFriendsState.update {
                             it.copy(
-                                requestIdsCurrentlyUpdated =
-                                getNewRequestIdsUnderUpdate(
-                                    _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                requestIdsUnderUpdate =
+                                getIdsUnderUpdate(
+                                    _myFriendsState.value.requestIdsUnderUpdate,
                                     action.requestId
                                 )
                             )
@@ -153,8 +157,8 @@ class MyFriendsViewModel(
                     is Resource.Loading -> {
                         _myFriendsState.update {
                             it.copy(
-                                requestIdsCurrentlyUpdated = getNewRequestIdsUnderUpdate(
-                                    _myFriendsState.value.requestIdsCurrentlyUpdated,
+                                requestIdsUnderUpdate = getIdsUnderUpdate(
+                                    _myFriendsState.value.requestIdsUnderUpdate,
                                     action.requestId,
                                     true
                                 )
@@ -165,7 +169,7 @@ class MyFriendsViewModel(
             }
     }
 
-    private fun getNewRequestIdsUnderUpdate(
+    private fun getIdsUnderUpdate(
         entry: List<String>,
         id: String,
         adding: Boolean = false
@@ -203,7 +207,7 @@ class MyFriendsViewModel(
         }
     }
 
-    private suspend fun getFriendPreview(username: String) {
+    private suspend fun getSearchFriendPreview(username: String) {
         getFriendPreviewUseCase(username).collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
@@ -234,6 +238,46 @@ class MyFriendsViewModel(
 
                 is Resource.Loading -> {
                     _myFriendsState.update { it.copy(isFriendPreviewLoading = true) }
+                }
+            }
+        }
+    }
+
+    private suspend fun toggleFriendAsFavorite(friendId: String) {
+        friendsService.toggleFriendAsFavorite(friendId).collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _myFriendsState.update {
+                        it.copy(
+                            friendIdsUnderUpdate = getIdsUnderUpdate(
+                                it.friendIdsUnderUpdate,
+                                friendId
+                            )
+                        )
+                    }
+                }
+
+                is Resource.Success -> {
+                    _myFriendsState.update {
+                        it.copy(
+                            friendIdsUnderUpdate = getIdsUnderUpdate(
+                                it.friendIdsUnderUpdate,
+                                friendId
+                            )
+                        )
+                    }
+                }
+
+                is Resource.Loading -> {
+                    _myFriendsState.update {
+                        it.copy(
+                            friendIdsUnderUpdate = getIdsUnderUpdate(
+                                it.friendIdsUnderUpdate,
+                                friendId,
+                                adding = true
+                            )
+                        )
+                    }
                 }
             }
         }

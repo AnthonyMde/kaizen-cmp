@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface FriendsRepository {
     fun watchFriends(): Flow<Resource<List<Friend>>>
     suspend fun refreshFriends(): Resource<Unit>
+    suspend fun toggleFriendAsFavorite(friendId: String): Resource<Unit>
 }

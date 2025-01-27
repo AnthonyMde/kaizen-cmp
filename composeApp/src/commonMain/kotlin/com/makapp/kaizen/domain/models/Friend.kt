@@ -8,5 +8,6 @@ data class Friend(
     val name: String,
     val displayName: String,
     val profilePictureIndex: Int,
-    val challenges: List<Challenge>
+    val challenges: List<Challenge>,
+    val isFavorite: Boolean
 )

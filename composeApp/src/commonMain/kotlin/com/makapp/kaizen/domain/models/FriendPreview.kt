@@ -7,5 +7,6 @@ data class FriendPreview(
     val id: String,
     val name: String,
     val displayName: String,
-    val profilePictureIndex: Int
+    val profilePictureIndex: Int,
+    val isFavorite: Boolean
 )

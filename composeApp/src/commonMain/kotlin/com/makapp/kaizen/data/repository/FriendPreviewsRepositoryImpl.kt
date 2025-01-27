@@ -2,6 +2,7 @@ package com.makapp.kaizen.data.repository
 
 import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewEntity
 import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewsDao
+import com.makapp.kaizen.data.local.room.user.UserDao
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.domain.models.FriendPreview
@@ -13,8 +14,9 @@ import kotlinx.coroutines.flow.map
 
 class FriendPreviewsRepositoryImpl(
     private val firebaseFunctions: FirebaseFunctionsDataSource,
-    private val friendPreviewsDao: FriendPreviewsDao
-): FriendPreviewsRepository {
+    private val friendPreviewsDao: FriendPreviewsDao,
+    private val userDao: UserDao
+) : FriendPreviewsRepository {
     override suspend fun getFriendPreview(username: String): Resource<FriendPreview> = try {
         val preview = firebaseFunctions.getFriendPreviewByName(username)
         Resource.Success(preview)
@@ -22,14 +24,13 @@ class FriendPreviewsRepositoryImpl(
         Resource.Error(e.toDomainException())
     }
 
-    override fun watchFriendPreviews(): Flow<Resource<List<FriendPreview>>> {
-        return friendPreviewsDao.watchAll().map { previews ->
-            val models = previews.map { it.toFriendPreview() }
-            Resource.Success(models)
+    override fun watchFriendPreviews(): Flow<Resource<List<FriendPreview>>> =
+        friendPreviewsDao.watchAll().map { previewEntities ->
+            val previews = previewEntities.map { it.toFriendPreview() }
+            Resource.Success(previews)
         }.catch {
             Resource.Error<Resource<List<FriendPreview>>>(it.toDomainException())
         }
-    }
 
     override suspend fun refreshFriendPreviews(): Resource<Unit> = try {
         val friendPreviews = firebaseFunctions.getFriends(includeChallenges = false)
@@ -46,7 +47,8 @@ private fun FriendPreviewEntity.toFriendPreview(): FriendPreview {
         id = id,
         name = name,
         displayName = displayName,
-        profilePictureIndex = profilePictureIndex
+        profilePictureIndex = profilePictureIndex,
+        isFavorite = isFavorite
     )
 }
 
@@ -55,6 +57,7 @@ private fun FriendPreview.toFriendPreviewEntity(): FriendPreviewEntity {
         id = id,
         name = name,
         displayName = displayName,
-        profilePictureIndex = profilePictureIndex
+        profilePictureIndex = profilePictureIndex,
+        isFavorite = isFavorite
     )
 }

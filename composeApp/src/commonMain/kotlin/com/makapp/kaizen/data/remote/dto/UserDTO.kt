@@ -11,10 +11,13 @@ data class UserDTO(
     val name: String,
     val displayName: String,
     val profilePictureIndex: Int,
-    val friendIds: List<String>
+    val friendIds: List<String>,
 ) {
     companion object {
-        fun from(user: User, friendIds: List<String> = emptyList()) = UserDTO(
+        fun from(
+            user: User,
+            friendIds: List<String> = emptyList()
+        ) = UserDTO(
             id = user.id,
             email = user.email,
             name = user.name,

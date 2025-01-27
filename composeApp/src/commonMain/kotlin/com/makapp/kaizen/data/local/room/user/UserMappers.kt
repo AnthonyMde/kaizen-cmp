@@ -8,7 +8,7 @@ fun UserDTO.toUserEntity(): UserEntity = UserEntity(
     name = name,
     displayName = displayName,
     profilePictureIndex = profilePictureIndex,
-    friendIds = friendIds
+    friendIds = friendIds,
 )
 
 fun UserEntity.toUserDTO() = UserDTO(
@@ -17,5 +17,5 @@ fun UserEntity.toUserDTO() = UserDTO(
     name = name,
     displayName = displayName,
     profilePictureIndex = profilePictureIndex,
-    friendIds = friendIds
+    friendIds = friendIds,
 )

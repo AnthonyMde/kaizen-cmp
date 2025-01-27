@@ -44,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendPreview
-import com.makapp.kaizen.ui.screens.my_friends.components.FriendRequestsEmptyView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendRowView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.my_friends.components.PendingRequestsView
@@ -143,7 +142,6 @@ fun MyFriendsScreen(
                     .zIndex(2f)
             )
 
-            @Suppress("SENSELESS_COMPARISON")
             val visible = state.friendPreview != null
             AnimatedVisibility(
                 visible = visible,
@@ -152,7 +150,6 @@ fun MyFriendsScreen(
                 ),
                 modifier = Modifier.offset(y = (-16).dp)
             ) {
-                @Suppress("UNNECESSARY_SAFE_CALL")
                 state.friendPreview?.let { friend ->
                     FriendPreview(
                         friend = friend,
@@ -177,7 +174,7 @@ fun MyFriendsScreen(
                 PendingRequestsView(
                     sentRequests = state.pendingSentRequests,
                     receivedRequests = state.pendingReceivedRequests,
-                    requestIdsCurrentlyUpdated = state.requestIdsCurrentlyUpdated,
+                    requestIdsCurrentlyUpdated = state.requestIdsUnderUpdate,
                     onAction = onAction
                 )
             }
@@ -205,8 +202,12 @@ fun MyFriendsScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(count = state.friendPreviews.size, itemContent = { index ->
+                        val friend = state.friendPreviews[index]
+                        val isLoading = state.friendIdsUnderUpdate.contains(friend.id)
                         FriendRowView(
-                            friend = state.friendPreviews[index]
+                            friend = friend,
+                            isLoading = isLoading,
+                            onAction = onAction
                         )
                     })
                 }

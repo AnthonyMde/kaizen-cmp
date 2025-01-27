@@ -8,7 +8,6 @@ import com.makapp.kaizen.domain.repository.UsersRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 
 class FriendRequestsService(
     private val friendRequestsRepository: FriendRequestsRepository,
@@ -29,9 +28,9 @@ class FriendRequestsService(
 
         val result = friendRequestsRepository.updateFriendRequest(requestId, status)
         if (result is Resource.Success) {
-            scope.launch { refreshFriendRequests() }
+            refreshFriendRequests()
             if (status == FriendRequest.Status.ACCEPTED) {
-                scope.launch { friendPreviewsService.refreshFriendPreviews() }
+                friendPreviewsService.refreshFriendPreviews()
             }
         }
 

@@ -13,4 +13,5 @@ interface FirebaseFunctionsDataSource {
     suspend fun updateFriendRequest(requestId: String, status: FriendRequest.Status)
     suspend fun getFriends(includeChallenges: Boolean = true): List<FriendDTO>
     suspend fun deleteUserAccount()
+    suspend fun toggleFriendAsFavorite(friendId: String)
 }

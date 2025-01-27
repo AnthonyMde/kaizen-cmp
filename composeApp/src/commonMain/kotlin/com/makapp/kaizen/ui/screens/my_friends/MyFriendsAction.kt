@@ -8,4 +8,5 @@ sealed class MyFriendsAction {
     data object OnFriendRequestSubmit : MyFriendsAction()
     data class OnFriendRequestUpdated(val requestId: String, val status: FriendRequest.Status) : MyFriendsAction()
     data object OnNavigateUp : MyFriendsAction()
+    data class OnToggleFriendAsFavorite(val friendId: String) : MyFriendsAction()
 }

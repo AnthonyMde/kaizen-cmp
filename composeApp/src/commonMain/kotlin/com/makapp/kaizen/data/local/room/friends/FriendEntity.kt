@@ -11,7 +11,8 @@ data class FriendEntity(
     @PrimaryKey val id: String,
     val name: String,
     val displayName: String,
-    val profilePictureIndex: Int
+    val profilePictureIndex: Int,
+    val isFavorite: Boolean
 )
 
 data class FriendWithChallengesEntity(

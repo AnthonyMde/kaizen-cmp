@@ -1,8 +1,8 @@
 package com.makapp.kaizen.data.remote.dto
 
-import kotlinx.serialization.Serializable
 import com.makapp.kaizen.domain.models.Friend
 import com.makapp.kaizen.domain.models.FriendPreview
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class FriendDTO(
@@ -10,7 +10,8 @@ data class FriendDTO(
     val name: String,
     val displayName: String,
     val profilePictureIndex: Int,
-    val challenges: List<ChallengeDTO> = emptyList()
+    val challenges: List<ChallengeDTO> = emptyList(),
+    val isFavorite: Boolean
 ) {
     fun toFriend(): Friend {
         return Friend(
@@ -18,7 +19,8 @@ data class FriendDTO(
             name = name,
             displayName = displayName,
             profilePictureIndex = profilePictureIndex,
-            challenges = challenges.map { it.toChallenge() }
+            challenges = challenges.map { it.toChallenge() },
+            isFavorite = isFavorite
         )
     }
 
@@ -28,6 +30,7 @@ data class FriendDTO(
             name = name,
             displayName = displayName,
             profilePictureIndex = profilePictureIndex,
+            isFavorite = isFavorite
         )
     }
 }

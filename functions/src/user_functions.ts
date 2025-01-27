@@ -3,6 +3,44 @@ import { FieldValue, getFirestore } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/https";
 import { Collection } from "./collection";
 
+
+export const toggleFriendAsFavorite = onCall(async (request) => {
+    if (request.auth == null || request.auth.uid == null) {
+        throw new HttpsError("unauthenticated", "You must be authenticated.")
+    }
+
+    const userId = request.auth.uid
+    const friendId = request.data.friendId
+
+    if (friendId == null) {
+        throw new HttpsError("invalid-argument", "Function must be called with friendId param.")
+    }
+
+    const firestore = getFirestore()
+
+    await firestore.runTransaction(async (transaction) => {
+        const userRef = await firestore
+            .collection(Collection.USERS)
+            .doc(userId)
+
+        const userDoc = await transaction.get(userRef)
+
+        if (!userDoc.exists) {
+            throw new HttpsError("not-found", `User with id ${userId} does not exist.`)
+        }
+
+        const user = userDoc.data() as User
+        const favorites = user.favoriteFriends || []
+        const updatedFavorites = favorites.includes(friendId) ?
+            favorites.filter((fav) => fav != friendId) :
+            [...favorites, friendId]
+
+        transaction.update(userRef, {
+            favoriteFriends: updatedFavorites
+        })
+    })
+})
+
 export const isUsernameAvailable = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
         throw new HttpsError("unauthenticated", "You must be authenticated.")

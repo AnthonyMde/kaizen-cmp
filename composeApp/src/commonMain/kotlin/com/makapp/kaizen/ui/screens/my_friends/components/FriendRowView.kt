@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,14 +18,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.ui.resources.avatars
+import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.filled_star_icon
+import kaizen.composeapp.generated.resources.outlined_star_icon
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun FriendRowView(
     friend: FriendPreview,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isLoading: Boolean,
+    onAction: (MyFriendsAction) -> Unit
 ) {
     Row(
         modifier = modifier
@@ -40,15 +49,39 @@ fun FriendRowView(
                 modifier = Modifier
                     .size(44.dp)
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                friend.displayName,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f)
-            )
         }
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            friend.displayName,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        IconButton(
+            onClick = {
+                onAction(MyFriendsAction.OnToggleFriendAsFavorite(friend.id))
+            },
+            content = {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        strokeWidth = 2.dp,
+                        modifier = Modifier
+                            .size(20.dp)
+                    )
+                } else {
+                    Icon(
+                        painter = if (friend.isFavorite) painterResource(Res.drawable.filled_star_icon)
+                        else painterResource(Res.drawable.outlined_star_icon),
+                        contentDescription = if (friend.isFavorite) "Unmark friend as favorite" else "Mark friend as favorite",
+                        tint = MaterialTheme.colorScheme.inversePrimary
+                    )
+                }
+            },
+            enabled = !isLoading
+        )
     }
 }

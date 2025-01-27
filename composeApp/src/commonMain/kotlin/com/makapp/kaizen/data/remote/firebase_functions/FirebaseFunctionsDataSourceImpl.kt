@@ -65,6 +65,7 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
             .httpsCallable("getFriends")
             .invoke(body)
             .data<List<FriendDTO>>()
+
         return result
     }
 
@@ -72,5 +73,12 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
         functions
             .httpsCallable("deleteUserAccount")
             .invoke()
+    }
+
+    override suspend fun toggleFriendAsFavorite(friendId: String) {
+        val body = mapOf("friendId" to friendId)
+        functions
+            .httpsCallable("toggleFriendAsFavorite")
+            .invoke(body)
     }
 }

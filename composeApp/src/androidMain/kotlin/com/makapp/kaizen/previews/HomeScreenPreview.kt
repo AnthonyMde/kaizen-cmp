@@ -49,6 +49,7 @@ fun HomeScreenPreview() {
                     name = "clowie",
                     displayName = "Clowie",
                     profilePictureIndex = 1,
+                    isFavorite = true,
                     challenges = listOf(
                         Challenge(
                             id= "1",
@@ -77,6 +78,7 @@ fun HomeScreenPreview() {
                     name = "j",
                     displayName = "Jacques",
                     profilePictureIndex = 2,
+                    isFavorite = true,
                     challenges = listOf(
                         Challenge(
                             id= "1",
