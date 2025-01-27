@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendPreview
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendRowView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendsEmptyView
@@ -112,7 +113,7 @@ fun MyFriendsScreen(
                     onAction(MyFriendsAction.OnFriendUsernameInputChanged(text))
                 },
                 label = { Text("Add new friend") },
-                placeholder = { Text("Friend's username") },
+                placeholder = { PlaceholderText("Friend's username") },
                 supportingText = if (state.friendPreview == null && state.friendUsernameInputError != null) {
                     { Text(state.friendUsernameInputError) }
                 } else {

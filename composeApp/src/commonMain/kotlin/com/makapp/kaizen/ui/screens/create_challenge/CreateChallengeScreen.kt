@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
+import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -102,7 +103,7 @@ fun CreateChallengeScreen(
                         Text("Title")
                     },
                     placeholder = {
-                        Text("Reading")
+                        PlaceholderText("Reading")
                     },
                     isError = state.challengeNameInputError != null,
                     keyboardOptions = KeyboardOptions().copy(imeAction = ImeAction.Next),
@@ -141,7 +142,7 @@ fun CreateChallengeScreen(
                     Text("Number of errors")
                 },
                 placeholder = {
-                    Text("10")
+                    PlaceholderText("10")
                 },
                 isError = state.numberOfErrorsInputError != null,
                 keyboardOptions = KeyboardOptions().copy(

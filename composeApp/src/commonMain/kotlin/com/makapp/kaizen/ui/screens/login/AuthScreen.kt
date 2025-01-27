@@ -38,6 +38,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PasswordTextField
+import com.makapp.kaizen.ui.screens.components.PlaceholderText
 
 @Composable
 fun AuthScreenRoot(
@@ -102,7 +103,7 @@ fun AuthScreen(
                 onAction(AuthAction.OnEmailInputTextChanged(text))
             },
             label = { Text("Email") },
-            placeholder = { Text("kaizen@challenge.com") },
+            placeholder = { PlaceholderText("kaizen@challenge.com") },
             singleLine = true,
             isError = state.emailInputError != null,
             keyboardOptions = KeyboardOptions().copy(
@@ -132,7 +133,7 @@ fun AuthScreen(
                 )
             },
             label = { Text("Password") },
-            placeholder = { Text("Strong password") },
+            placeholder = { PlaceholderText("Strong password") },
             singleLine = true,
             isError = state.passwordInputError != null,
             modifier = Modifier
