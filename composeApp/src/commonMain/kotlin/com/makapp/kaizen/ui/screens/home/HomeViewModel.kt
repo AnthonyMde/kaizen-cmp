@@ -178,7 +178,7 @@ class HomeViewModel(
         if (friends == null) return emptyList()
 
         return friends.sortedBy { friend ->
-            friend.challenges.count { it.isDoneForToday }
+            friend.challenges.count { it.isDoneForToday || it.isPaused() }
         }
     }
 }
