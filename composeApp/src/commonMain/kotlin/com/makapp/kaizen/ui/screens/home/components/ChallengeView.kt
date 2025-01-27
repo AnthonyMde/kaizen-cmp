@@ -117,18 +117,18 @@ fun ChallengeView(
             Box(
                 Modifier.matchParentSize()
                     .background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f),
                         shape = RoundedCornerShape(16.dp)
                     ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     "PAUSED",
-                    style = MaterialTheme.typography.titleLarge.copy(
+                    style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.SemiBold,
-                        letterSpacing = TextUnit(1.0f, TextUnitType.Sp)
+                        letterSpacing = TextUnit(0.8f, TextUnitType.Sp),
                     ),
-                    color = MaterialTheme.customColors.challengeCardContainerDone,
+                    color = MaterialTheme.customColors.challengeCardContainerDone.copy(alpha = 0.8f),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
