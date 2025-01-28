@@ -53,7 +53,7 @@ fun ReceivedFriendRequestView(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                request.sender.username,
+                request.sender.getName(),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 maxLines = 2,

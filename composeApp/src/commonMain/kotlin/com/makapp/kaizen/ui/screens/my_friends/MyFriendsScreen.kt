@@ -1,9 +1,5 @@
 package com.makapp.kaizen.ui.screens.my_friends
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,20 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,18 +25,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
-import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendRowView
-import com.makapp.kaizen.ui.screens.my_friends.components.FriendSearchPreview
+import com.makapp.kaizen.ui.screens.my_friends.components.FriendSearchView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.my_friends.components.PendingRequestsView
 import org.koin.compose.viewmodel.koinViewModel
@@ -107,58 +94,14 @@ fun MyFriendsScreen(
                 .padding(top = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            OutlinedTextField(
-                value = state.friendUsernameInputValue,
-                onValueChange = { text ->
-                    onAction(MyFriendsAction.OnFriendUsernameInputChanged(text))
-                },
-                label = { Text("Add new friend") },
-                placeholder = { PlaceholderText("Friend's username") },
-                supportingText = if (state.friendSearchPreview == null && state.friendUsernameInputError != null) {
-                    { Text(state.friendUsernameInputError) }
-                } else {
-                    null
-                },
-                textStyle = MaterialTheme.typography.bodyLarge,
-                singleLine = true,
-                isError = state.friendUsernameInputError != null,
-                shape = RoundedCornerShape(16.dp),
-                trailingIcon = {
-                    getTrailingIcon(
-                        username = state.friendUsernameInputValue,
-                        onAction = onAction,
-                        isLoading = state.isFriendPreviewLoading
-                    )
-                },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Search
-                ),
-                keyboardActions = KeyboardActions(
-                    onSearch = { onAction(MyFriendsAction.OnSearchFriendProfile) }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(MaterialTheme.colorScheme.surface)
-                    .zIndex(2f)
+            FriendSearchView(
+                usernameInputValue = state.friendUsernameInputValue,
+                usernameInputError = state.friendUsernameInputError,
+                friendSearchPreview = state.friendSearchPreview,
+                isSearchLoading = state.isFriendPreviewLoading,
+                isSendRequestLoading = state.isSendFriendRequestLoading,
+                onAction = onAction
             )
-
-            val visible = state.friendSearchPreview != null
-            AnimatedVisibility(
-                visible = visible,
-                enter = slideInVertically(
-                    animationSpec = tween(300),
-                ),
-                modifier = Modifier.offset(y = (-16).dp)
-            ) {
-                state.friendSearchPreview?.let { friend ->
-                    FriendSearchPreview(
-                        friend = friend,
-                        isLoading = state.isSendFriendRequestLoading,
-                        onAction = onAction
-                    )
-                }
-            }
 
             if (state.totalRequests > 0) {
                 Spacer(modifier = Modifier.height(16.dp))

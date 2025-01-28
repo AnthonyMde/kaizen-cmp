@@ -19,5 +19,6 @@ data class FriendRequestEntity(
 data class FriendRequestProfileEntity(
     @PrimaryKey val id: String,
     val username: String,
+    val displayName: String? = null,
     val profilePictureIndex: Int? = null
 )

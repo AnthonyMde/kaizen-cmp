@@ -19,5 +19,8 @@ data class FriendRequest(
 data class FriendRequestProfile(
     val id: String,
     val username: String,
+    val displayName: String? = null,
     val profilePictureIndex: Int? = null
-)
+) {
+    fun getName() = displayName ?: username
+}

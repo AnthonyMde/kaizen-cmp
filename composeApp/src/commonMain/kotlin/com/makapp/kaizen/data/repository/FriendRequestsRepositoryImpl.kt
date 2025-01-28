@@ -69,11 +69,13 @@ class FriendRequestsRepositoryImpl(
             sender = FriendRequestProfileEntity(
                 id = sender.id,
                 username = sender.username,
+                displayName = sender.displayName,
                 profilePictureIndex = sender.profilePictureIndex
             ),
             receiver = FriendRequestProfileEntity(
                 id = receiver.id,
                 username = receiver.username,
+                displayName = receiver.displayName,
                 profilePictureIndex = receiver.profilePictureIndex
             )
         )
@@ -86,11 +88,13 @@ class FriendRequestsRepositoryImpl(
             sender = FriendRequestProfile(
                 id = sender.id,
                 username = sender.username,
+                displayName = sender.displayName,
                 profilePictureIndex = sender.profilePictureIndex
             ),
             receiver = FriendRequestProfile(
                 id = receiver.id,
                 username = receiver.username,
+                displayName = receiver.displayName,
                 profilePictureIndex = receiver.profilePictureIndex
             ),
         )

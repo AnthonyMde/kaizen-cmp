@@ -52,13 +52,14 @@ fun SentFriendRequestView(
                         .size(44.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
+
                 Text(
-                    "Waiting ${request.receiver.username}'s answer",
+                    "Waiting ${request.receiver.getName()}'s answer",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f).padding(end = 24.dp),
                 )
             }
         }

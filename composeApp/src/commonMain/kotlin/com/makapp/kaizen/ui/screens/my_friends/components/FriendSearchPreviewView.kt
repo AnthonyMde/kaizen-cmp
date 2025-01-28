@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.FriendSearchPreview
 import com.makapp.kaizen.ui.resources.avatars
@@ -30,7 +31,7 @@ import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun FriendSearchPreview(
+fun FriendSearchPreviewView(
     friend: FriendSearchPreview,
     isLoading: Boolean,
     onAction: (MyFriendsAction) -> Unit
@@ -60,13 +61,12 @@ fun FriendSearchPreview(
             contentDescription = null,
             modifier = Modifier.size(44.dp)
         )
-        Text(
-            friend.displayName ?: friend.name,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontWeight = FontWeight.SemiBold
-            )
+        Text(friend.displayName ?: friend.name,
+            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2,
+            modifier = Modifier.weight(1f)
         )
-        Spacer(modifier = Modifier.weight(1f))
 
         if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = (2.dp))

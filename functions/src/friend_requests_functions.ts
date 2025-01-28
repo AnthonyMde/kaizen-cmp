@@ -65,13 +65,15 @@ export const createFriendRequest = onCall(async (request) => {
         sender: {
             id: user.id,
             username: user.name,
+            displayName: user.displayName,
             profilePictureIndex: user.profilePictureIndex
         } as FriendRequestProfile,
         receiver: {
             id: friend.id,
             username: friend.name,
+            displayName: friend.displayName,
             profilePictureIndex: friend.profilePictureIndex
-        },
+        } as FriendRequestProfile,
         status: FriendRequestStatus[FriendRequestStatus.PENDING]
     } as FriendRequest
 
