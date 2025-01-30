@@ -43,7 +43,7 @@ fun FriendWithChallengesView(
                     .clip(CircleShape)
             )
             Text(
-                friend.displayName ?: friend.name,
+                friend.getUsername(),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
@@ -56,7 +56,7 @@ fun FriendWithChallengesView(
         )
         Column(modifier = Modifier.padding(top = 8.dp)) {
             if (friend.challenges.isEmpty()) {
-                FriendViewEmptyChallengesView(friend.name)
+                FriendViewEmptyChallengesView(friend.getUsername())
             }
             friend.challenges.forEach { challenge ->
                 ChallengeView(challenge)

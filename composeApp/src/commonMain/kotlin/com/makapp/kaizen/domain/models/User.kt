@@ -10,4 +10,9 @@ data class User(
     val displayName: String? = null,
     val profilePictureIndex: Int,
     val challenges: List<Challenge>
-)
+) {
+    fun getUsername() = if (!displayName.isNullOrBlank())
+        displayName
+    else
+        name
+}

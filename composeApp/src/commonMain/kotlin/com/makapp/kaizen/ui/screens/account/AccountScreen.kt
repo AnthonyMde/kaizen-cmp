@@ -153,7 +153,7 @@ fun AccountScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            state.user.displayName ?: state.user.name,
+                            state.user.getUsername(),
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(

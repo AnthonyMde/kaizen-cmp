@@ -22,5 +22,8 @@ data class FriendRequestProfile(
     val displayName: String? = null,
     val profilePictureIndex: Int? = null
 ) {
-    fun getName() = displayName ?: username
+    fun getName() = if (!displayName.isNullOrBlank())
+        displayName
+    else
+        username
 }

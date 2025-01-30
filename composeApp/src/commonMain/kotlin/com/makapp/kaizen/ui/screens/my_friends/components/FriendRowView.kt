@@ -52,7 +52,7 @@ fun FriendRowView(
         }
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            friend.displayName ?: friend.name,
+            friend.getUsername(),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 2,

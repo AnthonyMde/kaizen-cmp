@@ -10,4 +10,9 @@ data class Friend(
     val profilePictureIndex: Int,
     val challenges: List<Challenge>,
     val isFavorite: Boolean
-)
+) {
+    fun getUsername() = if (!displayName.isNullOrBlank())
+        displayName
+    else
+        name
+}

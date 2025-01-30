@@ -9,4 +9,9 @@ data class FriendPreview(
     val displayName: String? = null,
     val profilePictureIndex: Int,
     val isFavorite: Boolean
-)
+) {
+    fun getUsername() = if (!displayName.isNullOrBlank())
+        displayName
+    else
+        name
+}

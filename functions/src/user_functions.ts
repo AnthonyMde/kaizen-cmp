@@ -76,9 +76,9 @@ export const createUserAccount = onCall(async (request) => {
     if (body == null) {
         throw new HttpsError("invalid-argument", "No body provided.")
     } else if (body.name == null) {
-        throw new HttpsError("invalid-argument", "No name provided.")
+        throw new HttpsError("invalid-argument", "No user name provided.")
     } else if (body.email == null) {
-        throw new HttpsError("invalid-argument", "No email provided.")
+        throw new HttpsError("invalid-argument", "No user email provided.")
     }
 
     const user = {
