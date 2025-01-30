@@ -93,7 +93,11 @@ fun App(userSession: UserSession? = null) {
                                 navController.navigate(Route.OnboardingProfile) {
                                     popUpTo<Route.Home> { inclusive = true }
                                 }
-                            })
+                            },
+                            goToFriendsScreen = {
+                                navController.navigate(Route.MyFriends)
+                            }
+                        )
                     }
                 }
 

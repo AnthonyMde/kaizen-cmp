@@ -1,6 +1,7 @@
 package com.makapp.kaizen.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -39,7 +40,8 @@ fun HomeScreenRoot(
     goToAccount: () -> Unit,
     popToLogin: () -> Unit,
     goToCreateChallenge: () -> Unit,
-    goToCreateUserAccount: () -> Unit
+    goToCreateUserAccount: () -> Unit,
+    goToFriendsScreen: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
@@ -61,6 +63,7 @@ fun HomeScreenRoot(
             when (action) {
                 HomeAction.OnAccountClicked -> goToAccount()
                 HomeAction.OnCreateFirstChallengeClicked -> goToCreateChallenge()
+                HomeAction.OnFriendEmptyViewClicked -> goToFriendsScreen()
                 else -> homeViewModel.onAction(action)
             }
         },
@@ -125,7 +128,11 @@ fun HomeScreen(
         }
 
         if (state.friends.isEmpty() && !state.isFriendsLoading) {
-            FriendsEmptyView(modifier = Modifier.padding(top = 16.dp))
+            FriendsEmptyView(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .clickable { onAction(HomeAction.OnFriendEmptyViewClicked) }
+            )
         } else {
             PullToRefreshBox(
                 isRefreshing = state.isSwipeToRefreshing,
