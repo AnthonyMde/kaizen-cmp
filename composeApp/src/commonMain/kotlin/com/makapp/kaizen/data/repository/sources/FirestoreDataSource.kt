@@ -7,7 +7,6 @@ import com.makapp.kaizen.data.repository.entities.CreateChallengeRequest
 
 interface FirestoreDataSource {
     fun watchCurrentUser(userId: String): Flow<UserDTO?>
-    suspend fun createUser(userDTO: UserDTO)
 
     fun watchAllChallenges(userId: String): Flow<List<ChallengeFirestoreDTO>>
     suspend fun toggleChallengeStatus(

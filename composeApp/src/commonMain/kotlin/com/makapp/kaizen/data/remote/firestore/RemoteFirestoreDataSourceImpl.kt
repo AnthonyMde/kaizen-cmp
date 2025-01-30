@@ -28,21 +28,6 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
         .snapshots
         .map { querySnapshot -> querySnapshot.data<UserDTO?>() }
 
-    override suspend fun createUser(userDTO: UserDTO) {
-        firestore
-            .collection(USER_COLLECTION)
-            .document(userDTO.id)
-            .set(
-                mapOf(
-                    FirestoreUserKeys.ID to userDTO.id,
-                    FirestoreUserKeys.EMAIL to userDTO.email,
-                    FirestoreUserKeys.USERNAME to userDTO.name.lowercase(),
-                    FirestoreUserKeys.DISPLAY_NAME to userDTO.displayName?.ifBlank { null },
-                    FirestoreUserKeys.PROFILE_PICTURE_INDEX to userDTO.profilePictureIndex
-                )
-            )
-    }
-
     override fun watchAllChallenges(userId: String): Flow<List<ChallengeFirestoreDTO>> = flow {
         getUserDocumentRef(userId)
             .collection(CHALLENGE_COLLECTION)

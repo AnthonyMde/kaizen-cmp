@@ -64,6 +64,37 @@ export const isUsernameAvailable = onCall(async (request) => {
     } as isUsernameAvailable
 });
 
+export const createUserAccount = onCall(async (request) => {
+    if (request.auth == null || request.auth.uid == null) {
+        throw new HttpsError("unauthenticated", "You must be authenticated.")
+    }
+
+    const userId = request.auth.uid
+    const body = request.data
+    const firestore = getFirestore()
+
+    if (body == null) {
+        throw new HttpsError("invalid-argument", "No body provided.")
+    } else if (body.name == null) {
+        throw new HttpsError("invalid-argument", "No name provided.")
+    } else if (body.email == null) {
+        throw new HttpsError("invalid-argument", "No email provided.")
+    }
+
+    const user = {
+        id: userId,
+        email: body.email,
+        name: body.name,
+        displayName: body.displayName,
+        profilePictureIndex: body.profilePictureIndex
+    } as User
+
+    await firestore
+        .collection(Collection.USERS)
+        .doc(userId)
+        .set(user)
+})
+
 export const deleteUserAccount = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
         throw new HttpsError("unauthenticated", "You must be authenticated.")

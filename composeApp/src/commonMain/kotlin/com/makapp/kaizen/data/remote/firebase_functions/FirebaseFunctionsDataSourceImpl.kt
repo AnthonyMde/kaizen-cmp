@@ -1,13 +1,13 @@
 package com.makapp.kaizen.data.remote.firebase_functions
 
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.functions.functions
+import com.makapp.kaizen.data.remote.dto.CreateUserRequest
 import com.makapp.kaizen.data.remote.dto.FriendDTO
 import com.makapp.kaizen.data.remote.dto.IsUsernameAvailableDTO
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
-import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.FriendRequest
 import com.makapp.kaizen.domain.models.FriendSearchPreview
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.functions.functions
 
 class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
     private val functions = Firebase.functions
@@ -68,6 +68,12 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
             .data<List<FriendDTO>>()
 
         return result
+    }
+
+    override suspend fun createUserAccount(request: CreateUserRequest) {
+        functions
+            .httpsCallable("createUserAccount")
+            .invoke(request)
     }
 
     override suspend fun deleteUserAccount() {

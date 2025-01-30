@@ -3,6 +3,7 @@ package com.makapp.kaizen.data.repository
 import com.makapp.kaizen.data.local.room.user.UserDao
 import com.makapp.kaizen.data.local.room.user.toUserDTO
 import com.makapp.kaizen.data.local.room.user.toUserEntity
+import com.makapp.kaizen.data.remote.dto.CreateUserRequest
 import com.makapp.kaizen.data.remote.dto.UserDTO
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
@@ -77,15 +78,6 @@ class UsersRepositoryImpl(
         userDao.refreshUser(userDTO.toUserEntity())
     }
 
-    override suspend fun getUser(): User? = userDao.getUser()?.toUserDTO()?.toUser()
-
-    override suspend fun createUser(user: User): Resource<Unit> = try {
-        firestore.createUser(UserDTO.from(user))
-        Resource.Success()
-    } catch (e: Exception) {
-        Resource.Error(e.toDomainException())
-    }
-
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {
         return try {
             val isAvailable = firebaseFunctions.isUsernameAvailable(username).isAvailable
@@ -93,6 +85,15 @@ class UsersRepositoryImpl(
         } catch (e: Exception) {
             Resource.Error(e.toDomainException())
         }
+    }
+
+    override suspend fun getUser(): User? = userDao.getUser()?.toUserDTO()?.toUser()
+
+    override suspend fun createUser(request: CreateUserRequest): Resource<Unit> = try {
+        firebaseFunctions.createUserAccount(request)
+        Resource.Success()
+    } catch (e: Exception) {
+        Resource.Error(e.toDomainException())
     }
 
     override suspend fun deleteUserAccount(): Resource<Unit> = try {

@@ -1,8 +1,8 @@
 package com.makapp.kaizen.domain.usecases
 
+import com.makapp.kaizen.data.remote.dto.CreateUserRequest
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.User
 import com.makapp.kaizen.domain.repository.UsersRepository
 
 class CreateUserUseCase(
@@ -35,13 +35,11 @@ class CreateUserUseCase(
         }
 
         return usersRepository.createUser(
-            User(
-                id = session.uid,
+            CreateUserRequest(
                 email = session.email,
                 name = username,
                 displayName = displayName,
                 profilePictureIndex = params.pictureProfileIndex,
-                challenges = emptyList()
             )
         )
     }
