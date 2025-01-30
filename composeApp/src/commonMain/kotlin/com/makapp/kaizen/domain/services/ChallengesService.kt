@@ -1,12 +1,12 @@
 package com.makapp.kaizen.domain.services
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.repository.ChallengesRepository
 import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 class ChallengesService(
     private val challengesRepository: ChallengesRepository,
@@ -34,11 +34,7 @@ class ChallengesService(
             return flowOf(Resource.Error(DomainException.Challenge.HasNoMaxErrors))
         }
 
-        val userId = getReloadedUserSessionUseCase()?.uid
-            ?: return flowOf(Resource.Error(DomainException.User.NoUserSessionFound))
-
         return challengesRepository.create(
-            userId = userId,
             name = name,
             numberOfErrors = numberOfErrors.toInt()
         )

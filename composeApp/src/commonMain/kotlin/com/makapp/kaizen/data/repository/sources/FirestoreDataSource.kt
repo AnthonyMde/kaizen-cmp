@@ -14,5 +14,4 @@ interface FirestoreDataSource {
         challengeId: String,
         isChecked: Boolean
     )
-    suspend fun createChallenge(request: CreateChallengeRequest)
 }

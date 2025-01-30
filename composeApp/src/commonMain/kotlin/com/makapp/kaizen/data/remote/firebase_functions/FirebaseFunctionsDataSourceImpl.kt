@@ -3,6 +3,7 @@ package com.makapp.kaizen.data.remote.firebase_functions
 import com.makapp.kaizen.data.remote.dto.CreateUserRequest
 import com.makapp.kaizen.data.remote.dto.FriendDTO
 import com.makapp.kaizen.data.remote.dto.IsUsernameAvailableDTO
+import com.makapp.kaizen.data.repository.entities.CreateChallengeRequest
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.domain.models.FriendRequest
 import com.makapp.kaizen.domain.models.FriendSearchPreview
@@ -87,5 +88,11 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
         functions
             .httpsCallable("toggleFriendAsFavorite")
             .invoke(body)
+    }
+
+    override suspend fun createChallenge(request: CreateChallengeRequest) {
+        functions
+            .httpsCallable("createChallenge")
+            .invoke(request)
     }
 }
