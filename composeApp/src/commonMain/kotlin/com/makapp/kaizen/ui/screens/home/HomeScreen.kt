@@ -24,15 +24,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import org.koin.compose.viewmodel.koinViewModel
-import com.makapp.kaizen.domain.models.Friend
-import com.makapp.kaizen.ui.screens.home.components.CurrentUserView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.makapp.kaizen.ui.screens.components.ConfirmationModal
+import com.makapp.kaizen.ui.screens.home.components.CurrentUserView
 import com.makapp.kaizen.ui.screens.home.components.FriendWithChallengesView
 import com.makapp.kaizen.ui.screens.home.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.home.components.Header
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreenRoot(
@@ -55,6 +56,10 @@ fun HomeScreenRoot(
                 }
             }
         }
+    }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_START) {
+        homeViewModel.onAction(HomeAction.OnRefreshFriendsOnResume)
     }
 
     HomeScreen(

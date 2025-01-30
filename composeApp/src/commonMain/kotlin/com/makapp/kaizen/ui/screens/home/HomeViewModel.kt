@@ -33,7 +33,6 @@ class HomeViewModel(
             watchMe()
             watchFriends()
             watchFriendsLoading()
-            viewModelScope.launch { friendsService.refreshFriends() }
             _homeScreenState.update {
                 it.copy(
                     userSession = authRepository.getUserSession(),
@@ -64,35 +63,29 @@ class HomeViewModel(
 
     fun onAction(action: HomeAction) {
         when (action) {
-            is HomeAction.OnToggleChallenge -> {
-                viewModelScope.launch {
-                    challengesService.toggleChallenge(
-                        action.userId,
-                        action.challengeId,
-                        action.isChecked
-                    )
+            is HomeAction.OnToggleChallenge -> viewModelScope.launch {
+                challengesService.toggleChallenge(
+                    action.userId,
+                    action.challengeId,
+                    action.isChecked
+                )
+            }
+
+            is HomeAction.OnEmailVerified -> viewModelScope.launch {
+                _homeScreenState.update {
+                    val reloadedUser = getReloadedUserSessionUseCase()
+                    it.copy(userSession = reloadedUser)
                 }
             }
 
-            is HomeAction.OnEmailVerified -> {
-                viewModelScope.launch {
-                    _homeScreenState.update {
-                        val reloadedUser = getReloadedUserSessionUseCase()
-                        it.copy(userSession = reloadedUser)
-                    }
-                }
+            is HomeAction.OnSwipeToRefreshFriendList -> viewModelScope.launch {
+                _homeScreenState.update { it.copy(isSwipeToRefreshing = true) }
+                friendsService.refreshFriends()
+                _homeScreenState.update { it.copy(isSwipeToRefreshing = false) }
             }
 
-            is HomeAction.OnSwipeToRefreshFriendList -> {
-                viewModelScope.launch {
-                    _homeScreenState.update { it.copy(
-                        isSwipeToRefreshing = true
-                    ) }
-                    friendsService.refreshFriends()
-                    _homeScreenState.update { it.copy(
-                        isSwipeToRefreshing = false
-                    ) }
-                }
+            is HomeAction.OnRefreshFriendsOnResume -> viewModelScope.launch {
+                friendsService.refreshFriends()
             }
 
             else -> {}
