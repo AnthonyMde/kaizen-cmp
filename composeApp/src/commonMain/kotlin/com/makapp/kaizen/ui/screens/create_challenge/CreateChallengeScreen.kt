@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -106,7 +107,10 @@ fun CreateChallengeScreen(
                         PlaceholderText("Reading")
                     },
                     isError = state.challengeNameInputError != null,
-                    keyboardOptions = KeyboardOptions().copy(imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions().copy(
+                        imeAction = ImeAction.Next,
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                 )

@@ -2,6 +2,8 @@ package com.makapp.kaizen.ui.screens.create_challenge
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.services.ChallengesService
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,8 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.services.ChallengesService
 
 class CreateChallengeViewModel(
     private val challengesService: ChallengesService
