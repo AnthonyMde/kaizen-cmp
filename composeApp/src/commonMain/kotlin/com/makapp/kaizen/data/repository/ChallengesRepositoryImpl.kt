@@ -3,12 +3,14 @@ package com.makapp.kaizen.data.repository
 import com.makapp.kaizen.data.local.room.challenges.ChallengesDao
 import com.makapp.kaizen.data.local.room.challenges.toChallengeDTO
 import com.makapp.kaizen.data.repository.entities.CreateChallengeRequest
+import com.makapp.kaizen.data.repository.entities.ToggleStatusRequest
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.ChallengesRepository
+import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -24,7 +26,13 @@ class ChallengesRepositoryImpl(
         challengeId: String,
         isChecked: Boolean
     ): Resource<Unit> = try {
-        firestore.toggleChallengeStatus(userId, challengeId, isChecked)
+        val request = ToggleStatusRequest(
+            userId = userId,
+            challengeId = challengeId,
+            isChecked = isChecked,
+            updatedAt = Timestamp.now()
+        )
+        firestore.toggleChallengeStatus(request)
         Resource.Success()
     } catch (e: Exception) {
         println("DEBUG: (firestore) Cannot toggle challenge's state because $e")

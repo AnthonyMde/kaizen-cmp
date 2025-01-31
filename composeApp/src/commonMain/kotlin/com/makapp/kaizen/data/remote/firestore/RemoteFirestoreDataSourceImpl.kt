@@ -2,6 +2,7 @@ package com.makapp.kaizen.data.remote.firestore
 
 import com.makapp.kaizen.data.remote.dto.ChallengeFirestoreDTO
 import com.makapp.kaizen.data.remote.dto.UserDTO
+import com.makapp.kaizen.data.repository.entities.ToggleStatusRequest
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.DocumentReference
@@ -41,15 +42,14 @@ class RemoteFirestoreDataSourceImpl : FirestoreDataSource {
             }
     }
 
-    override suspend fun toggleChallengeStatus(
-        userId: String,
-        challengeId: String,
-        isChecked: Boolean
-    ) {
-        getUserDocumentRef(userId)
+    override suspend fun toggleChallengeStatus(request: ToggleStatusRequest) {
+        getUserDocumentRef(request.userId)
             .collection(CHALLENGE_COLLECTION)
-            .document(challengeId)
-            .update(mapOf(FirestoreChallengeKeys.IS_DONE_FOR_TODAY to isChecked))
+            .document(request.challengeId)
+            .update(mapOf(
+                FirestoreChallengeKeys.IS_DONE_FOR_TODAY to request.isChecked,
+                FirestoreChallengeKeys.UPDATED_AT to request.updatedAt
+            ))
     }
 
     private suspend fun getUserDocumentRef(userId: String): DocumentReference = firestore
