@@ -17,13 +17,16 @@ class FriendsRepositoryImpl(
     private val friendsDao: FriendsDao
 ) : FriendsRepository {
     override fun watchFriends(): Flow<Resource<List<Friend>>> {
-        return friendsDao.watchAll().map { friendsWithChallenges ->
-            val friendsDTO = friendsWithChallenges.map { it.toFriendDTO() }
-            val friends = friendsDTO.map { it.toFriend() }
-            Resource.Success(friends)
-        }.catch {
-            Resource.Error<List<Friend>>(it.toDomainException())
-        }
+        return friendsDao.watchAll()
+            .map { friendsWithChallenges ->
+                val friendsDTO = friendsWithChallenges
+                    .map { it.copy(challenges = it.challenges.filter { challenge -> !challenge.isDeleted }) }
+                    .map { it.toFriendDTO() }
+                val friends = friendsDTO.map { it.toFriend() }
+                Resource.Success(friends)
+            }.catch {
+                Resource.Error<List<Friend>>(it.toDomainException())
+            }
     }
 
     override suspend fun refreshFriends(): Resource<Unit> = try {

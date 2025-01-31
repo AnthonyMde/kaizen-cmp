@@ -22,26 +22,17 @@ interface FriendsDao {
     @Query("DELETE FROM FriendEntity WHERE id NOT IN (:keptIds)")
     suspend fun deleteStaleFriendEntities(keptIds: List<String>)
 
-    @Query("DELETE FROM ChallengeEntity WHERE id NOT IN (:keptIds)")
-    suspend fun deleteStaleChallengeEntities(keptIds: List<String>)
-
     @Transaction
     suspend fun refresh(friendsWithChallenges: List<FriendWithChallengesEntity>) {
         val friendIds = mutableListOf<String>()
-        val challengesIds = mutableListOf<String>()
 
         friendsWithChallenges.forEach { friendWithChallenges ->
             friendIds.add(friendWithChallenges.friend.id)
-
-            friendWithChallenges.challenges.forEach { challenge ->
-                challengesIds.add(challenge.id)
-            }
         }
 
         insertChallenges(friendsWithChallenges.flatMap { it.challenges })
         insertFriends(friendsWithChallenges.map { it.friend })
 
         deleteStaleFriendEntities(keptIds = friendIds)
-        deleteStaleChallengeEntities(keptIds = challengesIds)
     }
 }

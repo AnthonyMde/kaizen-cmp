@@ -57,7 +57,9 @@ class UsersRepositoryImpl(
                             saveToRoom(userDTO, challengeDTOs)
                         }
 
-                        val challenges = challengeDTOs.map { it.toChallenge() }
+                        val challenges = challengeDTOs
+                            .filter { !it.isDeleted }
+                            .map { it.toChallenge() }
                         userDTO?.toUser(challenges = challenges)
                     }
             }.map { user ->
