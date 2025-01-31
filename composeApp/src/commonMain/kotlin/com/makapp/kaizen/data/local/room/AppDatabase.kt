@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.makapp.kaizen.data.local.room.app.AppDao
 import com.makapp.kaizen.data.local.room.challenges.ChallengeEntity
+import com.makapp.kaizen.data.local.room.challenges.ChallengesDao
 import com.makapp.kaizen.data.local.room.converters.StringListConverters
 import com.makapp.kaizen.data.local.room.converters.TimestampConverters
 import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewEntity
@@ -43,6 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getFriendsDao(): FriendsDao
     abstract fun getUserDao(): UserDao
     abstract fun getAppDao(): AppDao
+    abstract fun getChallengesDao(): ChallengesDao
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT", "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")

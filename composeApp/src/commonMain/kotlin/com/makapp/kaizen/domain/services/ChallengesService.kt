@@ -1,11 +1,13 @@
 package com.makapp.kaizen.domain.services
 
 import com.makapp.kaizen.domain.exceptions.DomainException
+import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.repository.ChallengesRepository
 import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
 class ChallengesService(
@@ -38,5 +40,11 @@ class ChallengesService(
             name = name,
             numberOfErrors = numberOfErrors.toInt()
         )
+    }
+
+    fun getChallengeById(id: String): Flow<Resource<Challenge>> = flow {
+        emit(Resource.Loading())
+        val result = challengesRepository.getChallengeById(id)
+        emit(result)
     }
 }

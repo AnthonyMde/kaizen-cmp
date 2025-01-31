@@ -3,6 +3,7 @@ package com.makapp.kaizen.di
 import com.makapp.kaizen.data.local.DataStoreDataSourceImpl
 import com.makapp.kaizen.data.local.room.AppDatabase
 import com.makapp.kaizen.data.local.room.app.AppDao
+import com.makapp.kaizen.data.local.room.challenges.ChallengesDao
 import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewsDao
 import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestsDao
 import com.makapp.kaizen.data.local.room.friends.FriendsDao
@@ -101,6 +102,7 @@ val commonModules = module {
     single<FriendsDao> { getFriendsDao(get()) }
     single<UserDao> { getUserDao(get()) }
     single<AppDao> { getAppDao(get()) }
+    single<ChallengesDao> { getChallengesDao(get()) }
 
     // Coroutines
     single<CoroutineScope> {
@@ -113,5 +115,6 @@ private fun getFriendPreviewsDao(db: AppDatabase): FriendPreviewsDao = db.getFri
 private fun getFriendsDao(db: AppDatabase): FriendsDao = db.getFriendsDao()
 private fun getUserDao(db: AppDatabase): UserDao = db.getUserDao()
 private fun getAppDao(db: AppDatabase): AppDao = db.getAppDao()
+private fun getChallengesDao(db: AppDatabase): ChallengesDao = db.getChallengesDao()
 
 expect val targetModule: Module

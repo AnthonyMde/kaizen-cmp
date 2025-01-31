@@ -1,8 +1,10 @@
 package com.makapp.kaizen.data.repository
 
+import com.makapp.kaizen.data.local.room.friends.FriendsDao
 import com.makapp.kaizen.data.local.room.user.UserDao
 import com.makapp.kaizen.data.local.room.user.toUserDTO
 import com.makapp.kaizen.data.local.room.user.toUserEntity
+import com.makapp.kaizen.data.remote.dto.ChallengeFirestoreDTO
 import com.makapp.kaizen.data.remote.dto.CreateUserRequest
 import com.makapp.kaizen.data.remote.dto.UserDTO
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
@@ -31,6 +33,7 @@ class UsersRepositoryImpl(
     private val firebaseFunctions: FirebaseFunctionsDataSource,
     private val authRepository: AuthRepository,
     private val userDao: UserDao,
+    private val friendsDao: FriendsDao,
     private val scope: CoroutineScope
 ) : UsersRepository {
     /**
@@ -50,7 +53,9 @@ class UsersRepositoryImpl(
             .flatMapLatest { userDTO ->
                 firestore.watchAllChallenges(userId)
                     .map { challengeDTOs ->
-                        scope.launch { saveUserToRoom(userDTO) }
+                        scope.launch {
+                            saveToRoom(userDTO, challengeDTOs)
+                        }
 
                         val challenges = challengeDTOs.map { it.toChallenge() }
                         userDTO?.toUser(challenges = challenges)
@@ -70,12 +75,15 @@ class UsersRepositoryImpl(
             }.collect(this)
     }
 
-    private suspend fun saveUserToRoom(
+    private suspend fun saveToRoom(
         userDTO: UserDTO?,
+        challengeDTOs: List<ChallengeFirestoreDTO>,
     ) {
         if (userDTO == null) return
 
         userDao.refreshUser(userDTO.toUserEntity())
+        val challengeEntities = challengeDTOs.map { it.toChallengeDTO(userDTO.id) }
+        friendsDao.insertChallenges(challengeEntities)
     }
 
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {

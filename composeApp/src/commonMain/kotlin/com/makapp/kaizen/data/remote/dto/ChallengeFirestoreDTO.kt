@@ -1,5 +1,6 @@
 package com.makapp.kaizen.data.remote.dto
 
+import com.makapp.kaizen.data.local.room.challenges.ChallengeEntity
 import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.serialization.Serializable
 import com.makapp.kaizen.domain.models.Challenge
@@ -29,6 +30,18 @@ data class ChallengeFirestoreDTO(
          **/
         createdAt = createdAt?.toLocalDate() ?: DateUtils.getCurrentLocalDate(),
         status = status,
+        days = days,
+        isDoneForToday = isDoneForToday,
+        failureCount = failureCount,
+        maxAuthorizedFailures = maxAuthorizedFailures
+    )
+
+    fun toChallengeDTO(userId: String) = ChallengeEntity(
+        id = id,
+        userId = userId,
+        name = name,
+        status = status,
+        createdAt = ChallengeDTO.Timestamp(createdAt?.seconds ?: 0, createdAt?.nanoseconds ?: 0),
         days = days,
         isDoneForToday = isDoneForToday,
         failureCount = failureCount,

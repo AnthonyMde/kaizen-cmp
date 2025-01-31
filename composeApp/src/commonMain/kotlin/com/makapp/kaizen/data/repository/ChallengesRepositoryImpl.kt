@@ -1,9 +1,12 @@
 package com.makapp.kaizen.data.repository
 
+import com.makapp.kaizen.data.local.room.challenges.ChallengesDao
+import com.makapp.kaizen.data.local.room.challenges.toChallengeDTO
 import com.makapp.kaizen.data.repository.entities.CreateChallengeRequest
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
 import com.makapp.kaizen.data.toDomainException
+import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.ChallengesRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +15,8 @@ import kotlinx.coroutines.flow.flow
 
 class ChallengesRepositoryImpl(
     private val firestore: FirestoreDataSource,
-    private val firebaseFunctions: FirebaseFunctionsDataSource
+    private val firebaseFunctions: FirebaseFunctionsDataSource,
+    private val challengesDao: ChallengesDao
 ) : ChallengesRepository {
 
     override suspend fun toggleStatus(
@@ -43,5 +47,12 @@ class ChallengesRepositoryImpl(
     }.catch { e ->
         println("DEBUG: (firestore) Cannot create challenge because $e")
         emit(Resource.Error(e.toDomainException()))
+    }
+
+    override suspend fun getChallengeById(id: String): Resource<Challenge> = try {
+        val challenge = challengesDao.getById(id).toChallengeDTO().toChallenge()
+        Resource.Success(challenge)
+    } catch (e: Exception) {
+        Resource.Error(e.toDomainException())
     }
 }
