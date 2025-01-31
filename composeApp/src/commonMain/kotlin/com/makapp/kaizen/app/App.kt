@@ -8,17 +8,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.makapp.kaizen.app.navigation.LocalNavController
 import com.makapp.kaizen.app.navigation.Route
 import com.makapp.kaizen.domain.models.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
-import com.makapp.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
 import com.makapp.kaizen.ui.screens.login.AuthScreenRoot
+import com.makapp.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
 import com.makapp.kaizen.ui.screens.onboarding.OnboardingProfileScreenRoot
 import com.makapp.kaizen.ui.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
@@ -96,6 +97,9 @@ fun App(userSession: UserSession? = null) {
                             },
                             goToFriendsScreen = {
                                 navController.navigate(Route.MyFriends)
+                            },
+                            goToChallengeDetails = { args ->
+                                navController.navigate(Route.ChallengeDetails(args.id, args.title))
                             }
                         )
                     }
@@ -143,6 +147,7 @@ fun App(userSession: UserSession? = null) {
                         )
                     }
 
+                    // FRIENDS
                     composable<Route.MyFriends>(
                         enterTransition = {
                             slideIntoContainer(
@@ -164,6 +169,7 @@ fun App(userSession: UserSession? = null) {
                         )
                     }
 
+                    // CREATE CHALLENGE
                     composable<Route.CreateChallenge>(
                         enterTransition = {
                             slideIntoContainer(
@@ -187,6 +193,32 @@ fun App(userSession: UserSession? = null) {
                                     popUpTo<Route.Home> { inclusive = true }
                                 }
                             }
+                        )
+                    }
+
+                    // CHALLENGE DETAILS
+                    composable<Route.ChallengeDetails>(
+                        enterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Start,
+                                tween(300)
+                            )
+                        },
+                        popExitTransition = {
+                            slideOutOfContainer(
+                                AnimatedContentTransitionScope.SlideDirection.End,
+                                tween(300)
+                            )
+                        }
+                    ) { backStackEntry ->
+                        val title = backStackEntry.arguments?.getString("title") ?: return@composable
+                        val id = backStackEntry.arguments?.getString("id") ?: return@composable
+                        ChallengeDetailsScreenRoot(
+                            navigateUp = {
+                                navController.popBackStack()
+                            },
+                            title = title,
+                            id = id
                         )
                     }
                 }

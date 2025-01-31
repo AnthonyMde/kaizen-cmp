@@ -22,8 +22,12 @@ sealed class Route {
     data object AccountGraph : Route()
     @Serializable
     data object Account : Route()
+
     @Serializable
     data object MyFriends : Route()
+
     @Serializable
     data object CreateChallenge : Route()
+    @Serializable
+    data class ChallengeDetails(val id: String, val title: String) : Route()
 }

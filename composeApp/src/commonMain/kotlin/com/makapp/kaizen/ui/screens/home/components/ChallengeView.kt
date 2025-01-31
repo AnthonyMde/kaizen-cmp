@@ -3,6 +3,7 @@ package com.makapp.kaizen.ui.screens.home.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -37,10 +39,12 @@ import com.makapp.kaizen.ui.theme.customColors
 fun ChallengeView(
     challenge: Challenge,
     onToggleChallenge: ((challengeId: String, isChecked: Boolean) -> Unit)? = null,
-    belongToCurrentUser: Boolean = false
+    belongToCurrentUser: Boolean = false,
+    onClick: () -> Unit
 ) {
     Box(
-        Modifier.padding(vertical = 4.dp)
+        modifier = Modifier
+            .padding(vertical = 4.dp)
     ) {
         val backgroundColor by animateColorAsState(
             targetValue = if (challenge.isDoneForToday) MaterialTheme.colorScheme.tertiaryContainer
@@ -50,6 +54,10 @@ fun ChallengeView(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .clickable {
+                    onClick()
+                }
                 .background(
                     color = backgroundColor,
                     shape = RoundedCornerShape(16.dp)

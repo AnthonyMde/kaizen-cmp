@@ -25,11 +25,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.Friend
 import com.makapp.kaizen.ui.resources.avatars
+import com.makapp.kaizen.ui.screens.home.HomeAction
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun FriendWithChallengesView(
     friend: Friend,
+    onAction: (HomeAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -59,7 +61,17 @@ fun FriendWithChallengesView(
                 FriendViewEmptyChallengesView(friend.getUsername())
             }
             friend.challenges.forEach { challenge ->
-                ChallengeView(challenge)
+                ChallengeView(
+                    challenge,
+                    onClick = {
+                        onAction(
+                            HomeAction.OnChallengeClicked(
+                                id = challenge.id,
+                                title = challenge.name
+                            )
+                        )
+                    }
+                )
             }
         }
     }

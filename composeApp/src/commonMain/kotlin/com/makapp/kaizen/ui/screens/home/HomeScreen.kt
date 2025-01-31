@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.components.ConfirmationModal
 import com.makapp.kaizen.ui.screens.home.components.CurrentUserView
 import com.makapp.kaizen.ui.screens.home.components.FriendWithChallengesView
@@ -42,7 +43,8 @@ fun HomeScreenRoot(
     popToLogin: () -> Unit,
     goToCreateChallenge: () -> Unit,
     goToCreateUserAccount: () -> Unit,
-    goToFriendsScreen: () -> Unit
+    goToFriendsScreen: () -> Unit,
+    goToChallengeDetails: (args: ChallengeDetailsNavArgs) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
@@ -69,6 +71,12 @@ fun HomeScreenRoot(
                 HomeAction.OnAccountClicked -> goToAccount()
                 HomeAction.OnCreateFirstChallengeClicked -> goToCreateChallenge()
                 HomeAction.OnFriendEmptyViewClicked -> goToFriendsScreen()
+                is HomeAction.OnChallengeClicked -> {
+                    val navArgs = ChallengeDetailsNavArgs(
+                        action.id, action.title
+                    )
+                    goToChallengeDetails(navArgs)
+                }
                 else -> homeViewModel.onAction(action)
             }
         },
@@ -148,8 +156,9 @@ fun HomeScreen(
                 LazyColumn(contentPadding = PaddingValues(bottom = 16.dp)) {
                     items(state.friends) { friend ->
                         FriendWithChallengesView(
+                            friend = friend,
+                            onAction = onAction,
                             modifier = Modifier.padding(top = 16.dp),
-                            friend = friend
                         )
                     }
                 }

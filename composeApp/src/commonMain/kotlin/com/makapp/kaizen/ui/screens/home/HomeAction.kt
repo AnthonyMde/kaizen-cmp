@@ -13,4 +13,5 @@ sealed class HomeAction {
     data object OnSwipeToRefreshFriendList : HomeAction()
     data object OnFriendEmptyViewClicked : HomeAction()
     data object OnRefreshFriendsOnResume : HomeAction()
+    data class OnChallengeClicked(val id: String, val title: String) : HomeAction()
 }

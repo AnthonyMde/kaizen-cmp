@@ -39,6 +39,7 @@ import com.makapp.kaizen.domain.usecases.VerifyDisplayNameUseCase
 import com.makapp.kaizen.domain.usecases.VerifyUsernameAvailableUseCase
 import com.makapp.kaizen.domain.usecases.VerifyUsernameFormatUseCase
 import com.makapp.kaizen.ui.screens.account.AccountViewModel
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsViewModel
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import com.makapp.kaizen.ui.screens.home.HomeViewModel
 import com.makapp.kaizen.ui.screens.login.AuthViewModel
@@ -62,6 +63,7 @@ val commonModules = module {
     viewModelOf(::MyFriendsViewModel)
     viewModelOf(::CreateChallengeViewModel)
     viewModelOf(::OnboardingProfileViewModel)
+    viewModelOf(::ChallengeDetailsViewModel)
 
     // Service
     singleOf(::UsersService)
