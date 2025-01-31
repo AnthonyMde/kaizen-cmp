@@ -1,6 +1,6 @@
 package com.makapp.kaizen.data.repository
 
-import com.makapp.kaizen.data.local.room.friends.FriendsDao
+import com.makapp.kaizen.data.local.room.challenges.ChallengesDao
 import com.makapp.kaizen.data.local.room.user.UserDao
 import com.makapp.kaizen.data.local.room.user.toUserDTO
 import com.makapp.kaizen.data.local.room.user.toUserEntity
@@ -33,7 +33,7 @@ class UsersRepositoryImpl(
     private val firebaseFunctions: FirebaseFunctionsDataSource,
     private val authRepository: AuthRepository,
     private val userDao: UserDao,
-    private val friendsDao: FriendsDao,
+    private val challengesDao: ChallengesDao,
     private val scope: CoroutineScope
 ) : UsersRepository {
     /**
@@ -84,7 +84,7 @@ class UsersRepositoryImpl(
         if (userDTO == null) return
 
         val challengeEntities = challengeDTOs.map { it.toChallengeEntity(userDTO.id) }
-        friendsDao.insertChallenges(challengeEntities)
+        challengesDao.insertChallenges(challengeEntities)
         userDao.refreshUser(userDTO.toUserEntity())
     }
 
