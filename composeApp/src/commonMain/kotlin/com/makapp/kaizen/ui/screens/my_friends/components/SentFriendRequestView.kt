@@ -26,6 +26,8 @@ import org.jetbrains.compose.resources.painterResource
 import com.makapp.kaizen.domain.models.FriendRequest
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.cancel_icon
 
 @Composable
 fun SentFriendRequestView(
@@ -59,19 +61,29 @@ fun SentFriendRequestView(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f).padding(end = 24.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 24.dp),
                 )
             }
         }
         Box(
-            modifier = Modifier.matchParentSize().background(
-                color = Color.Gray.copy(alpha = 0.5f),
-                shape = RoundedCornerShape(16.dp)
-            ).padding(end = 16.dp),
+            modifier = Modifier
+                .matchParentSize()
+                .background(
+                    color = Color.Gray.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(end = 16.dp),
             contentAlignment = Alignment.CenterEnd
         ) {
             if (isUpdateRequestLoading) {
-                CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(24.dp),
+                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
+                    strokeWidth = 2.dp
+                )
             } else {
                 RequestActionButton(request.id, onAction)
             }
@@ -95,12 +107,12 @@ private fun RequestActionButton(
         },
         content = {
             Icon(
-                imageVector = Icons.Default.Close,
+                painter = painterResource(Res.drawable.cancel_icon),
                 contentDescription = "Cancel friend request",
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                tint = MaterialTheme.colorScheme.secondary,
             )
         },
         modifier = Modifier
-            .size(18.dp)
+            .size(24.dp)
     )
 }
