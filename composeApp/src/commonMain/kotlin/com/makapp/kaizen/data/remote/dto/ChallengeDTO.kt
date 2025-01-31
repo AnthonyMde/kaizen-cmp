@@ -12,10 +12,12 @@ data class ChallengeDTO(
     val name: String,
     val status: Status,
     val createdAt: Timestamp,
+    val updatedAt: Timestamp = createdAt,
     val days:  Int,
     val isDoneForToday: Boolean,
     val failureCount: Int,
-    val maxAuthorizedFailures: Int
+    val maxAuthorizedFailures: Int,
+    val isDeleted: Boolean
 ) {
     @Serializable
     data class Timestamp(
@@ -31,6 +33,10 @@ data class ChallengeDTO(
         createdAt = dev.gitlive.firebase.firestore.Timestamp(
             createdAt.seconds,
             createdAt.nanoseconds
+        ).toLocalDate(),
+        updatedAt = dev.gitlive.firebase.firestore.Timestamp(
+            updatedAt.seconds,
+            updatedAt.nanoseconds
         ).toLocalDate(),
         status = status,
         days = days,

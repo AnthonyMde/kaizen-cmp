@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "674a87f5c2d93e8dbd9295bc0a2bc0b9",
+    "identityHash": "88d47ca8530ad6ce8a7e2853b67935d3",
     "entities": [
       {
         "tableName": "UserEntity",
@@ -205,7 +205,7 @@
       },
       {
         "tableName": "ChallengeEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `status` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `days` INTEGER NOT NULL, `isDoneForToday` INTEGER NOT NULL, `failureCount` INTEGER NOT NULL, `maxAuthorizedFailures` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `status` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `days` INTEGER NOT NULL, `isDoneForToday` INTEGER NOT NULL, `failureCount` INTEGER NOT NULL, `maxAuthorizedFailures` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -238,6 +238,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "days",
             "columnName": "days",
             "affinity": "INTEGER",
@@ -260,6 +266,12 @@
             "columnName": "maxAuthorizedFailures",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "isDeleted",
+            "columnName": "isDeleted",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -272,7 +284,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '674a87f5c2d93e8dbd9295bc0a2bc0b9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '88d47ca8530ad6ce8a7e2853b67935d3')"
     ]
   }
 }

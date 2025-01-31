@@ -27,6 +27,7 @@ fun HomeScreenPreview() {
                         maxAuthorizedFailures = 0,
                         failureCount = 0,
                         createdAt = DateUtils.getCurrentLocalDate(),
+                        updatedAt = DateUtils.getCurrentLocalDate(),
                         isDoneForToday = true,
                         status = Challenge.Status.ON_GOING,
                         days = 23
@@ -37,6 +38,7 @@ fun HomeScreenPreview() {
                         maxAuthorizedFailures = 0,
                         failureCount = 0,
                         createdAt = DateUtils.getCurrentLocalDate(),
+                        updatedAt = DateUtils.getCurrentLocalDate(),
                         isDoneForToday = true,
                         status = Challenge.Status.ON_GOING,
                         days = 54
@@ -57,6 +59,7 @@ fun HomeScreenPreview() {
                             maxAuthorizedFailures = 0,
                             failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
+                            updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
                             days = 54
@@ -67,6 +70,7 @@ fun HomeScreenPreview() {
                             maxAuthorizedFailures = 3,
                             failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
+                            updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
                             days = 54
@@ -86,6 +90,7 @@ fun HomeScreenPreview() {
                             maxAuthorizedFailures = 0,
                             failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
+                            updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
                             days = 54
@@ -96,6 +101,7 @@ fun HomeScreenPreview() {
                             maxAuthorizedFailures = 0,
                             failureCount = 0,
                             createdAt = DateUtils.getCurrentLocalDate(),
+                            updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
                             days = 54

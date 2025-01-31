@@ -14,10 +14,12 @@ data class ChallengeFirestoreDTO(
     val name: String,
     val status: Status,
     val createdAt: Timestamp? = null,
+    val updatedAt: Timestamp? = createdAt,
     val days: Int,
     val isDoneForToday: Boolean,
     val failureCount: Int,
-    val maxAuthorizedFailures: Int
+    val maxAuthorizedFailures: Int,
+    val isDeleted: Boolean
 ) {
     fun toChallenge() = Challenge(
         id = id,
@@ -29,6 +31,7 @@ data class ChallengeFirestoreDTO(
          * This fallback ensure to wait until we get the right value from the server.
          **/
         createdAt = createdAt?.toLocalDate() ?: DateUtils.getCurrentLocalDate(),
+        updatedAt = updatedAt?.toLocalDate() ?: DateUtils.getCurrentLocalDate(),
         status = status,
         days = days,
         isDoneForToday = isDoneForToday,
@@ -36,15 +39,17 @@ data class ChallengeFirestoreDTO(
         maxAuthorizedFailures = maxAuthorizedFailures
     )
 
-    fun toChallengeDTO(userId: String) = ChallengeEntity(
+    fun toChallengeEntity(userId: String) = ChallengeEntity(
         id = id,
         userId = userId,
         name = name,
         status = status,
         createdAt = ChallengeDTO.Timestamp(createdAt?.seconds ?: 0, createdAt?.nanoseconds ?: 0),
+        updatedAt = ChallengeDTO.Timestamp(updatedAt?.seconds ?: 0, updatedAt?.nanoseconds ?: 0),
         days = days,
         isDoneForToday = isDoneForToday,
         failureCount = failureCount,
-        maxAuthorizedFailures = maxAuthorizedFailures
+        maxAuthorizedFailures = maxAuthorizedFailures,
+        isDeleted = isDeleted
     )
 }

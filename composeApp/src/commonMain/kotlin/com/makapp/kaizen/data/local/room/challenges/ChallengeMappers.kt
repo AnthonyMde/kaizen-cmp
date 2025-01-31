@@ -9,10 +9,12 @@ fun ChallengeDTO.toChallengeEntity(userId: String): ChallengeEntity {
         name = name,
         status = status,
         createdAt = createdAt,
+        updatedAt = updatedAt,
         days = days,
         isDoneForToday = isDoneForToday,
         failureCount = failureCount,
-        maxAuthorizedFailures = maxAuthorizedFailures
+        maxAuthorizedFailures = maxAuthorizedFailures,
+        isDeleted = isDeleted
     )
 }
 
@@ -22,9 +24,11 @@ fun ChallengeEntity.toChallengeDTO(): ChallengeDTO {
         name = name,
         status = status,
         createdAt = createdAt,
+        updatedAt = updatedAt,
         days = days,
         isDoneForToday = isDoneForToday,
         failureCount = failureCount,
-        maxAuthorizedFailures = maxAuthorizedFailures
+        maxAuthorizedFailures = maxAuthorizedFailures,
+        isDeleted = isDeleted
     )
 }

@@ -4,11 +4,13 @@ export interface Challenge {
     id: string,
     name: string,
     createdAt: Timestamp,
+    updatedAt?: Timestamp,
     status: string,
     days: number,
     isDoneForToday: boolean,
     failureCount: number,
-    maxAuthorizedFailures: number
+    maxAuthorizedFailures: number,
+    isDeleted?: boolean
 }
 
 export enum ChallengeStatus {

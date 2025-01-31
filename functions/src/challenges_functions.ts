@@ -21,11 +21,13 @@ export const createChallenge = onCall(async (request) => {
     const challenge = {
         name: body.name,
         createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
         status: ChallengeStatus[ChallengeStatus.ON_GOING],
         days: 1,
         isDoneForToday: false,
         failureCount: 0,
-        maxAuthorizedFailures: body.maxFailures
+        maxAuthorizedFailures: body.maxFailures,
+        isDeleted: false
     } as Challenge
 
     const collectionRef = firestore

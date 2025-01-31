@@ -10,5 +10,5 @@ interface ChallengesDao {
     suspend fun getById(id: String): ChallengeEntity
 
     @Upsert
-    suspend fun insert(challenges: List<ChallengeEntity>)
+    suspend fun insertChallenges(challenges: List<ChallengeEntity>)
 }

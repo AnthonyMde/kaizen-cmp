@@ -9,6 +9,7 @@ data class Challenge(
     val name: String,
     val status: Status,
     val createdAt: LocalDate,
+    val updatedAt: LocalDate,
     val days:  Int,
     val isDoneForToday: Boolean,
     val failureCount: Int,

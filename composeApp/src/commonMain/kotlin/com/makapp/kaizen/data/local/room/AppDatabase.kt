@@ -58,6 +58,5 @@ fun getRoomDatabase(
     return builder
         .fallbackToDestructiveMigrationOnDowngrade(dropAllTables = true)
         .setDriver(BundledSQLiteDriver())
-        .setQueryCoroutineContext(Dispatchers.IO)
         .build()
 }

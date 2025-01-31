@@ -81,9 +81,9 @@ class UsersRepositoryImpl(
     ) {
         if (userDTO == null) return
 
-        userDao.refreshUser(userDTO.toUserEntity())
-        val challengeEntities = challengeDTOs.map { it.toChallengeDTO(userDTO.id) }
+        val challengeEntities = challengeDTOs.map { it.toChallengeEntity(userDTO.id) }
         friendsDao.insertChallenges(challengeEntities)
+        userDao.refreshUser(userDTO.toUserEntity())
     }
 
     override suspend fun isUsernameAvailable(username: String): Resource<Boolean> {
