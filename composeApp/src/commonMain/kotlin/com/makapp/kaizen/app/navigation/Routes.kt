@@ -29,5 +29,5 @@ sealed class Route {
     @Serializable
     data object CreateChallenge : Route()
     @Serializable
-    data class ChallengeDetails(val id: String, val title: String) : Route()
+    data class ChallengeDetails(val id: String, val title: String, val isDone: Boolean) : Route()
 }

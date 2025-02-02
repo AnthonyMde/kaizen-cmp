@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.Friend
 import com.makapp.kaizen.ui.resources.avatars
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.home.HomeAction
 import org.jetbrains.compose.resources.painterResource
 
@@ -66,8 +67,11 @@ fun FriendWithChallengesView(
                     onClick = {
                         onAction(
                             HomeAction.OnChallengeClicked(
-                                id = challenge.id,
-                                title = challenge.name
+                                navArgs = ChallengeDetailsNavArgs(
+                                    challenge.id,
+                                    challenge.name,
+                                    challenge.isDoneForToday
+                                )
                             )
                         )
                     }

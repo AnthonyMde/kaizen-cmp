@@ -72,10 +72,7 @@ fun HomeScreenRoot(
                 HomeAction.OnCreateFirstChallengeClicked -> goToCreateChallenge()
                 HomeAction.OnFriendEmptyViewClicked -> goToFriendsScreen()
                 is HomeAction.OnChallengeClicked -> {
-                    val navArgs = ChallengeDetailsNavArgs(
-                        action.id, action.title
-                    )
-                    goToChallengeDetails(navArgs)
+                    goToChallengeDetails(action.navArgs)
                 }
                 else -> homeViewModel.onAction(action)
             }

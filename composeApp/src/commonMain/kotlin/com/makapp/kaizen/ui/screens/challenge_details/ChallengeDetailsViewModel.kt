@@ -55,17 +55,17 @@ class ChallengeDetailsViewModel(
 
     fun getChallengeStatusText(status: Challenge.Status): String = when (status) {
         Challenge.Status.ON_GOING -> {
-            "Your challenge is currently ongoing. Keep up the good work!"
+            "ONGOING"
         }
 
         Challenge.Status.PAUSED -> {
-            "Your challenge is currently paused. Hope to see you soon!"
+            "PAUSED"
         }
         Challenge.Status.DONE -> {
-            "Congratulations! This challenge has been fully completed!"
+            "COMPLETED"
         }
         Challenge.Status.FAILED -> {
-            "This challenge has been failed and cannot be resumed."
+            "FAILED"
         }
     }
 }

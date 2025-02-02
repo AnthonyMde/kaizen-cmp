@@ -12,6 +12,7 @@ import com.makapp.kaizen.app.navigation.LocalNavController
 import com.makapp.kaizen.app.navigation.Route
 import com.makapp.kaizen.domain.models.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
@@ -99,7 +100,13 @@ fun App(userSession: UserSession? = null) {
                                 navController.navigate(Route.MyFriends)
                             },
                             goToChallengeDetails = { args ->
-                                navController.navigate(Route.ChallengeDetails(args.id, args.title))
+                                navController.navigate(
+                                    Route.ChallengeDetails(
+                                        args.id,
+                                        args.title,
+                                        args.isDone
+                                    )
+                                )
                             }
                         )
                     }
@@ -211,14 +218,21 @@ fun App(userSession: UserSession? = null) {
                             )
                         }
                     ) { backStackEntry ->
-                        val title = backStackEntry.arguments?.getString("title") ?: return@composable
+                        val title =
+                            backStackEntry.arguments?.getString("title") ?: return@composable
                         val id = backStackEntry.arguments?.getString("id") ?: return@composable
+                        val isDone =
+                            backStackEntry.arguments?.getBoolean("isDone") ?: return@composable
+
                         ChallengeDetailsScreenRoot(
                             navigateUp = {
                                 navController.popBackStack()
                             },
-                            title = title,
-                            id = id
+                            navArgs = ChallengeDetailsNavArgs(
+                                id,
+                                title,
+                                isDone
+                            )
                         )
                     }
                 }

@@ -1,5 +1,7 @@
 package com.makapp.kaizen.ui.screens.home
 
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
+
 sealed class HomeAction {
     data class OnToggleChallenge(
         val userId: String,
@@ -13,5 +15,5 @@ sealed class HomeAction {
     data object OnSwipeToRefreshFriendList : HomeAction()
     data object OnFriendEmptyViewClicked : HomeAction()
     data object OnRefreshFriendsOnResume : HomeAction()
-    data class OnChallengeClicked(val id: String, val title: String) : HomeAction()
+    data class OnChallengeClicked(val navArgs: ChallengeDetailsNavArgs) : HomeAction()
 }

@@ -1,13 +1,14 @@
 package com.makapp.kaizen.ui.screens.challenge_details
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,24 +17,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsCommitmentView
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsFirstRowView
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsHeaderView
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsSecondRowView
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ChallengeDetailsScreenRoot(
     viewModel: ChallengeDetailsViewModel = koinViewModel(),
     navigateUp: () -> Unit,
-    title: String,
-    id: String
+    navArgs: ChallengeDetailsNavArgs
 ) {
     val state by viewModel.state.collectAsState()
 
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
-        viewModel.fetchChallengeDetails(id)
+        viewModel.fetchChallengeDetails(navArgs.id)
     }
 
     ChallengeDetailsScreen(
-        title = title,
+        navArgs = navArgs,
         state = state,
         viewModel = viewModel,
         onAction = { action ->
@@ -47,57 +50,59 @@ fun ChallengeDetailsScreenRoot(
 
 @Composable
 fun ChallengeDetailsScreen(
-    title: String,
+    navArgs: ChallengeDetailsNavArgs,
     state: ChallengeDetailsState,
     viewModel: ChallengeDetailsViewModel,
     onAction: (ChallengeDetailsAction) -> Unit,
 ) {
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
-        topBar = {
-            BackTopAppBar(
-                title = "",
-                onNavigateUp = { onAction(ChallengeDetailsAction.OnNavigateUp) },
-                backDescription = "Go back.",
-            )
-        }
-    ) { paddingValues ->
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.surface)
+    ) {
+        ChallengeDetailsHeaderView(
+            navArgs = navArgs,
+            onAction = onAction
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 16.dp)
         ) {
-            Text(title,
-                modifier = Modifier.fillMaxWidth())
-
             if (state.isDetailsLoading) {
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(2.dp)
-                        .padding(top = 24.dp)
-                        .padding(horizontal = 24.dp)
                 )
             }
             if (state.challengeError != null) {
-                Text(state.challengeError,
+                Text(
+                    state.challengeError,
                     color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.fillMaxWidth())
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
             if (state.challenge != null && !state.isDetailsLoading) {
                 val challenge = state.challenge
-                Text("Challenge created at: ${challenge.createdAt}",
-                    modifier = Modifier.fillMaxWidth())
 
-                Text("You have completed your challenge for ${challenge.days} days",
-                    modifier = Modifier.fillMaxWidth())
+                ChallengeDetailsFirstRowView(
+                    challengeStatus = viewModel.getChallengeStatusText(challenge.status),
+                    challengeDays = state.challenge.days
+                )
 
-                Text(viewModel.getChallengeStatusText(challenge.status),
-                    modifier = Modifier.fillMaxWidth())
+                Spacer(modifier = Modifier.height(8.dp))
 
-                Text("Errors used : ${challenge.failureCount}/${challenge.maxAuthorizedFailures}",
-                    modifier = Modifier.fillMaxWidth())
+                ChallengeDetailsSecondRowView(
+                    failureCount = state.challenge.failureCount,
+                    maxAuthorizedFailures = state.challenge.maxAuthorizedFailures
+                )
+
+                Spacer(modifier = Modifier.height(36.dp))
+
+                ChallengeDetailsCommitmentView()
             }
         }
     }
