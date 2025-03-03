@@ -21,7 +21,12 @@ class FriendsService(
     fun watchFavoriteFriends(): Flow<Resource<List<Friend>>> {
         return friendsRepository.watchFriends().map { result ->
             if (result is Resource.Success) {
-                Resource.Success(result.data?.filter { it.isFavorite })
+                val friends = result.data
+                    ?.filter { it.isFavorite }
+                    ?.map { friend ->
+                        friend.copy(challenges = friend.challenges.filter { !it.isFailed() })
+                    }
+                Resource.Success(friends)
             } else {
                 result
             }
