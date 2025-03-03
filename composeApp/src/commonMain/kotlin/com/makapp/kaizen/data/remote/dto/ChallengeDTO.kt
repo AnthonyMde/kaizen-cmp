@@ -17,7 +17,7 @@ data class ChallengeDTO(
     val isDoneForToday: Boolean,
     val failureCount: Int,
     val maxAuthorizedFailures: Int,
-    val isDeleted: Boolean
+    val isDeleted: Boolean = false
 ) {
     @Serializable
     data class Timestamp(
