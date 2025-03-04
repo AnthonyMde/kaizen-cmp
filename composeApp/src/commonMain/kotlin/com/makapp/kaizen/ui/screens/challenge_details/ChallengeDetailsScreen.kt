@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsCommitmentView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsFirstRowView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsHeaderView
@@ -38,7 +39,9 @@ fun ChallengeDetailsScreenRoot(
     ChallengeDetailsScreen(
         navArgs = navArgs,
         state = state,
-        viewModel = viewModel,
+        getChallengeStatusText = { status ->
+            viewModel.getChallengeStatusText(status)
+        },
         onAction = { action ->
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
@@ -52,7 +55,7 @@ fun ChallengeDetailsScreenRoot(
 fun ChallengeDetailsScreen(
     navArgs: ChallengeDetailsNavArgs,
     state: ChallengeDetailsState,
-    viewModel: ChallengeDetailsViewModel,
+    getChallengeStatusText: (Challenge.Status) -> String,
     onAction: (ChallengeDetailsAction) -> Unit,
 ) {
     Column(
@@ -89,7 +92,7 @@ fun ChallengeDetailsScreen(
                 val challenge = state.challenge
 
                 ChallengeDetailsFirstRowView(
-                    challengeStatus = viewModel.getChallengeStatusText(challenge.status),
+                    challengeStatus = getChallengeStatusText(challenge.status),
                     challengeDays = state.challenge.days
                 )
 
