@@ -7,8 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,9 +24,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsCommitmentView
-import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsFirstRowView
-import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsHeaderView
-import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsSecondRowView
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
+import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -39,7 +43,7 @@ fun ChallengeDetailsScreenRoot(
     ChallengeDetailsScreen(
         navArgs = navArgs,
         state = state,
-        getChallengeStatusText = { status ->
+        getChallengeStatusName = { status ->
             viewModel.getChallengeStatusText(status)
         },
         onAction = { action ->
@@ -55,57 +59,68 @@ fun ChallengeDetailsScreenRoot(
 fun ChallengeDetailsScreen(
     navArgs: ChallengeDetailsNavArgs,
     state: ChallengeDetailsState,
-    getChallengeStatusText: (Challenge.Status) -> String,
+    getChallengeStatusName: (Challenge.Status) -> String,
     onAction: (ChallengeDetailsAction) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.surface)
-    ) {
-        ChallengeDetailsHeaderView(
-            navArgs = navArgs,
-            onAction = onAction
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
+    Scaffold(
+        topBar = {
+            BackTopAppBar(
+                title = navArgs.title,
+                onNavigateUp = { onAction(ChallengeDetailsAction.OnNavigateUp) },
+                backDescription = "Go back",
+                actions = {
+                    IconButton(
+                        onClick = { },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.MoreVert,
+                                contentDescription = "Challenge settings",
+                                tint = MaterialTheme.colorScheme.secondary
+                            )
+                        }
+                    )
+                }
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surface
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .background(color = MaterialTheme.colorScheme.surface)
+                .padding(innerPadding)
         ) {
-            if (state.isDetailsLoading) {
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-            if (state.challengeError != null) {
-                Text(
-                    state.challengeError,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            if (state.challenge != null && !state.isDetailsLoading) {
-                val challenge = state.challenge
 
-                ChallengeDetailsFirstRowView(
-                    challengeStatus = getChallengeStatusText(challenge.status),
-                    challengeDays = state.challenge.days
-                )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+            ) {
+                if (state.isDetailsLoading) {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }
+                if (state.challengeError != null) {
+                    Text(
+                        state.challengeError,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                if (state.challenge != null && !state.isDetailsLoading) {
+                    val challenge = state.challenge
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    ChallengeDetailsDashboardCard(
+                        challenge = challenge,
+                        getChallengeStatusName = getChallengeStatusName
+                    )
 
-                ChallengeDetailsSecondRowView(
-                    failureCount = state.challenge.failureCount,
-                    maxAuthorizedFailures = state.challenge.maxAuthorizedFailures
-                )
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                Spacer(modifier = Modifier.height(36.dp))
-
-                ChallengeDetailsCommitmentView()
+                    ChallengeDetailsCommitmentView()
+                }
             }
         }
     }

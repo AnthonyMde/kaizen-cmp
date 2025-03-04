@@ -29,4 +29,10 @@ object DateUtils {
 
     fun getCurrentLocalDate(): LocalDate = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+    fun LocalDate.toShortDateFormat(): String {
+        return this.dayOfMonth.toString().padStart(2, '0') + "/" +
+                this.monthNumber.toString().padStart(2, padChar = '0') + "/" +
+                this.year.toString()
+    }
 }

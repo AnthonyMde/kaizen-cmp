@@ -32,7 +32,7 @@ fun ChallengeDetailsPreview() {
             ),
             challengeError = null
         ),
-        getChallengeStatusText = { status ->
+        getChallengeStatusName = { status ->
             status.name
         },
         onAction = {}
