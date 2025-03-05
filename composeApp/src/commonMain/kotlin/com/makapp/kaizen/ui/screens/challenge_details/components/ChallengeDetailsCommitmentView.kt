@@ -23,7 +23,7 @@ fun ChallengeDetailsCommitmentView() {
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(color = MaterialTheme.colorScheme.surfaceVariant)
-            .padding(horizontal = 8.dp, vertical = 16.dp),
+            .padding(horizontal = 24.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {

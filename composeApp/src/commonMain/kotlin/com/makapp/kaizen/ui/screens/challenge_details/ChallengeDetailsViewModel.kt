@@ -5,11 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.services.ChallengesService
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.ic_broken_heart
+import kaizen.composeapp.generated.resources.ic_heart
+import kaizen.composeapp.generated.resources.ic_heart_plus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.DrawableResource
 
 class ChallengeDetailsViewModel(
     private val challengesService: ChallengesService
@@ -55,17 +60,25 @@ class ChallengeDetailsViewModel(
 
     fun getChallengeStatusText(status: Challenge.Status): String = when (status) {
         Challenge.Status.ON_GOING -> {
-            "ONGOING"
+            "Ongoing"
         }
 
         Challenge.Status.PAUSED -> {
-            "PAUSED"
+            "Paused"
         }
         Challenge.Status.DONE -> {
-            "COMPLETED"
+            "Completed"
         }
         Challenge.Status.FAILED -> {
-            "FAILED"
+            "Failed"
+        }
+    }
+
+    fun getHeartIcon(maxFailures: Int, failures: Int): DrawableResource {
+        return when {
+            failures > maxFailures -> Res.drawable.ic_broken_heart
+            maxFailures < Challenge.MAX_POSSIBLE_FAILURES -> Res.drawable.ic_heart_plus
+            else -> Res.drawable.ic_heart
         }
     }
 }

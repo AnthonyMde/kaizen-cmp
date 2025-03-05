@@ -113,8 +113,7 @@ fun ChallengeDetailsScreen(
                     val challenge = state.challenge
 
                     ChallengeDetailsDashboardCard(
-                        challenge = challenge,
-                        getChallengeStatusName = getChallengeStatusName
+                        challenge = challenge
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))

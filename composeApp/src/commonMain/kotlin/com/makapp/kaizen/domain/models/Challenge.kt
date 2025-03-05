@@ -15,6 +15,9 @@ data class Challenge(
     val failureCount: Int,
     val maxAuthorizedFailures: Int
 ) {
+    companion object {
+        const val MAX_POSSIBLE_FAILURES = 12
+    }
     fun isFailed(): Boolean = status == Status.FAILED
     fun isPaused(): Boolean = status == Status.PAUSED
 
