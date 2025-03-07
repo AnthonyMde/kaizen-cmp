@@ -118,7 +118,10 @@ fun ChallengeDetailsScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    ChallengeDetailsCommitmentView()
+                    ChallengeDetailsCommitmentView(
+                        // TODO
+                        commitmentText = "Je dois écrire chaque jour au minimum une ligne ayant du sens pour moi. Je peux écrire sur tout support. La lecture ne peut pas remplacer l'écriture."
+                    )
                 }
             }
         }

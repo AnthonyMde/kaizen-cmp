@@ -17,30 +17,35 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ChallengeDetailsCommitmentView() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(color = MaterialTheme.colorScheme.surfaceVariant)
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(
-            text = "Minimum commitment",
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            // TODO: add dynamic challenge's minimum commitment.
-            text = "Je dois écrire chaque jour au minimum une ligne ayant du sens pour moi. Je peux écrire sur tout support. La lecture ne peut pas remplacer l'écriture.",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontFamily = FontFamily.SansSerif
-            ),
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center
-        )
+fun ChallengeDetailsCommitmentView(
+    commitmentText: String?
+) {
+    if (commitmentText == null) {
+        ChallengeDetailsEmptyCommitmentView()
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(color = MaterialTheme.colorScheme.surfaceVariant)
+                .padding(horizontal = 24.dp, vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = "Minimum commitment",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = commitmentText,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontFamily = FontFamily.SansSerif
+                ),
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
