@@ -34,9 +34,6 @@ fun ChallengeDetailsPreview() {
             ),
             challengeError = null
         ),
-        getChallengeStatusName = { status ->
-            status.name
-        },
         onAction = {}
     )
 }

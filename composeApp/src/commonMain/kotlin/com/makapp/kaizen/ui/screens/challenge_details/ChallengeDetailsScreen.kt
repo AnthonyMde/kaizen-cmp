@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsCommitmentView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
@@ -43,9 +42,6 @@ fun ChallengeDetailsScreenRoot(
     ChallengeDetailsScreen(
         navArgs = navArgs,
         state = state,
-        getChallengeStatusName = { status ->
-            viewModel.getChallengeStatusText(status)
-        },
         onAction = { action ->
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
@@ -59,7 +55,6 @@ fun ChallengeDetailsScreenRoot(
 fun ChallengeDetailsScreen(
     navArgs: ChallengeDetailsNavArgs,
     state: ChallengeDetailsState,
-    getChallengeStatusName: (Challenge.Status) -> String,
     onAction: (ChallengeDetailsAction) -> Unit,
 ) {
     Scaffold(
@@ -119,8 +114,7 @@ fun ChallengeDetailsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     ChallengeDetailsCommitmentView(
-                        // TODO
-                        commitmentText = "Je dois écrire chaque jour au minimum une ligne ayant du sens pour moi. Je peux écrire sur tout support. La lecture ne peut pas remplacer l'écriture."
+                        commitmentText = state.challenge.commitment
                     )
                 }
             }
