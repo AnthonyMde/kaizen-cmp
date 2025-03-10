@@ -17,7 +17,9 @@ data class ChallengeDTO(
     val isDoneForToday: Boolean,
     val failureCount: Int,
     val maxAuthorizedFailures: Int,
-    val isDeleted: Boolean = false
+    val isDeleted: Boolean = false,
+    val commitment: String?,
+    val expectations: String?
 ) {
     @Serializable
     data class Timestamp(
@@ -42,6 +44,8 @@ data class ChallengeDTO(
         days = days,
         isDoneForToday = isDoneForToday,
         failureCount = failureCount,
-        maxAuthorizedFailures = maxAuthorizedFailures
+        maxAuthorizedFailures = maxAuthorizedFailures,
+        commitment = commitment,
+        expectations = expectations
     )
 }

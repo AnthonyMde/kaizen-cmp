@@ -30,7 +30,9 @@ fun HomeScreenPreview() {
                         updatedAt = DateUtils.getCurrentLocalDate(),
                         isDoneForToday = true,
                         status = Challenge.Status.ON_GOING,
-                        days = 23
+                        days = 23,
+                        commitment = null,
+                        expectations = null
                     ),
                     Challenge(
                         id= "2",
@@ -41,7 +43,9 @@ fun HomeScreenPreview() {
                         updatedAt = DateUtils.getCurrentLocalDate(),
                         isDoneForToday = true,
                         status = Challenge.Status.ON_GOING,
-                        days = 54
+                        days = 54,
+                        commitment = null,
+                        expectations = null
                     )
                 )
             ),
@@ -62,7 +66,9 @@ fun HomeScreenPreview() {
                             updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
-                            days = 54
+                            days = 54,
+                            commitment = null,
+                            expectations = null
                         ),
                         Challenge(
                             id= "2",
@@ -73,7 +79,9 @@ fun HomeScreenPreview() {
                             updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
-                            days = 54
+                            days = 54,
+                            commitment = null,
+                            expectations = null
                         )
                     )
                 ),
@@ -93,7 +101,9 @@ fun HomeScreenPreview() {
                             updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
-                            days = 54
+                            days = 54,
+                            commitment = null,
+                            expectations = null
                         ),
                         Challenge(
                             id= "2",
@@ -104,7 +114,9 @@ fun HomeScreenPreview() {
                             updatedAt = DateUtils.getCurrentLocalDate(),
                             isDoneForToday = true,
                             status = Challenge.Status.ON_GOING,
-                            days = 54
+                            days = 54,
+                            commitment = null,
+                            expectations = null
                         )
                     )
                 )

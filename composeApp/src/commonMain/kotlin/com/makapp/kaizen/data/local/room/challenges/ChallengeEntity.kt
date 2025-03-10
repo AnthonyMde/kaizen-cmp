@@ -17,5 +17,7 @@ data class ChallengeEntity(
     val isDoneForToday: Boolean,
     val failureCount: Int,
     val maxAuthorizedFailures: Int,
-    val isDeleted: Boolean
+    val isDeleted: Boolean,
+    val commitment: String?,
+    val expectations: String?
 )

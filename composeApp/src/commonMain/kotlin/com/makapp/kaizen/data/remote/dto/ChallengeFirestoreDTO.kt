@@ -19,7 +19,9 @@ data class ChallengeFirestoreDTO(
     val isDoneForToday: Boolean,
     val failureCount: Int,
     val maxAuthorizedFailures: Int,
-    val isDeleted: Boolean
+    val isDeleted: Boolean,
+    val commitment: String?,
+    val expectations: String?
 ) {
     fun toChallenge() = Challenge(
         id = id,
@@ -36,7 +38,9 @@ data class ChallengeFirestoreDTO(
         days = days,
         isDoneForToday = isDoneForToday,
         failureCount = failureCount,
-        maxAuthorizedFailures = maxAuthorizedFailures
+        maxAuthorizedFailures = maxAuthorizedFailures,
+        commitment = commitment,
+        expectations = expectations
     )
 
     fun toChallengeEntity(userId: String) = ChallengeEntity(
@@ -50,6 +54,8 @@ data class ChallengeFirestoreDTO(
         isDoneForToday = isDoneForToday,
         failureCount = failureCount,
         maxAuthorizedFailures = maxAuthorizedFailures,
-        isDeleted = isDeleted
+        isDeleted = isDeleted,
+        commitment = commitment,
+        expectations = expectations
     )
 }

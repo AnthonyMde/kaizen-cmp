@@ -10,10 +10,12 @@ data class Challenge(
     val status: Status,
     val createdAt: LocalDate,
     val updatedAt: LocalDate,
-    val days:  Int,
+    val days: Int,
     val isDoneForToday: Boolean,
     val failureCount: Int,
-    val maxAuthorizedFailures: Int
+    val maxAuthorizedFailures: Int, // TODO: rename to maxFailuresAllowed
+    val commitment: String?, // The minimum a user must commit to each day to validate their challenge.
+    val expectations: String?, // What the user expects for this challenge.
 ) {
     companion object {
         const val MAX_POSSIBLE_FAILURES = 12
