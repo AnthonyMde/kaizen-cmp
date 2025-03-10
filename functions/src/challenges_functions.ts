@@ -43,3 +43,31 @@ export const createChallenge = onCall(async (request) => {
         id: docRef.id
     })
 })
+
+export const updateChallenge = onCall(async (request) => {
+    if (request.auth == null || request.auth.uid == null) {
+        throw new HttpsError("unauthenticated", "You must be authenticated.")
+    }
+
+    const userId = request.auth.uid
+    let updatedChallenge: Partial<Challenge>
+
+    try {
+        updatedChallenge = request.data as Partial<Challenge>
+    } catch (e) {
+        throw new HttpsError("invalid-argument", "Some submitted fields are not correct.")
+    }
+
+    if (updatedChallenge.id === null) {
+        throw new HttpsError("invalid-argument", "No challenge id provided.")
+    }
+
+    updatedChallenge.updatedAt = Timestamp.now()
+    
+    await getFirestore()
+        .collection(Collection.USERS)
+        .doc(userId)
+        .collection(Collection.CHALLENGES)
+        .doc(updatedChallenge.id!)
+        .update(updatedChallenge)
+})
