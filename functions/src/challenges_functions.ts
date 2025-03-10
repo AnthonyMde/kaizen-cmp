@@ -27,7 +27,9 @@ export const createChallenge = onCall(async (request) => {
         isDoneForToday: false,
         failureCount: 0,
         maxAuthorizedFailures: body.maxFailures,
-        isDeleted: false
+        isDeleted: false,
+        commitment: body.commitment,
+        expectations: body.expectations
     } as Challenge
 
     const collectionRef = firestore

@@ -10,7 +10,9 @@ export interface Challenge {
     isDoneForToday: boolean,
     failureCount: number,
     maxAuthorizedFailures: number,
-    isDeleted?: boolean
+    isDeleted?: boolean,
+    commitment?: string,
+    expectations?: string
 }
 
 export enum ChallengeStatus {
