@@ -2,6 +2,7 @@ package com.makapp.kaizen.domain.services
 
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.repository.ChallengesRepository
@@ -28,18 +29,15 @@ class ChallengesService(
         }
     }
 
-    suspend fun create(name: String, numberOfErrors: String): Flow<Resource<Unit>> {
-        if (name.isBlank()) {
+    suspend fun create(form: CreateChallengeForm): Flow<Resource<Unit>> {
+        if (form.name.isBlank()) {
             return flowOf(Resource.Error(DomainException.Challenge.HasNoName))
         }
-        if (numberOfErrors.isBlank()) {
+        if (form.numberOfErrors.isBlank()) {
             return flowOf(Resource.Error(DomainException.Challenge.HasNoMaxErrors))
         }
 
-        return challengesRepository.create(
-            name = name,
-            numberOfErrors = numberOfErrors.toInt()
-        )
+        return challengesRepository.create(form)
     }
 
     fun getChallengeById(id: String): Flow<Resource<Challenge>> = flow {

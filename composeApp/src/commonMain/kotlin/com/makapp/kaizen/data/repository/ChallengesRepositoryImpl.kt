@@ -8,6 +8,7 @@ import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.ChallengesRepository
 import dev.gitlive.firebase.firestore.Timestamp
@@ -40,14 +41,14 @@ class ChallengesRepositoryImpl(
     }
 
     override suspend fun create(
-        name: String,
-        numberOfErrors: Int
+        form: CreateChallengeForm
     ): Flow<Resource<Unit>> = flow<Resource<Unit>> {
         emit(Resource.Loading())
 
         val request = CreateChallengeRequest(
-            name = name,
-            maxFailures = numberOfErrors
+            name = form.name,
+            maxFailures = form.numberOfErrors.toInt(),
+            commitment = form.commitment
         )
 
         firebaseFunctions.createChallenge(request)

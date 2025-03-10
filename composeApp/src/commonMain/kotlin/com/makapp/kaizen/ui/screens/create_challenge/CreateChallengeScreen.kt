@@ -1,10 +1,10 @@
 package com.makapp.kaizen.ui.screens.create_challenge
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.makapp.kaizen.ui.components.LimitedCharTextField
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
@@ -89,52 +90,31 @@ fun CreateChallengeScreen(
                 .imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
+            // Title field.
+            LimitedCharTextField(
+                onValueChange = { name ->
+                    onAction(CreateChallengeAction.OnNameInputValueChanged(name))
+                },
+                value = state.challengeNameInputValue,
+                maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_TITLE_LENGTH,
+                textError = state.challengeNameInputError,
+                singleLine = true,
+                shape = RoundedCornerShape(16.dp),
+                label = {
+                    Text("Title")
+                },
+                placeholder = {
+                    PlaceholderText("Reading")
+                },
+                isError = state.challengeNameInputError != null,
+                keyboardOptions = KeyboardOptions().copy(
+                    imeAction = ImeAction.Next,
+                    capitalization = KeyboardCapitalization.Sentences
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
-            ) {
-                OutlinedTextField(
-                    onValueChange = { name ->
-                        onAction(CreateChallengeAction.OnNameInputValueChanged(name))
-                    },
-                    value = state.challengeNameInputValue,
-                    singleLine = true,
-                    shape = RoundedCornerShape(16.dp),
-                    label = {
-                        Text("Title")
-                    },
-                    placeholder = {
-                        PlaceholderText("Reading")
-                    },
-                    isError = state.challengeNameInputError != null,
-                    keyboardOptions = KeyboardOptions().copy(
-                        imeAction = ImeAction.Next,
-                        capitalization = KeyboardCapitalization.Sentences
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    FormErrorText(
-                        state.challengeNameInputError ?: "",
-                        modifier = Modifier
-                            .padding(
-                                start = 8.dp, end = 8.dp,
-                                top = if (state.challengeNameInputError != null) 4.dp else 0.dp,
-                                bottom = if (state.challengeNameInputError != null) 4.dp else 0.dp
-                            )
-                            .weight(1f)
-                    )
-
-                    Text(
-                        "${state.challengeNameInputValue.length}/${CreateChallengeViewModel.MAX_CHALLENGE_TITLE_LENGTH}",
-                        style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                    )
-                }
-            }
+            )
+            // Number of errors field.
             OutlinedTextField(
                 onValueChange = { numberOfErrors ->
                     onAction(CreateChallengeAction.OnNumberOfErrorsInputValueChanged(numberOfErrors))
@@ -151,7 +131,32 @@ fun CreateChallengeScreen(
                 isError = state.numberOfErrorsInputError != null,
                 keyboardOptions = KeyboardOptions().copy(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done
+                    imeAction = ImeAction.Next
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            state.numberOfErrorsInputError?.let { message ->
+                FormErrorText(message, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Commitment Field.
+            LimitedCharTextField(
+                onValueChange = { commitment ->
+                    onAction(CreateChallengeAction.OnCommitmentInputValueChanged(commitment))
+                },
+                value = state.commitmentInputValue,
+                maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_COMMITMENT_LENGTH,
+                textError = null,
+                shape = RoundedCornerShape(16.dp),
+                placeholder = {
+                    PlaceholderText("Optional: Write here what you must do each day to mark your challenge as done.")
+                },
+                keyboardOptions = KeyboardOptions().copy(
+                    imeAction = ImeAction.Done,
+                    capitalization = KeyboardCapitalization.Sentences
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
@@ -161,9 +166,6 @@ fun CreateChallengeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            state.numberOfErrorsInputError?.let { message ->
-                FormErrorText(message, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
-            }
 
             Spacer(modifier = Modifier.weight(1f))
 

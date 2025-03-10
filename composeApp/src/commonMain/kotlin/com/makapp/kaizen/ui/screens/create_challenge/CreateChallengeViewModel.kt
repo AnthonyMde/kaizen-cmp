@@ -2,6 +2,7 @@ package com.makapp.kaizen.ui.screens.create_challenge
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.makapp.kaizen.domain.models.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.services.ChallengesService
 import kotlinx.coroutines.channels.BufferOverflow
@@ -18,6 +19,7 @@ class CreateChallengeViewModel(
 ) : ViewModel() {
     companion object {
         const val MAX_CHALLENGE_TITLE_LENGTH = 20
+        const val MAX_CHALLENGE_COMMITMENT_LENGTH = 150
         private const val MAX_CHALLENGE_ERRORS_LENGTH = 2
     }
 
@@ -57,19 +59,27 @@ class CreateChallengeViewModel(
                 }
             }
 
+            is CreateChallengeAction.OnCommitmentInputValueChanged -> {
+                _createChallengeScreenState.update {
+                    it.copy(
+                        commitmentInputValue = action.commitment,
+                    )
+                }
+            }
+
             is CreateChallengeAction.OnCreateChallengeFormSubmit -> {
-                val name = _createChallengeScreenState.value.challengeNameInputValue
-                val numberOfErrors = _createChallengeScreenState.value.numberOfErrorsInputValue
+                val form = CreateChallengeForm(
+                    name = _createChallengeScreenState.value.challengeNameInputValue,
+                    numberOfErrors = _createChallengeScreenState.value.numberOfErrorsInputValue,
+                    commitment = _createChallengeScreenState.value.commitmentInputValue
+                )
 
                 viewModelScope.launch {
-                    if (!requiredFields(name, numberOfErrors)) {
+                    if (!requiredFields(form.name, form.numberOfErrors)) {
                         return@launch
                     }
 
-                    challengesService.create(
-                        name = name,
-                        numberOfErrors = numberOfErrors
-                    ).collectLatest { result ->
+                    challengesService.create(form).collectLatest { result ->
                         when (result) {
                             is Resource.Error -> {
                                 _createChallengeScreenState.update {
