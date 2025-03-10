@@ -13,11 +13,13 @@ import { checkUserChallengesCron } from "./crons";
 import { createFriendRequest, getFriendRequests, updateFriendRequest } from "./friend_requests_functions";
 import { getFriendSearchPreview, getFriends } from "./friends_functions";
 import { createUserAccount, deleteUserAccount, isUsernameAvailable, toggleFriendAsFavorite } from "./user_functions";
+import { getFirestore } from "firebase-admin/firestore";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
 
 initializeApp();
+getFirestore().settings({ignoreUndefinedProperties: true})
 
 export {
     checkUserChallengesCron, createChallenge, createFriendRequest, createUserAccount, deleteUserAccount, getFriendRequests, getFriendSearchPreview, getFriends,

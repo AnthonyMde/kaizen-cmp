@@ -63,7 +63,7 @@ export const updateChallenge = onCall(async (request) => {
     }
 
     updatedChallenge.updatedAt = Timestamp.now()
-    
+
     await getFirestore()
         .collection(Collection.USERS)
         .doc(userId)
