@@ -30,7 +30,6 @@ class ChallengeDetailsViewModel(
     }
 
     fun fetchChallengeDetails(id: String) = viewModelScope.launch {
-        println("DEBUG: get challenge by id $id")
         challengesService.getChallengeById(id).collectLatest { result ->
             when (result) {
                 is Resource.Error -> {
