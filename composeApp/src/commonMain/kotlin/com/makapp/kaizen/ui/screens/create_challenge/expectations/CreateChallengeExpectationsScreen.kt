@@ -1,4 +1,4 @@
-package com.makapp.kaizen.ui.screens.create_challenge.commitment
+package com.makapp.kaizen.ui.screens.create_challenge.expectations
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,53 +23,38 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.components.LimitedCharTextField
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
-import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
-import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun CreateChallengeCommitmentScreenRoot(
+fun CreateChallengeExpectationsScreenRoot(
     viewModel: CreateChallengeViewModel,
-    navigateUp: () -> Unit,
-    goHome: () -> Unit
+    goToCommitmentStep: () -> Unit,
+    navigateUp: () -> Boolean,
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
 
-    LaunchedEffect(null) {
-        viewModel.navigationEvents.collectLatest { event ->
-            when (event) {
-                CreateChallengeNavigationEvent.GoBackHome -> goHome()
-                else -> {}
-            }
-        }
-    }
-
-    CreateChallengeCommitmentScreen(
+    CreateChallengeExpectationsScreen(
         state = state,
         onAction = { action ->
             when (action) {
-                CreateChallengeCommitmentAction.OnNavigateUp -> {
-                    navigateUp()
-                }
-
-                else -> viewModel.onCommitmentAction(action)
+                CreateChallengeExpectationsAction.GoToCommitmentStep -> goToCommitmentStep()
+                CreateChallengeExpectationsAction.NavigateUp -> navigateUp()
+                else -> viewModel.onExpectationsAction(action)
             }
         }
     )
 }
 
 @Composable
-fun CreateChallengeCommitmentScreen(
+fun CreateChallengeExpectationsScreen(
     state: CreateChallengeFunnelState,
-    onAction: (CreateChallengeCommitmentAction) -> Unit
+    onAction: (CreateChallengeExpectationsAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
 
@@ -78,9 +62,9 @@ fun CreateChallengeCommitmentScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             BackTopAppBar(
-                title = "Commitment",
+                title = "Expectations",
                 onNavigateUp = {
-                    onAction(CreateChallengeCommitmentAction.OnNavigateUp)
+                    onAction(CreateChallengeExpectationsAction.NavigateUp)
                 },
                 backDescription = "Go back to account.",
             )
@@ -100,7 +84,7 @@ fun CreateChallengeCommitmentScreen(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Kaizen is a 365-day adventure \uD83C\uDF34 \nSet a realistic daily minimum - doable even on your worst days. \nTiny sparks ignite great fires! \uD83D\uDD25",
+                    text = "Kaizen is about growth, not just goals \uD83E\uDDD8\u200D♂\uFE0F Where do you want to be in 365 days? \nWrite it down - it’s your first step forward! \uD83D\uDE80",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -109,27 +93,25 @@ fun CreateChallengeCommitmentScreen(
 
             // Commitment Field.
             LimitedCharTextField(
-                onValueChange = { commitment ->
+                onValueChange = { expectations ->
                     onAction(
-                        CreateChallengeCommitmentAction.OnCommitmentInputValueChanged(
-                            commitment
-                        )
+                        CreateChallengeExpectationsAction.OnExpectationsValueChange(expectations)
                     )
                 },
-                value = state.commitmentInputValue,
-                maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_COMMITMENT_LENGTH,
+                value = state.expectationsInputValue,
+                maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_EXPECTATIONS_LENGTH,
                 textError = null,
                 shape = RoundedCornerShape(16.dp),
                 placeholder = {
-                    PlaceholderText("Example (reading): \"I must read at least one page.\"")
+                    PlaceholderText("Example (reading): \"I want to rediscover my love for reading and make it part of my daily life again.\"")
                 },
                 keyboardOptions = KeyboardOptions().copy(
-                    imeAction = ImeAction.Done,
+                    imeAction = ImeAction.Next,
                     capitalization = KeyboardCapitalization.Sentences
                 ),
                 keyboardActions = KeyboardActions(
-                    onDone = {
-                        onDone(keyboard, onAction)
+                    onNext = {
+                        goNext(keyboard, onAction)
                     }
                 ),
                 modifier = Modifier
@@ -138,21 +120,13 @@ fun CreateChallengeCommitmentScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            state.formSubmissionError?.let { message ->
-                FormErrorText(
-                    message,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-
             LoadingButton(
                 onClick = {
-                    onDone(keyboard, onAction)
+                    goNext(keyboard, onAction)
                 },
-                enabled = !state.isFormSubmissionLoading,
+                enabled = !state.isFormSubmissionLoading, // TODO
                 isLoading = state.isFormSubmissionLoading,
-                label = "Done",
+                label = "Next",
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -160,10 +134,10 @@ fun CreateChallengeCommitmentScreen(
     }
 }
 
-private fun onDone(
+private fun goNext(
     keyboard: SoftwareKeyboardController?,
-    onAction: (CreateChallengeCommitmentAction) -> Unit
+    onAction: (CreateChallengeExpectationsAction) -> Unit
 ) {
     keyboard?.hide()
-    onAction(CreateChallengeCommitmentAction.OnFormSubmit)
+    onAction(CreateChallengeExpectationsAction.GoToCommitmentStep)
 }

@@ -48,7 +48,8 @@ class ChallengesRepositoryImpl(
         val request = CreateChallengeRequest(
             name = form.name,
             maxFailures = form.numberOfErrors.toInt(),
-            commitment = form.commitment
+            commitment = form.commitment,
+            expectations = form.expectations
         )
 
         firebaseFunctions.createChallenge(request)

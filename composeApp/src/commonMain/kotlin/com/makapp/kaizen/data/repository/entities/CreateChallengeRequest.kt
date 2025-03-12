@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class CreateChallengeRequest(
     val name: String,
     val maxFailures: Int,
-    val commitment: String?
+    val commitment: String?,
+    val expectations: String?
 )

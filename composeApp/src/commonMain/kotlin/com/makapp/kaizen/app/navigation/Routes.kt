@@ -22,7 +22,10 @@ sealed class Route {
     data object CreateChallengeGraph : Route()
 
     @Serializable
-    data object CreateChallenge : Route()
+    data object CreateChallengeInfosStep : Route()
+
+    @Serializable
+    data object CreateChallengeExpectationsStep : Route()
 
     @Serializable
     data object CreateChallengeCommitmentStep : Route()

@@ -6,6 +6,7 @@ import com.makapp.kaizen.domain.models.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentAction
+import com.makapp.kaizen.ui.screens.create_challenge.expectations.CreateChallengeExpectationsAction
 import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosAction
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,6 +22,7 @@ class CreateChallengeViewModel(
 ) : ViewModel() {
     companion object {
         const val MAX_CHALLENGE_TITLE_LENGTH = 20
+        const val MAX_CHALLENGE_EXPECTATIONS_LENGTH = 150
         const val MAX_CHALLENGE_COMMITMENT_LENGTH = 150
         private const val MAX_CHALLENGE_ERRORS_LENGTH = 2
     }
@@ -74,12 +76,25 @@ class CreateChallengeViewModel(
         }
     }
 
+    fun onExpectationsAction(action: CreateChallengeExpectationsAction) {
+        when (action) {
+            is CreateChallengeExpectationsAction.OnExpectationsValueChange -> {
+                val expectations = action.expectations.take(MAX_CHALLENGE_EXPECTATIONS_LENGTH)
+                _createChallengeFunnelState.update {
+                    it.copy(expectationsInputValue = expectations)
+                }
+            }
+            else -> {}
+        }
+    }
+
     fun onCommitmentAction(action: CreateChallengeCommitmentAction) {
         when (action) {
             is CreateChallengeCommitmentAction.OnCommitmentInputValueChanged -> {
+                val commitment = action.commitment.take(MAX_CHALLENGE_COMMITMENT_LENGTH)
                 _createChallengeFunnelState.update {
                     it.copy(
-                        commitmentInputValue = action.commitment,
+                        commitmentInputValue = commitment,
                     )
                 }
             }
@@ -87,7 +102,8 @@ class CreateChallengeViewModel(
             val form = CreateChallengeForm(
                 name = _createChallengeFunnelState.value.challengeNameInputValue,
                 numberOfErrors = _createChallengeFunnelState.value.numberOfErrorsInputValue,
-                commitment = _createChallengeFunnelState.value.commitmentInputValue
+                commitment = _createChallengeFunnelState.value.commitmentInputValue,
+                expectations = _createChallengeFunnelState.value.expectationsInputValue
             )
 
             viewModelScope.launch {
@@ -118,7 +134,7 @@ class CreateChallengeViewModel(
                                     isFormSubmissionLoading = false
                                 )
                             }
-                            _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoHome)
+                            _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoBackHome)
                         }
                     }
                 }

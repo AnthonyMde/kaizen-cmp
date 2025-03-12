@@ -19,6 +19,7 @@ import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot
 import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosScreenRoot
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentScreenRoot
+import com.makapp.kaizen.ui.screens.create_challenge.expectations.CreateChallengeExpectationsScreenRoot
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
 import com.makapp.kaizen.ui.screens.login.AuthScreenRoot
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
@@ -78,7 +79,7 @@ fun App(userSession: UserSession? = null) {
                             }
                         },
                         goToCreateChallenge = {
-                            navController.navigate(Route.CreateChallenge)
+                            navController.navigate(Route.CreateChallengeInfosStep)
                         },
                         goToCreateUserAccount = {
                             navController.navigate(Route.OnboardingProfile) {
@@ -138,10 +139,10 @@ fun App(userSession: UserSession? = null) {
 
                 // CREATE CHALLENGE FUNNEL
                 navigation<Route.CreateChallengeGraph>(
-                    startDestination = Route.CreateChallenge,
+                    startDestination = Route.CreateChallengeInfosStep,
                 ) {
-                    // CREATE CHALLENGE
-                    composable<Route.CreateChallenge>(
+                    // CREATE CHALLENGE INFOS STEP
+                    composable<Route.CreateChallengeInfosStep>(
                         enterTransition = { defaultEnterTransition() },
                         popEnterTransition = { defaultPopEnterTransition() },
                         popExitTransition = { defaultPopExitTransition() }
@@ -152,13 +153,26 @@ fun App(userSession: UserSession? = null) {
                             navigateUp = {
                                 navController.navigateUp()
                             },
-                            goHome = {
-                                navController.navigate(Route.Home) {
-                                    popUpTo<Route.Home> { inclusive = true }
-                                }
-                            },
+                            goToExpectationsStep = {
+                                navController.navigate(Route.CreateChallengeExpectationsStep)
+                            }
+                        )
+                    }
+
+                    // CREATE CHALLENGE EXPECTATIONS STEP
+                    composable<Route.CreateChallengeExpectationsStep>(
+                        enterTransition = { defaultEnterTransition() },
+                        popEnterTransition = { defaultPopEnterTransition() },
+                        popExitTransition = { defaultPopExitTransition() }
+                    ) { backStackEntry ->
+                        val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
+                        CreateChallengeExpectationsScreenRoot(
+                            viewModel = viewModel,
                             goToCommitmentStep = {
                                 navController.navigate(Route.CreateChallengeCommitmentStep)
+                            },
+                            navigateUp = {
+                                navController.navigateUp()
                             }
                         )
                     }
@@ -171,6 +185,11 @@ fun App(userSession: UserSession? = null) {
                         val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
                         CreateChallengeCommitmentScreenRoot(
                             viewModel = viewModel,
+                            goHome = {
+                                navController.navigate(Route.Home) {
+                                    popUpTo<Route.Home> { inclusive = true }
+                                }
+                            },
                             navigateUp = {
                                 navController.navigateUp()
                             }

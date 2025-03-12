@@ -16,9 +16,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -26,34 +26,29 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.components.LimitedCharTextField
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.components.FormErrorText
-import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun CreateChallengeInfosScreenRoot(
     viewModel: CreateChallengeViewModel,
     navigateUp: () -> Unit,
-    goHome: () -> Unit,
-    goToCommitmentStep: () -> Unit
+    goToExpectationsStep: () -> Unit
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
-    val scope = rememberCoroutineScope()
 
-    scope.launch {
+    LaunchedEffect(null) {
         viewModel.navigationEvents.collectLatest { event ->
             when (event) {
-                CreateChallengeNavigationEvent.GoHome -> goHome()
-                CreateChallengeNavigationEvent.GoToCommitmentStep -> goToCommitmentStep()
+                CreateChallengeNavigationEvent.GoToCommitmentStep -> goToExpectationsStep()
+                else -> {}
             }
         }
     }
@@ -159,13 +154,6 @@ fun CreateChallengeInfos(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            state.formSubmissionError?.let { message ->
-                FormErrorText(
-                    message,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
             Button(
                 onClick = {
                     goNext(keyboard, onAction)
