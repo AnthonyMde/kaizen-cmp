@@ -19,6 +19,9 @@ sealed class Route {
     data object MyFriends : Route()
 
     @Serializable
+    data object CreateChallengeGraph : Route()
+
+    @Serializable
     data object CreateChallenge : Route()
 
     @Serializable

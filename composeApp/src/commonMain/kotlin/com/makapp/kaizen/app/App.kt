@@ -1,20 +1,21 @@
 package com.makapp.kaizen.app
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.makapp.kaizen.app.navigation.LocalNavController
 import com.makapp.kaizen.app.navigation.Route
+import com.makapp.kaizen.app.navigation.defaultEnterTransition
+import com.makapp.kaizen.app.navigation.defaultPopEnterTransition
+import com.makapp.kaizen.app.navigation.defaultPopExitTransition
 import com.makapp.kaizen.domain.models.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
-import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import com.makapp.kaizen.ui.screens.create_challenge.step2.CreateChallengeCommitmentScreen
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
 import com.makapp.kaizen.ui.screens.login.AuthScreenRoot
@@ -22,7 +23,6 @@ import com.makapp.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
 import com.makapp.kaizen.ui.screens.onboarding.OnboardingProfileScreenRoot
 import com.makapp.kaizen.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
@@ -53,12 +53,7 @@ fun App(userSession: UserSession? = null) {
 
                 // ONBOARDING
                 composable<Route.OnboardingProfile>(
-                    enterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Start,
-                            tween(300)
-                        )
-                    },
+                    enterTransition = { defaultEnterTransition() }
                 ) {
                     OnboardingProfileScreenRoot(
                         goToHomeScreen = {
@@ -70,7 +65,6 @@ fun App(userSession: UserSession? = null) {
                 }
 
                 // HOME
-
                 composable<Route.Home> {
                     HomeScreenRoot(
                         goToAccount = {
@@ -106,24 +100,9 @@ fun App(userSession: UserSession? = null) {
 
                 // ACCOUNT
                 composable<Route.Account>(
-                    enterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Start,
-                            tween(300)
-                        )
-                    },
-                    popEnterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.End,
-                            tween(300)
-                        )
-                    },
-                    popExitTransition = {
-                        slideOutOfContainer(
-                            AnimatedContentTransitionScope.SlideDirection.End,
-                            tween(300)
-                        )
-                    }
+                    enterTransition = { defaultEnterTransition() },
+                    popEnterTransition = { defaultPopEnterTransition() },
+                    popExitTransition = { defaultPopExitTransition() }
                 ) {
                     AccountScreenRoot(
                         popToLogin = {
@@ -138,25 +117,15 @@ fun App(userSession: UserSession? = null) {
                             navController.navigate(Route.MyFriends)
                         },
                         goToCreateChallenge = {
-                            navController.navigate(Route.CreateChallenge)
+                            navController.navigate(Route.CreateChallengeGraph)
                         }
                     )
                 }
 
                 // FRIENDS
                 composable<Route.MyFriends>(
-                    enterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Start,
-                            tween(300)
-                        )
-                    },
-                    popExitTransition = {
-                        slideOutOfContainer(
-                            AnimatedContentTransitionScope.SlideDirection.End,
-                            tween(300)
-                        )
-                    }
+                    enterTransition = { defaultEnterTransition() },
+                    popExitTransition = { defaultPopExitTransition() }
                 ) {
                     MyFriendsScreenRoot(
                         popToAccount = {
@@ -165,69 +134,44 @@ fun App(userSession: UserSession? = null) {
                     )
                 }
 
-                // CREATE CHALLENGE
-                composable<Route.CreateChallenge>(
-                    enterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Start,
-                            tween(300)
-                        )
-                    },
-                    popExitTransition = {
-                        slideOutOfContainer(
-                            AnimatedContentTransitionScope.SlideDirection.End,
-                            tween(300)
-                        )
-                    }
-                ) { backStackEntry ->
-                    koinViewModel<CreateChallengeViewModel>(viewModelStoreOwner = backStackEntry)
-                    CreateChallengeScreenRoot(
-                        navigateUp = {
-                            navController.navigateUp()
-                        },
-                        goHome = {
-                            navController.navigate(Route.Home) {
-                                popUpTo<Route.Home> { inclusive = true }
-                            }
-                        },
-                        goToCommitmentStep = {
-                            navController.navigate(Route.CreateChallengeCommitmentStep)
-                        }
-                    )
-                }
-
-                // CREATE CHALLENGE COMMITMENT STEP
-                composable<Route.CreateChallengeCommitmentStep>(
-                    enterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Start,
-                            tween(300)
-                        )
-                    },
-                    popExitTransition = {
-                        slideOutOfContainer(
-                            AnimatedContentTransitionScope.SlideDirection.End,
-                            tween(300)
-                        )
-                    }
+                // CREATE CHALLENGE FUNNEL
+                navigation<Route.CreateChallengeGraph>(
+                    startDestination = Route.CreateChallenge,
                 ) {
-                    CreateChallengeCommitmentScreen()
+                    // CREATE CHALLENGE
+                    composable<Route.CreateChallenge>(
+                        enterTransition = { defaultEnterTransition() },
+                        popEnterTransition = { defaultPopEnterTransition() },
+                        popExitTransition = { defaultPopExitTransition() }
+                    ) { backStackEntry ->
+                        CreateChallengeScreenRoot(
+                            navigateUp = {
+                                navController.navigateUp()
+                            },
+                            goHome = {
+                                navController.navigate(Route.Home) {
+                                    popUpTo<Route.Home> { inclusive = true }
+                                }
+                            },
+                            goToCommitmentStep = {
+                                navController.navigate(Route.CreateChallengeCommitmentStep)
+                            }
+                        )
+                    }
+
+                    // CREATE CHALLENGE COMMITMENT STEP
+                    composable<Route.CreateChallengeCommitmentStep>(
+                        enterTransition = { defaultEnterTransition() },
+                        popExitTransition = { defaultPopExitTransition() }
+                    ) {
+                        CreateChallengeCommitmentScreen()
+                    }
                 }
 
                 // CHALLENGE DETAILS
                 composable<Route.ChallengeDetails>(
-                    enterTransition = {
-                        slideIntoContainer(
-                            AnimatedContentTransitionScope.SlideDirection.Start,
-                            tween(300)
-                        )
-                    },
-                    popExitTransition = {
-                        slideOutOfContainer(
-                            AnimatedContentTransitionScope.SlideDirection.End,
-                            tween(300)
-                        )
-                    }
+                    enterTransition = { defaultEnterTransition() },
+                    popExitTransition = { defaultPopExitTransition() }
                 ) { backStackEntry ->
                     val title =
                         backStackEntry.arguments?.getString("title") ?: return@composable
