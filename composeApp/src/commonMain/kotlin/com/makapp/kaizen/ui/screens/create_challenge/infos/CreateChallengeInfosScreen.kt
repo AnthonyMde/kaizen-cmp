@@ -1,4 +1,4 @@
-package com.makapp.kaizen.ui.screens.create_challenge
+package com.makapp.kaizen.ui.screens.create_challenge.infos
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -21,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,14 +33,15 @@ import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
+import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
+import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
+import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CreateChallengeScreenRoot(
-    viewModel: CreateChallengeViewModel = koinInject(),
+fun CreateChallengeInfosScreenRoot(
+    viewModel: CreateChallengeViewModel,
     navigateUp: () -> Unit,
     goHome: () -> Unit,
     goToCommitmentStep: () -> Unit
@@ -50,26 +53,26 @@ fun CreateChallengeScreenRoot(
         viewModel.navigationEvents.collectLatest { event ->
             when (event) {
                 CreateChallengeNavigationEvent.GoHome -> goHome()
+                CreateChallengeNavigationEvent.GoToCommitmentStep -> goToCommitmentStep()
             }
         }
     }
 
-    CreateChallengeScreen(
+    CreateChallengeInfos(
         state = state,
         onAction = { action ->
             when (action) {
-                CreateChallengeAction.OnNavigateUp -> navigateUp()
-                CreateChallengeAction.GoToCommitmentStep -> goToCommitmentStep()
-                else -> viewModel.onAction(action)
+                CreateChallengeInfosAction.OnNavigateUp -> navigateUp()
+                else -> viewModel.onInfosAction(action)
             }
         }
     )
 }
 
 @Composable
-fun CreateChallengeScreen(
-    state: CreateChallengeScreenState,
-    onAction: (CreateChallengeAction) -> Unit
+fun CreateChallengeInfos(
+    state: CreateChallengeFunnelState,
+    onAction: (CreateChallengeInfosAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
 
@@ -77,9 +80,9 @@ fun CreateChallengeScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             BackTopAppBar(
-                title = "Create challenge",
+                title = "General infos",
                 onNavigateUp = {
-                    onAction(CreateChallengeAction.OnNavigateUp)
+                    onAction(CreateChallengeInfosAction.OnNavigateUp)
                 },
                 backDescription = "Go back to account.",
             )
@@ -96,7 +99,7 @@ fun CreateChallengeScreen(
             // Title field.
             LimitedCharTextField(
                 onValueChange = { name ->
-                    onAction(CreateChallengeAction.OnNameInputValueChanged(name))
+                    onAction(CreateChallengeInfosAction.OnNameInputValueChanged(name))
                 },
                 value = state.challengeNameInputValue,
                 maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_TITLE_LENGTH,
@@ -120,7 +123,11 @@ fun CreateChallengeScreen(
             // Number of errors field.
             OutlinedTextField(
                 onValueChange = { numberOfErrors ->
-                    onAction(CreateChallengeAction.OnNumberOfErrorsInputValueChanged(numberOfErrors))
+                    onAction(
+                        CreateChallengeInfosAction.OnNumberOfErrorsInputValueChanged(
+                            numberOfErrors
+                        )
+                    )
                 },
                 value = state.numberOfErrorsInputValue,
                 singleLine = true,
@@ -136,6 +143,11 @@ fun CreateChallengeScreen(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next
                 ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        goNext(keyboard, onAction)
+                    },
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -144,31 +156,6 @@ fun CreateChallengeScreen(
             }
 
             Spacer(modifier = Modifier.height(24.dp))
-
-            // Commitment Field.
-            LimitedCharTextField(
-                onValueChange = { commitment ->
-                    onAction(CreateChallengeAction.OnCommitmentInputValueChanged(commitment))
-                },
-                value = state.commitmentInputValue,
-                maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_COMMITMENT_LENGTH,
-                textError = null,
-                shape = RoundedCornerShape(16.dp),
-                placeholder = {
-                    PlaceholderText("Optional: Write here what you must do each day to mark your challenge as done.")
-                },
-                keyboardOptions = KeyboardOptions().copy(
-                    imeAction = ImeAction.Done,
-                    capitalization = KeyboardCapitalization.Sentences
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        onAction(CreateChallengeAction.OnCreateChallengeFormSubmit)
-                    }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -179,17 +166,24 @@ fun CreateChallengeScreen(
                     modifier = Modifier.padding(16.dp)
                 )
             }
-            LoadingButton(
+            Button(
                 onClick = {
-                    keyboard?.hide()
-                    onAction(CreateChallengeAction.GoToCommitmentStep)
+                    goNext(keyboard, onAction)
                 },
-                enabled = !state.isFormSubmissionLoading,
-                isLoading = state.isFormSubmissionLoading,
-                label = "Next",
+                enabled = state.challengeNameInputValue.isNotBlank() && state.numberOfErrorsInputValue.isNotBlank(),
                 modifier = Modifier
                     .fillMaxWidth()
-            )
+            ) {
+                Text("Next")
+            }
         }
     }
+}
+
+private fun goNext(
+    keyboard: SoftwareKeyboardController?,
+    onAction: (CreateChallengeInfosAction) -> Unit
+) {
+    keyboard?.hide()
+    onAction(CreateChallengeInfosAction.GoToCommitmentStep)
 }

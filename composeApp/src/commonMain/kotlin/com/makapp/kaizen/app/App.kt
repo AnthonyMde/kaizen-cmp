@@ -11,12 +11,14 @@ import com.makapp.kaizen.app.navigation.Route
 import com.makapp.kaizen.app.navigation.defaultEnterTransition
 import com.makapp.kaizen.app.navigation.defaultPopEnterTransition
 import com.makapp.kaizen.app.navigation.defaultPopExitTransition
+import com.makapp.kaizen.app.navigation.sharedViewModel
 import com.makapp.kaizen.domain.models.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot
-import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeScreenRoot
-import com.makapp.kaizen.ui.screens.create_challenge.step2.CreateChallengeCommitmentScreen
+import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosScreenRoot
+import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
+import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentScreenRoot
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
 import com.makapp.kaizen.ui.screens.login.AuthScreenRoot
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
@@ -144,7 +146,9 @@ fun App(userSession: UserSession? = null) {
                         popEnterTransition = { defaultPopEnterTransition() },
                         popExitTransition = { defaultPopExitTransition() }
                     ) { backStackEntry ->
-                        CreateChallengeScreenRoot(
+                        val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
+                        CreateChallengeInfosScreenRoot(
+                            viewModel = viewModel,
                             navigateUp = {
                                 navController.navigateUp()
                             },
@@ -163,8 +167,14 @@ fun App(userSession: UserSession? = null) {
                     composable<Route.CreateChallengeCommitmentStep>(
                         enterTransition = { defaultEnterTransition() },
                         popExitTransition = { defaultPopExitTransition() }
-                    ) {
-                        CreateChallengeCommitmentScreen()
+                    ) { backStackEntry ->
+                        val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
+                        CreateChallengeCommitmentScreenRoot(
+                            viewModel = viewModel,
+                            navigateUp = {
+                                navController.navigateUp()
+                            }
+                        )
                     }
                 }
 

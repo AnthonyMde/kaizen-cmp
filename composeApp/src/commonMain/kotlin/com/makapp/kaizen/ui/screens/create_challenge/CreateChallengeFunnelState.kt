@@ -1,6 +1,6 @@
 package com.makapp.kaizen.ui.screens.create_challenge
 
-data class CreateChallengeScreenState(
+data class CreateChallengeFunnelState(
     val challengeNameInputValue: String = "",
     val numberOfErrorsInputValue: String = "",
     val commitmentInputValue: String = "",
