@@ -114,9 +114,9 @@ fun ChallengeDetailsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     ChallengeDetailsClickableTextBoxView(
-                        title = "Minimum commitment",
+                        title = "Minimum commitment \uD83D\uDD25",
                         text = state.challenge.commitment,
-                        emptyViewTitle = "Minimum commitment",
+                        emptyViewTitle = "Minimum commitment \uD83D\uDD25",
                         emptyViewText = "Specify your minimum daily commitment here.",
                         onClick = {
                             // TODO
@@ -126,9 +126,9 @@ fun ChallengeDetailsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     ChallengeDetailsClickableTextBoxView(
-                        title = "My expectations",
+                        title = "My expectations \uD83E\uDDD8\u200D♂\uFE0F",
                         text = state.challenge.expectations,
-                        emptyViewTitle = "My expectations",
+                        emptyViewTitle = "My expectations \uD83E\uDDD8\u200D♂\uFE0F",
                         emptyViewText = "Specify what do you expect from this 365-days challenge.",
                         onClick = {
                             // TODO
