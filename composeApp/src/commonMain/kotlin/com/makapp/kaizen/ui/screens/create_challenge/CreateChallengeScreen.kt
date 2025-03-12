@@ -33,13 +33,15 @@ import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CreateChallengeScreenRoot(
-    viewModel: CreateChallengeViewModel = koinViewModel(),
+    viewModel: CreateChallengeViewModel = koinInject(),
     navigateUp: () -> Unit,
-    goHome: () -> Unit
+    goHome: () -> Unit,
+    goToCommitmentStep: () -> Unit
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
     val scope = rememberCoroutineScope()
@@ -57,6 +59,7 @@ fun CreateChallengeScreenRoot(
         onAction = { action ->
             when (action) {
                 CreateChallengeAction.OnNavigateUp -> navigateUp()
+                CreateChallengeAction.GoToCommitmentStep -> goToCommitmentStep()
                 else -> viewModel.onAction(action)
             }
         }
@@ -179,11 +182,11 @@ fun CreateChallengeScreen(
             LoadingButton(
                 onClick = {
                     keyboard?.hide()
-                    onAction(CreateChallengeAction.OnCreateChallengeFormSubmit)
+                    onAction(CreateChallengeAction.GoToCommitmentStep)
                 },
                 enabled = !state.isFormSubmissionLoading,
                 isLoading = state.isFormSubmissionLoading,
-                label = "Create",
+                label = "Next",
                 modifier = Modifier
                     .fillMaxWidth()
             )

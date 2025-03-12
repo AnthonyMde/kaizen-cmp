@@ -8,4 +8,5 @@ sealed class CreateChallengeAction {
     data object OnCreateChallengeFormSubmit : CreateChallengeAction()
 
     data object OnNavigateUp : CreateChallengeAction()
+    data object GoToCommitmentStep : CreateChallengeAction()
 }
