@@ -1,6 +1,7 @@
 package com.makapp.kaizen.ui.screens.challenge_details.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,29 +18,38 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ChallengeDetailsCommitmentView(
-    commitmentText: String?
+fun ChallengeDetailsClickableTextBoxView(
+    title: String,
+    text: String?,
+    emptyViewTitle: String,
+    emptyViewText: String,
+    onClick: () -> Unit
 ) {
-    if (commitmentText == null) {
-        ChallengeDetailsEmptyCommitmentView()
+    if (text == null) {
+        ChallengeDetailsEmptyClickableTextBoxView(
+            emptyViewTitle,
+            emptyViewText,
+            onClick
+        )
     } else {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
+                .clickable { onClick() }
                 .background(color = MaterialTheme.colorScheme.surfaceVariant)
                 .padding(horizontal = 24.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Minimum commitment",
+                text = title,
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center
             )
             Text(
-                text = commitmentText,
+                text = text,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontFamily = FontFamily.SansSerif
                 ),

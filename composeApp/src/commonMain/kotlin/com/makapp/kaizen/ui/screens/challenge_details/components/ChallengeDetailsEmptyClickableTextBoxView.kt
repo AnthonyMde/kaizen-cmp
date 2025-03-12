@@ -18,27 +18,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ChallengeDetailsEmptyCommitmentView() {
+fun ChallengeDetailsEmptyClickableTextBoxView(
+    emptyViewTitle: String,
+    emptyViewText: String,
+    onClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(color = MaterialTheme.colorScheme.surfaceVariant)
             .clickable {
-                // TODO
+                onClick()
             }
             .padding(horizontal = 24.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Minimum commitment",
+            text = emptyViewTitle,
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center
         )
         Text(
-            text = "Specify your minimum daily commitment here.",
+            text = emptyViewText,
             style = MaterialTheme.typography.bodyMedium.copy(
                 fontFamily = FontFamily.SansSerif
             ),

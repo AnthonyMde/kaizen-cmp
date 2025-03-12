@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsCommitmentView
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsClickableTextBoxView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import org.koin.compose.viewmodel.koinViewModel
@@ -113,8 +113,26 @@ fun ChallengeDetailsScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    ChallengeDetailsCommitmentView(
-                        commitmentText = state.challenge.commitment
+                    ChallengeDetailsClickableTextBoxView(
+                        title = "Minimum commitment",
+                        text = state.challenge.commitment,
+                        emptyViewTitle = "Minimum commitment",
+                        emptyViewText = "Specify your minimum daily commitment here.",
+                        onClick = {
+                            // TODO
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    ChallengeDetailsClickableTextBoxView(
+                        title = "My expectations",
+                        text = state.challenge.expectations,
+                        emptyViewTitle = "My expectations",
+                        emptyViewText = "Specify what do you expect from this 365-days challenge.",
+                        onClick = {
+                            // TODO
+                        }
                     )
                 }
             }

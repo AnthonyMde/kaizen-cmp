@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -27,6 +28,7 @@ fun LimitedCharTextField(
     onValueChange: (String) -> Unit,
     maxCharAllowed: Int,
     textError: String?,
+    textColor: Color = MaterialTheme.colorScheme.onSurface,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -94,6 +96,7 @@ fun LimitedCharTextField(
             Text(
                 "${value.length}/$maxCharAllowed",
                 style = MaterialTheme.typography.labelMedium,
+                color = textColor,
                 modifier = Modifier
                     .padding(end = 8.dp)
             )
