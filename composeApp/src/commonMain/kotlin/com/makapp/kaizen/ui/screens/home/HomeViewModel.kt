@@ -120,7 +120,11 @@ class HomeViewModel(
                 is Resource.Success -> {
                     _homeScreenState.update {
                         it.copy(
-                            currentChallenger = result.data,
+                            currentChallenger = result.data?.copy(
+                                challenges = result.data.challenges.filter { challenge ->
+                                    !challenge.isFailed()
+                                }
+                            ),
                             currentChallengerError = null,
                             isCurrentChallengerLoading = false
                         )
