@@ -3,6 +3,7 @@ package com.makapp.kaizen.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makapp.kaizen.domain.exceptions.DomainException
+import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.domain.models.Friend
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
@@ -152,7 +153,9 @@ class HomeViewModel(
                 is Resource.Success -> {
                     _homeScreenState.update {
                         it.copy(
-                            friends = orderFriends(result.data),
+                            friends = orderFriends(result.data).map { friend ->
+                                friend.copy(challenges = orderChallenges(friend.challenges))
+                            },
                             friendsError = null,
                         )
                     }
@@ -175,8 +178,15 @@ class HomeViewModel(
         if (friends == null) return emptyList()
 
         return friends.sortedBy { friend ->
-            val done = friend.challenges.count { it.isDoneForToday || it.isPaused() || it.isFailed() }.toDouble()
+            val done =
+                friend.challenges.count { it.isDoneForToday || it.isPaused() || it.isFailed() }
+                    .toDouble()
             done / friend.challenges.size
         }
     }
+
+    private fun orderChallenges(challenges: List<Challenge>): List<Challenge> =
+        challenges.sortedBy {
+            it.isDoneForToday
+        }
 }
