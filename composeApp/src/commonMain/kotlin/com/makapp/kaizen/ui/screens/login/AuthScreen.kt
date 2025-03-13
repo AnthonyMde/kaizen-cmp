@@ -2,9 +2,12 @@ package com.makapp.kaizen.ui.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,8 +15,10 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,6 +30,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -74,94 +81,106 @@ fun AuthScreen(
     modifier: Modifier = Modifier
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
+    val focus = LocalFocusManager.current
+    val scroll = rememberScrollState()
 
-    Column(
-        modifier = modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
-            .imePadding(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-
+            .pointerInput(null) {
+                detectTapGestures(
+                    onTap = { focus.clearFocus() }
+                )
+            }
+            .imePadding()
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxHeight()
+                .verticalScroll(scroll)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-        Image(
-            painter = painterResource(Res.drawable.landscape_icon),
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
-            modifier = Modifier.size(64.dp)
-        )
-        Text(
-            text = "Welcome to Kaizen",
-            style = MaterialTheme.typography.headlineMedium,
-        )
+            Image(
+                painter = painterResource(Res.drawable.landscape_icon),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
+                modifier = Modifier.size(64.dp)
+            )
+            Text(
+                text = "Welcome to Kaizen",
+                style = MaterialTheme.typography.headlineMedium,
+            )
 
-        Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-        OutlinedTextField(
-            value = state.emailInputValue,
-            onValueChange = { text ->
-                onAction(AuthAction.OnEmailInputTextChanged(text))
-            },
-            label = { Text("Email") },
-            placeholder = { PlaceholderText("kaizen@challenge.com") },
-            singleLine = true,
-            isError = state.emailInputError != null,
-            keyboardOptions = KeyboardOptions().copy(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next
-            ),
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+            OutlinedTextField(
+                value = state.emailInputValue,
+                onValueChange = { text ->
+                    onAction(AuthAction.OnEmailInputTextChanged(text))
+                },
+                label = { Text("Email") },
+                placeholder = { PlaceholderText("kaizen@challenge.com") },
+                singleLine = true,
+                isError = state.emailInputError != null,
+                keyboardOptions = KeyboardOptions().copy(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
 
-        Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
-        state.emailInputError?.let {
-            FormErrorText(it)
+            state.emailInputError?.let {
+                FormErrorText(it)
+            }
+
+            PasswordTextField(
+                value = state.passwordInputValue,
+                onValueChange = { text ->
+                    onAction(AuthAction.OnPasswordInputTextChanged(text))
+                },
+                onDone = {
+                    keyboard?.hide()
+                    onAction(
+                        AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
+                    )
+                },
+                label = { Text("Password") },
+                placeholder = { PlaceholderText("Strong password") },
+                singleLine = true,
+                isError = state.passwordInputError != null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            state.passwordInputError?.let {
+                FormErrorText(it)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            LoadingButton(
+                onClick = {
+                    keyboard?.hide()
+                    onAction(
+                        AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
+                    )
+                },
+                enabled = !state.onSubmitLoading,
+                isLoading = state.onSubmitLoading,
+                label = "Access Kaizen",
+                shrinkToText = true
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
         }
-
-        PasswordTextField(
-            value = state.passwordInputValue,
-            onValueChange = { text ->
-                onAction(AuthAction.OnPasswordInputTextChanged(text))
-            },
-            onDone = {
-                keyboard?.hide()
-                onAction(
-                    AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
-                )
-            },
-            label = { Text("Password") },
-            placeholder = { PlaceholderText("Strong password") },
-            singleLine = true,
-            isError = state.passwordInputError != null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp)
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        state.passwordInputError?.let {
-            FormErrorText(it)
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LoadingButton(
-            onClick = {
-                keyboard?.hide()
-                onAction(
-                    AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
-                )
-            },
-            enabled = !state.onSubmitLoading,
-            isLoading = state.onSubmitLoading,
-            label = "Access Kaizen",
-            shrinkToText = true
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
     }
 }
