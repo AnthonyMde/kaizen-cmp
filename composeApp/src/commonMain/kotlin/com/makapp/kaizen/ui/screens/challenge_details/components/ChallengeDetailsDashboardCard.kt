@@ -82,7 +82,7 @@ fun ChallengeDetailsDashboardCard(
                         .size(28.dp)
                 )
                 Text(
-                    "${challenge.failureCount}/${challenge.maxAuthorizedFailures}",
+                    "${challenge.maxAuthorizedFailures - challenge.failureCount}/${challenge.maxAuthorizedFailures}",
                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                 )
             }

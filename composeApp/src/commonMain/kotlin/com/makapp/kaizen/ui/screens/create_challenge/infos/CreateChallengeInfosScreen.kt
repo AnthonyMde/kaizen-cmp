@@ -128,10 +128,13 @@ fun CreateChallengeInfos(
                 singleLine = true,
                 shape = RoundedCornerShape(16.dp),
                 label = {
-                    Text("Number of errors")
+                    Text("Number of lives")
                 },
                 placeholder = {
                     PlaceholderText("10")
+                },
+                supportingText = {
+                    Text("How many times you can fail this challenge.")
                 },
                 isError = state.numberOfErrorsInputError != null,
                 keyboardOptions = KeyboardOptions().copy(
