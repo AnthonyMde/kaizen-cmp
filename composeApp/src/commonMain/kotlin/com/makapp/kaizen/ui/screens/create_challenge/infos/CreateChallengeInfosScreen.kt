@@ -47,7 +47,7 @@ fun CreateChallengeInfosScreenRoot(
     LaunchedEffect(null) {
         viewModel.navigationEvents.collectLatest { event ->
             when (event) {
-                CreateChallengeNavigationEvent.GoToCommitmentStep -> goToExpectationsStep()
+                CreateChallengeNavigationEvent.GoToExpectationsStep -> goToExpectationsStep()
                 else -> {}
             }
         }

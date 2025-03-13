@@ -40,7 +40,8 @@ import kotlinx.coroutines.flow.collectLatest
 fun CreateChallengeCommitmentScreenRoot(
     viewModel: CreateChallengeViewModel,
     navigateUp: () -> Unit,
-    goHome: () -> Unit
+    goHome: () -> Unit,
+    navArgs: ChallengeCommitmentNavArgs
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
 
@@ -55,6 +56,7 @@ fun CreateChallengeCommitmentScreenRoot(
 
     CreateChallengeCommitmentScreen(
         state = state,
+        editing = navArgs.editing,
         onAction = { action ->
             when (action) {
                 CreateChallengeCommitmentAction.OnNavigateUp -> {
@@ -70,7 +72,8 @@ fun CreateChallengeCommitmentScreenRoot(
 @Composable
 fun CreateChallengeCommitmentScreen(
     state: CreateChallengeFunnelState,
-    onAction: (CreateChallengeCommitmentAction) -> Unit
+    onAction: (CreateChallengeCommitmentAction) -> Unit,
+    editing: Boolean
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
 

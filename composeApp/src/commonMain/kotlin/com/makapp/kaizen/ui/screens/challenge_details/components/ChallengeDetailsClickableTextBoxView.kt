@@ -23,12 +23,14 @@ fun ChallengeDetailsClickableTextBoxView(
     text: String?,
     emptyViewTitle: String,
     emptyViewText: String,
+    readOnly: Boolean,
     onClick: () -> Unit
 ) {
     if (text == null) {
         ChallengeDetailsEmptyClickableTextBoxView(
             emptyViewTitle,
             emptyViewText,
+            readOnly,
             onClick
         )
     } else {
@@ -36,7 +38,13 @@ fun ChallengeDetailsClickableTextBoxView(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
-                .clickable { onClick() }
+                .then(
+                    if (!readOnly)
+                        Modifier.clickable {
+                            onClick()
+                        }
+                    else Modifier
+                )
                 .background(color = MaterialTheme.colorScheme.surfaceVariant)
                 .padding(horizontal = 24.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,

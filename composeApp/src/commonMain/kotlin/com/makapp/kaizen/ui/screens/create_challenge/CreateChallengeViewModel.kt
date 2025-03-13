@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makapp.kaizen.domain.models.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.models.UpdateChallengeFields
+import com.makapp.kaizen.domain.repository.ChallengesRepository
 import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentAction
 import com.makapp.kaizen.ui.screens.create_challenge.expectations.CreateChallengeExpectationsAction
@@ -18,7 +20,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CreateChallengeViewModel(
-    private val challengesService: ChallengesService
+    private val challengesService: ChallengesService,
+    private val challengesRepository: ChallengesRepository
 ) : ViewModel() {
     companion object {
         const val MAX_CHALLENGE_TITLE_LENGTH = 20
@@ -69,7 +72,7 @@ class CreateChallengeViewModel(
                 if (!requiredFields(name, numberOfErrors)) {
                     return
                 }
-                _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoToCommitmentStep)
+                _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoToExpectationsStep)
             }
 
             else -> {}
@@ -84,6 +87,46 @@ class CreateChallengeViewModel(
                     it.copy(expectationsInputValue = expectations)
                 }
             }
+
+            is CreateChallengeExpectationsAction.UpdateExpectations -> {
+                viewModelScope.launch {
+                    challengesRepository.update(
+                        id = action.challengeId,
+                        fields = UpdateChallengeFields(expectations = action.expectations)
+                    ).collectLatest { result ->
+                        when (result) {
+                            is Resource.Error -> {
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isExpectationUpdateLoading = false,
+                                        expectationUpdateError = result.throwable?.message
+                                    )
+                                }
+                            }
+
+                            is Resource.Loading -> {
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isExpectationUpdateLoading = true,
+                                        expectationUpdateError = null
+                                    )
+                                }
+                            }
+
+                            is Resource.Success -> {
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isExpectationUpdateLoading = false,
+                                        expectationUpdateError = null
+                                    )
+                                }
+                                _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoBackHome)
+                            }
+                        }
+                    }
+                }
+            }
+
             else -> {}
         }
     }
@@ -98,48 +141,50 @@ class CreateChallengeViewModel(
                     )
                 }
             }
+
             CreateChallengeCommitmentAction.OnFormSubmit -> {
-            val form = CreateChallengeForm(
-                name = _createChallengeFunnelState.value.challengeNameInputValue,
-                numberOfErrors = _createChallengeFunnelState.value.numberOfErrorsInputValue,
-                commitment = _createChallengeFunnelState.value.commitmentInputValue,
-                expectations = _createChallengeFunnelState.value.expectationsInputValue
-            )
+                val form = CreateChallengeForm(
+                    name = _createChallengeFunnelState.value.challengeNameInputValue,
+                    numberOfErrors = _createChallengeFunnelState.value.numberOfErrorsInputValue,
+                    commitment = _createChallengeFunnelState.value.commitmentInputValue,
+                    expectations = _createChallengeFunnelState.value.expectationsInputValue
+                )
 
-            viewModelScope.launch {
-                challengesService.create(form).collectLatest { result ->
-                    when (result) {
-                        is Resource.Error -> {
-                            _createChallengeFunnelState.update {
-                                it.copy(
-                                    isFormSubmissionLoading = false,
-                                    formSubmissionError = result.throwable?.message
-                                        ?: "An unknown error has occurred",
-                                )
+                viewModelScope.launch {
+                    challengesService.create(form).collectLatest { result ->
+                        when (result) {
+                            is Resource.Error -> {
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isFormSubmissionLoading = false,
+                                        formSubmissionError = result.throwable?.message
+                                            ?: "An unknown error has occurred",
+                                    )
+                                }
                             }
-                        }
 
-                        is Resource.Loading -> {
-                            _createChallengeFunnelState.update {
-                                it.copy(
-                                    isFormSubmissionLoading = true,
-                                    formSubmissionError = null
-                                )
+                            is Resource.Loading -> {
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isFormSubmissionLoading = true,
+                                        formSubmissionError = null
+                                    )
+                                }
                             }
-                        }
 
-                        is Resource.Success -> {
-                            _createChallengeFunnelState.update {
-                                it.copy(
-                                    isFormSubmissionLoading = false
-                                )
+                            is Resource.Success -> {
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isFormSubmissionLoading = false
+                                    )
+                                }
+                                _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoBackHome)
                             }
-                            _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoBackHome)
                         }
                     }
                 }
             }
-        }
+
             else -> {}
         }
     }

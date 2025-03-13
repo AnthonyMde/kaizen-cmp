@@ -33,7 +33,8 @@ import org.koin.compose.koinInject
 
 @Composable
 fun ChallengeDetailsDashboardCard(
-    challenge: Challenge
+    challenge: Challenge,
+    readOnly: Boolean
 ) {
     val viewModel = koinInject<ChallengeDetailsViewModel>()
 
@@ -91,6 +92,7 @@ fun ChallengeDetailsDashboardCard(
 
         Button(
             onClick = {},
+            enabled = !readOnly,
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = MaterialTheme.colorScheme.tertiary,
                 contentColor = MaterialTheme.colorScheme.onTertiary
@@ -98,12 +100,14 @@ fun ChallengeDetailsDashboardCard(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Row {
-                Spacer(modifier = Modifier.width(8.dp))
+                if (!readOnly) Spacer(modifier = Modifier.width(8.dp))
                 Text(text = viewModel.getChallengeStatusText(challenge.status))
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = "Change challenge's status.",
-                )
+                if (!readOnly) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Change challenge's status.",
+                    )
+                }
             }
         }
     }

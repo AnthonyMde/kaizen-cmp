@@ -16,10 +16,12 @@ import com.makapp.kaizen.domain.models.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot
-import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosScreenRoot
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
+import com.makapp.kaizen.ui.screens.create_challenge.commitment.ChallengeCommitmentNavArgs
 import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentScreenRoot
+import com.makapp.kaizen.ui.screens.create_challenge.expectations.ChallengeExpectationsNavArgs
 import com.makapp.kaizen.ui.screens.create_challenge.expectations.CreateChallengeExpectationsScreenRoot
+import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosScreenRoot
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
 import com.makapp.kaizen.ui.screens.login.AuthScreenRoot
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
@@ -94,7 +96,8 @@ fun App(userSession: UserSession? = null) {
                                 Route.ChallengeDetails(
                                     args.id,
                                     args.title,
-                                    args.isDone
+                                    args.isDone,
+                                    args.readOnly
                                 )
                             )
                         }
@@ -154,7 +157,11 @@ fun App(userSession: UserSession? = null) {
                                 navController.navigateUp()
                             },
                             goToExpectationsStep = {
-                                navController.navigate(Route.CreateChallengeExpectationsStep)
+                                navController.navigate(Route.CreateChallengeExpectationsStep(
+                                    editing = false,
+                                    expectations = null,
+                                    challengeId = null
+                                ))
                             }
                         )
                     }
@@ -165,15 +172,26 @@ fun App(userSession: UserSession? = null) {
                         popEnterTransition = { defaultPopEnterTransition() },
                         popExitTransition = { defaultPopExitTransition() }
                     ) { backStackEntry ->
+                        val editing = backStackEntry.arguments?.getBoolean("editing") ?: false
+                        val challengeId = backStackEntry.arguments?.getString("challengeId")
+                        val expectations = backStackEntry.arguments?.getString("expectations")
                         val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
                         CreateChallengeExpectationsScreenRoot(
                             viewModel = viewModel,
                             goToCommitmentStep = {
-                                navController.navigate(Route.CreateChallengeCommitmentStep)
+                                navController.navigate(Route.CreateChallengeCommitmentStep(
+                                    editing = false,
+                                    challengeId = null
+                                ))
                             },
                             navigateUp = {
                                 navController.navigateUp()
-                            }
+                            },
+                            navArgs = ChallengeExpectationsNavArgs(
+                                editing = editing,
+                                expectations = expectations,
+                                challengeId = challengeId
+                            )
                         )
                     }
 
@@ -182,6 +200,8 @@ fun App(userSession: UserSession? = null) {
                         enterTransition = { defaultEnterTransition() },
                         popExitTransition = { defaultPopExitTransition() }
                     ) { backStackEntry ->
+                        val editing = backStackEntry.arguments?.getBoolean("editing") ?: false
+                        val challengeId = backStackEntry.arguments?.getString("challengeId")
                         val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
                         CreateChallengeCommitmentScreenRoot(
                             viewModel = viewModel,
@@ -192,7 +212,11 @@ fun App(userSession: UserSession? = null) {
                             },
                             navigateUp = {
                                 navController.navigateUp()
-                            }
+                            },
+                            navArgs = ChallengeCommitmentNavArgs(
+                                editing = editing,
+                                challengeId = challengeId
+                            )
                         )
                     }
                 }
@@ -200,6 +224,7 @@ fun App(userSession: UserSession? = null) {
                 // CHALLENGE DETAILS
                 composable<Route.ChallengeDetails>(
                     enterTransition = { defaultEnterTransition() },
+                    popEnterTransition = { defaultPopEnterTransition() },
                     popExitTransition = { defaultPopExitTransition() }
                 ) { backStackEntry ->
                     val title =
@@ -207,16 +232,31 @@ fun App(userSession: UserSession? = null) {
                     val id = backStackEntry.arguments?.getString("id") ?: return@composable
                     val isDone =
                         backStackEntry.arguments?.getBoolean("isDone") ?: return@composable
+                    val readOnly = backStackEntry.arguments?.getBoolean("readOnly") ?: return@composable
 
                     ChallengeDetailsScreenRoot(
-                        navigateUp = {
-                            navController.popBackStack()
-                        },
                         navArgs = ChallengeDetailsNavArgs(
                             id,
                             title,
-                            isDone
-                        )
+                            isDone,
+                            readOnly
+                        ),
+                        navigateUp = {
+                            navController.popBackStack()
+                        },
+                        goToChallengeExpectations = { expectations ->
+                            navController.navigate(Route.CreateChallengeExpectationsStep(
+                                editing = true,
+                                expectations = expectations,
+                                challengeId = id
+                            ))
+                        },
+                        goToChallengeCommitment = {
+                            navController.navigate(Route.CreateChallengeCommitmentStep(
+                                editing = true,
+                                challengeId = id
+                            ))
+                        }
                     )
                 }
             }

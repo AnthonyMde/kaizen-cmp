@@ -16,6 +16,7 @@ fun ChallengeDetailsPreview() {
             id = "1",
             title = "Écriture",
             isDone = true,
+            readOnly = true
         ),
         state = ChallengeDetailsState(
             isDetailsLoading = false,

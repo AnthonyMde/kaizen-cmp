@@ -30,8 +30,10 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ChallengeDetailsScreenRoot(
     viewModel: ChallengeDetailsViewModel = koinViewModel(),
+    navArgs: ChallengeDetailsNavArgs,
     navigateUp: () -> Unit,
-    navArgs: ChallengeDetailsNavArgs
+    goToChallengeExpectations: (String) -> Unit,
+    goToChallengeCommitment: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -45,7 +47,10 @@ fun ChallengeDetailsScreenRoot(
         onAction = { action ->
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
-                else -> viewModel.onAction(action)
+                is ChallengeDetailsAction.GoToChallengeExpectations ->
+                    goToChallengeExpectations(action.expectations)
+
+                ChallengeDetailsAction.GoToChallengeCommitment -> goToChallengeCommitment()
             }
         }
     )
@@ -64,16 +69,18 @@ fun ChallengeDetailsScreen(
                 onNavigateUp = { onAction(ChallengeDetailsAction.OnNavigateUp) },
                 backDescription = "Go back",
                 actions = {
-                    IconButton(
-                        onClick = { },
-                        content = {
-                            Icon(
-                                imageVector = Icons.Default.MoreVert,
-                                contentDescription = "Challenge settings",
-                                tint = MaterialTheme.colorScheme.secondary
-                            )
-                        }
-                    )
+                    if (!navArgs.readOnly) {
+                        IconButton(
+                            onClick = { },
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Default.MoreVert,
+                                    contentDescription = "Challenge settings",
+                                    tint = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+                        )
+                    }
                 }
             )
         },
@@ -108,7 +115,8 @@ fun ChallengeDetailsScreen(
                     val challenge = state.challenge
 
                     ChallengeDetailsDashboardCard(
-                        challenge = challenge
+                        challenge = challenge,
+                        readOnly = navArgs.readOnly
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -118,6 +126,7 @@ fun ChallengeDetailsScreen(
                         text = state.challenge.commitment,
                         emptyViewTitle = "Minimum commitment \uD83D\uDD25",
                         emptyViewText = "Specify your minimum daily commitment here.",
+                        readOnly = navArgs.readOnly,
                         onClick = {
                             // TODO
                         }
@@ -130,8 +139,13 @@ fun ChallengeDetailsScreen(
                         text = state.challenge.expectations,
                         emptyViewTitle = "My expectations \uD83E\uDDD8\u200D♂\uFE0F",
                         emptyViewText = "Specify what do you expect from this 365-days challenge.",
+                        readOnly = navArgs.readOnly,
                         onClick = {
-                            // TODO
+                            onAction(
+                                ChallengeDetailsAction.GoToChallengeExpectations(
+                                    expectations = state.challenge.expectations ?: ""
+                                )
+                            )
                         }
                     )
                 }

@@ -70,7 +70,8 @@ fun FriendWithChallengesView(
                                 navArgs = ChallengeDetailsNavArgs(
                                     challenge.id,
                                     challenge.name,
-                                    challenge.isDoneForToday
+                                    challenge.isDoneForToday,
+                                    readOnly = true
                                 )
                             )
                         )

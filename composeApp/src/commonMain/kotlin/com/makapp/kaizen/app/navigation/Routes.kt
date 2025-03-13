@@ -25,11 +25,21 @@ sealed class Route {
     data object CreateChallengeInfosStep : Route()
 
     @Serializable
-    data object CreateChallengeExpectationsStep : Route()
+    data class CreateChallengeExpectationsStep(
+        val editing: Boolean,
+        val expectations: String?,
+        val challengeId: String?
+    ) : Route()
 
     @Serializable
-    data object CreateChallengeCommitmentStep : Route()
+    data class CreateChallengeCommitmentStep(val editing: Boolean, val challengeId: String?) :
+        Route()
 
     @Serializable
-    data class ChallengeDetails(val id: String, val title: String, val isDone: Boolean) : Route()
+    data class ChallengeDetails(
+        val id: String,
+        val title: String,
+        val isDone: Boolean,
+        val readOnly: Boolean
+    ) : Route()
 }

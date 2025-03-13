@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 fun ChallengeDetailsEmptyClickableTextBoxView(
     emptyViewTitle: String,
     emptyViewText: String,
+    readOnly: Boolean,
     onClick: () -> Unit
 ) {
     Column(
@@ -28,9 +29,13 @@ fun ChallengeDetailsEmptyClickableTextBoxView(
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(color = MaterialTheme.colorScheme.surfaceVariant)
-            .clickable {
-                onClick()
-            }
+            .then(
+                if (!readOnly)
+                    Modifier.clickable {
+                        onClick()
+                    }
+                else Modifier
+            )
             .padding(horizontal = 24.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)

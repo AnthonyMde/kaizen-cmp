@@ -14,8 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,24 +25,50 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.components.LimitedCharTextField
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
+import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun CreateChallengeExpectationsScreenRoot(
     viewModel: CreateChallengeViewModel,
     goToCommitmentStep: () -> Unit,
     navigateUp: () -> Boolean,
+    navArgs: ChallengeExpectationsNavArgs,
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(null) {
+        scope.launch {
+            viewModel.navigationEvents.collectLatest { event ->
+                when (event) {
+                    CreateChallengeNavigationEvent.GoBackHome -> navigateUp()
+                    else -> {}
+                }
+            }
+        }
+
+        // TODO: do better by passing args directly to VM.
+        if (navArgs.expectations != null) {
+            viewModel.onExpectationsAction(
+                CreateChallengeExpectationsAction.OnExpectationsValueChange(navArgs.expectations)
+            )
+        }
+    }
 
     CreateChallengeExpectationsScreen(
         state = state,
+        navArgs = navArgs,
         onAction = { action ->
             when (action) {
                 CreateChallengeExpectationsAction.GoToCommitmentStep -> goToCommitmentStep()
@@ -54,7 +82,8 @@ fun CreateChallengeExpectationsScreenRoot(
 @Composable
 fun CreateChallengeExpectationsScreen(
     state: CreateChallengeFunnelState,
-    onAction: (CreateChallengeExpectationsAction) -> Unit
+    onAction: (CreateChallengeExpectationsAction) -> Unit,
+    navArgs: ChallengeExpectationsNavArgs
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
 
@@ -106,10 +135,19 @@ fun CreateChallengeExpectationsScreen(
                     PlaceholderText("Example (reading): \"I want to rediscover my love for reading and make it part of my daily life again.\"")
                 },
                 keyboardOptions = KeyboardOptions().copy(
-                    imeAction = ImeAction.Next,
+                    imeAction = if (navArgs.editing) ImeAction.Done else ImeAction.Next,
                     capitalization = KeyboardCapitalization.Sentences
                 ),
                 keyboardActions = KeyboardActions(
+                    onDone = {
+                        if (navArgs.challengeId != null)
+                            done(
+                                keyboard,
+                                onAction,
+                                challengeId = navArgs.challengeId,
+                                expectations = state.expectationsInputValue
+                            )
+                    },
                     onNext = {
                         goNext(keyboard, onAction)
                     }
@@ -120,13 +158,29 @@ fun CreateChallengeExpectationsScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
+            state.expectationUpdateError?.let { message ->
+                FormErrorText(
+                    message,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
             LoadingButton(
                 onClick = {
-                    goNext(keyboard, onAction)
+                    if (navArgs.editing && navArgs.challengeId != null)
+                        done(
+                            keyboard,
+                            onAction,
+                            challengeId = navArgs.challengeId,
+                            expectations = state.expectationsInputValue
+                        )
+                    else
+                        goNext(keyboard, onAction)
                 },
-                enabled = !state.isFormSubmissionLoading, // TODO
-                isLoading = state.isFormSubmissionLoading,
-                label = "Next",
+                enabled = !state.isExpectationUpdateLoading,
+                isLoading = state.isExpectationUpdateLoading,
+                label = if (navArgs.editing) "Update" else "Next",
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -136,8 +190,23 @@ fun CreateChallengeExpectationsScreen(
 
 private fun goNext(
     keyboard: SoftwareKeyboardController?,
-    onAction: (CreateChallengeExpectationsAction) -> Unit
+    onAction: (CreateChallengeExpectationsAction) -> Unit,
 ) {
     keyboard?.hide()
     onAction(CreateChallengeExpectationsAction.GoToCommitmentStep)
+}
+
+private fun done(
+    keyboard: SoftwareKeyboardController?,
+    onAction: (CreateChallengeExpectationsAction) -> Unit,
+    challengeId: String,
+    expectations: String
+) {
+    keyboard?.hide()
+    onAction(
+        CreateChallengeExpectationsAction.UpdateExpectations(
+            challengeId = challengeId,
+            expectations = expectations
+        )
+    )
 }

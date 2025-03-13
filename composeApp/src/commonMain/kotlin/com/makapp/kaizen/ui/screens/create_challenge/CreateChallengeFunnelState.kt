@@ -9,6 +9,8 @@ data class CreateChallengeFunnelState(
 
     // Expectations Screen
     val expectationsInputValue: String = "",
+    val isExpectationUpdateLoading: Boolean = false,
+    val expectationUpdateError: String? = null,
 
     // Commitment Screen
     val commitmentInputValue: String = "",

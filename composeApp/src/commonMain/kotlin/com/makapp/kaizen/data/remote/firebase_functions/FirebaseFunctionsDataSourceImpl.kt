@@ -95,4 +95,13 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
             .httpsCallable("createChallenge")
             .invoke(request)
     }
+
+    override suspend fun updateChallenge(id: String, fieldsToUpdate: Map<String, String>) {
+        val request = fieldsToUpdate.toMutableMap()
+        request[ChallengeFieldName.ID] = id
+
+        functions
+            .httpsCallable("updateChallenge")
+            .invoke(request)
+    }
 }
