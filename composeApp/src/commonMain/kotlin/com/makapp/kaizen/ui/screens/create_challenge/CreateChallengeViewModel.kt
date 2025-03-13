@@ -25,8 +25,8 @@ class CreateChallengeViewModel(
 ) : ViewModel() {
     companion object {
         const val MAX_CHALLENGE_TITLE_LENGTH = 20
-        const val MAX_CHALLENGE_EXPECTATIONS_LENGTH = 150
-        const val MAX_CHALLENGE_COMMITMENT_LENGTH = 150
+        const val MAX_CHALLENGE_EXPECTATIONS_LENGTH = 250
+        const val MAX_CHALLENGE_COMMITMENT_LENGTH = 250
         private const val MAX_CHALLENGE_ERRORS_LENGTH = 2
     }
 
