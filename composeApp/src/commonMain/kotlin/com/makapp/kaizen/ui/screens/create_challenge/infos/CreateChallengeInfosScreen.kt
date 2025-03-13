@@ -1,5 +1,6 @@
 package com.makapp.kaizen.ui.screens.create_challenge.infos
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -74,6 +77,7 @@ fun CreateChallengeInfos(
     onAction: (CreateChallengeInfosAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
+    val focus = LocalFocusManager.current
     val scroll = rememberScrollState()
 
     Scaffold(
@@ -91,6 +95,11 @@ fun CreateChallengeInfos(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .pointerInput(null) {
+                    detectTapGestures(
+                        onTap = { focus.clearFocus() }
+                    )
+                }
                 .padding(innerPadding)
                 .imePadding()
         ) {

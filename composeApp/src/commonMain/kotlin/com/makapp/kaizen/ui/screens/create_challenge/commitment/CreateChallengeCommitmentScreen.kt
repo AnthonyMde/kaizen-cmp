@@ -1,6 +1,7 @@
 package com.makapp.kaizen.ui.screens.create_challenge.commitment
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -26,9 +26,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.SoftwareKeyboardController
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -96,6 +96,7 @@ fun CreateChallengeCommitmentScreen(
     onAction: (CreateChallengeCommitmentAction) -> Unit,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
+    val focus = LocalFocusManager.current
     val scroll = rememberScrollState()
 
     Scaffold(
@@ -113,6 +114,11 @@ fun CreateChallengeCommitmentScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .pointerInput(null) {
+                    detectTapGestures(
+                        onTap = { focus.clearFocus() }
+                    )
+                }
                 .padding(innerPadding)
                 .imePadding()
         ) {
@@ -156,18 +162,7 @@ fun CreateChallengeCommitmentScreen(
                         PlaceholderText("Example (reading): \"I must read at least one page.\"")
                     },
                     keyboardOptions = KeyboardOptions().copy(
-                        imeAction = ImeAction.Done,
                         capitalization = KeyboardCapitalization.Sentences
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            submit(
-                                keyboard,
-                                onAction,
-                                navArgs.editing,
-                                navArgs.challengeId
-                            )
-                        }
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -185,8 +180,8 @@ fun CreateChallengeCommitmentScreen(
 
                 LoadingButton(
                     onClick = {
+                        keyboard?.hide()
                         submit(
-                            keyboard,
                             onAction,
                             navArgs.editing,
                             navArgs.challengeId
@@ -204,13 +199,10 @@ fun CreateChallengeCommitmentScreen(
 }
 
 private fun submit(
-    keyboard: SoftwareKeyboardController?,
     onAction: (CreateChallengeCommitmentAction) -> Unit,
     editing: Boolean,
     challengeId: String?
 ) {
-    keyboard?.hide()
-
     if (editing && challengeId != null) {
         onAction(
             CreateChallengeCommitmentAction.OnUpdateCommitment(
