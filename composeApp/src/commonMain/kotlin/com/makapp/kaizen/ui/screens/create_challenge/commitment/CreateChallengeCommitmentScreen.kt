@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +36,7 @@ import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun CreateChallengeCommitmentScreenRoot(
@@ -44,19 +46,32 @@ fun CreateChallengeCommitmentScreenRoot(
     navArgs: ChallengeCommitmentNavArgs
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(null) {
-        viewModel.navigationEvents.collectLatest { event ->
-            when (event) {
-                CreateChallengeNavigationEvent.GoBackHome -> goHome()
-                else -> {}
+        scope.launch {
+            viewModel.navigationEvents.collectLatest { event ->
+                when (event) {
+                    CreateChallengeNavigationEvent.GoBackHome -> goHome()
+                    CreateChallengeNavigationEvent.NavigateUp -> navigateUp()
+                    else -> {}
+                }
             }
+        }
+
+        // TODO: do better by passing args directly to VM.
+        if (navArgs.commitment?.isNotBlank() == true) {
+            viewModel.onCommitmentAction(
+                CreateChallengeCommitmentAction.OnCommitmentInputValueChanged(
+                    navArgs.commitment
+                )
+            )
         }
     }
 
     CreateChallengeCommitmentScreen(
         state = state,
-        editing = navArgs.editing,
+        navArgs = navArgs,
         onAction = { action ->
             when (action) {
                 CreateChallengeCommitmentAction.OnNavigateUp -> {
@@ -72,8 +87,8 @@ fun CreateChallengeCommitmentScreenRoot(
 @Composable
 fun CreateChallengeCommitmentScreen(
     state: CreateChallengeFunnelState,
+    navArgs: ChallengeCommitmentNavArgs,
     onAction: (CreateChallengeCommitmentAction) -> Unit,
-    editing: Boolean
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
 
@@ -132,7 +147,12 @@ fun CreateChallengeCommitmentScreen(
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
-                        onDone(keyboard, onAction)
+                        submit(
+                            keyboard,
+                            onAction,
+                            navArgs.editing,
+                            navArgs.challengeId
+                        )
                     }
                 ),
                 modifier = Modifier
@@ -151,11 +171,16 @@ fun CreateChallengeCommitmentScreen(
 
             LoadingButton(
                 onClick = {
-                    onDone(keyboard, onAction)
+                    submit(
+                        keyboard,
+                        onAction,
+                        navArgs.editing,
+                        navArgs.challengeId
+                    )
                 },
                 enabled = !state.isFormSubmissionLoading,
                 isLoading = state.isFormSubmissionLoading,
-                label = "Done",
+                label = if (navArgs.editing) "Update" else "Done",
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -163,10 +188,21 @@ fun CreateChallengeCommitmentScreen(
     }
 }
 
-private fun onDone(
+private fun submit(
     keyboard: SoftwareKeyboardController?,
-    onAction: (CreateChallengeCommitmentAction) -> Unit
+    onAction: (CreateChallengeCommitmentAction) -> Unit,
+    editing: Boolean,
+    challengeId: String?
 ) {
     keyboard?.hide()
-    onAction(CreateChallengeCommitmentAction.OnFormSubmit)
+
+    if (editing && challengeId != null) {
+        onAction(
+            CreateChallengeCommitmentAction.OnUpdateCommitment(
+                challengeId
+            )
+        )
+    } else if (!editing) {
+        onAction(CreateChallengeCommitmentAction.OnFormSubmit)
+    }
 }

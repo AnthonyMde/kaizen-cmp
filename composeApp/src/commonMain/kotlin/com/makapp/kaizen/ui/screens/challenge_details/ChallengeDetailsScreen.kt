@@ -33,7 +33,7 @@ fun ChallengeDetailsScreenRoot(
     navArgs: ChallengeDetailsNavArgs,
     navigateUp: () -> Unit,
     goToChallengeExpectations: (String) -> Unit,
-    goToChallengeCommitment: () -> Unit,
+    goToChallengeCommitment: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -50,7 +50,8 @@ fun ChallengeDetailsScreenRoot(
                 is ChallengeDetailsAction.GoToChallengeExpectations ->
                     goToChallengeExpectations(action.expectations)
 
-                ChallengeDetailsAction.GoToChallengeCommitment -> goToChallengeCommitment()
+                is ChallengeDetailsAction.GoToChallengeCommitment ->
+                    goToChallengeCommitment(action.commitment)
             }
         }
     )
@@ -128,7 +129,11 @@ fun ChallengeDetailsScreen(
                         emptyViewText = "Specify your minimum daily commitment here.",
                         readOnly = navArgs.readOnly,
                         onClick = {
-                            // TODO
+                            onAction(
+                                ChallengeDetailsAction.GoToChallengeCommitment(
+                                    state.challenge.commitment ?: ""
+                                )
+                            )
                         }
                     )
 

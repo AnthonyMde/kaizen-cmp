@@ -181,6 +181,7 @@ fun App(userSession: UserSession? = null) {
                             goToCommitmentStep = {
                                 navController.navigate(Route.CreateChallengeCommitmentStep(
                                     editing = false,
+                                    commitment = null,
                                     challengeId = null
                                 ))
                             },
@@ -202,6 +203,7 @@ fun App(userSession: UserSession? = null) {
                     ) { backStackEntry ->
                         val editing = backStackEntry.arguments?.getBoolean("editing") ?: false
                         val challengeId = backStackEntry.arguments?.getString("challengeId")
+                        val commitment = backStackEntry.arguments?.getString("commitment")
                         val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
                         CreateChallengeCommitmentScreenRoot(
                             viewModel = viewModel,
@@ -215,6 +217,7 @@ fun App(userSession: UserSession? = null) {
                             },
                             navArgs = ChallengeCommitmentNavArgs(
                                 editing = editing,
+                                commitment = commitment,
                                 challengeId = challengeId
                             )
                         )
@@ -251,9 +254,10 @@ fun App(userSession: UserSession? = null) {
                                 challengeId = id
                             ))
                         },
-                        goToChallengeCommitment = {
+                        goToChallengeCommitment = { commitment ->
                             navController.navigate(Route.CreateChallengeCommitmentStep(
                                 editing = true,
+                                commitment = commitment,
                                 challengeId = id
                             ))
                         }

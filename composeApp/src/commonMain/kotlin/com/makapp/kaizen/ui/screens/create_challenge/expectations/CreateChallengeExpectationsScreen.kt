@@ -59,7 +59,7 @@ fun CreateChallengeExpectationsScreenRoot(
         }
 
         // TODO: do better by passing args directly to VM.
-        if (navArgs.expectations != null) {
+        if (navArgs.expectations?.isNotBlank() == true) {
             viewModel.onExpectationsAction(
                 CreateChallengeExpectationsAction.OnExpectationsValueChange(navArgs.expectations)
             )
@@ -144,8 +144,7 @@ fun CreateChallengeExpectationsScreen(
                             done(
                                 keyboard,
                                 onAction,
-                                challengeId = navArgs.challengeId,
-                                expectations = state.expectationsInputValue
+                                challengeId = navArgs.challengeId
                             )
                     },
                     onNext = {
@@ -172,8 +171,7 @@ fun CreateChallengeExpectationsScreen(
                         done(
                             keyboard,
                             onAction,
-                            challengeId = navArgs.challengeId,
-                            expectations = state.expectationsInputValue
+                            challengeId = navArgs.challengeId
                         )
                     else
                         goNext(keyboard, onAction)
@@ -199,14 +197,10 @@ private fun goNext(
 private fun done(
     keyboard: SoftwareKeyboardController?,
     onAction: (CreateChallengeExpectationsAction) -> Unit,
-    challengeId: String,
-    expectations: String
+    challengeId: String
 ) {
     keyboard?.hide()
     onAction(
-        CreateChallengeExpectationsAction.UpdateExpectations(
-            challengeId = challengeId,
-            expectations = expectations
-        )
+        CreateChallengeExpectationsAction.OnUpdateExpectations(challengeId)
     )
 }

@@ -32,7 +32,11 @@ sealed class Route {
     ) : Route()
 
     @Serializable
-    data class CreateChallengeCommitmentStep(val editing: Boolean, val challengeId: String?) :
+    data class CreateChallengeCommitmentStep(
+        val editing: Boolean,
+        val commitment: String?,
+        val challengeId: String?
+    ) :
         Route()
 
     @Serializable
