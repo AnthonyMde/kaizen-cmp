@@ -1,15 +1,19 @@
 package com.makapp.kaizen.ui.screens.create_challenge.infos
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -70,6 +74,7 @@ fun CreateChallengeInfos(
     onAction: (CreateChallengeInfosAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
+    val scroll = rememberScrollState()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
@@ -83,89 +88,96 @@ fun CreateChallengeInfos(
             )
         },
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(24.dp)
-                .imePadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .imePadding()
         ) {
-            // Title field.
-            LimitedCharTextField(
-                onValueChange = { name ->
-                    onAction(CreateChallengeInfosAction.OnNameInputValueChanged(name))
-                },
-                value = state.challengeNameInputValue,
-                maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_TITLE_LENGTH,
-                textError = state.challengeNameInputError,
-                singleLine = true,
-                shape = RoundedCornerShape(16.dp),
-                label = {
-                    Text("Title")
-                },
-                placeholder = {
-                    PlaceholderText("Reading")
-                },
-                isError = state.challengeNameInputError != null,
-                keyboardOptions = KeyboardOptions().copy(
-                    imeAction = ImeAction.Next,
-                    capitalization = KeyboardCapitalization.Sentences
-                ),
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-            )
-            // Number of errors field.
-            OutlinedTextField(
-                onValueChange = { numberOfErrors ->
-                    onAction(
-                        CreateChallengeInfosAction.OnNumberOfErrorsInputValueChanged(
-                            numberOfErrors
+                    .fillMaxHeight()
+                    .verticalScroll(scroll)
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 8.dp, bottom = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Title field.
+                LimitedCharTextField(
+                    onValueChange = { name ->
+                        onAction(CreateChallengeInfosAction.OnNameInputValueChanged(name))
+                    },
+                    value = state.challengeNameInputValue,
+                    maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_TITLE_LENGTH,
+                    textError = state.challengeNameInputError,
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    label = {
+                        Text("Title")
+                    },
+                    placeholder = {
+                        PlaceholderText("Reading")
+                    },
+                    isError = state.challengeNameInputError != null,
+                    keyboardOptions = KeyboardOptions().copy(
+                        imeAction = ImeAction.Next,
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                // Number of errors field.
+                OutlinedTextField(
+                    onValueChange = { numberOfErrors ->
+                        onAction(
+                            CreateChallengeInfosAction.OnNumberOfErrorsInputValueChanged(
+                                numberOfErrors
+                            )
                         )
-                    )
-                },
-                value = state.numberOfErrorsInputValue,
-                singleLine = true,
-                shape = RoundedCornerShape(16.dp),
-                label = {
-                    Text("Number of lives")
-                },
-                placeholder = {
-                    PlaceholderText("10")
-                },
-                supportingText = {
-                    Text("How many times you can fail this challenge.")
-                },
-                isError = state.numberOfErrorsInputError != null,
-                keyboardOptions = KeyboardOptions().copy(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = {
+                    },
+                    value = state.numberOfErrorsInputValue,
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    label = {
+                        Text("Number of lives")
+                    },
+                    placeholder = {
+                        PlaceholderText("10")
+                    },
+                    supportingText = {
+                        Text("How many times you can fail this challenge.")
+                    },
+                    isError = state.numberOfErrorsInputError != null,
+                    keyboardOptions = KeyboardOptions().copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            goNext(keyboard, onAction)
+                        },
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                state.numberOfErrorsInputError?.let { message ->
+                    FormErrorText(message, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Button(
+                    onClick = {
                         goNext(keyboard, onAction)
                     },
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            state.numberOfErrorsInputError?.let { message ->
-                FormErrorText(message, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Button(
-                onClick = {
-                    goNext(keyboard, onAction)
-                },
-                enabled = state.challengeNameInputValue.isNotBlank() && state.numberOfErrorsInputValue.isNotBlank(),
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text("Next")
+                    enabled = state.challengeNameInputValue.isNotBlank() && state.numberOfErrorsInputValue.isNotBlank(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text("Next")
+                }
             }
         }
     }

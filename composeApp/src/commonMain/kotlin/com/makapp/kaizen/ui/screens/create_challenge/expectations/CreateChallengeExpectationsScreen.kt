@@ -113,7 +113,8 @@ fun CreateChallengeExpectationsScreen(
                 modifier = Modifier
                     .fillMaxHeight()
                     .verticalScroll(scrollState)
-                    .padding(24.dp)
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 8.dp, bottom = 24.dp)
             ) {
                 Box(
                     modifier = Modifier

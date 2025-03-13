@@ -4,12 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -91,6 +96,7 @@ fun CreateChallengeCommitmentScreen(
     onAction: (CreateChallengeCommitmentAction) -> Unit,
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
+    val scroll = rememberScrollState()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
@@ -104,86 +110,95 @@ fun CreateChallengeCommitmentScreen(
             )
         },
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .imePadding()
         ) {
-            Box(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(MaterialTheme.colorScheme.tertiaryContainer)
-                    .padding(16.dp)
+                    .fillMaxHeight()
+                    .verticalScroll(scroll)
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 8.dp, bottom = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Kaizen is a 365-day adventure \uD83C\uDF34 \nSet a realistic daily minimum - doable even on your worst days. \nTiny sparks ignite great fires! \uD83D\uDD25",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Commitment Field.
-            LimitedCharTextField(
-                onValueChange = { commitment ->
-                    onAction(
-                        CreateChallengeCommitmentAction.OnCommitmentInputValueChanged(
-                            commitment
-                        )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "Kaizen is a 365-day adventure \uD83C\uDF34 \nSet a realistic daily minimum - doable even on your worst days. \nTiny sparks ignite great fires! \uD83D\uDD25",
+                        style = MaterialTheme.typography.bodyMedium
                     )
-                },
-                value = state.commitmentInputValue,
-                maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_COMMITMENT_LENGTH,
-                textError = null,
-                shape = RoundedCornerShape(16.dp),
-                placeholder = {
-                    PlaceholderText("Example (reading): \"I must read at least one page.\"")
-                },
-                keyboardOptions = KeyboardOptions().copy(
-                    imeAction = ImeAction.Done,
-                    capitalization = KeyboardCapitalization.Sentences
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Commitment Field.
+                LimitedCharTextField(
+                    onValueChange = { commitment ->
+                        onAction(
+                            CreateChallengeCommitmentAction.OnCommitmentInputValueChanged(
+                                commitment
+                            )
+                        )
+                    },
+                    value = state.commitmentInputValue,
+                    maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_COMMITMENT_LENGTH,
+                    textError = null,
+                    shape = RoundedCornerShape(16.dp),
+                    placeholder = {
+                        PlaceholderText("Example (reading): \"I must read at least one page.\"")
+                    },
+                    keyboardOptions = KeyboardOptions().copy(
+                        imeAction = ImeAction.Done,
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            submit(
+                                keyboard,
+                                onAction,
+                                navArgs.editing,
+                                navArgs.challengeId
+                            )
+                        }
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                state.formSubmissionError?.let { message ->
+                    FormErrorText(
+                        message,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+
+                LoadingButton(
+                    onClick = {
                         submit(
                             keyboard,
                             onAction,
                             navArgs.editing,
                             navArgs.challengeId
                         )
-                    }
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            state.formSubmissionError?.let { message ->
-                FormErrorText(
-                    message,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(16.dp)
+                    },
+                    enabled = !state.isFormSubmissionLoading,
+                    isLoading = state.isFormSubmissionLoading,
+                    label = if (navArgs.editing) "Update" else "Done",
+                    modifier = Modifier
+                        .fillMaxWidth()
                 )
             }
-
-            LoadingButton(
-                onClick = {
-                    submit(
-                        keyboard,
-                        onAction,
-                        navArgs.editing,
-                        navArgs.challengeId
-                    )
-                },
-                enabled = !state.isFormSubmissionLoading,
-                isLoading = state.isFormSubmissionLoading,
-                label = if (navArgs.editing) "Update" else "Done",
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
         }
     }
 }
