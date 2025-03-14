@@ -48,7 +48,7 @@ fun ChallengeDetailsScreenRoot(
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
                 is ChallengeDetailsAction.GoToChallengeInfos ->
-                    goToChallengeInfos(action.lives)
+                    goToChallengeInfos(action.maxLives)
 
                 is ChallengeDetailsAction.GoToChallengeExpectations ->
                     goToChallengeExpectations(action.expectations)
@@ -116,7 +116,8 @@ fun ChallengeDetailsScreen(
 
                     ChallengeDetailsDashboardCard(
                         challenge = challenge,
-                        readOnly = navArgs.readOnly
+                        readOnly = navArgs.readOnly,
+                        onAction = onAction
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))

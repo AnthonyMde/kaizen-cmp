@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,6 +16,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsViewModel
 import com.makapp.kaizen.utils.DateUtils.toShortDateFormat
 import kaizen.composeapp.generated.resources.Res
@@ -34,7 +37,8 @@ import org.koin.compose.koinInject
 @Composable
 fun ChallengeDetailsDashboardCard(
     challenge: Challenge,
-    readOnly: Boolean
+    readOnly: Boolean,
+    onAction: (ChallengeDetailsAction) -> Unit
 ) {
     val viewModel = koinInject<ChallengeDetailsViewModel>()
 
@@ -69,18 +73,28 @@ fun ChallengeDetailsDashboardCard(
                 )
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Icon(
-                    painter = painterResource(
-                        viewModel.getHeartIcon(
-                            maxFailures = challenge.maxAuthorizedFailures,
-                            failures = challenge.failureCount
+                IconButton(
+                    modifier = Modifier.size(28.dp),
+                    onClick = {
+                        onAction(
+                            ChallengeDetailsAction.GoToChallengeInfos(
+                                challenge.name,
+                                challenge.maxAuthorizedFailures
+                            )
                         )
-                    ),
-                    tint = MaterialTheme.colorScheme.error,
-                    contentDescription = "Remaining life counter.",
-                    modifier = Modifier
-                        .size(28.dp)
-                )
+                    }) {
+                    Icon(
+                        painter = painterResource(
+                            viewModel.getHeartIcon(
+                                maxFailures = challenge.maxAuthorizedFailures,
+                                failures = challenge.failureCount
+                            )
+                        ),
+                        tint = MaterialTheme.colorScheme.error,
+                        contentDescription = "Remaining life counter.",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
                 Text(
                     "${challenge.maxAuthorizedFailures - challenge.failureCount}/${challenge.maxAuthorizedFailures}",
                     style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)

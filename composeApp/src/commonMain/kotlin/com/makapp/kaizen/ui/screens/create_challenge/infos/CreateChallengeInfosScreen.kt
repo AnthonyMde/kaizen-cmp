@@ -199,7 +199,9 @@ fun CreateChallengeInfos(
                     onClick = {
                         submit(keyboard, onAction, navArgs.isEditing, navArgs.challengeId)
                     },
-                    enabled = state.challengeNameInputValue.isNotBlank() && state.numberOfErrorsInputValue.isNotBlank(),
+                    enabled = state.challengeNameInputValue.isNotBlank() &&
+                            state.numberOfErrorsInputValue.isNotBlank() &&
+                            !state.isUpdateInfosLoading,
                     isLoading = state.isUpdateInfosLoading,
                     label = if (navArgs.isEditing) "Update" else "Next",
                     modifier = Modifier
