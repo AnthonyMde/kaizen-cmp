@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsClickableTextBoxView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDropDownMenu
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -54,6 +51,8 @@ fun ChallengeDetailsScreenRoot(
 
                 is ChallengeDetailsAction.GoToChallengeCommitment ->
                     goToChallengeCommitment(action.commitment)
+
+                else -> viewModel.onAction(action)
             }
         }
     )
@@ -75,16 +74,7 @@ fun ChallengeDetailsScreen(
                 backDescription = "Go back",
                 actions = {
                     if (!navArgs.readOnly) {
-                        IconButton(
-                            onClick = { },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.MoreVert,
-                                    contentDescription = "Challenge settings",
-                                    tint = MaterialTheme.colorScheme.secondary
-                                )
-                            }
-                        )
+                        ChallengeDetailsDropDownMenu(onAction)
                     }
                 }
             )
