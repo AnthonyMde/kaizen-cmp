@@ -15,7 +15,6 @@ fun ChallengeDetailsPreview() {
         navArgs = ChallengeDetailsNavArgs(
             id = "1",
             title = "Écriture",
-            isDone = true,
             readOnly = true
         ),
         state = ChallengeDetailsState(

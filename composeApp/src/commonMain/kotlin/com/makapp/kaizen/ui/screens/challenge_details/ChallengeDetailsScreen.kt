@@ -31,6 +31,7 @@ fun ChallengeDetailsScreenRoot(
     viewModel: ChallengeDetailsViewModel = koinViewModel(),
     navArgs: ChallengeDetailsNavArgs,
     navigateUp: () -> Unit,
+    goToChallengeInfos: (Int) -> Unit,
     goToChallengeExpectations: (String) -> Unit,
     goToChallengeCommitment: (String) -> Unit,
 ) {
@@ -46,6 +47,9 @@ fun ChallengeDetailsScreenRoot(
         onAction = { action ->
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
+                is ChallengeDetailsAction.GoToChallengeInfos ->
+                    goToChallengeInfos(action.lives)
+
                 is ChallengeDetailsAction.GoToChallengeExpectations ->
                     goToChallengeExpectations(action.expectations)
 
@@ -74,7 +78,7 @@ fun ChallengeDetailsScreen(
                 backDescription = "Go back",
                 actions = {
                     if (!navArgs.readOnly) {
-                        ChallengeDetailsDropDownMenu(onAction)
+                        state.challenge?.let { ChallengeDetailsDropDownMenu(it, onAction) }
                     }
                 }
             )

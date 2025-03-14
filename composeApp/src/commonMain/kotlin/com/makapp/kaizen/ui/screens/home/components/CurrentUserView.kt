@@ -80,7 +80,6 @@ fun CurrentUserView(
                                     navArgs = ChallengeDetailsNavArgs(
                                         challenge.id,
                                         challenge.name,
-                                        challenge.isDoneForToday,
                                         readOnly = false
                                     )
                                 )

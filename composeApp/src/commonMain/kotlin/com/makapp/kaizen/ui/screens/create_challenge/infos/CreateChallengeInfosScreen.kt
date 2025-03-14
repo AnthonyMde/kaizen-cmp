@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -42,26 +43,43 @@ import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun CreateChallengeInfosScreenRoot(
     viewModel: CreateChallengeViewModel,
+    navArgs: ChallengeInfosNavArgs,
     navigateUp: () -> Unit,
-    goToExpectationsStep: () -> Unit
+    goToExpectationsStep: () -> Unit,
 ) {
     val state by viewModel.createChallengeScreenState.collectAsState()
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(null) {
-        viewModel.navigationEvents.collectLatest { event ->
-            when (event) {
-                CreateChallengeNavigationEvent.GoToExpectationsStep -> goToExpectationsStep()
-                else -> {}
+        scope.launch {
+            viewModel.navigationEvents.collectLatest { event ->
+                when (event) {
+                    CreateChallengeNavigationEvent.GoToExpectationsStep -> goToExpectationsStep()
+                    else -> {}
+                }
             }
+        }
+
+        if (!navArgs.title.isNullOrBlank()) {
+            viewModel.onInfosAction(CreateChallengeInfosAction.OnNameInputValueChanged(navArgs.title))
+        }
+        if (navArgs.lives != null) {
+            viewModel.onInfosAction(
+                CreateChallengeInfosAction.OnNumberOfErrorsInputValueChanged(
+                    navArgs.lives.toString()
+                )
+            )
         }
     }
 
     CreateChallengeInfos(
         state = state,
+        navArgs = navArgs,
         onAction = { action ->
             when (action) {
                 CreateChallengeInfosAction.OnNavigateUp -> navigateUp()
@@ -74,6 +92,7 @@ fun CreateChallengeInfosScreenRoot(
 @Composable
 fun CreateChallengeInfos(
     state: CreateChallengeFunnelState,
+    navArgs: ChallengeInfosNavArgs,
     onAction: (CreateChallengeInfosAction) -> Unit
 ) {
     val keyboard = LocalSoftwareKeyboardController.current
@@ -173,8 +192,6 @@ fun CreateChallengeInfos(
                     FormErrorText(message, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
-
                 Spacer(modifier = Modifier.weight(1f))
 
                 Button(
@@ -185,7 +202,9 @@ fun CreateChallengeInfos(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    Text("Next")
+                    Text(
+                        if (navArgs.isEditing) "Update" else "Next"
+                    )
                 }
             }
         }

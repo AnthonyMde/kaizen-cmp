@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.ic_bin_outlined
@@ -27,13 +28,17 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ChallengeDetailsDropDownMenu(
-    onAction: (ChallengeDetailsAction) -> Unit
+    challenge: Challenge,
+    onAction: (ChallengeDetailsAction) -> Unit,
 ) {
     val items = listOf(
         ChallengeDetailsDropDownMenuItem(
             title = "Rename",
             icon = Res.drawable.ic_pen_outlined,
-            action = ChallengeDetailsAction.GoToChallengeInfos,
+            action = ChallengeDetailsAction.GoToChallengeInfos(
+                challenge.name,
+                challenge.failureCount
+            ),
             color = MaterialTheme.colorScheme.onSurface
         ),
         ChallengeDetailsDropDownMenuItem(

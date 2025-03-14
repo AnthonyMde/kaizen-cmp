@@ -21,6 +21,7 @@ import com.makapp.kaizen.ui.screens.create_challenge.commitment.ChallengeCommitm
 import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentScreenRoot
 import com.makapp.kaizen.ui.screens.create_challenge.expectations.ChallengeExpectationsNavArgs
 import com.makapp.kaizen.ui.screens.create_challenge.expectations.CreateChallengeExpectationsScreenRoot
+import com.makapp.kaizen.ui.screens.create_challenge.infos.ChallengeInfosNavArgs
 import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosScreenRoot
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
 import com.makapp.kaizen.ui.screens.login.AuthScreenRoot
@@ -96,7 +97,6 @@ fun App(userSession: UserSession? = null) {
                                 Route.ChallengeDetails(
                                     args.id,
                                     args.title,
-                                    args.isDone,
                                     args.readOnly
                                 )
                             )
@@ -142,7 +142,7 @@ fun App(userSession: UserSession? = null) {
 
                 // CREATE CHALLENGE FUNNEL
                 navigation<Route.CreateChallengeGraph>(
-                    startDestination = Route.CreateChallengeInfosStep,
+                    startDestination = Route.CreateChallengeInfosStep(editing = false),
                 ) {
                     // CREATE CHALLENGE INFOS STEP
                     composable<Route.CreateChallengeInfosStep>(
@@ -150,18 +150,29 @@ fun App(userSession: UserSession? = null) {
                         popEnterTransition = { defaultPopEnterTransition() },
                         popExitTransition = { defaultPopExitTransition() }
                     ) { backStackEntry ->
-                        val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
+                        val editing = backStackEntry.arguments?.getBoolean("editing") ?: false
+                        val challengeId = backStackEntry.arguments?.getString("challengeId")
+                        val title = backStackEntry.arguments?.getString("title")
+                        val lives = backStackEntry.arguments?.getInt("lives")
+                        val viewModel =
+                            backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
                         CreateChallengeInfosScreenRoot(
                             viewModel = viewModel,
+                            navArgs = ChallengeInfosNavArgs(
+                                editing,
+                                title,
+                                lives,
+                                challengeId
+                            ),
                             navigateUp = {
                                 navController.navigateUp()
                             },
                             goToExpectationsStep = {
-                                navController.navigate(Route.CreateChallengeExpectationsStep(
-                                    editing = false,
-                                    expectations = null,
-                                    challengeId = null
-                                ))
+                                navController.navigate(
+                                    Route.CreateChallengeExpectationsStep(
+                                        editing = false,
+                                    )
+                                )
                             }
                         )
                     }
@@ -175,15 +186,12 @@ fun App(userSession: UserSession? = null) {
                         val editing = backStackEntry.arguments?.getBoolean("editing") ?: false
                         val challengeId = backStackEntry.arguments?.getString("challengeId")
                         val expectations = backStackEntry.arguments?.getString("expectations")
-                        val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
+                        val viewModel =
+                            backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
                         CreateChallengeExpectationsScreenRoot(
                             viewModel = viewModel,
                             goToCommitmentStep = {
-                                navController.navigate(Route.CreateChallengeCommitmentStep(
-                                    editing = false,
-                                    commitment = null,
-                                    challengeId = null
-                                ))
+                                navController.navigate(Route.CreateChallengeCommitmentStep(editing = false))
                             },
                             navigateUp = {
                                 navController.navigateUp()
@@ -204,7 +212,8 @@ fun App(userSession: UserSession? = null) {
                         val editing = backStackEntry.arguments?.getBoolean("editing") ?: false
                         val challengeId = backStackEntry.arguments?.getString("challengeId")
                         val commitment = backStackEntry.arguments?.getString("commitment")
-                        val viewModel = backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
+                        val viewModel =
+                            backStackEntry.sharedViewModel<CreateChallengeViewModel>(navController)
                         CreateChallengeCommitmentScreenRoot(
                             viewModel = viewModel,
                             goHome = {
@@ -233,33 +242,45 @@ fun App(userSession: UserSession? = null) {
                     val title =
                         backStackEntry.arguments?.getString("title") ?: return@composable
                     val id = backStackEntry.arguments?.getString("id") ?: return@composable
-                    val isDone =
-                        backStackEntry.arguments?.getBoolean("isDone") ?: return@composable
-                    val readOnly = backStackEntry.arguments?.getBoolean("readOnly") ?: return@composable
+                    val readOnly =
+                        backStackEntry.arguments?.getBoolean("readOnly") ?: return@composable
 
                     ChallengeDetailsScreenRoot(
                         navArgs = ChallengeDetailsNavArgs(
                             id,
                             title,
-                            isDone,
                             readOnly
                         ),
                         navigateUp = {
                             navController.popBackStack()
                         },
+                        goToChallengeInfos = { lives ->
+                            navController.navigate(
+                                Route.CreateChallengeInfosStep(
+                                    editing = true,
+                                    title = title,
+                                    lives = lives,
+                                    challengeId = id
+                                )
+                            )
+                        },
                         goToChallengeExpectations = { expectations ->
-                            navController.navigate(Route.CreateChallengeExpectationsStep(
-                                editing = true,
-                                expectations = expectations,
-                                challengeId = id
-                            ))
+                            navController.navigate(
+                                Route.CreateChallengeExpectationsStep(
+                                    editing = true,
+                                    expectations = expectations,
+                                    challengeId = id
+                                )
+                            )
                         },
                         goToChallengeCommitment = { commitment ->
-                            navController.navigate(Route.CreateChallengeCommitmentStep(
-                                editing = true,
-                                commitment = commitment,
-                                challengeId = id
-                            ))
+                            navController.navigate(
+                                Route.CreateChallengeCommitmentStep(
+                                    editing = true,
+                                    commitment = commitment,
+                                    challengeId = id
+                                )
+                            )
                         }
                     )
                 }
