@@ -6,4 +6,5 @@ sealed class CreateChallengeInfosAction {
 
     data object OnNavigateUp : CreateChallengeInfosAction()
     data object GoToCommitmentStep : CreateChallengeInfosAction()
+    data class OnUpdateInfos(val challengeId: String) : CreateChallengeInfosAction()
 }

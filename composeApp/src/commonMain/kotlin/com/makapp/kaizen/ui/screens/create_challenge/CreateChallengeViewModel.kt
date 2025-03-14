@@ -75,6 +75,44 @@ class CreateChallengeViewModel(
                 _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoToExpectationsStep)
             }
 
+            is CreateChallengeInfosAction.OnUpdateInfos -> {
+                val name = _createChallengeFunnelState.value.challengeNameInputValue
+                val numberOfErrors = _createChallengeFunnelState.value.numberOfErrorsInputValue
+                if (!requiredFields(name, numberOfErrors)) {
+                    return
+                }
+
+                viewModelScope.launch {
+                    challengesRepository.update(
+                        action.challengeId, fields = UpdateChallengeFields(
+                            name = name,
+                            maxAuthorizedFailures = numberOfErrors.toInt()
+                        )
+                    ).collectLatest { result ->
+                        when (result) {
+                            is Resource.Error -> {
+                                _createChallengeFunnelState.update { it.copy(
+                                    isUpdateInfosLoading = false,
+                                    challengeNameInputError = result.throwable?.message
+                                ) }
+                            }
+                            is Resource.Loading -> {
+                                _createChallengeFunnelState.update { it.copy(
+                                    isUpdateInfosLoading = true,
+                                    challengeNameInputError = null
+                                ) }
+                            }
+                            is Resource.Success -> {
+                                _createChallengeFunnelState.update { it.copy(
+                                    isUpdateInfosLoading = false
+                                ) }
+                                _navigationEvents.tryEmit(CreateChallengeNavigationEvent.NavigateUp)
+                            }
+                        }
+                    }
+                }
+            }
+
             else -> {}
         }
     }
@@ -214,7 +252,7 @@ class CreateChallengeViewModel(
 
                             is Resource.Success -> {
                                 _createChallengeFunnelState.update {
-                                    it.copy(isFormSubmissionLoading = false,)
+                                    it.copy(isFormSubmissionLoading = false)
                                 }
                                 _navigationEvents.tryEmit(CreateChallengeNavigationEvent.NavigateUp)
                             }

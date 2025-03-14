@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -15,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -38,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.components.LimitedCharTextField
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.components.FormErrorText
+import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
@@ -60,11 +59,13 @@ fun CreateChallengeInfosScreenRoot(
             viewModel.navigationEvents.collectLatest { event ->
                 when (event) {
                     CreateChallengeNavigationEvent.GoToExpectationsStep -> goToExpectationsStep()
+                    CreateChallengeNavigationEvent.NavigateUp -> navigateUp()
                     else -> {}
                 }
             }
         }
 
+        // TODO: do better by passing args directly to VM.
         if (!navArgs.title.isNullOrBlank()) {
             viewModel.onInfosAction(CreateChallengeInfosAction.OnNameInputValueChanged(navArgs.title))
         }
@@ -182,7 +183,7 @@ fun CreateChallengeInfos(
                     ),
                     keyboardActions = KeyboardActions(
                         onNext = {
-                            goNext(keyboard, onAction)
+                            submit(keyboard, onAction, navArgs.isEditing, navArgs.challengeId)
                         },
                     ),
                     modifier = Modifier
@@ -194,27 +195,31 @@ fun CreateChallengeInfos(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Button(
+                LoadingButton(
                     onClick = {
-                        goNext(keyboard, onAction)
+                        submit(keyboard, onAction, navArgs.isEditing, navArgs.challengeId)
                     },
                     enabled = state.challengeNameInputValue.isNotBlank() && state.numberOfErrorsInputValue.isNotBlank(),
+                    isLoading = state.isUpdateInfosLoading,
+                    label = if (navArgs.isEditing) "Update" else "Next",
                     modifier = Modifier
                         .fillMaxWidth()
-                ) {
-                    Text(
-                        if (navArgs.isEditing) "Update" else "Next"
-                    )
-                }
+                )
             }
         }
     }
 }
 
-private fun goNext(
+private fun submit(
     keyboard: SoftwareKeyboardController?,
-    onAction: (CreateChallengeInfosAction) -> Unit
+    onAction: (CreateChallengeInfosAction) -> Unit,
+    editing: Boolean,
+    challengeId: String?
 ) {
     keyboard?.hide()
-    onAction(CreateChallengeInfosAction.GoToCommitmentStep)
+    if (editing && challengeId != null) {
+        onAction(CreateChallengeInfosAction.OnUpdateInfos(challengeId))
+    } else if (!editing) {
+        onAction(CreateChallengeInfosAction.GoToCommitmentStep)
+    }
 }

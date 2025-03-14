@@ -73,7 +73,7 @@ fun ChallengeDetailsScreen(
     Scaffold(
         topBar = {
             BackTopAppBar(
-                title = navArgs.title,
+                title = state.challenge?.name ?: navArgs.title,
                 onNavigateUp = { onAction(ChallengeDetailsAction.OnNavigateUp) },
                 backDescription = "Go back",
                 actions = {

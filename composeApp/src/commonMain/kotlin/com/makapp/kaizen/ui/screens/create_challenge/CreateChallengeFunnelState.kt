@@ -7,6 +7,8 @@ data class CreateChallengeFunnelState(
     val challengeNameInputError: String? = null,
     val numberOfErrorsInputError: String? = null,
 
+    val isUpdateInfosLoading: Boolean = false,
+
     // Expectations Screen
     val expectationsInputValue: String = "",
     val isExpectationUpdateLoading: Boolean = false,
