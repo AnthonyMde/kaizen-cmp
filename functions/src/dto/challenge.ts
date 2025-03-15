@@ -20,3 +20,4 @@ export enum ChallengeStatus {
 }
 
 export const NUMBER_OF_DAYS_FOR_DONE = 365
+export const MAX_LIVES_ALLOWED = 12

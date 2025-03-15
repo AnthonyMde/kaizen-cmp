@@ -1,7 +1,7 @@
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { HttpsError, onCall } from "firebase-functions/https";
 import { Collection } from "./collection";
-import { Challenge, ChallengeStatus } from "./dto/challenge";
+import { Challenge, ChallengeStatus, MAX_LIVES_ALLOWED } from "./dto/challenge";
 
 export const createChallenge = onCall(async (request) => {
     if (request.auth == null || request.auth.uid == null) {
@@ -49,6 +49,7 @@ export const updateChallenge = onCall(async (request) => {
         throw new HttpsError("unauthenticated", "You must be authenticated.")
     }
 
+    const firestore = getFirestore()
     const userId = request.auth.uid
     let updatedChallenge: Partial<Challenge>
 
@@ -58,16 +59,36 @@ export const updateChallenge = onCall(async (request) => {
         throw new HttpsError("invalid-argument", "Some submitted fields are not correct.")
     }
 
-    if (updatedChallenge.id === null) {
+    if (updatedChallenge.id === undefined) {
         throw new HttpsError("invalid-argument", "No challenge id provided.")
+    }
+
+    if (updatedChallenge.maxAuthorizedFailures !== undefined) {
+        const formerChallenge = await firestore
+        .collection(Collection.USERS)
+        .doc(userId)
+        .collection(Collection.CHALLENGES)
+        .doc(updatedChallenge.id)
+        .get()
+        .then((doc) => doc.data() as Challenge)
+
+        const formerMax = formerChallenge.maxAuthorizedFailures
+
+        if (updatedChallenge.maxAuthorizedFailures < formerMax) {
+            throw new HttpsError("invalid-argument", "You cannot decrease your maximum number of lives.")   
+        }
+
+        if (updatedChallenge.maxAuthorizedFailures > MAX_LIVES_ALLOWED) {
+            throw new HttpsError("invalid-argument", `You cannot have more than ${MAX_LIVES_ALLOWED} lives.`)   
+        }
     }
 
     updatedChallenge.updatedAt = Timestamp.now()
 
-    await getFirestore()
+    await firestore
         .collection(Collection.USERS)
         .doc(userId)
         .collection(Collection.CHALLENGES)
-        .doc(updatedChallenge.id!)
+        .doc(updatedChallenge.id)
         .update(updatedChallenge)
 })
