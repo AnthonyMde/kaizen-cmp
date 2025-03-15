@@ -96,7 +96,7 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
             .invoke(request)
     }
 
-    override suspend fun updateChallenge(id: String, fieldsToUpdate: Map<String, String>) {
+    override suspend fun updateChallenge(id: String, fieldsToUpdate: Map<String, Any>) {
         val request = fieldsToUpdate.toMutableMap()
         request[ChallengeFieldName.ID] = id
 

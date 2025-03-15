@@ -18,5 +18,5 @@ interface FirebaseFunctionsDataSource {
     suspend fun deleteUserAccount()
     suspend fun toggleFriendAsFavorite(friendId: String)
     suspend fun createChallenge(request: CreateChallengeRequest)
-    suspend fun updateChallenge(id: String, fieldsToUpdate: Map<String, String>)
+    suspend fun updateChallenge(id: String, fieldsToUpdate: Map<String, Any>)
 }

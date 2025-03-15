@@ -10,22 +10,22 @@ fun Throwable.toDomainException(): DomainException {
 
     return when(this) {
         is FirebaseFunctionsException -> {
-            toDomainException()
+            toDomainException(this.message)
         }
 
-        else -> DomainException.Common.Unknown
+        else -> DomainException.Common.Unknown()
     }
 }
 
-private fun FirebaseFunctionsException.toDomainException(): DomainException {
+private fun FirebaseFunctionsException.toDomainException(message: String?): DomainException {
     return when (this.code) {
-        FunctionsExceptionCode.UNKNOWN -> DomainException.Common.Unknown
-        FunctionsExceptionCode.INVALID_ARGUMENT -> DomainException.Common.InvalidArguments
-        FunctionsExceptionCode.NOT_FOUND -> DomainException.Common.NotFound
+        FunctionsExceptionCode.UNKNOWN -> DomainException.Common.Unknown()
+        FunctionsExceptionCode.INVALID_ARGUMENT -> DomainException.Common.InvalidArguments(message)
+        FunctionsExceptionCode.NOT_FOUND -> DomainException.Common.NotFound()
         FunctionsExceptionCode.PERMISSION_DENIED -> DomainException.Auth.UserNotAuthorized
-        FunctionsExceptionCode.INTERNAL -> DomainException.Common.ServerInternalError
+        FunctionsExceptionCode.INTERNAL -> DomainException.Common.ServerInternalError()
         FunctionsExceptionCode.UNAUTHENTICATED -> DomainException.Auth.UserNotAuthenticated
-        else -> DomainException.Common.Unknown
+        else -> DomainException.Common.Unknown()
 //                FunctionsExceptionCode.OK ->
 //                FunctionsExceptionCode.CANCELLED ->
 //                FunctionsExceptionCode.DEADLINE_EXCEEDED ->

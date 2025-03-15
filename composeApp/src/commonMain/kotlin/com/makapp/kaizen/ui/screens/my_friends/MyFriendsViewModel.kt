@@ -104,7 +104,7 @@ class MyFriendsViewModel(
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
                         DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
-                        DomainException.Common.InvalidArguments -> "Cannot find friend id."
+                        DomainException.Common.InvalidArguments() -> "Cannot find friend id."
                         else -> "Impossible to send your friend request."
                     }
                     _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
@@ -212,9 +212,9 @@ class MyFriendsViewModel(
             when (result) {
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
-                        DomainException.Common.NotFound -> "No user is matching this username."
+                        DomainException.Common.NotFound() -> "No user is matching this username."
                         DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
-                        DomainException.Common.InvalidArguments -> "Username should not be empty."
+                        DomainException.Common.InvalidArguments() -> "Username should not be empty."
                         DomainException.Friend.CannotSearchForYourself -> "You cannot send friend request to yourself."
                         else -> "Something went wrong. Please, verify this username is valid or contact us."
                     }

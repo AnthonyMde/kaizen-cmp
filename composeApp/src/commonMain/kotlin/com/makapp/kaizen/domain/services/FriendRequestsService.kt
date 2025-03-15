@@ -38,7 +38,7 @@ class FriendRequestsService(
     }
 
     suspend fun createFriendRequest(friendId: String?): Resource<Unit> {
-        friendId ?: return Resource.Error(DomainException.Common.InvalidArguments)
+        friendId ?: return Resource.Error(DomainException.Common.InvalidArguments())
 
         if (usersRepository.getUser()?.id == friendId) {
             return Resource.Error(DomainException.Friend.CannotSendFriendRequestToYourself)

@@ -67,11 +67,11 @@ class ChallengesRepositoryImpl(
     ): Flow<Resource<Unit>> = flow<Resource<Unit>> {
         emit(Resource.Loading())
 
-        val fieldsToUpdate = mutableMapOf<String, String>()
+        val fieldsToUpdate = mutableMapOf<String, Any>()
         if (fields.name != null) fieldsToUpdate[ChallengeFieldName.NAME] = fields.name
         if (fields.status?.name != null) fieldsToUpdate[ChallengeFieldName.STATUS] = fields.status.name
         if (fields.maxAuthorizedFailures != null) fieldsToUpdate[ChallengeFieldName.MAX_AUTHORIZED_FAILURES] =
-            fields.maxAuthorizedFailures.toString()
+            fields.maxAuthorizedFailures
         if (fields.expectations != null) fieldsToUpdate[ChallengeFieldName.EXPECTATIONS] = fields.expectations
         if (fields.commitment != null) fieldsToUpdate[ChallengeFieldName.COMMITMENT] = fields.commitment
 

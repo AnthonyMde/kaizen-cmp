@@ -55,7 +55,7 @@ class CreateChallengeViewModel(
 
             is CreateChallengeInfosAction.OnNumberOfLivesChanged -> {
                 val numberOfLives = action.numberOfLives.takeIf {
-                    it in 0..MAX_LIVES_ALLOWED
+                    it in _createChallengeFunnelState.value.minimumLives..MAX_LIVES_ALLOWED
                 }
                 if (numberOfLives != null) {
                     _createChallengeFunnelState.update {
