@@ -27,6 +27,7 @@ class CreateChallengeViewModel(
         const val MAX_CHALLENGE_TITLE_LENGTH = 20
         const val MAX_CHALLENGE_EXPECTATIONS_LENGTH = 250
         const val MAX_CHALLENGE_COMMITMENT_LENGTH = 250
+        const val MAX_LIVES_ALLOWED = 12
         private const val MAX_CHALLENGE_ERRORS_LENGTH = 2
     }
 
@@ -52,24 +53,28 @@ class CreateChallengeViewModel(
                 }
             }
 
-            is CreateChallengeInfosAction.OnNumberOfErrorsInputValueChanged -> {
-                val numberOfErrors = action.numberOfErrors
-                    .substringBefore(".")
-                    .substringBefore(",")
-                    .take(MAX_CHALLENGE_ERRORS_LENGTH)
+            is CreateChallengeInfosAction.OnNumberOfLivesChanged -> {
+                val numberOfLives = action.numberOfLives.takeIf {
+                    it in 0..MAX_LIVES_ALLOWED
+                }
+                if (numberOfLives != null) {
+                    _createChallengeFunnelState.update {
+                        it.copy(
+                            numberOfLivesValue = numberOfLives
+                        )
+                    }
+                }
+            }
 
+            is CreateChallengeInfosAction.SetMinimumNumberOfLives -> {
                 _createChallengeFunnelState.update {
-                    it.copy(
-                        numberOfErrorsInputValue = numberOfErrors,
-                        numberOfErrorsInputError = null
-                    )
+                    it.copy(minimumLives = action.minimum)
                 }
             }
 
             CreateChallengeInfosAction.GoToCommitmentStep -> {
                 val name = _createChallengeFunnelState.value.challengeNameInputValue
-                val numberOfErrors = _createChallengeFunnelState.value.numberOfErrorsInputValue
-                if (!requiredFields(name, numberOfErrors)) {
+                if (!requiredFields(name)) {
                     return
                 }
                 _navigationEvents.tryEmit(CreateChallengeNavigationEvent.GoToExpectationsStep)
@@ -77,8 +82,8 @@ class CreateChallengeViewModel(
 
             is CreateChallengeInfosAction.OnUpdateInfos -> {
                 val name = _createChallengeFunnelState.value.challengeNameInputValue
-                val numberOfErrors = _createChallengeFunnelState.value.numberOfErrorsInputValue
-                if (!requiredFields(name, numberOfErrors)) {
+                val maxLives = _createChallengeFunnelState.value.numberOfLivesValue
+                if (!requiredFields(name)) {
                     return
                 }
 
@@ -86,26 +91,34 @@ class CreateChallengeViewModel(
                     challengesRepository.update(
                         action.challengeId, fields = UpdateChallengeFields(
                             name = name,
-                            maxAuthorizedFailures = numberOfErrors.toInt()
+                            maxAuthorizedFailures = maxLives
                         )
                     ).collectLatest { result ->
                         when (result) {
                             is Resource.Error -> {
-                                _createChallengeFunnelState.update { it.copy(
-                                    isUpdateInfosLoading = false,
-                                    challengeNameInputError = result.throwable?.message
-                                ) }
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isUpdateInfosLoading = false,
+                                        challengeNameInputError = result.throwable?.message
+                                    )
+                                }
                             }
+
                             is Resource.Loading -> {
-                                _createChallengeFunnelState.update { it.copy(
-                                    isUpdateInfosLoading = true,
-                                    challengeNameInputError = null
-                                ) }
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isUpdateInfosLoading = true,
+                                        challengeNameInputError = null
+                                    )
+                                }
                             }
+
                             is Resource.Success -> {
-                                _createChallengeFunnelState.update { it.copy(
-                                    isUpdateInfosLoading = false
-                                ) }
+                                _createChallengeFunnelState.update {
+                                    it.copy(
+                                        isUpdateInfosLoading = false
+                                    )
+                                }
                                 _navigationEvents.tryEmit(CreateChallengeNavigationEvent.NavigateUp)
                             }
                         }
@@ -184,7 +197,7 @@ class CreateChallengeViewModel(
             CreateChallengeCommitmentAction.OnFormSubmit -> {
                 val form = CreateChallengeForm(
                     name = _createChallengeFunnelState.value.challengeNameInputValue,
-                    numberOfErrors = _createChallengeFunnelState.value.numberOfErrorsInputValue,
+                    maxLives = _createChallengeFunnelState.value.numberOfLivesValue,
                     commitment = _createChallengeFunnelState.value.commitmentInputValue,
                     expectations = _createChallengeFunnelState.value.expectationsInputValue
                 )
@@ -265,7 +278,7 @@ class CreateChallengeViewModel(
         }
     }
 
-    private fun requiredFields(name: String, numberOfErrors: String): Boolean {
+    private fun requiredFields(name: String): Boolean {
         if (name.isBlank()) {
             _createChallengeFunnelState.update {
                 it.copy(
@@ -273,14 +286,7 @@ class CreateChallengeViewModel(
                 )
             }
         }
-        if (numberOfErrors.isBlank()) {
-            _createChallengeFunnelState.update {
-                it.copy(
-                    numberOfErrorsInputError = "Maximum authorized errors must not be empty."
-                )
-            }
-        }
 
-        return name.isNotBlank() && numberOfErrors.isNotBlank()
+        return name.isNotBlank()
     }
 }

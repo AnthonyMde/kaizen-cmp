@@ -82,7 +82,9 @@ fun App(userSession: UserSession? = null) {
                             }
                         },
                         goToCreateChallenge = {
-                            navController.navigate(Route.CreateChallengeInfosStep)
+                            navController.navigate(Route.CreateChallengeInfosStep(
+                                editing = false
+                            ))
                         },
                         goToCreateUserAccount = {
                             navController.navigate(Route.OnboardingProfile) {
@@ -142,7 +144,9 @@ fun App(userSession: UserSession? = null) {
 
                 // CREATE CHALLENGE FUNNEL
                 navigation<Route.CreateChallengeGraph>(
-                    startDestination = Route.CreateChallengeInfosStep(editing = false),
+                    startDestination = Route.CreateChallengeInfosStep(
+                        editing = false
+                    ),
                 ) {
                     // CREATE CHALLENGE INFOS STEP
                     composable<Route.CreateChallengeInfosStep>(

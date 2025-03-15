@@ -5,6 +5,8 @@ import androidx.compose.ui.graphics.Color
 
 // Custom colors
 
+const val DISABLED_ALPHA = 0.38f
+
 @Immutable
 data class CustomColors(
     val challengeCardContainerTodo: Color,

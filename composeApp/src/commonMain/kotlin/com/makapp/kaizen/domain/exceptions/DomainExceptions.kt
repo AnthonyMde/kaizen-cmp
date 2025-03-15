@@ -44,6 +44,5 @@ sealed class DomainException(message: String = "") : Exception(message) {
 
     sealed class Challenge : DomainException() {
         data object HasNoName : Challenge()
-        data object HasNoMaxErrors : Challenge()
     }
 }

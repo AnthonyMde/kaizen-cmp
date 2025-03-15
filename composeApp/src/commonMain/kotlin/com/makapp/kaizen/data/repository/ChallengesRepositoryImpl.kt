@@ -49,7 +49,7 @@ class ChallengesRepositoryImpl(
 
         val request = CreateChallengeRequest(
             name = form.name,
-            maxFailures = form.numberOfErrors.toInt(),
+            maxFailures = form.maxLives,
             commitment = form.commitment,
             expectations = form.expectations
         )

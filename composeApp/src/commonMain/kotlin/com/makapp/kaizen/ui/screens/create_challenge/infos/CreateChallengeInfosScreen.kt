@@ -1,21 +1,25 @@
 package com.makapp.kaizen.ui.screens.create_challenge.infos
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,24 +29,27 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.components.LimitedCharTextField
+import com.makapp.kaizen.ui.components.Stepper
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
-import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.ic_info_outlined
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CreateChallengeInfosScreenRoot(
@@ -69,12 +76,9 @@ fun CreateChallengeInfosScreenRoot(
         if (!navArgs.title.isNullOrBlank()) {
             viewModel.onInfosAction(CreateChallengeInfosAction.OnNameInputValueChanged(navArgs.title))
         }
-        if (navArgs.lives != null) {
-            viewModel.onInfosAction(
-                CreateChallengeInfosAction.OnNumberOfErrorsInputValueChanged(
-                    navArgs.lives.toString()
-                )
-            )
+        if (navArgs.isEditing && navArgs.lives != null) {
+            viewModel.onInfosAction(CreateChallengeInfosAction.SetMinimumNumberOfLives(navArgs.lives))
+            viewModel.onInfosAction(CreateChallengeInfosAction.OnNumberOfLivesChanged(navArgs.lives))
         }
     }
 
@@ -155,42 +159,56 @@ fun CreateChallengeInfos(
                     modifier = Modifier
                         .fillMaxWidth()
                 )
-                // Number of errors field.
-                OutlinedTextField(
-                    onValueChange = { numberOfErrors ->
-                        onAction(
-                            CreateChallengeInfosAction.OnNumberOfErrorsInputValueChanged(
-                                numberOfErrors
-                            )
-                        )
-                    },
-                    value = state.numberOfErrorsInputValue,
-                    singleLine = true,
-                    shape = RoundedCornerShape(16.dp),
-                    label = {
-                        Text("Number of lives")
-                    },
-                    placeholder = {
-                        PlaceholderText("10")
-                    },
-                    supportingText = {
-                        Text("How many times you can fail this challenge.")
-                    },
-                    isError = state.numberOfErrorsInputError != null,
-                    keyboardOptions = KeyboardOptions().copy(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            submit(keyboard, onAction, navArgs.isEditing, navArgs.challengeId)
-                        },
-                    ),
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
-                )
-                state.numberOfErrorsInputError?.let { message ->
-                    FormErrorText(message, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
+                ) {
+                    Text(
+                        "Number of lives",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Stepper(
+                        value = state.numberOfLivesValue,
+                        onIncrease = { lives ->
+                            onAction(CreateChallengeInfosAction.OnNumberOfLivesChanged(lives))
+                        },
+                        onDecrease = { lives ->
+                            onAction(CreateChallengeInfosAction.OnNumberOfLivesChanged(lives))
+                        },
+                        max = CreateChallengeViewModel.MAX_LIVES_ALLOWED,
+                        min = state.minimumLives
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .padding(16.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(Res.drawable.ic_info_outlined),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        text = if (navArgs.isEditing) {
+                            "You can only increase your number of lives (max 12)."
+                        } else
+                            "Your lives represent how many times you can miss your challenge (max. 12).",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
 
                 Spacer(modifier = Modifier.weight(1f))
@@ -200,7 +218,6 @@ fun CreateChallengeInfos(
                         submit(keyboard, onAction, navArgs.isEditing, navArgs.challengeId)
                     },
                     enabled = state.challengeNameInputValue.isNotBlank() &&
-                            state.numberOfErrorsInputValue.isNotBlank() &&
                             !state.isUpdateInfosLoading,
                     isLoading = state.isUpdateInfosLoading,
                     label = if (navArgs.isEditing) "Update" else "Next",

@@ -33,9 +33,6 @@ class ChallengesService(
         if (form.name.isBlank()) {
             return flowOf(Resource.Error(DomainException.Challenge.HasNoName))
         }
-        if (form.numberOfErrors.isBlank()) {
-            return flowOf(Resource.Error(DomainException.Challenge.HasNoMaxErrors))
-        }
 
         return challengesRepository.create(form)
     }
