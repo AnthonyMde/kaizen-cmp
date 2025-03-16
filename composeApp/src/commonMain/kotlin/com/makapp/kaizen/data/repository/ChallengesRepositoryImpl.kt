@@ -13,15 +13,18 @@ import com.makapp.kaizen.domain.models.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.models.UpdateChallengeFields
 import com.makapp.kaizen.domain.repository.ChallengesRepository
+import com.makapp.kaizen.domain.repository.UsersRepository
 import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class ChallengesRepositoryImpl(
     private val firestore: FirestoreDataSource,
     private val firebaseFunctions: FirebaseFunctionsDataSource,
-    private val challengesDao: ChallengesDao
+    private val challengesDao: ChallengesDao,
+    private val usersRepository: UsersRepository
 ) : ChallengesRepository {
 
     override suspend fun toggleStatus(
@@ -69,23 +72,27 @@ class ChallengesRepositoryImpl(
 
         val fieldsToUpdate = mutableMapOf<String, Any>()
         if (fields.name != null) fieldsToUpdate[ChallengeFieldName.NAME] = fields.name
-        if (fields.status?.name != null) fieldsToUpdate[ChallengeFieldName.STATUS] = fields.status.name
+        if (fields.status?.name != null) fieldsToUpdate[ChallengeFieldName.STATUS] =
+            fields.status.name
         if (fields.maxAuthorizedFailures != null) fieldsToUpdate[ChallengeFieldName.MAX_AUTHORIZED_FAILURES] =
             fields.maxAuthorizedFailures
-        if (fields.expectations != null) fieldsToUpdate[ChallengeFieldName.EXPECTATIONS] = fields.expectations
-        if (fields.commitment != null) fieldsToUpdate[ChallengeFieldName.COMMITMENT] = fields.commitment
+        if (fields.expectations != null) fieldsToUpdate[ChallengeFieldName.EXPECTATIONS] =
+            fields.expectations
+        if (fields.commitment != null) fieldsToUpdate[ChallengeFieldName.COMMITMENT] =
+            fields.commitment
 
         firebaseFunctions.updateChallenge(id, fieldsToUpdate)
+
         emit(Resource.Success())
     }.catch { e ->
         println("DEBUG: (firestore) Cannot update challenge because $e")
         emit(Resource.Error(e.toDomainException()))
     }
 
-    override suspend fun getChallengeById(id: String): Resource<Challenge> = try {
-        val challenge = challengesDao.getById(id).toChallengeDTO().toChallenge()
-        Resource.Success(challenge)
-    } catch (e: Exception) {
-        Resource.Error(e.toDomainException())
-    }
+    override suspend fun watchChallengeById(id: String) =
+        challengesDao.watchById(id).map {
+            Resource.Success(it.toChallengeDTO().toChallenge())
+        }.catch { e ->
+            Resource.Error<Resource<Challenge>>(e.toDomainException())
+        }
 }

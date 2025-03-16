@@ -19,7 +19,7 @@ interface ChallengesRepository {
         id: String,
         fields: UpdateChallengeFields
     ): Flow<Resource<Unit>>
-    suspend fun getChallengeById(
+    suspend fun watchChallengeById(
         id: String
-    ): Resource<Challenge>
+    ): Flow<Resource<Challenge>>
 }

@@ -11,7 +11,7 @@ sealed class ChallengeDetailsAction {
 
     data object OnPauseChallengeClicked : ChallengeDetailsAction()
     data object OnPauseModalDismissed : ChallengeDetailsAction()
-    data object OnPauseConfirmed : ChallengeDetailsAction()
+    data class OnPauseConfirmed(val challengeId: String) : ChallengeDetailsAction()
 
     data object OnGiveUpChallengeClicked : ChallengeDetailsAction()
     data object OnGiveUpModalDismissed : ChallengeDetailsAction()

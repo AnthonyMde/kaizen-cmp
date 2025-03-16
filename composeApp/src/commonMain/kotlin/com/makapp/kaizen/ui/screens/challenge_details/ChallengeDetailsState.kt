@@ -11,6 +11,7 @@ data class ChallengeDetailsState(
 
     val isPauseChallengeModalDisplayed: Boolean = false,
     val isPauseRequestLoading: Boolean = false,
+    val pauseRequestError: String? = null,
 
     val isGiveUpChallengeModalDisplayed: Boolean = false,
     val isDeleteChallengeModalDisplayed: Boolean = false,

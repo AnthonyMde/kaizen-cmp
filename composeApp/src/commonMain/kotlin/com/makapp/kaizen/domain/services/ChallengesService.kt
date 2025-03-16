@@ -36,10 +36,4 @@ class ChallengesService(
 
         return challengesRepository.create(form)
     }
-
-    fun getChallengeById(id: String): Flow<Resource<Challenge>> = flow {
-        emit(Resource.Loading())
-        val result = challengesRepository.getChallengeById(id)
-        emit(result)
-    }
 }

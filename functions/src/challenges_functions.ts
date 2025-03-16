@@ -65,21 +65,21 @@ export const updateChallenge = onCall(async (request) => {
 
     if (updatedChallenge.maxAuthorizedFailures !== undefined) {
         const formerChallenge = await firestore
-        .collection(Collection.USERS)
-        .doc(userId)
-        .collection(Collection.CHALLENGES)
-        .doc(updatedChallenge.id)
-        .get()
-        .then((doc) => doc.data() as Challenge)
+            .collection(Collection.USERS)
+            .doc(userId)
+            .collection(Collection.CHALLENGES)
+            .doc(updatedChallenge.id)
+            .get()
+            .then((doc) => doc.data() as Challenge)
 
         const formerMax = formerChallenge.maxAuthorizedFailures
 
         if (updatedChallenge.maxAuthorizedFailures < formerMax) {
-            throw new HttpsError("invalid-argument", "You cannot decrease your maximum number of lives.")   
+            throw new HttpsError("invalid-argument", "You cannot decrease your maximum number of lives.")
         }
 
         if (updatedChallenge.maxAuthorizedFailures > MAX_LIVES_ALLOWED) {
-            throw new HttpsError("invalid-argument", `You cannot have more than ${MAX_LIVES_ALLOWED} lives.`)   
+            throw new HttpsError("invalid-argument", `You cannot have more than ${MAX_LIVES_ALLOWED} lives.`)
         }
     }
 

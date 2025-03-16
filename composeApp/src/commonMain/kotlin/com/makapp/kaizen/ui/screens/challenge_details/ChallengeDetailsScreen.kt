@@ -41,7 +41,7 @@ fun ChallengeDetailsScreenRoot(
     val state by viewModel.state.collectAsState()
 
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
-        viewModel.fetchChallengeDetails(navArgs.id)
+        viewModel.watchChallengeDetails(navArgs.id)
     }
 
     ChallengeDetailsScreen(
@@ -170,11 +170,12 @@ fun ChallengeDetailsScreen(
                                 onAction(ChallengeDetailsAction.OnPauseModalDismissed)
                             },
                             onConfirmed = {
-                                onAction(ChallengeDetailsAction.OnPauseConfirmed)
+                                onAction(ChallengeDetailsAction.OnPauseConfirmed(state.challenge.id))
                             },
                             isConfirmationLoading = state.isPauseRequestLoading,
                             canBeDismissed = true,
-                            type = ConfirmationModalType.WARNING
+                            type = ConfirmationModalType.WARNING,
+                            error = state.pauseRequestError
                         )
                     }
                 }
