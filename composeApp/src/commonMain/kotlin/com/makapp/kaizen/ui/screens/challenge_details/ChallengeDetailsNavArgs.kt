@@ -5,6 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ChallengeDetailsNavArgs(
     val id: String,
-    val title: String,
     val readOnly: Boolean
 )

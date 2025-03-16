@@ -35,7 +35,7 @@ fun ChallengeDetailsScreenRoot(
     viewModel: ChallengeDetailsViewModel = koinViewModel(),
     navArgs: ChallengeDetailsNavArgs,
     navigateUp: () -> Unit,
-    goToChallengeInfos: (Int) -> Unit,
+    goToChallengeInfos: (Int, String) -> Unit,
     goToChallengeExpectations: (String) -> Unit,
     goToChallengeCommitment: (String) -> Unit,
 ) {
@@ -52,7 +52,7 @@ fun ChallengeDetailsScreenRoot(
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
                 is ChallengeDetailsAction.GoToChallengeInfos ->
-                    goToChallengeInfos(action.maxLives)
+                    goToChallengeInfos(action.maxLives, action.title)
 
                 is ChallengeDetailsAction.GoToChallengeExpectations ->
                     goToChallengeExpectations(action.expectations)
@@ -77,12 +77,14 @@ fun ChallengeDetailsScreen(
     Scaffold(
         topBar = {
             BackTopAppBar(
-                title = state.challenge?.name ?: navArgs.title,
+                title = state.challenge?.name ?: "",
                 onNavigateUp = { onAction(ChallengeDetailsAction.OnNavigateUp) },
                 backDescription = "Go back",
                 actions = {
                     if (!navArgs.readOnly) {
-                        state.challenge?.let { ChallengeDetailsDropDownMenu(it, onAction) }
+                        state.challenge?.let {
+                            ChallengeDetailsDropDownMenu(it, onAction)
+                        }
                     }
                 }
             )

@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsViewModel
-import com.makapp.kaizen.ui.theme.customColors
 import com.makapp.kaizen.utils.DateUtils.toShortDateFormat
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.ic_outline_cake

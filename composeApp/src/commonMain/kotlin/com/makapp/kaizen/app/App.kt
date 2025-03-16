@@ -98,7 +98,6 @@ fun App(userSession: UserSession? = null) {
                             navController.navigate(
                                 Route.ChallengeDetails(
                                     args.id,
-                                    args.title,
                                     args.readOnly
                                 )
                             )
@@ -243,8 +242,6 @@ fun App(userSession: UserSession? = null) {
                     popEnterTransition = { defaultPopEnterTransition() },
                     popExitTransition = { defaultPopExitTransition() }
                 ) { backStackEntry ->
-                    val title =
-                        backStackEntry.arguments?.getString("title") ?: return@composable
                     val id = backStackEntry.arguments?.getString("id") ?: return@composable
                     val readOnly =
                         backStackEntry.arguments?.getBoolean("readOnly") ?: return@composable
@@ -252,13 +249,12 @@ fun App(userSession: UserSession? = null) {
                     ChallengeDetailsScreenRoot(
                         navArgs = ChallengeDetailsNavArgs(
                             id,
-                            title,
                             readOnly
                         ),
                         navigateUp = {
                             navController.popBackStack()
                         },
-                        goToChallengeInfos = { lives ->
+                        goToChallengeInfos = { lives, title ->
                             navController.navigate(
                                 Route.CreateChallengeInfosStep(
                                     editing = true,

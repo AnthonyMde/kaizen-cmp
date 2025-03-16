@@ -46,7 +46,6 @@ sealed class Route {
     @Serializable
     data class ChallengeDetails(
         val id: String,
-        val title: String,
         val readOnly: Boolean
     ) : Route()
 }

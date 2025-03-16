@@ -37,7 +37,7 @@ fun ChallengeDetailsDropDownMenu(
             icon = Res.drawable.ic_pen_outlined,
             action = ChallengeDetailsAction.GoToChallengeInfos(
                 challenge.name,
-                challenge.failureCount
+                challenge.maxAuthorizedFailures
             ),
             color = MaterialTheme.colorScheme.onSurface
         ),
