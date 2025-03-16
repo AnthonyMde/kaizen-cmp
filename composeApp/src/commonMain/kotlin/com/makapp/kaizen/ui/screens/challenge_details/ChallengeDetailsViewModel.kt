@@ -24,7 +24,27 @@ class ChallengeDetailsViewModel(
 
     fun onAction(action: ChallengeDetailsAction) {
         when (action) {
-
+            ChallengeDetailsAction.OnStatusButtonClicked -> {
+                _state.update { it.copy(
+                    isBottomSheetOpened = true
+                ) }
+            }
+            ChallengeDetailsAction.OnPauseChallengeClicked -> {
+                _state.update { it.copy(
+                    isBottomSheetOpened = false
+                ) }
+            }
+            ChallengeDetailsAction.OnGiveUpChallengeClicked -> {
+                _state.update { it.copy(
+                    isBottomSheetOpened = false
+                ) }
+            }
+            ChallengeDetailsAction.OnBottomSheetDismissed -> {
+                _state.update { it.copy(
+                    isBottomSheetOpened = false
+                ) }
+            }
+            ChallengeDetailsAction.OnDeleteChallengeClicked -> TODO()
             else -> {}
         }
     }

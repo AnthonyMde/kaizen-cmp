@@ -42,12 +42,6 @@ fun ChallengeDetailsDropDownMenu(
             color = MaterialTheme.colorScheme.onSurface
         ),
         ChallengeDetailsDropDownMenuItem(
-            title = "Abandon",
-            icon = Res.drawable.ic_flag_outlined,
-            action = ChallengeDetailsAction.OnAbandonChallengeClicked,
-            color = MaterialTheme.colorScheme.onSurface
-        ),
-        ChallengeDetailsDropDownMenuItem(
             title = "Delete",
             icon = Res.drawable.ic_bin_outlined,
             action = ChallengeDetailsAction.OnDeleteChallengeClicked,

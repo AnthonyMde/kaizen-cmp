@@ -23,6 +23,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsClickableTextBoxView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDropDownMenu
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsStatusBottomSheet
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -153,6 +154,10 @@ fun ChallengeDetailsScreen(
                             )
                         }
                     )
+
+                    if (state.isBottomSheetOpened) {
+                        ChallengeDetailsStatusBottomSheet(onAction)
+                    }
                 }
             }
         }

@@ -105,7 +105,9 @@ fun ChallengeDetailsDashboardCard(
         ChallengeDaysCircularProgress(challenge.days)
 
         Button(
-            onClick = {},
+            onClick = {
+                onAction(ChallengeDetailsAction.OnStatusButtonClicked)
+            },
             enabled = !readOnly,
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = MaterialTheme.colorScheme.tertiary,

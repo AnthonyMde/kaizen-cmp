@@ -1,0 +1,56 @@
+package com.makapp.kaizen.ui.screens.challenge_details.components
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ChallengeDetailsStatusBottomSheet(
+    onAction: (ChallengeDetailsAction) -> Unit
+) {
+    ModalBottomSheet(
+        onDismissRequest = {
+            onAction(ChallengeDetailsAction.OnBottomSheetDismissed)
+        },
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Button(
+                onClick = {
+                    onAction(ChallengeDetailsAction.OnPauseChallengeClicked)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text("Pause this challenge")
+            }
+            TextButton(
+                onClick = {
+                    onAction(ChallengeDetailsAction.OnGiveUpChallengeClicked)
+                },
+                colors = ButtonDefaults.textButtonColors().copy(
+                    contentColor = MaterialTheme.colorScheme.error
+                ),
+                modifier = Modifier
+            ) {
+                Text("Give up this challenge")
+            }
+        }
+    }
+}
