@@ -25,6 +25,8 @@ import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetail
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDropDownMenu
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsStatusBottomSheet
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.screens.components.ConfirmationModal
+import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -157,6 +159,23 @@ fun ChallengeDetailsScreen(
 
                     if (state.isBottomSheetOpened) {
                         ChallengeDetailsStatusBottomSheet(onAction)
+                    }
+
+                    if (state.isPauseChallengeModalDisplayed) {
+                        ConfirmationModal(
+                            title = "Pause this challenge",
+                            subtitle = "Your progress will be paused. You will be able to resume your challenge at anytime.",
+                            confirmationButtonText = "Pause",
+                            onDismissed = {
+                                onAction(ChallengeDetailsAction.OnPauseModalDismissed)
+                            },
+                            onConfirmed = {
+                                onAction(ChallengeDetailsAction.OnPauseConfirmed)
+                            },
+                            isConfirmationLoading = state.isPauseRequestLoading,
+                            canBeDismissed = true,
+                            type = ConfirmationModalType.WARNING
+                        )
                     }
                 }
             }

@@ -7,5 +7,11 @@ data class ChallengeDetailsState(
     val title: String = "",
     val challenge: Challenge? = null,
     val challengeError: String? = null,
-    val isBottomSheetOpened: Boolean = false
+    val isBottomSheetOpened: Boolean = false,
+
+    val isPauseChallengeModalDisplayed: Boolean = false,
+    val isPauseRequestLoading: Boolean = false,
+
+    val isGiveUpChallengeModalDisplayed: Boolean = false,
+    val isDeleteChallengeModalDisplayed: Boolean = false,
 )

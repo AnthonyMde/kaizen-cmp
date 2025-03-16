@@ -9,6 +9,7 @@ import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.ic_broken_heart
 import kaizen.composeapp.generated.resources.ic_heart
 import kaizen.composeapp.generated.resources.ic_heart_plus
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -31,12 +32,31 @@ class ChallengeDetailsViewModel(
             }
             ChallengeDetailsAction.OnPauseChallengeClicked -> {
                 _state.update { it.copy(
-                    isBottomSheetOpened = false
+                    isBottomSheetOpened = false,
+                    isPauseChallengeModalDisplayed = true
                 ) }
+            }
+            ChallengeDetailsAction.OnPauseModalDismissed -> {
+                _state.update { it.copy(
+                    isPauseChallengeModalDisplayed = false
+                ) }
+            }
+            ChallengeDetailsAction.OnPauseConfirmed -> {
+                _state.update { it.copy(
+                    isPauseRequestLoading = true
+                ) }
+                viewModelScope.launch {
+                    delay(1000)
+                    _state.update { it.copy(
+                        isPauseRequestLoading = false,
+                        isPauseChallengeModalDisplayed = false
+                    ) }
+                }
             }
             ChallengeDetailsAction.OnGiveUpChallengeClicked -> {
                 _state.update { it.copy(
-                    isBottomSheetOpened = false
+                    isBottomSheetOpened = false,
+                    isGiveUpChallengeModalDisplayed = true
                 ) }
             }
             ChallengeDetailsAction.OnBottomSheetDismissed -> {
@@ -44,7 +64,11 @@ class ChallengeDetailsViewModel(
                     isBottomSheetOpened = false
                 ) }
             }
-            ChallengeDetailsAction.OnDeleteChallengeClicked -> TODO()
+            ChallengeDetailsAction.OnDeleteChallengeClicked -> {
+                _state.update { it.copy(
+                    isGiveUpChallengeModalDisplayed = true
+                ) }
+            }
             else -> {}
         }
     }
