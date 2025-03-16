@@ -16,7 +16,7 @@ export interface Challenge {
 }
 
 export enum ChallengeStatus {
-    'ON_GOING', 'PAUSED', 'DONE', 'FAILED'
+    'ON_GOING', 'PAUSED', 'DONE', 'FAILED', 'ABANDONED'
 }
 
 export const NUMBER_OF_DAYS_FOR_DONE = 365

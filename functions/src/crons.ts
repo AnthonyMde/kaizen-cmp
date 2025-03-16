@@ -14,9 +14,8 @@ export const checkUserChallengesCron = onSchedule({ schedule: "0 4 * * *", timeZ
             for (const challengeDoc of challengeCollection.docs) {
                 const challenge = challengeDoc.data() as Challenge
 
-                if (challenge.status === ChallengeStatus[ChallengeStatus.PAUSED] ||
-                    challenge.status === ChallengeStatus[ChallengeStatus.DONE] ||
-                    challenge.status === ChallengeStatus[ChallengeStatus.FAILED]) continue // skip not ongoing challenge.
+                if (challenge.status !== ChallengeStatus[ChallengeStatus.ON_GOING]
+                    || challenge.isDeleted === true) continue // skip not ongoing challenge.
 
                 let failureCount: number = challenge.failureCount
                 let status: string = challenge.status
