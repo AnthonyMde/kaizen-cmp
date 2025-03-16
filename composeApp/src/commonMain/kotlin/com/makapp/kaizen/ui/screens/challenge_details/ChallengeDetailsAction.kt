@@ -23,4 +23,5 @@ sealed class ChallengeDetailsAction {
 
     data object OnDeleteChallengeClicked : ChallengeDetailsAction()
     data object OnDeleteModalDismissed : ChallengeDetailsAction()
+    data class OnDeleteChallengeConfirmed(val challengeId: String) : ChallengeDetailsAction()
 }

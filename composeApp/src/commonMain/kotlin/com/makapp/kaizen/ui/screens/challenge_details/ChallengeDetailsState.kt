@@ -15,5 +15,6 @@ data class ChallengeDetailsState(
     val changeStatusRequestError: String? = null,
 
     val isDeleteChallengeModalDisplayed: Boolean = false,
-    val isDeleteRequestLoading: Boolean = false
+    val isDeleteRequestLoading: Boolean = false,
+    val deleteRequestError: String? = null
 )

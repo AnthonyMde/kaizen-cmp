@@ -80,6 +80,8 @@ class ChallengesRepositoryImpl(
             fields.expectations
         if (fields.commitment != null) fieldsToUpdate[ChallengeFieldName.COMMITMENT] =
             fields.commitment
+        if (fields.isDeleted != null) fieldsToUpdate[ChallengeFieldName.IS_DELETED] =
+            fields.isDeleted
 
         firebaseFunctions.updateChallenge(id, fieldsToUpdate)
 

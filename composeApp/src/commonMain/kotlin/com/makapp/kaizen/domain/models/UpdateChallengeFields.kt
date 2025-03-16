@@ -8,4 +8,5 @@ data class UpdateChallengeFields(
     val maxAuthorizedFailures: Int? = null,
     val commitment: String? = null,
     val expectations: String? = null,
+    val isDeleted: Boolean? = null,
 )

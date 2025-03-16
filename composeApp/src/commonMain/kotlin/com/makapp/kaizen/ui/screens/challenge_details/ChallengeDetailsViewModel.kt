@@ -11,7 +11,10 @@ import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.ic_broken_heart
 import kaizen.composeapp.generated.resources.ic_heart
 import kaizen.composeapp.generated.resources.ic_heart_plus
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -25,52 +28,93 @@ class ChallengeDetailsViewModel(
     private val _state = MutableStateFlow(ChallengeDetailsState())
     val state = _state.asStateFlow()
 
+    private val _event = MutableSharedFlow<ChallengeDetailsEvents>(
+        extraBufferCapacity = 1,
+        replay = 0,
+        onBufferOverflow = BufferOverflow.DROP_LATEST
+    )
+    val event = _event.asSharedFlow()
+
     fun onAction(action: ChallengeDetailsAction) {
         when (action) {
             ChallengeDetailsAction.OnStatusButtonClicked -> {
-                _state.update { it.copy(
-                    isBottomSheetOpened = true
-                ) }
+                _state.update {
+                    it.copy(
+                        isBottomSheetOpened = true
+                    )
+                }
             }
+
             ChallengeDetailsAction.OnResumeChallengeClicked -> {
-                _state.update { it.copy(
-                    isBottomSheetOpened = false,
-                    isChangeStatusModalDisplayed = true,
-                    newStatusRequested = Challenge.Status.ON_GOING
-                ) }
+                _state.update {
+                    it.copy(
+                        isBottomSheetOpened = false,
+                        isChangeStatusModalDisplayed = true,
+                        newStatusRequested = Challenge.Status.ON_GOING
+                    )
+                }
             }
+
             ChallengeDetailsAction.OnPauseChallengeClicked -> {
-                _state.update { it.copy(
-                    isBottomSheetOpened = false,
-                    isChangeStatusModalDisplayed = true,
-                    newStatusRequested = Challenge.Status.PAUSED
-                ) }
+                _state.update {
+                    it.copy(
+                        isBottomSheetOpened = false,
+                        isChangeStatusModalDisplayed = true,
+                        newStatusRequested = Challenge.Status.PAUSED
+                    )
+                }
             }
+
             ChallengeDetailsAction.OnGiveUpChallengeClicked -> {
-                _state.update { it.copy(
-                    isBottomSheetOpened = false,
-                    isChangeStatusModalDisplayed = true,
-                    newStatusRequested = Challenge.Status.ABANDONED
-                ) }
+                _state.update {
+                    it.copy(
+                        isBottomSheetOpened = false,
+                        isChangeStatusModalDisplayed = true,
+                        newStatusRequested = Challenge.Status.ABANDONED
+                    )
+                }
             }
+
             ChallengeDetailsAction.OnChangeStatusModalDismissed -> {
-                _state.update { it.copy(
-                    isChangeStatusModalDisplayed = false
-                ) }
+                _state.update {
+                    it.copy(
+                        isChangeStatusModalDisplayed = false
+                    )
+                }
             }
+
             is ChallengeDetailsAction.OnChangeStatusConfirmed -> {
                 changeStatus(action.challengeId, action.newStatus)
             }
+
             ChallengeDetailsAction.OnBottomSheetDismissed -> {
-                _state.update { it.copy(
-                    isBottomSheetOpened = false
-                ) }
+                _state.update {
+                    it.copy(
+                        isBottomSheetOpened = false
+                    )
+                }
             }
+
             ChallengeDetailsAction.OnDeleteChallengeClicked -> {
-                _state.update { it.copy(
-                    isDeleteChallengeModalDisplayed = true
-                ) }
+                _state.update {
+                    it.copy(
+                        isDeleteChallengeModalDisplayed = true
+                    )
+                }
             }
+
+            ChallengeDetailsAction.OnDeleteModalDismissed -> {
+                _state.update {
+                    it.copy(
+                        isDeleteChallengeModalDisplayed = false
+                    )
+                }
+            }
+
+            is ChallengeDetailsAction.OnDeleteChallengeConfirmed -> {
+                deleteChallenge(action.challengeId)
+            }
+
             else -> {}
         }
     }
@@ -117,40 +161,76 @@ class ChallengeDetailsViewModel(
     fun isChallengeEditable(challenge: Challenge?, readOnly: Boolean): Boolean =
         !readOnly && (challenge?.isPaused() == true || challenge?.isOngoing() == true)
 
+    private fun deleteChallenge(challengeId: String) = viewModelScope.launch {
+        challengesRepository.update(
+            id = challengeId,
+            fields = UpdateChallengeFields(
+                isDeleted = true
+            )
+        ).collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _state.update {
+                        it.copy(
+                            isDeleteRequestLoading = false,
+                            deleteRequestError = result.throwable?.message
+                        )
+                    }
+                }
+
+                is Resource.Loading -> {
+                    _state.update {
+                        it.copy(
+                            isDeleteRequestLoading = true
+                        )
+                    }
+                }
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            isDeleteRequestLoading = false,
+                            deleteRequestError = null,
+                            isDeleteChallengeModalDisplayed = false
+                        )
+                    }
+                    _event.tryEmit(ChallengeDetailsEvents.NavigateUp)
+                }
+            }
+        }
+    }
+
     private fun changeStatus(
         challengeId: String,
         newStatusRequested: Challenge.Status
-    ) {
-        viewModelScope.launch {
-            challengesRepository.update(
-                id = challengeId,
-                fields = UpdateChallengeFields(status = newStatusRequested)
-            ).collectLatest { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _state.update {
-                            it.copy(
-                                isChangeStatusRequestLoading = false,
-                                changeStatusRequestError = result.throwable?.message
-                            )
-                        }
+    ) = viewModelScope.launch {
+        challengesRepository.update(
+            id = challengeId,
+            fields = UpdateChallengeFields(status = newStatusRequested)
+        ).collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _state.update {
+                        it.copy(
+                            isChangeStatusRequestLoading = false,
+                            changeStatusRequestError = result.throwable?.message
+                        )
                     }
+                }
 
-                    is Resource.Loading -> {
-                        _state.update {
-                            it.copy(
-                                isChangeStatusRequestLoading = true
-                            )
-                        }
+                is Resource.Loading -> {
+                    _state.update {
+                        it.copy(
+                            isChangeStatusRequestLoading = true
+                        )
                     }
+                }
 
-                    is Resource.Success -> {
-                        _state.update {
-                            it.copy(
-                                isChangeStatusRequestLoading = false,
-                                isChangeStatusModalDisplayed = false
-                            )
-                        }
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            isChangeStatusRequestLoading = false,
+                            isChangeStatusModalDisplayed = false
+                        )
                     }
                 }
             }

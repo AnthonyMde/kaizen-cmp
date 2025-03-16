@@ -14,8 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -24,8 +26,11 @@ import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetail
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDropDownMenu
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusBottomSheet
-import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusModal
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusModalView
+import com.makapp.kaizen.ui.screens.challenge_details.components.DeleteChallengeModalView
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -38,6 +43,17 @@ fun ChallengeDetailsScreenRoot(
     goToChallengeCommitment: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(null) {
+        scope.launch {
+            viewModel.event.collectLatest { event ->
+                when (event) {
+                    ChallengeDetailsEvents.NavigateUp -> navigateUp()
+                }
+            }
+        }
+    }
 
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
         viewModel.watchChallengeDetails(navArgs.id)
@@ -163,11 +179,20 @@ fun ChallengeDetailsScreen(
                     }
 
                     if (state.isChangeStatusModalDisplayed && state.newStatusRequested != null) {
-                        ChangeChallengeStatusModal(
+                        ChangeChallengeStatusModalView(
                             newRequestedStatus = state.newStatusRequested,
                             challengeId = challenge.id,
                             isLoading = state.isChangeStatusRequestLoading,
                             error = state.changeStatusRequestError,
+                            onAction = onAction
+                        )
+                    }
+
+                    if (state.isDeleteChallengeModalDisplayed) {
+                        DeleteChallengeModalView(
+                            challengeId = state.challenge.id,
+                            isLoading = state.isDeleteRequestLoading,
+                            error = state.deleteRequestError,
                             onAction = onAction
                         )
                     }

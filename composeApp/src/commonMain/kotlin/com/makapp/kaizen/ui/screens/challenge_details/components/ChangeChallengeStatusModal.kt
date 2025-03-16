@@ -7,7 +7,7 @@ import com.makapp.kaizen.ui.screens.components.ConfirmationModal
 import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
 
 @Composable
-fun ChangeChallengeStatusModal(
+fun ChangeChallengeStatusModalView(
     newRequestedStatus: Challenge.Status,
     challengeId: String,
     isLoading: Boolean,
@@ -49,10 +49,10 @@ private fun getChangeStatusModalTitle(status: Challenge.Status): String {
 private fun getChangeStatusModalSubtitle(status: Challenge.Status): String {
     return when (status) {
         Challenge.Status.ON_GOING -> "Your progress will resume and you will have to do your challenge today."
-        Challenge.Status.PAUSED -> "Your progress will be paused. You will be able to resume your challenge at anytime."
+        Challenge.Status.PAUSED -> "Your progress will be paused. \nYou will be able to resume your challenge at anytime."
         Challenge.Status.DONE -> ""
         Challenge.Status.FAILED -> ""
-        Challenge.Status.ABANDONED -> "This challenge cannot be recovered once abandoned. \nHowever, you can still view it in your profile under the Archived Challenges section."
+        Challenge.Status.ABANDONED -> "This challenge cannot be recovered once abandoned. \n\nHowever, you can still view it in your profile under the Archived Challenges section."
     }
 }
 

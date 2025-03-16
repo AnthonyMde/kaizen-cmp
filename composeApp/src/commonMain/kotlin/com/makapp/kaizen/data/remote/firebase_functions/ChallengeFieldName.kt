@@ -7,4 +7,5 @@ object ChallengeFieldName {
     const val MAX_AUTHORIZED_FAILURES = "maxAuthorizedFailures"
     const val EXPECTATIONS = "expectations"
     const val COMMITMENT = "commitment"
+    const val IS_DELETED = "isDeleted"
 }
