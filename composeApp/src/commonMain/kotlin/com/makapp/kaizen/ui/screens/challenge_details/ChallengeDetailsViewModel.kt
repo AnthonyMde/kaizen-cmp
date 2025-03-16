@@ -32,10 +32,25 @@ class ChallengeDetailsViewModel(
                     isBottomSheetOpened = true
                 ) }
             }
-            ChallengeDetailsAction.OnChangeStatusClicked -> {
+            ChallengeDetailsAction.OnResumeChallengeClicked -> {
                 _state.update { it.copy(
                     isBottomSheetOpened = false,
-                    isChangeStatusModalDisplayed = true
+                    isChangeStatusModalDisplayed = true,
+                    newStatusRequested = Challenge.Status.ON_GOING
+                ) }
+            }
+            ChallengeDetailsAction.OnPauseChallengeClicked -> {
+                _state.update { it.copy(
+                    isBottomSheetOpened = false,
+                    isChangeStatusModalDisplayed = true,
+                    newStatusRequested = Challenge.Status.PAUSED
+                ) }
+            }
+            ChallengeDetailsAction.OnGiveUpChallengeClicked -> {
+                _state.update { it.copy(
+                    isBottomSheetOpened = false,
+                    isChangeStatusModalDisplayed = true,
+                    newStatusRequested = Challenge.Status.ABANDONED
                 ) }
             }
             ChallengeDetailsAction.OnChangeStatusModalDismissed -> {
@@ -44,18 +59,7 @@ class ChallengeDetailsViewModel(
                 ) }
             }
             is ChallengeDetailsAction.OnChangeStatusConfirmed -> {
-                val newStatusRequested = if (action.currentStatus === Challenge.Status.PAUSED) {
-                    Challenge.Status.ON_GOING
-                } else {
-                    Challenge.Status.PAUSED
-                }
-                changeStatus(action, newStatusRequested)
-            }
-            ChallengeDetailsAction.OnGiveUpChallengeClicked -> {
-                _state.update { it.copy(
-                    isBottomSheetOpened = false,
-                    isGiveUpChallengeModalDisplayed = true
-                ) }
+                changeStatus(action.challengeId, action.newStatus)
             }
             ChallengeDetailsAction.OnBottomSheetDismissed -> {
                 _state.update { it.copy(
@@ -64,7 +68,7 @@ class ChallengeDetailsViewModel(
             }
             ChallengeDetailsAction.OnDeleteChallengeClicked -> {
                 _state.update { it.copy(
-                    isGiveUpChallengeModalDisplayed = true
+                    isDeleteChallengeModalDisplayed = true
                 ) }
             }
             else -> {}
@@ -107,13 +111,19 @@ class ChallengeDetailsViewModel(
         }
     }
 
+    fun isHeartButtonClickable(isEditable: Boolean, challenge: Challenge): Boolean =
+        isEditable && challenge.maxAuthorizedFailures < Challenge.MAX_POSSIBLE_FAILURES
+
+    fun isChallengeEditable(challenge: Challenge?, readOnly: Boolean): Boolean =
+        !readOnly && (challenge?.isPaused() == true || challenge?.isOngoing() == true)
+
     private fun changeStatus(
-        action: ChallengeDetailsAction.OnChangeStatusConfirmed,
+        challengeId: String,
         newStatusRequested: Challenge.Status
     ) {
         viewModelScope.launch {
             challengesRepository.update(
-                id = action.challengeId,
+                id = challengeId,
                 fields = UpdateChallengeFields(status = newStatusRequested)
             ).collectLatest { result ->
                 when (result) {
@@ -143,12 +153,6 @@ class ChallengeDetailsViewModel(
                         }
                     }
                 }
-            }
-            _state.update {
-                it.copy(
-                    isChangeStatusRequestLoading = false,
-                    isChangeStatusModalDisplayed = false
-                )
             }
         }
     }

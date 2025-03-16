@@ -37,7 +37,7 @@ import org.koin.compose.koinInject
 @Composable
 fun ChallengeDetailsDashboardCard(
     challenge: Challenge,
-    readOnly: Boolean,
+    isEditable: Boolean,
     onAction: (ChallengeDetailsAction) -> Unit
 ) {
     val viewModel = koinInject<ChallengeDetailsViewModel>()
@@ -82,7 +82,8 @@ fun ChallengeDetailsDashboardCard(
                                 challenge.maxAuthorizedFailures
                             )
                         )
-                    }) {
+                    },
+                    enabled = viewModel.isHeartButtonClickable(isEditable, challenge)) {
                     Icon(
                         painter = painterResource(
                             viewModel.getHeartIcon(
@@ -95,10 +96,12 @@ fun ChallengeDetailsDashboardCard(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                Text(
-                    "${challenge.maxAuthorizedFailures - challenge.failureCount}/${challenge.maxAuthorizedFailures}",
-                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
-                )
+                if (!challenge.isFailed()) {
+                    Text(
+                        "${challenge.maxAuthorizedFailures - challenge.failureCount}/${challenge.maxAuthorizedFailures}",
+                        style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
+                    )
+                }
             }
         }
 
@@ -108,8 +111,8 @@ fun ChallengeDetailsDashboardCard(
             onClick = {
                 onAction(ChallengeDetailsAction.OnStatusButtonClicked)
             },
-            enabled = !readOnly,
-            colors = if (challenge.isPaused()) {
+            enabled = isEditable,
+            colors = if (challenge.isPaused() || challenge.isAbandoned()) {
                 ButtonDefaults.buttonColors().copy(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant
@@ -123,9 +126,9 @@ fun ChallengeDetailsDashboardCard(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Row {
-                if (!readOnly) Spacer(modifier = Modifier.width(8.dp))
+                if (isEditable) Spacer(modifier = Modifier.width(8.dp))
                 Text(text = getChallengeStatusText(challenge.status))
-                if (!readOnly) {
+                if (isEditable) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Change challenge's status.",
@@ -149,5 +152,9 @@ private fun getChallengeStatusText(status: Challenge.Status): String = when (sta
     }
     Challenge.Status.FAILED -> {
         "Failed"
+    }
+
+    Challenge.Status.ABANDONED -> {
+        "Abandoned"
     }
 }

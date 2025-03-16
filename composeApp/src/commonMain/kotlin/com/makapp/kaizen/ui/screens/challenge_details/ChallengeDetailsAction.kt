@@ -11,17 +11,15 @@ sealed class ChallengeDetailsAction {
     data object OnStatusButtonClicked : ChallengeDetailsAction()
     data object OnBottomSheetDismissed : ChallengeDetailsAction()
 
-    data object OnChangeStatusClicked : ChallengeDetailsAction()
+    data object OnResumeChallengeClicked : ChallengeDetailsAction()
+    data object OnPauseChallengeClicked : ChallengeDetailsAction()
+    data object OnGiveUpChallengeClicked : ChallengeDetailsAction()
+
     data object OnChangeStatusModalDismissed : ChallengeDetailsAction()
     data class OnChangeStatusConfirmed(
         val challengeId: String,
-        val currentStatus: Challenge.Status
+        val newStatus: Challenge.Status
     ) : ChallengeDetailsAction()
-
-    data object OnResumeModalDismissed : ChallengeDetailsAction()
-
-    data object OnGiveUpChallengeClicked : ChallengeDetailsAction()
-    data object OnGiveUpModalDismissed : ChallengeDetailsAction()
 
     data object OnDeleteChallengeClicked : ChallengeDetailsAction()
     data object OnDeleteModalDismissed : ChallengeDetailsAction()

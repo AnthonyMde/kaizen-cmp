@@ -20,14 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsClickableTextBoxView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDropDownMenu
-import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsStatusBottomSheet
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusBottomSheet
+import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusModal
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
-import com.makapp.kaizen.ui.screens.components.ConfirmationModal
-import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -46,8 +44,8 @@ fun ChallengeDetailsScreenRoot(
     }
 
     ChallengeDetailsScreen(
-        navArgs = navArgs,
         state = state,
+        isEditable = viewModel.isChallengeEditable(state.challenge, navArgs.readOnly),
         onAction = { action ->
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
@@ -68,7 +66,7 @@ fun ChallengeDetailsScreenRoot(
 
 @Composable
 fun ChallengeDetailsScreen(
-    navArgs: ChallengeDetailsNavArgs,
+    isEditable: Boolean,
     state: ChallengeDetailsState,
     onAction: (ChallengeDetailsAction) -> Unit,
 ) {
@@ -81,7 +79,7 @@ fun ChallengeDetailsScreen(
                 onNavigateUp = { onAction(ChallengeDetailsAction.OnNavigateUp) },
                 backDescription = "Go back",
                 actions = {
-                    if (!navArgs.readOnly) {
+                    if (isEditable) {
                         state.challenge?.let {
                             ChallengeDetailsDropDownMenu(it, onAction)
                         }
@@ -122,7 +120,7 @@ fun ChallengeDetailsScreen(
 
                     ChallengeDetailsDashboardCard(
                         challenge = challenge,
-                        readOnly = navArgs.readOnly,
+                        isEditable = isEditable,
                         onAction = onAction
                     )
 
@@ -133,7 +131,7 @@ fun ChallengeDetailsScreen(
                         text = state.challenge.commitment,
                         emptyViewTitle = "Minimum commitment \uD83D\uDD25",
                         emptyViewText = "Specify your minimum daily commitment here.",
-                        readOnly = navArgs.readOnly,
+                        readOnly = !isEditable,
                         onClick = {
                             onAction(
                                 ChallengeDetailsAction.GoToChallengeCommitment(
@@ -150,7 +148,7 @@ fun ChallengeDetailsScreen(
                         text = state.challenge.expectations,
                         emptyViewTitle = "My expectations \uD83E\uDDD8\u200D♂\uFE0F",
                         emptyViewText = "Specify what do you expect from this 365-days challenge.",
-                        readOnly = navArgs.readOnly,
+                        readOnly = !isEditable,
                         onClick = {
                             onAction(
                                 ChallengeDetailsAction.GoToChallengeExpectations(
@@ -161,29 +159,16 @@ fun ChallengeDetailsScreen(
                     )
 
                     if (state.isBottomSheetOpened) {
-                        ChallengeDetailsStatusBottomSheet(onAction, challenge.status)
+                        ChangeChallengeStatusBottomSheet(onAction, state.challenge.status)
                     }
 
-                    if (state.isChangeStatusModalDisplayed) {
-                        ConfirmationModal(
-                            title = getChangeStatusModalTitle(challenge.status),
-                            subtitle = getChangeStatusModalSubtitle(challenge.status),
-                            confirmationButtonText = getChangeStatusModalButtonText(challenge.status),
-                            onDismissed = {
-                                onAction(ChallengeDetailsAction.OnChangeStatusModalDismissed)
-                            },
-                            onConfirmed = {
-                                onAction(
-                                    ChallengeDetailsAction.OnChangeStatusConfirmed(
-                                        state.challenge.id,
-                                        state.challenge.status
-                                    )
-                                )
-                            },
-                            isConfirmationLoading = state.isChangeStatusRequestLoading,
-                            canBeDismissed = true,
-                            type = ConfirmationModalType.WARNING,
-                            error = state.changeStatusRequestError
+                    if (state.isChangeStatusModalDisplayed && state.newStatusRequested != null) {
+                        ChangeChallengeStatusModal(
+                            newRequestedStatus = state.newStatusRequested,
+                            challengeId = challenge.id,
+                            isLoading = state.isChangeStatusRequestLoading,
+                            error = state.changeStatusRequestError,
+                            onAction = onAction
                         )
                     }
                 }
@@ -192,26 +177,3 @@ fun ChallengeDetailsScreen(
     }
 }
 
-private fun getChangeStatusModalTitle(status: Challenge.Status): String {
-    return if (status === Challenge.Status.PAUSED) {
-        "Resume this challenge"
-    } else {
-        "Pause this challenge"
-    }
-}
-
-private fun getChangeStatusModalSubtitle(status: Challenge.Status): String {
-    return if (status === Challenge.Status.PAUSED) {
-        "Your progress will resume and you will have to do your challenge today."
-    } else {
-        "Your progress will be paused. You will be able to resume your challenge at anytime."
-    }
-}
-
-private fun getChangeStatusModalButtonText(status: Challenge.Status): String {
-    return if (status === Challenge.Status.PAUSED) {
-        "Resume"
-    } else {
-        "Pause"
-    }
-}

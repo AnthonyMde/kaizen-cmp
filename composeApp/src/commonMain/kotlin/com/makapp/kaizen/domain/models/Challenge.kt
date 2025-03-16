@@ -20,14 +20,17 @@ data class Challenge(
     companion object {
         const val MAX_POSSIBLE_FAILURES = 12
     }
-    fun isFailed(): Boolean = status == Status.FAILED
+    fun isOngoing(): Boolean = status == Status.ON_GOING
     fun isPaused(): Boolean = status == Status.PAUSED
+    fun isFailed(): Boolean = status == Status.FAILED
+    fun isAbandoned(): Boolean = status == Status.ABANDONED
 
     @Serializable
     enum class Status {
         ON_GOING,
         PAUSED,
         DONE,
-        FAILED
+        FAILED,
+        ABANDONED
     }
 }

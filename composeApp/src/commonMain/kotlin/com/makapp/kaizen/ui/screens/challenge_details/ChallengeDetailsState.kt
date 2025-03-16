@@ -10,9 +10,10 @@ data class ChallengeDetailsState(
     val isBottomSheetOpened: Boolean = false,
 
     val isChangeStatusModalDisplayed: Boolean = false,
+    val newStatusRequested: Challenge.Status? = null,
     val isChangeStatusRequestLoading: Boolean = false,
     val changeStatusRequestError: String? = null,
 
-    val isGiveUpChallengeModalDisplayed: Boolean = false,
     val isDeleteChallengeModalDisplayed: Boolean = false,
+    val isDeleteRequestLoading: Boolean = false
 )

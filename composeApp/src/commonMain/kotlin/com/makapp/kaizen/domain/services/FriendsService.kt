@@ -24,7 +24,7 @@ class FriendsService(
                 val friends = result.data
                     ?.filter { it.isFavorite }
                     ?.map { friend ->
-                        friend.copy(challenges = friend.challenges.filter { !it.isFailed() })
+                        friend.copy(challenges = friend.challenges.filter { !it.isFailed() && !it.isAbandoned() })
                     }
                 Resource.Success(friends)
             } else {

@@ -12,10 +12,7 @@ import com.makapp.kaizen.utils.DateUtils
 @Composable
 fun ChallengeDetailsPreview() {
     ChallengeDetailsScreen(
-        navArgs = ChallengeDetailsNavArgs(
-            id = "1",
-            readOnly = true
-        ),
+        isEditable = true,
         state = ChallengeDetailsState(
             isDetailsLoading = false,
             challenge = Challenge(

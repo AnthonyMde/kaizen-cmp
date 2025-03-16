@@ -19,9 +19,9 @@ import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChallengeDetailsStatusBottomSheet(
+fun ChangeChallengeStatusBottomSheet(
     onAction: (ChallengeDetailsAction) -> Unit,
-    status: Challenge.Status
+    currentStatus: Challenge.Status
 ) {
     ModalBottomSheet(
         onDismissRequest = {
@@ -36,13 +36,13 @@ fun ChallengeDetailsStatusBottomSheet(
         ) {
             Button(
                 onClick = {
-                    onAction(ChallengeDetailsAction.OnChangeStatusClicked)
+                    onAction(getAction(currentStatus))
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
-                Text(getTitle(status))
+                Text(getTitle(currentStatus))
             }
             TextButton(
                 onClick = {
@@ -60,9 +60,17 @@ fun ChallengeDetailsStatusBottomSheet(
 }
 
 private fun getTitle(status: Challenge.Status): String {
-    return if (status === Challenge.Status.PAUSED) {
-        "Resume this challenge"
-    } else {
+    return if (status === Challenge.Status.ON_GOING) {
         "Pause this challenge"
+    } else {
+        "Resume this challenge"
+    }
+}
+
+private fun getAction(status: Challenge.Status): ChallengeDetailsAction {
+    return if (status === Challenge.Status.ON_GOING) {
+        ChallengeDetailsAction.OnPauseChallengeClicked
+    } else {
+        ChallengeDetailsAction.OnResumeChallengeClicked
     }
 }

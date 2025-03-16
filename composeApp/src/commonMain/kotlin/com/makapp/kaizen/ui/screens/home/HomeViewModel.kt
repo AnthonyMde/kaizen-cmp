@@ -123,7 +123,7 @@ class HomeViewModel(
                         it.copy(
                             currentChallenger = result.data?.copy(
                                 challenges = result.data.challenges.filter { challenge ->
-                                    !challenge.isFailed()
+                                    !challenge.isFailed() && !challenge.isAbandoned()
                                 }
                             ),
                             currentChallengerError = null,
