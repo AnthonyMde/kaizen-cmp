@@ -20,7 +20,6 @@ class FriendsRepositoryImpl(
         return friendsDao.watchAll()
             .map { friendsWithChallenges ->
                 val friendsDTO = friendsWithChallenges
-                    .map { it.copy(challenges = it.challenges.filter { challenge -> !challenge.isDeleted }) }
                     .map { it.toFriendDTO() }
                 val friends = friendsDTO.map { it.toFriend() }
                 Resource.Success(friends)
