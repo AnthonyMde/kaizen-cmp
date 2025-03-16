@@ -74,9 +74,9 @@ export const getFriends = onCall(async (request) => {
                 .doc(friend.id)
                 .collection(Collection.CHALLENGES)
                 .get()
-                .then((snapshot) => snapshot.docs.map((doc) => {
-                    return doc.data() as Challenge
-                }))
+                .then((snapshot) => snapshot.docs
+                    .map((doc) => { return doc.data() as Challenge })
+                    .filter((challenge) => !challenge.isDeleted))
 
             return {
                 id: friend.id,
