@@ -32,19 +32,24 @@ class ChallengeDetailsViewModel(
                     isBottomSheetOpened = true
                 ) }
             }
-            ChallengeDetailsAction.OnPauseChallengeClicked -> {
+            ChallengeDetailsAction.OnChangeStatusClicked -> {
                 _state.update { it.copy(
                     isBottomSheetOpened = false,
-                    isPauseChallengeModalDisplayed = true
+                    isChangeStatusModalDisplayed = true
                 ) }
             }
-            ChallengeDetailsAction.OnPauseModalDismissed -> {
+            ChallengeDetailsAction.OnChangeStatusModalDismissed -> {
                 _state.update { it.copy(
-                    isPauseChallengeModalDisplayed = false
+                    isChangeStatusModalDisplayed = false
                 ) }
             }
-            is ChallengeDetailsAction.OnPauseConfirmed -> {
-                pauseChallenge(action)
+            is ChallengeDetailsAction.OnChangeStatusConfirmed -> {
+                val newStatusRequested = if (action.currentStatus === Challenge.Status.PAUSED) {
+                    Challenge.Status.ON_GOING
+                } else {
+                    Challenge.Status.PAUSED
+                }
+                changeStatus(action, newStatusRequested)
             }
             ChallengeDetailsAction.OnGiveUpChallengeClicked -> {
                 _state.update { it.copy(
@@ -94,22 +99,6 @@ class ChallengeDetailsViewModel(
         }
     }
 
-    fun getChallengeStatusText(status: Challenge.Status): String = when (status) {
-        Challenge.Status.ON_GOING -> {
-            "Ongoing"
-        }
-
-        Challenge.Status.PAUSED -> {
-            "Paused"
-        }
-        Challenge.Status.DONE -> {
-            "Completed"
-        }
-        Challenge.Status.FAILED -> {
-            "Failed"
-        }
-    }
-
     fun getHeartIcon(maxFailures: Int, failures: Int): DrawableResource {
         return when {
             failures > maxFailures -> Res.drawable.ic_broken_heart
@@ -118,18 +107,21 @@ class ChallengeDetailsViewModel(
         }
     }
 
-    private fun pauseChallenge(action: ChallengeDetailsAction.OnPauseConfirmed) {
+    private fun changeStatus(
+        action: ChallengeDetailsAction.OnChangeStatusConfirmed,
+        newStatusRequested: Challenge.Status
+    ) {
         viewModelScope.launch {
             challengesRepository.update(
                 id = action.challengeId,
-                fields = UpdateChallengeFields(status = Challenge.Status.PAUSED)
+                fields = UpdateChallengeFields(status = newStatusRequested)
             ).collectLatest { result ->
                 when (result) {
                     is Resource.Error -> {
                         _state.update {
                             it.copy(
-                                isPauseRequestLoading = false,
-                                pauseRequestError = result.throwable?.message
+                                isChangeStatusRequestLoading = false,
+                                changeStatusRequestError = result.throwable?.message
                             )
                         }
                     }
@@ -137,7 +129,7 @@ class ChallengeDetailsViewModel(
                     is Resource.Loading -> {
                         _state.update {
                             it.copy(
-                                isPauseRequestLoading = true
+                                isChangeStatusRequestLoading = true
                             )
                         }
                     }
@@ -145,8 +137,8 @@ class ChallengeDetailsViewModel(
                     is Resource.Success -> {
                         _state.update {
                             it.copy(
-                                isPauseRequestLoading = false,
-                                isPauseChallengeModalDisplayed = false
+                                isChangeStatusRequestLoading = false,
+                                isChangeStatusModalDisplayed = false
                             )
                         }
                     }
@@ -154,8 +146,8 @@ class ChallengeDetailsViewModel(
             }
             _state.update {
                 it.copy(
-                    isPauseRequestLoading = false,
-                    isPauseChallengeModalDisplayed = false
+                    isChangeStatusRequestLoading = false,
+                    isChangeStatusModalDisplayed = false
                 )
             }
         }

@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsClickableTextBoxView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDropDownMenu
@@ -158,28 +159,57 @@ fun ChallengeDetailsScreen(
                     )
 
                     if (state.isBottomSheetOpened) {
-                        ChallengeDetailsStatusBottomSheet(onAction)
+                        ChallengeDetailsStatusBottomSheet(onAction, challenge.status)
                     }
 
-                    if (state.isPauseChallengeModalDisplayed) {
+                    if (state.isChangeStatusModalDisplayed) {
                         ConfirmationModal(
-                            title = "Pause this challenge",
-                            subtitle = "Your progress will be paused. You will be able to resume your challenge at anytime.",
-                            confirmationButtonText = "Pause",
+                            title = getChangeStatusModalTitle(challenge.status),
+                            subtitle = getChangeStatusModalSubtitle(challenge.status),
+                            confirmationButtonText = getChangeStatusModalButtonText(challenge.status),
                             onDismissed = {
-                                onAction(ChallengeDetailsAction.OnPauseModalDismissed)
+                                onAction(ChallengeDetailsAction.OnChangeStatusModalDismissed)
                             },
                             onConfirmed = {
-                                onAction(ChallengeDetailsAction.OnPauseConfirmed(state.challenge.id))
+                                onAction(
+                                    ChallengeDetailsAction.OnChangeStatusConfirmed(
+                                        state.challenge.id,
+                                        state.challenge.status
+                                    )
+                                )
                             },
-                            isConfirmationLoading = state.isPauseRequestLoading,
+                            isConfirmationLoading = state.isChangeStatusRequestLoading,
                             canBeDismissed = true,
                             type = ConfirmationModalType.WARNING,
-                            error = state.pauseRequestError
+                            error = state.changeStatusRequestError
                         )
                     }
                 }
             }
         }
+    }
+}
+
+private fun getChangeStatusModalTitle(status: Challenge.Status): String {
+    return if (status === Challenge.Status.PAUSED) {
+        "Resume this challenge"
+    } else {
+        "Pause this challenge"
+    }
+}
+
+private fun getChangeStatusModalSubtitle(status: Challenge.Status): String {
+    return if (status === Challenge.Status.PAUSED) {
+        "Your progress will resume and you will have to do your challenge today."
+    } else {
+        "Your progress will be paused. You will be able to resume your challenge at anytime."
+    }
+}
+
+private fun getChangeStatusModalButtonText(status: Challenge.Status): String {
+    return if (status === Challenge.Status.PAUSED) {
+        "Resume"
+    } else {
+        "Pause"
     }
 }

@@ -1,5 +1,7 @@
 package com.makapp.kaizen.ui.screens.challenge_details
 
+import com.makapp.kaizen.domain.models.Challenge
+
 sealed class ChallengeDetailsAction {
     data class GoToChallengeInfos(val title: String, val maxLives: Int) : ChallengeDetailsAction()
     data object OnNavigateUp : ChallengeDetailsAction()
@@ -9,9 +11,14 @@ sealed class ChallengeDetailsAction {
     data object OnStatusButtonClicked : ChallengeDetailsAction()
     data object OnBottomSheetDismissed : ChallengeDetailsAction()
 
-    data object OnPauseChallengeClicked : ChallengeDetailsAction()
-    data object OnPauseModalDismissed : ChallengeDetailsAction()
-    data class OnPauseConfirmed(val challengeId: String) : ChallengeDetailsAction()
+    data object OnChangeStatusClicked : ChallengeDetailsAction()
+    data object OnChangeStatusModalDismissed : ChallengeDetailsAction()
+    data class OnChangeStatusConfirmed(
+        val challengeId: String,
+        val currentStatus: Challenge.Status
+    ) : ChallengeDetailsAction()
+
+    data object OnResumeModalDismissed : ChallengeDetailsAction()
 
     data object OnGiveUpChallengeClicked : ChallengeDetailsAction()
     data object OnGiveUpModalDismissed : ChallengeDetailsAction()

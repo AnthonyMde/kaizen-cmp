@@ -14,12 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChallengeDetailsStatusBottomSheet(
-    onAction: (ChallengeDetailsAction) -> Unit
+    onAction: (ChallengeDetailsAction) -> Unit,
+    status: Challenge.Status
 ) {
     ModalBottomSheet(
         onDismissRequest = {
@@ -28,17 +30,19 @@ fun ChallengeDetailsStatusBottomSheet(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         ) {
             Button(
                 onClick = {
-                    onAction(ChallengeDetailsAction.OnPauseChallengeClicked)
+                    onAction(ChallengeDetailsAction.OnChangeStatusClicked)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
-                Text("Pause this challenge")
+                Text(getTitle(status))
             }
             TextButton(
                 onClick = {
@@ -52,5 +56,13 @@ fun ChallengeDetailsStatusBottomSheet(
                 Text("Give up this challenge")
             }
         }
+    }
+}
+
+private fun getTitle(status: Challenge.Status): String {
+    return if (status === Challenge.Status.PAUSED) {
+        "Resume this challenge"
+    } else {
+        "Pause this challenge"
     }
 }

@@ -9,9 +9,9 @@ data class ChallengeDetailsState(
     val challengeError: String? = null,
     val isBottomSheetOpened: Boolean = false,
 
-    val isPauseChallengeModalDisplayed: Boolean = false,
-    val isPauseRequestLoading: Boolean = false,
-    val pauseRequestError: String? = null,
+    val isChangeStatusModalDisplayed: Boolean = false,
+    val isChangeStatusRequestLoading: Boolean = false,
+    val changeStatusRequestError: String? = null,
 
     val isGiveUpChallengeModalDisplayed: Boolean = false,
     val isDeleteChallengeModalDisplayed: Boolean = false,

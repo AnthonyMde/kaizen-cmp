@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsViewModel
+import com.makapp.kaizen.ui.theme.customColors
 import com.makapp.kaizen.utils.DateUtils.toShortDateFormat
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.ic_outline_cake
@@ -109,15 +110,22 @@ fun ChallengeDetailsDashboardCard(
                 onAction(ChallengeDetailsAction.OnStatusButtonClicked)
             },
             enabled = !readOnly,
-            colors = ButtonDefaults.buttonColors().copy(
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.onTertiary
-            ),
+            colors = if (challenge.isPaused()) {
+                ButtonDefaults.buttonColors().copy(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                ButtonDefaults.buttonColors().copy(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
+            },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Row {
                 if (!readOnly) Spacer(modifier = Modifier.width(8.dp))
-                Text(text = viewModel.getChallengeStatusText(challenge.status))
+                Text(text = getChallengeStatusText(challenge.status))
                 if (!readOnly) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
@@ -126,5 +134,21 @@ fun ChallengeDetailsDashboardCard(
                 }
             }
         }
+    }
+}
+
+private fun getChallengeStatusText(status: Challenge.Status): String = when (status) {
+    Challenge.Status.ON_GOING -> {
+        "Ongoing"
+    }
+
+    Challenge.Status.PAUSED -> {
+        "Paused"
+    }
+    Challenge.Status.DONE -> {
+        "Completed"
+    }
+    Challenge.Status.FAILED -> {
+        "Failed"
     }
 }
