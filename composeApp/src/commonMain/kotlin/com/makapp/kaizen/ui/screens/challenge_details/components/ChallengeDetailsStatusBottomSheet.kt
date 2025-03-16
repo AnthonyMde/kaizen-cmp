@@ -53,7 +53,7 @@ fun ChallengeDetailsStatusBottomSheet(
                 ),
                 modifier = Modifier
             ) {
-                Text("Give up this challenge")
+                Text("Give up on this challenge")
             }
         }
     }
