@@ -62,6 +62,12 @@
     <string name="commitment_screen_commitment_input_placeholder">Exemple (lecture): "Je dois lire au minimum une page par jour."</string>
     <string name="commitment_screen_update_button">Mettre à jour</string>
     <string name="commitment_screen_done_button">Terminer</string>
+    <!-- EXPECTATIONS STEP -->
+    <string name="expectations_screen_title">Ma motivation</string>
+    <string name="expectations_screen_info_text">Kaizen est une aventure personnelle, il ne s'agit pas d'objectifs à remplir 🧘‍♂️\nOù veux-tu être dans 365 jours ?\nDécris-le, c’est la première étape de ton aventure ! 🚀</string>
+    <string name="expectations_screen_expectations_input_placeholder">Exemple (lecture) : "Je veux retrouver mon amour pour la lecture et l’intégrer à nouveau dans mon quotidien."</string>
+    <string name="expectations_screen_update_button">Mettre à jour</string>
+    <string name="expectations_screen_done_button">Suivant</string>
 
     <!-- ACCOUNT SCREEN -->
     <string name="account_screen_title">Mon compte</string>

@@ -41,8 +41,15 @@ import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.expectations_screen_done_button
+import kaizen.composeapp.generated.resources.expectations_screen_expectations_input_placeholder
+import kaizen.composeapp.generated.resources.expectations_screen_info_text
+import kaizen.composeapp.generated.resources.expectations_screen_title
+import kaizen.composeapp.generated.resources.expectations_screen_update_button
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CreateChallengeExpectationsScreenRoot(
@@ -99,11 +106,10 @@ fun CreateChallengeExpectationsScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             BackTopAppBar(
-                title = "Expectations",
+                title = stringResource(Res.string.expectations_screen_title),
                 onNavigateUp = {
                     onAction(CreateChallengeExpectationsAction.NavigateUp)
                 },
-                backDescription = "Go back to account.",
             )
         },
     ) { innerPadding ->
@@ -133,7 +139,7 @@ fun CreateChallengeExpectationsScreen(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Kaizen is about growth, not just goals \uD83E\uDDD8\u200D♂\uFE0F Where do you want to be in 365 days? \nWrite it down - it’s your first step forward! \uD83D\uDE80",
+                        text = stringResource(Res.string.expectations_screen_info_text),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -152,7 +158,7 @@ fun CreateChallengeExpectationsScreen(
                     textError = null,
                     shape = RoundedCornerShape(16.dp),
                     placeholder = {
-                        PlaceholderText("Example (reading): \"I want to rediscover my love for reading and make it part of my daily life again.\"")
+                        PlaceholderText(stringResource(Res.string.expectations_screen_expectations_input_placeholder))
                     },
                     keyboardOptions = KeyboardOptions().copy(
                         capitalization = KeyboardCapitalization.Sentences,
@@ -184,7 +190,10 @@ fun CreateChallengeExpectationsScreen(
                     },
                     enabled = !state.isExpectationUpdateLoading,
                     isLoading = state.isExpectationUpdateLoading,
-                    label = if (navArgs.editing) "Update" else "Next",
+                    label = if (navArgs.editing)
+                        stringResource(Res.string.expectations_screen_update_button)
+                    else
+                        stringResource(Res.string.expectations_screen_done_button),
                     modifier = Modifier
                         .fillMaxWidth()
                 )

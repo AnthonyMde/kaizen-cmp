@@ -62,6 +62,12 @@
     <string name="commitment_screen_commitment_input_placeholder">Example (reading): "I must read at least one page each day."</string>
     <string name="commitment_screen_update_button">Update</string>
     <string name="commitment_screen_done_button">Done</string>
+    <!-- EXPECTATIONS STEP -->
+    <string name="expectations_screen_title">Expectations</string>
+    <string name="expectations_screen_info_text">Kaizen is about growth, not just goals 🧘‍♂️ Where do you want to be in 365 days?\nWrite it down - it’s your first step forward! 🚀</string>
+    <string name="expectations_screen_expectations_input_placeholder">Example (reading): "I want to rediscover my love for reading and make it part of my daily life again."</string>
+    <string name="expectations_screen_update_button">Update</string>
+    <string name="expectations_screen_done_button">Next</string>
 
 
     <!-- ACCOUNT SCREEN -->
