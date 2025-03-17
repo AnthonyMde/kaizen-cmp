@@ -16,6 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_details_bs_abandoned_button
+import kaizen.composeapp.generated.resources.challenge_details_bs_paused_button
+import kaizen.composeapp.generated.resources.challenge_details_bs_resumed_button
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,17 +58,18 @@ fun ChangeChallengeStatusBottomSheet(
                 ),
                 modifier = Modifier
             ) {
-                Text("Give up on this challenge")
+                Text(stringResource(Res.string.challenge_details_bs_abandoned_button))
             }
         }
     }
 }
 
+@Composable
 private fun getTitle(status: Challenge.Status): String {
     return if (status === Challenge.Status.ON_GOING) {
-        "Pause this challenge"
+        stringResource(Res.string.challenge_details_bs_paused_button)
     } else {
-        "Resume this challenge"
+        stringResource(Res.string.challenge_details_bs_resumed_button)
     }
 }
 

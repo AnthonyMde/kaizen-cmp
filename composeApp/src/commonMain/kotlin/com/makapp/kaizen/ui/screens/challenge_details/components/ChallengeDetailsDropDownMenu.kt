@@ -20,11 +20,15 @@ import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_details_drop_down_menu_delete
+import kaizen.composeapp.generated.resources.challenge_details_drop_down_menu_description
+import kaizen.composeapp.generated.resources.challenge_details_drop_down_menu_rename
 import kaizen.composeapp.generated.resources.ic_bin_outlined
 import kaizen.composeapp.generated.resources.ic_flag_outlined
 import kaizen.composeapp.generated.resources.ic_pen_outlined
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ChallengeDetailsDropDownMenu(
@@ -33,7 +37,7 @@ fun ChallengeDetailsDropDownMenu(
 ) {
     val items = listOf(
         ChallengeDetailsDropDownMenuItem(
-            title = "Rename",
+            title = stringResource(Res.string.challenge_details_drop_down_menu_rename),
             icon = Res.drawable.ic_pen_outlined,
             action = ChallengeDetailsAction.GoToChallengeInfos(
                 challenge.name,
@@ -42,7 +46,7 @@ fun ChallengeDetailsDropDownMenu(
             color = MaterialTheme.colorScheme.onSurface
         ),
         ChallengeDetailsDropDownMenuItem(
-            title = "Delete",
+            title = stringResource(Res.string.challenge_details_drop_down_menu_delete),
             icon = Res.drawable.ic_bin_outlined,
             action = ChallengeDetailsAction.OnDeleteChallengeClicked,
             color = MaterialTheme.colorScheme.error
@@ -60,7 +64,7 @@ fun ChallengeDetailsDropDownMenu(
         content = {
             Icon(
                 imageVector = Icons.Default.MoreVert,
-                contentDescription = "Challenge settings",
+                contentDescription = stringResource(Res.string.challenge_details_drop_down_menu_description),
                 tint = MaterialTheme.colorScheme.secondary
             )
         },

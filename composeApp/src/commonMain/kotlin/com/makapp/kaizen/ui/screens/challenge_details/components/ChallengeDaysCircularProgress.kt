@@ -25,6 +25,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_details_dashboard_day_count
+import org.jetbrains.compose.resources.stringResource
 import kotlin.math.min
 
 @Composable
@@ -87,7 +90,7 @@ fun ChallengeDaysCircularProgress(
                 color = animatedColor
             )
             Text(
-                text = "days",
+                text = stringResource(Res.string.challenge_details_dashboard_day_count),
                 style = MaterialTheme.typography.bodyLarge,
                 color = animatedColor
             )

@@ -4,6 +4,36 @@
 
     <!-- CHALLENGES -->
     <string name="challenge_day_count">Day %1$s</string>
+    <string name="challenge_status_ongoing">En cours</string>
+    <string name="challenge_status_paused">En pause</string>
+    <string name="challenge_status_done">Terminé</string>
+    <string name="challenge_status_failed">Échoué</string>
+    <string name="challenge_status_abandoned">Abandonné</string>
+
+    <!-- CHALLENGE DETAILS -->
+    <string name="challenge_details_drop_down_menu_description">Kaizen settings</string>
+    <string name="challenge_details_drop_down_menu_rename">Rename</string>
+    <string name="challenge_details_drop_down_menu_delete">Delete</string>
+
+    <!-- CHALLENGE DETAILS DASHBOARD -->
+    <string name="challenge_details_dashboard_day_count">days</string>
+    <string name="challenge_details_dashboard_life_counter_description">Remaining lives</string>
+
+    <!-- CHALLENGE DETAILS BOTTOM SHEET -->
+    <string name="challenge_details_bs_resumed_button">Resume this kaizen</string>
+    <string name="challenge_details_bs_paused_button">Pause this kaizen</string>
+    <string name="challenge_details_bs_abandoned_button">Give up on this kaizen</string>
+
+    <!-- CHALLENGE DETAILS CHANGE STATUS MODAL -->
+    <string name="challenge_details_change_status_modal_ongoing_title">Resume this kaizen</string>
+    <string name="challenge_details_change_status_modal_pause_title">Pause this kaizen</string>
+    <string name="challenge_details_change_status_modal_abandoned_title">Give up on this kaizen</string>
+    <string name="challenge_details_change_status_modal_ongoing_subtitle">Your progress will resume and you will have to do your kaizen today.</string>
+    <string name="challenge_details_change_status_modal_pause_subtitle">Your progress will be paused.\nYou will be able to resume your kaizen at anytime.</string>
+    <string name="challenge_details_change_status_modal_abandoned_subtitle">This kaizen cannot be recovered once abandoned.\n\nHowever, you can still view it in your profile under the Archived Kaizen section.</string>
+    <string name="challenge_details_change_status_modal_ongoing_button">Resume</string>
+    <string name="challenge_details_change_status_modal_pause_button">Pause</string>
+    <string name="challenge_details_change_status_modal_abandoned_button">Give up</string>
 
     <!-- USER CHALLENGES -->
     <string name="user_empty_challenges_title">No Kaizen Yet</string>
@@ -36,8 +66,9 @@
 
     <!-- DELETE ACCOUNT MODAL -->
     <string name="account_delete_modal_title">Be careful</string>
-    <string name="account_delete_modal_subtitle">You are about to delete your account. This operation cannot be reverted.\n\nYou will lost all your friends, challenges and statictics.\n\nAll your data will be erased from our servers.</string>
+    <string name="account_delete_modal_subtitle">You are about to delete your account. This operation cannot be reverted.\n\nYou will lost all your friends, kaizen and statistics.\n\nAll your data will be erased from our servers.</string>
     <string name="account_delete_modal_button">Delete my account (irreversible)</string>
+    <string name="account_delete_error">Something went wrong during deletion. Please, retry or contact support.</string>
 
     <!-- STEPPER COMPONENT -->
     <string name="stepper_minus_description">Decrease</string>

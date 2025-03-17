@@ -30,8 +30,15 @@ import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsViewModel
 import com.makapp.kaizen.utils.DateUtils.toShortDateFormat
 import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_details_dashboard_life_counter_description
+import kaizen.composeapp.generated.resources.challenge_status_abandoned
+import kaizen.composeapp.generated.resources.challenge_status_done
+import kaizen.composeapp.generated.resources.challenge_status_failed
+import kaizen.composeapp.generated.resources.challenge_status_ongoing
+import kaizen.composeapp.generated.resources.challenge_status_paused
 import kaizen.composeapp.generated.resources.ic_outline_cake
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @Composable
@@ -92,7 +99,7 @@ fun ChallengeDetailsDashboardCard(
                             )
                         ),
                         tint = MaterialTheme.colorScheme.error,
-                        contentDescription = "Remaining life counter.",
+                        contentDescription = stringResource(Res.string.challenge_details_dashboard_life_counter_description),
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -131,7 +138,7 @@ fun ChallengeDetailsDashboardCard(
                 if (isEditable) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Change challenge's status.",
+                        contentDescription = null,
                     )
                 }
             }
@@ -139,22 +146,23 @@ fun ChallengeDetailsDashboardCard(
     }
 }
 
+@Composable
 private fun getChallengeStatusText(status: Challenge.Status): String = when (status) {
     Challenge.Status.ON_GOING -> {
-        "Ongoing"
+        stringResource(Res.string.challenge_status_ongoing)
     }
 
     Challenge.Status.PAUSED -> {
-        "Paused"
+        stringResource(Res.string.challenge_status_paused)
     }
     Challenge.Status.DONE -> {
-        "Completed"
+        stringResource(Res.string.challenge_status_done)
     }
     Challenge.Status.FAILED -> {
-        "Failed"
+        stringResource(Res.string.challenge_status_failed)
     }
 
     Challenge.Status.ABANDONED -> {
-        "Abandoned"
+        stringResource(Res.string.challenge_status_abandoned)
     }
 }

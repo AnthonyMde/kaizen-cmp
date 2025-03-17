@@ -5,6 +5,17 @@ import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.components.ConfirmationModal
 import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_abandoned_button
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_abandoned_subtitle
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_abandoned_title
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_ongoing_button
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_ongoing_subtitle
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_ongoing_title
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_pause_button
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_pause_subtitle
+import kaizen.composeapp.generated.resources.challenge_details_change_status_modal_pause_title
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ChangeChallengeStatusModalView(
@@ -36,33 +47,35 @@ fun ChangeChallengeStatusModalView(
     )
 }
 
+@Composable
 private fun getChangeStatusModalTitle(status: Challenge.Status): String {
     return when (status) {
-        Challenge.Status.ON_GOING -> "Resume this challenge"
-        Challenge.Status.PAUSED -> "Pause this challenge"
+        Challenge.Status.ON_GOING -> stringResource(Res.string.challenge_details_change_status_modal_ongoing_title)
+        Challenge.Status.PAUSED -> stringResource(Res.string.challenge_details_change_status_modal_pause_title)
         Challenge.Status.DONE -> ""
         Challenge.Status.FAILED -> ""
-        Challenge.Status.ABANDONED -> "Give up on this challenge"
+        Challenge.Status.ABANDONED -> stringResource(Res.string.challenge_details_change_status_modal_abandoned_title)
     }
 }
 
+@Composable
 private fun getChangeStatusModalSubtitle(status: Challenge.Status): String {
     return when (status) {
-        Challenge.Status.ON_GOING -> "Your progress will resume and you will have to do your challenge today."
-        Challenge.Status.PAUSED -> "Your progress will be paused. \nYou will be able to resume your challenge at anytime."
+        Challenge.Status.ON_GOING -> stringResource(Res.string.challenge_details_change_status_modal_ongoing_subtitle)
+        Challenge.Status.PAUSED -> stringResource(Res.string.challenge_details_change_status_modal_pause_subtitle)
         Challenge.Status.DONE -> ""
         Challenge.Status.FAILED -> ""
-        Challenge.Status.ABANDONED -> "This challenge cannot be recovered once abandoned. \n\nHowever, you can still view it in your profile under the Archived Challenges section."
+        Challenge.Status.ABANDONED -> stringResource(Res.string.challenge_details_change_status_modal_abandoned_subtitle)
     }
 }
-
+@Composable
 private fun getChangeStatusModalButtonText(status: Challenge.Status): String {
     return when (status) {
-        Challenge.Status.ON_GOING -> "Resume"
-        Challenge.Status.PAUSED -> "Pause"
+        Challenge.Status.ON_GOING -> stringResource(Res.string.challenge_details_change_status_modal_ongoing_button)
+        Challenge.Status.PAUSED -> stringResource(Res.string.challenge_details_change_status_modal_pause_button)
         Challenge.Status.DONE -> ""
         Challenge.Status.FAILED -> ""
-        Challenge.Status.ABANDONED -> "Give up"
+        Challenge.Status.ABANDONED -> stringResource(Res.string.challenge_details_change_status_modal_abandoned_button)
     }
 }
 

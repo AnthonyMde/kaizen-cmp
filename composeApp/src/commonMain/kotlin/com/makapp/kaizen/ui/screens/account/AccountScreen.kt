@@ -149,7 +149,7 @@ fun AccountScreen(
                     DeleteAccountConfirmationModal(
                         onAction = onAction,
                         isLoading = state.isDeleteUserAccountLoading,
-                        error = state.deleteUserAccountError
+                        error = state.deleteUserAccountError?.let { stringResource(it) }
                     )
                 }
 
@@ -226,7 +226,8 @@ fun AccountScreen(
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally))
+                        .align(Alignment.CenterHorizontally)
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
             }

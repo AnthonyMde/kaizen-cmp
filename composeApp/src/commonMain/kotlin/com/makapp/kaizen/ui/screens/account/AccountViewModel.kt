@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.services.UsersService
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.account_delete_error
 
 class AccountViewModel(
     private val authRepository: AuthRepository,
@@ -88,7 +90,7 @@ class AccountViewModel(
                     _accountScreenState.update {
                         it.copy(
                             isDeleteUserAccountLoading = false,
-                            deleteUserAccountError = "Something went wrong during deletion. Please, retry or contact support."
+                            deleteUserAccountError = Res.string.account_delete_error
                         )
                     }
                 }
