@@ -40,8 +40,15 @@ import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.commitment_screen_commitment_input_placeholder
+import kaizen.composeapp.generated.resources.commitment_screen_done_button
+import kaizen.composeapp.generated.resources.commitment_screen_info_text
+import kaizen.composeapp.generated.resources.commitment_screen_title
+import kaizen.composeapp.generated.resources.commitment_screen_update_button
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CreateChallengeCommitmentScreenRoot(
@@ -103,11 +110,10 @@ fun CreateChallengeCommitmentScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             BackTopAppBar(
-                title = "Commitment",
+                title = stringResource(Res.string.commitment_screen_title),
                 onNavigateUp = {
                     onAction(CreateChallengeCommitmentAction.OnNavigateUp)
                 },
-                backDescription = "Go back to account.",
             )
         },
     ) { innerPadding ->
@@ -138,7 +144,7 @@ fun CreateChallengeCommitmentScreen(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Kaizen is a 365-day adventure \uD83C\uDF34 \nSet a realistic daily minimum - doable even on your worst days. \nTiny sparks ignite great fires! \uD83D\uDD25",
+                        text = stringResource(Res.string.commitment_screen_info_text),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -159,7 +165,7 @@ fun CreateChallengeCommitmentScreen(
                     textError = null,
                     shape = RoundedCornerShape(16.dp),
                     placeholder = {
-                        PlaceholderText("Example (reading): \"I must read at least one page.\"")
+                        PlaceholderText(stringResource(Res.string.commitment_screen_commitment_input_placeholder))
                     },
                     keyboardOptions = KeyboardOptions().copy(
                         capitalization = KeyboardCapitalization.Sentences
@@ -189,7 +195,10 @@ fun CreateChallengeCommitmentScreen(
                     },
                     enabled = !state.isFormSubmissionLoading,
                     isLoading = state.isFormSubmissionLoading,
-                    label = if (navArgs.editing) "Update" else "Done",
+                    label = if (navArgs.editing)
+                        stringResource(Res.string.commitment_screen_update_button)
+                    else
+                        stringResource(Res.string.commitment_screen_done_button),
                     modifier = Modifier
                         .fillMaxWidth()
                 )

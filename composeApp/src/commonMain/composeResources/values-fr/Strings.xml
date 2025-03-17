@@ -54,6 +54,15 @@
     <!-- FRIENDS CHALLENGES -->
     <string name="friend_empty_challenges_title">%1$s n'a pas encore de kaizen</string>
 
+    <!-- CREATE CHALLENGE -->
+    <!-- INFO STEP -->
+    <!-- COMMITMENT STEP -->
+    <string name="commitment_screen_title">Engagement</string>
+    <string name="commitment_screen_info_text">Kaizen est une aventure de 365 jours 🌴\nPour aller au bout, fixe toi un minimum quotidien réaliste !\nDe petites étincelles allument de grands feux ! 🔥</string>
+    <string name="commitment_screen_commitment_input_placeholder">Exemple (lecture): "Je dois lire au minimum une page par jour."</string>
+    <string name="commitment_screen_update_button">Mettre à jour</string>
+    <string name="commitment_screen_done_button">Terminer</string>
+
     <!-- ACCOUNT SCREEN -->
     <string name="account_screen_title">Mon compte</string>
     <string name="account_back_description">Retour à l'accueil</string>
