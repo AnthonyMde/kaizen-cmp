@@ -150,7 +150,7 @@ fun CreateChallengeInfos(
                     },
                     value = state.challengeNameInputValue,
                     maxCharAllowed = CreateChallengeViewModel.MAX_CHALLENGE_TITLE_LENGTH,
-                    textError = state.challengeNameInputError,
+                    textError = state.challengeNameInputError?.let { stringResource(it) },
                     singleLine = true,
                     shape = RoundedCornerShape(16.dp),
                     label = {

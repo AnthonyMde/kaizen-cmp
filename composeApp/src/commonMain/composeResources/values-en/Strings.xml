@@ -1,6 +1,6 @@
 <resources>
     <!-- DEFAULT ERRORS -->
-    <string name="unknown_error">An unknown error has occurred</string>
+    <string name="unknown_error">Oops, a technical issue occurred.</string>
 
     <!-- HOME -->
     <string name="home_user_title">My kaizens</string>

@@ -120,7 +120,7 @@ fun HomeScreen(
         CurrentUserView(
             user = state.currentChallenger,
             onAction = onAction,
-            error = state.currentChallengerError,
+            error = state.currentChallengerError?.let { stringResource(it) },
             isLoading = state.isCurrentChallengerLoading,
             modifier = Modifier
                 .fillMaxWidth()

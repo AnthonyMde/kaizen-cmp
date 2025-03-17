@@ -178,7 +178,7 @@ fun CreateChallengeCommitmentScreen(
 
                 state.formSubmissionError?.let { message ->
                     FormErrorText(
-                        message,
+                        message = stringResource(message),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(16.dp)
                     )

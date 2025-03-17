@@ -10,6 +10,9 @@ import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentAction
 import com.makapp.kaizen.ui.screens.create_challenge.expectations.CreateChallengeExpectationsAction
 import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_title_input_error
+import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,7 +102,7 @@ class CreateChallengeViewModel(
                                 _createChallengeFunnelState.update {
                                     it.copy(
                                         isUpdateInfosLoading = false,
-                                        challengeNameInputError = result.throwable?.message
+                                        challengeNameInputError = Res.string.unknown_error
                                     )
                                 }
                             }
@@ -209,7 +212,7 @@ class CreateChallengeViewModel(
                                 _createChallengeFunnelState.update {
                                     it.copy(
                                         isFormSubmissionLoading = false,
-                                        formSubmissionError = result.throwable?.message,
+                                        formSubmissionError = Res.string.unknown_error,
                                     )
                                 }
                             }
@@ -248,7 +251,7 @@ class CreateChallengeViewModel(
                                 _createChallengeFunnelState.update {
                                     it.copy(
                                         isFormSubmissionLoading = false,
-                                        formSubmissionError = result.throwable?.message
+                                        formSubmissionError = Res.string.unknown_error
                                     )
                                 }
                             }
@@ -281,7 +284,7 @@ class CreateChallengeViewModel(
         if (name.isBlank()) {
             _createChallengeFunnelState.update {
                 it.copy(
-                    challengeNameInputError = "Challenge name must not be empty."
+                    challengeNameInputError = Res.string.challenge_info_screen_challenge_title_input_error
                 )
             }
         }

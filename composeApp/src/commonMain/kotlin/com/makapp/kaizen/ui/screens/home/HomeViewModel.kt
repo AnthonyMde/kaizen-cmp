@@ -11,6 +11,8 @@ import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
 import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -102,7 +104,7 @@ class HomeViewModel(
                     } else {
                         _homeScreenState.update {
                             it.copy(
-                                currentChallengerError = result.throwable?.message,
+                                currentChallengerError = Res.string.unknown_error,
                                 isCurrentChallengerLoading = false
                             )
                         }
@@ -140,7 +142,7 @@ class HomeViewModel(
             when (result) {
                 is Resource.Error -> {
                     _homeScreenState.update {
-                        it.copy(friendsError = result.throwable?.message)
+                        it.copy(friendsError = Res.string.unknown_error)
                     }
                 }
 

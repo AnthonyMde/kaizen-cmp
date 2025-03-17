@@ -135,7 +135,7 @@ fun ChallengeDetailsScreen(
                 }
                 if (state.challengeError != null) {
                     Text(
-                        state.challengeError,
+                        text = stringResource(state.challengeError),
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -192,7 +192,7 @@ fun ChallengeDetailsScreen(
                             newRequestedStatus = state.newStatusRequested,
                             challengeId = challenge.id,
                             isLoading = state.isChangeStatusRequestLoading,
-                            error = state.changeStatusRequestError,
+                            error = state.changeStatusRequestError?.let { stringResource(it) },
                             onAction = onAction
                         )
                     }
@@ -201,7 +201,7 @@ fun ChallengeDetailsScreen(
                         DeleteChallengeModalView(
                             challengeId = state.challenge.id,
                             isLoading = state.isDeleteRequestLoading,
-                            error = state.deleteRequestError,
+                            error = state.deleteRequestError?.let { stringResource(it) },
                             onAction = onAction
                         )
                     }

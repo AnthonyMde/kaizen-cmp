@@ -11,6 +11,7 @@ import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.ic_broken_heart
 import kaizen.composeapp.generated.resources.ic_heart
 import kaizen.composeapp.generated.resources.ic_heart_plus
+import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -128,7 +129,7 @@ class ChallengeDetailsViewModel(
                     _state.update {
                         it.copy(
                             isDetailsLoading = false,
-                            challengeError = result.throwable?.message
+                            challengeError = Res.string.unknown_error
                         )
                     }
                 }
@@ -173,7 +174,7 @@ class ChallengeDetailsViewModel(
                     _state.update {
                         it.copy(
                             isDeleteRequestLoading = false,
-                            deleteRequestError = result.throwable?.message
+                            deleteRequestError = Res.string.unknown_error
                         )
                     }
                 }
@@ -212,7 +213,7 @@ class ChallengeDetailsViewModel(
                     _state.update {
                         it.copy(
                             isChangeStatusRequestLoading = false,
-                            changeStatusRequestError = result.throwable?.message
+                            changeStatusRequestError = Res.string.unknown_error
                         )
                     }
                 }
