@@ -46,10 +46,19 @@ import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
 import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_life_counter_creating_info
+import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_life_counter_editing_info
+import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_life_counter_title
+import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_title_input_label
+import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_title_input_placeholder
+import kaizen.composeapp.generated.resources.challenge_info_screen_done_button
+import kaizen.composeapp.generated.resources.challenge_info_screen_title
+import kaizen.composeapp.generated.resources.challenge_info_screen_update_button
 import kaizen.composeapp.generated.resources.ic_info_outlined
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CreateChallengeInfosScreenRoot(
@@ -108,11 +117,10 @@ fun CreateChallengeInfos(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             BackTopAppBar(
-                title = "General infos",
+                title = stringResource(Res.string.challenge_info_screen_title),
                 onNavigateUp = {
                     onAction(CreateChallengeInfosAction.OnNavigateUp)
                 },
-                backDescription = "Go back to account.",
             )
         },
     ) { innerPadding ->
@@ -146,10 +154,10 @@ fun CreateChallengeInfos(
                     singleLine = true,
                     shape = RoundedCornerShape(16.dp),
                     label = {
-                        Text("Title")
+                        Text(stringResource(Res.string.challenge_info_screen_challenge_title_input_label))
                     },
                     placeholder = {
-                        PlaceholderText("Reading")
+                        PlaceholderText(stringResource(Res.string.challenge_info_screen_challenge_title_input_placeholder),)
                     },
                     isError = state.challengeNameInputError != null,
                     keyboardOptions = KeyboardOptions().copy(
@@ -169,7 +177,7 @@ fun CreateChallengeInfos(
                         .fillMaxWidth()
                 ) {
                     Text(
-                        "Number of lives",
+                        stringResource(Res.string.challenge_info_screen_challenge_life_counter_title),
                         style = MaterialTheme.typography.bodyLarge
                     )
                     Stepper(
@@ -204,9 +212,9 @@ fun CreateChallengeInfos(
                     )
                     Text(
                         text = if (navArgs.isEditing) {
-                            "You can only increase your number of lives (max 12)."
+                            stringResource(Res.string.challenge_info_screen_challenge_life_counter_editing_info)
                         } else
-                            "Your lives represent how many times you can miss your challenge (max. 12).",
+                            stringResource(Res.string.challenge_info_screen_challenge_life_counter_creating_info),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -220,7 +228,10 @@ fun CreateChallengeInfos(
                     enabled = state.challengeNameInputValue.isNotBlank() &&
                             !state.isUpdateInfosLoading,
                     isLoading = state.isUpdateInfosLoading,
-                    label = if (navArgs.isEditing) "Update" else "Next",
+                    label = if (navArgs.isEditing)
+                        stringResource(Res.string.challenge_info_screen_update_button)
+                    else
+                        stringResource(Res.string.challenge_info_screen_done_button),
                     modifier = Modifier
                         .fillMaxWidth()
                 )

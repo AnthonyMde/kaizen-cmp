@@ -209,8 +209,7 @@ class CreateChallengeViewModel(
                                 _createChallengeFunnelState.update {
                                     it.copy(
                                         isFormSubmissionLoading = false,
-                                        formSubmissionError = result.throwable?.message
-                                            ?: "An unknown error has occurred",
+                                        formSubmissionError = result.throwable?.message,
                                     )
                                 }
                             }

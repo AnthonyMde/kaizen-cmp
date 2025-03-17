@@ -1,4 +1,7 @@
 <resources>
+    <!-- DEFAULT ERRORS -->
+    <string name="unknown_error">Une erreur inconnue est survenue</string>
+
     <!-- HOME -->
     <string name="home_user_title">Mes kaizen</string>
 
@@ -56,6 +59,15 @@
 
     <!-- CREATE CHALLENGE -->
     <!-- INFO STEP -->
+    <string name="challenge_info_screen_title">Informations</string>
+    <string name="challenge_info_screen_challenge_title_input_label">Titre</string>
+    <string name="challenge_info_screen_challenge_title_input_placeholder">Lecture</string>
+    <string name="challenge_info_screen_challenge_title_input_error">Tu dois donner un nom à ton kaizen.</string>
+    <string name="challenge_info_screen_challenge_life_counter_title">Nombre de vies</string>
+    <string name="challenge_info_screen_challenge_life_counter_editing_info">Tu peux seulement augmenter ton nombre de vies (max. 12).</string>
+    <string name="challenge_info_screen_challenge_life_counter_creating_info">Tes vies représentent le nombre de fois où tu peux manquer ton kaizen (max. 12).</string>
+    <string name="challenge_info_screen_update_button">Mettre à jour</string>
+    <string name="challenge_info_screen_done_button">Suivant</string>
     <!-- COMMITMENT STEP -->
     <string name="commitment_screen_title">Engagement</string>
     <string name="commitment_screen_info_text">Kaizen est une aventure de 365 jours 🌴\nPour aller au bout, fixe toi un minimum quotidien réaliste !\nDe petites étincelles allument de grands feux ! 🔥</string>

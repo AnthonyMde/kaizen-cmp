@@ -1,4 +1,7 @@
 <resources>
+    <!-- DEFAULT ERRORS -->
+    <string name="unknown_error">An unknown error has occurred</string>
+
     <!-- HOME -->
     <string name="home_user_title">My kaizens</string>
 
@@ -56,6 +59,15 @@
 
     <!-- CREATE CHALLENGE -->
     <!-- INFO STEP -->
+    <string name="challenge_info_screen_title">General Info</string>
+    <string name="challenge_info_screen_challenge_title_input_label">Title</string>
+    <string name="challenge_info_screen_challenge_title_input_placeholder">Reading</string>
+    <string name="challenge_info_screen_challenge_title_input_error">Kaizen name must not be empty.</string>
+    <string name="challenge_info_screen_challenge_life_counter_title">Number of lives</string>
+    <string name="challenge_info_screen_challenge_life_counter_editing_info">You can only increase your number of lives (max 12).</string>
+    <string name="challenge_info_screen_challenge_life_counter_creating_info">Your lives represent how many times you can miss your challenge (max. 12).</string>
+    <string name="challenge_info_screen_update_button">Update</string>
+    <string name="challenge_info_screen_done_button">Next</string>
     <!-- COMMITMENT STEP -->
     <string name="commitment_screen_title">Commitment</string>
     <string name="commitment_screen_info_text">Kaizen is a 365-day adventure 🌴\nSet a realistic daily minimum - doable even on your worst days.\nTiny sparks ignite great fires! 🔥</string>
