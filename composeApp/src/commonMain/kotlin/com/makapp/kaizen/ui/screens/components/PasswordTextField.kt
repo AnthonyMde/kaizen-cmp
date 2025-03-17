@@ -20,7 +20,10 @@ import androidx.compose.ui.unit.dp
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.icon_visibility
 import kaizen.composeapp.generated.resources.icon_visibility_off
+import kaizen.composeapp.generated.resources.password_text_field_hide_description
+import kaizen.composeapp.generated.resources.password_text_field_show_description
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PasswordTextField(
@@ -58,8 +61,12 @@ fun PasswordTextField(
             IconButton(
                 onClick = { isPasswordVisible = !isPasswordVisible },
                 content = {
-                    val icon = if (isPasswordVisible) Res.drawable.icon_visibility else Res.drawable.icon_visibility_off
-                    val description = if (isPasswordVisible) "Hide password." else "Show password."
+                    val icon =
+                        if (isPasswordVisible) Res.drawable.icon_visibility else Res.drawable.icon_visibility_off
+                    val description = if (isPasswordVisible)
+                        stringResource(Res.string.password_text_field_hide_description)
+                    else
+                        stringResource(Res.string.password_text_field_show_description)
                     Icon(
                         painter = painterResource(icon),
                         contentDescription = description

@@ -11,9 +11,16 @@
     <string name="challenge_status_abandoned">Abandonné</string>
 
     <!-- CHALLENGE DETAILS -->
+    <string name="challenge_details_screen_back_description">Go back</string>
     <string name="challenge_details_drop_down_menu_description">Kaizen settings</string>
     <string name="challenge_details_drop_down_menu_rename">Rename</string>
     <string name="challenge_details_drop_down_menu_delete">Delete</string>
+    <string name="challenge_details_min_commitment_title">Minimum commitment 🔥</string>
+    <string name="challenge_details_min_commitment_emptyview_title">Minimum commitment 🔥</string>
+    <string name="challenge_details_min_commitment_emptyview_subtitle">Specify what is the minimum you must do each day.</string>
+    <string name="challenge_details_expectations_title">My expectations 🧘‍♂️</string>
+    <string name="challenge_details_expectations_emptyview_title">My expectations 🧘‍♂️</string>
+    <string name="challenge_details_expectations_emptyview_subtitle">Describe what do you expect from this 365-days adventure.</string>
 
     <!-- CHALLENGE DETAILS DASHBOARD -->
     <string name="challenge_details_dashboard_day_count">days</string>
@@ -34,6 +41,11 @@
     <string name="challenge_details_change_status_modal_ongoing_button">Resume</string>
     <string name="challenge_details_change_status_modal_pause_button">Pause</string>
     <string name="challenge_details_change_status_modal_abandoned_button">Give up</string>
+
+    <!-- CHALLENGE DETAILS DELETE MODAL -->
+    <string name="challenge_details_delete_modal_title">Delete this kaizen</string>
+    <string name="challenge_details_delete_modal_subtitle">This kaizen will be permanently deleted and cannot be resumed.\n\nIt will also be removed from your archived kaizen.</string>
+    <string name="challenge_details_delete_modal_button">Delete permanently</string>
 
     <!-- USER CHALLENGES -->
     <string name="user_empty_challenges_title">No Kaizen Yet</string>
@@ -84,5 +96,11 @@
     <string name="avatar_7_description">A friendly character with dark brown hair, earrings, and a big smile.</string>
     <string name="avatar_8_description">A quirky character with green hair, glasses, and a winking eye.</string>
     <string name="avatar_9_description">A cute character with light pink hair, rosy cheeks, and sparkles.</string>
+
+    <!-- BACK TOP APP BAR -->
+    <string name="back_top_appbar_default_description">Go back</string>
+    <!-- PASSWORD TEXT FIELD -->
+    <string name="password_text_field_hide_description">Hide</string>
+    <string name="password_text_field_show_description">Show</string>
 
 </resources>

@@ -4,6 +4,11 @@ import androidx.compose.runtime.Composable
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.components.ConfirmationModal
 import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_details_delete_modal_button
+import kaizen.composeapp.generated.resources.challenge_details_delete_modal_subtitle
+import kaizen.composeapp.generated.resources.challenge_details_delete_modal_title
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DeleteChallengeModalView(
@@ -13,9 +18,9 @@ fun DeleteChallengeModalView(
     onAction: (ChallengeDetailsAction) -> Unit,
 ) {
     ConfirmationModal(
-        title = "Delete this challenge",
-        subtitle = "This challenge will be permanently deleted and cannot be resumed. \n\nIt will also be removed from your archived challenges.",
-        confirmationButtonText = "Delete permanently",
+        title = stringResource(Res.string.challenge_details_delete_modal_title),
+        subtitle = stringResource(Res.string.challenge_details_delete_modal_subtitle),
+        confirmationButtonText = stringResource(Res.string.challenge_details_delete_modal_button),
         onDismissed = {
             onAction(ChallengeDetailsAction.OnDeleteModalDismissed)
         },

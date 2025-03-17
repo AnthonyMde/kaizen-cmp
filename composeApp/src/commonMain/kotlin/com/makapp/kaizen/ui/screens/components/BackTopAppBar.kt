@@ -9,13 +9,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.back_top_appbar_default_description
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BackTopAppBar(
     title: String,
     onNavigateUp: () -> Unit,
-    backDescription: String = "Go back",
+    backDescription: String = stringResource(Res.string.back_top_appbar_default_description),
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(

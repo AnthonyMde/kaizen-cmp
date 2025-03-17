@@ -4,16 +4,23 @@
 
     <!-- CHALLENGES -->
     <string name="challenge_day_count">Jour %1$s</string>
-    <string name="challenge_status_ongoing">Ongoing</string>
-    <string name="challenge_status_paused">Paused</string>
-    <string name="challenge_status_done">Completed</string>
-    <string name="challenge_status_failed">Failed</string>
-    <string name="challenge_status_abandoned">Abandoned</string>
+    <string name="challenge_status_ongoing">En cours</string>
+    <string name="challenge_status_paused">En pause</string>
+    <string name="challenge_status_done">Terminé</string>
+    <string name="challenge_status_failed">Échoué</string>
+    <string name="challenge_status_abandoned">Abandonné</string>
 
     <!-- CHALLENGE DETAILS -->
-    <string name="challenge_details_drop_down_menu_description">Paramètres du challenge</string>
+    <string name="challenge_details_screen_back_description">Revenir en arrière</string>
+    <string name="challenge_details_drop_down_menu_description">Paramètres du kaizen</string>
     <string name="challenge_details_drop_down_menu_rename">Renommer</string>
     <string name="challenge_details_drop_down_menu_delete">Supprimer</string>
+    <string name="challenge_details_min_commitment_title">Engagement minimum 🔥</string>
+    <string name="challenge_details_min_commitment_emptyview_title">Engagement minimum 🔥</string>
+    <string name="challenge_details_min_commitment_emptyview_subtitle">Indique ici le minimum que tu dois réaliser chaque jour.</string>
+    <string name="challenge_details_expectations_title">Ta motivation 🧘‍♂️</string>
+    <string name="challenge_details_expectations_emptyview_title">Ta motivation 🧘‍♂️</string>
+    <string name="challenge_details_expectations_emptyview_subtitle">Décris ici ce que tu espères retirer de cette aventure de 365 jours.</string>
 
     <!-- CHALLENGE DETAILS DASHBOARD -->
     <string name="challenge_details_dashboard_day_count">jours</string>
@@ -34,6 +41,11 @@
     <string name="challenge_details_change_status_modal_ongoing_button">Reprendre</string>
     <string name="challenge_details_change_status_modal_pause_button">Suspendre</string>
     <string name="challenge_details_change_status_modal_abandoned_button">Abandonner</string>
+
+    <!-- CHALLENGE DETAILS DELETE MODAL -->
+    <string name="challenge_details_delete_modal_title">Supprimer ce kaizen</string>
+    <string name="challenge_details_delete_modal_subtitle">>Ce kaizen sera définitivement supprimé et ne pourra pas être repris.\n\nVous ne pourrez pas le retrouver dans votre section Kaizen Archivés.</string>
+    <string name="challenge_details_delete_modal_button">Supprimer définitivement</string>
 
     <!-- USER CHALLENGES -->
     <string name="user_empty_challenges_title">Aucun kaizen pour l'instant</string>
@@ -85,5 +97,9 @@
     <string name="avatar_8_description">Un personnage excentrique avec des cheveux verts, des lunettes et un clin d'œil.</string>
     <string name="avatar_9_description">Un personnage mignon aux cheveux rose clair, aux joues rosées et entouré d'étincelles.</string>
 
-
+    <!-- BACK TOP APP BAR -->
+    <string name="back_top_appbar_default_description">Revenir en arrière</string>
+    <!-- PASSWORD TEXT FIELD -->
+    <string name="password_text_field_hide_description">Montrer</string>
+    <string name="password_text_field_show_description">Cacher</string>
 </resources>

@@ -29,8 +29,17 @@ import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallenge
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusModalView
 import com.makapp.kaizen.ui.screens.challenge_details.components.DeleteChallengeModalView
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.challenge_details_expectations_emptyview_subtitle
+import kaizen.composeapp.generated.resources.challenge_details_expectations_emptyview_title
+import kaizen.composeapp.generated.resources.challenge_details_expectations_title
+import kaizen.composeapp.generated.resources.challenge_details_min_commitment_emptyview_subtitle
+import kaizen.composeapp.generated.resources.challenge_details_min_commitment_emptyview_title
+import kaizen.composeapp.generated.resources.challenge_details_min_commitment_title
+import kaizen.composeapp.generated.resources.challenge_details_screen_back_description
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -93,7 +102,7 @@ fun ChallengeDetailsScreen(
             BackTopAppBar(
                 title = state.challenge?.name ?: "",
                 onNavigateUp = { onAction(ChallengeDetailsAction.OnNavigateUp) },
-                backDescription = "Go back",
+                backDescription = stringResource(Res.string.challenge_details_screen_back_description),
                 actions = {
                     if (isEditable) {
                         state.challenge?.let {
@@ -143,10 +152,10 @@ fun ChallengeDetailsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     ChallengeDetailsClickableTextBoxView(
-                        title = "Minimum commitment \uD83D\uDD25",
+                        title = stringResource(Res.string.challenge_details_min_commitment_title),
                         text = state.challenge.commitment,
-                        emptyViewTitle = "Minimum commitment \uD83D\uDD25",
-                        emptyViewText = "Specify your minimum daily commitment here.",
+                        emptyViewTitle = stringResource(Res.string.challenge_details_min_commitment_emptyview_title),
+                        emptyViewText = stringResource(Res.string.challenge_details_min_commitment_emptyview_subtitle),
                         readOnly = !isEditable,
                         onClick = {
                             onAction(
@@ -160,10 +169,10 @@ fun ChallengeDetailsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     ChallengeDetailsClickableTextBoxView(
-                        title = "My expectations \uD83E\uDDD8\u200D♂\uFE0F",
+                        title = stringResource(Res.string.challenge_details_expectations_title),
                         text = state.challenge.expectations,
-                        emptyViewTitle = "My expectations \uD83E\uDDD8\u200D♂\uFE0F",
-                        emptyViewText = "Specify what do you expect from this 365-days challenge.",
+                        emptyViewTitle = stringResource(Res.string.challenge_details_expectations_emptyview_title),
+                        emptyViewText = stringResource(Res.string.challenge_details_expectations_emptyview_subtitle),
                         readOnly = !isEditable,
                         onClick = {
                             onAction(
