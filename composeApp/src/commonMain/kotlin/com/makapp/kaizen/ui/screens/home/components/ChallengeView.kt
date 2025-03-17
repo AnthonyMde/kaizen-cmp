@@ -29,12 +29,12 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kaizen.composeapp.generated.resources.Res
-import kaizen.composeapp.generated.resources.challenge_failed_stamp
-import org.jetbrains.compose.resources.painterResource
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.theme.customColors
+import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_day_count
+import kaizen.composeapp.generated.resources.challenge_failed_stamp
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

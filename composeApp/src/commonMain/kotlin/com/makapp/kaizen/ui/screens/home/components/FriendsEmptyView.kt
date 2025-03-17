@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.home_screen_empty_friends_text
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FriendsEmptyView(modifier: Modifier = Modifier) {
@@ -21,7 +24,7 @@ fun FriendsEmptyView(modifier: Modifier = Modifier) {
             .padding(horizontal = 24.dp, vertical = 16.dp)
     ) {
         Text(
-            text = "Add friends as favorite to watch their challenges here.",
+            text = stringResource(Res.string.home_screen_empty_friends_text),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface,

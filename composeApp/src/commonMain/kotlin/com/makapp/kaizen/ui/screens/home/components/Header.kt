@@ -18,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.home.HomeAction
 import com.makapp.kaizen.utils.DateUtils
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun Header(
@@ -48,7 +48,7 @@ fun Header(
         } else {
             Image(
                 painter = painterResource(avatars[profilePictureIndex].drawable),
-                contentDescription = "Go to your profile.",
+                contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .size(55.dp)

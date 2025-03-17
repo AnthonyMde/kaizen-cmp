@@ -27,7 +27,6 @@ import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.home.HomeAction
 import kaizen.composeapp.generated.resources.Res
-import kaizen.composeapp.generated.resources.email_verification_modal_title
 import kaizen.composeapp.generated.resources.home_user_title
 import kaizen.composeapp.generated.resources.user_empty_challenges_subtitle
 import kaizen.composeapp.generated.resources.user_empty_challenges_title

@@ -2,6 +2,17 @@ package com.makapp.kaizen.ui.screens.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.makapp.kaizen.domain.exceptions.DomainException
+import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.services.AuthenticateService
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.auth_screen_empty_email_error
+import kaizen.composeapp.generated.resources.auth_screen_empty_password_error
+import kaizen.composeapp.generated.resources.auth_screen_not_authorized_error
+import kaizen.composeapp.generated.resources.auth_screen_send_email_error
+import kaizen.composeapp.generated.resources.auth_screen_weak_password_error
+import kaizen.composeapp.generated.resources.auth_screen_wrong_credentials_error
+import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,9 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.makapp.kaizen.domain.exceptions.DomainException
-import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.services.AuthenticateService
+import org.jetbrains.compose.resources.StringResource
 
 class AuthViewModel(
     private val authenticateService: AuthenticateService,
@@ -102,26 +111,26 @@ class AuthViewModel(
         val isPasswordEmpty = password.isBlank()
         if (isEmailEmpty) {
             _authScreenState.update {
-                it.copy(emailInputError = "Email field should not be empty.")
+                it.copy(emailInputError = Res.string.auth_screen_empty_email_error)
             }
         }
         if (isPasswordEmpty) {
             _authScreenState.update {
-                it.copy(passwordInputError = "Password field should not be empty.")
+                it.copy(passwordInputError = Res.string.auth_screen_empty_password_error)
             }
         }
 
         return !isEmailEmpty && !isPasswordEmpty
     }
 
-    private fun getLoginErrorMessage(throwable: Throwable?): String {
+    private fun getLoginErrorMessage(throwable: Throwable?): StringResource {
         return when (throwable) {
-            is DomainException.Auth.PasswordIsEmpty -> "Enter something please."
-            is DomainException.Auth.UserNotAuthorized -> "You are not authorized."
-            is DomainException.Auth.InvalidCredentials -> "Email or password invalid."
-            is DomainException.Auth.WeakPassword -> "You password should be at least 6 characters long."
-            is DomainException.Auth.FailedToSendEmailVerification -> "Your account has been created but we failed to send your verification email."
-            else -> throwable?.message ?: "Something went wrong."
+            is DomainException.Auth.PasswordIsEmpty -> Res.string.auth_screen_empty_password_error
+            is DomainException.Auth.UserNotAuthorized -> Res.string.auth_screen_not_authorized_error
+            is DomainException.Auth.InvalidCredentials -> Res.string.auth_screen_wrong_credentials_error
+            is DomainException.Auth.WeakPassword -> Res.string.auth_screen_weak_password_error
+            is DomainException.Auth.FailedToSendEmailVerification -> Res.string.auth_screen_send_email_error
+            else -> Res.string.unknown_error
         }
     }
 }

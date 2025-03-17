@@ -1,9 +1,11 @@
 package com.makapp.kaizen.ui.screens.login
 
+import org.jetbrains.compose.resources.StringResource
+
 data class AuthScreenState(
     val emailInputValue: String = "",
-    val emailInputError: String? = null,
+    val emailInputError: StringResource? = null,
     val passwordInputValue: String = "",
-    val passwordInputError: String? = null,
+    val passwordInputError: StringResource? = null,
     val onSubmitLoading: Boolean = false,
 )

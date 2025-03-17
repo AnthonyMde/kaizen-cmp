@@ -2,8 +2,24 @@
     <!-- DEFAULT ERRORS -->
     <string name="unknown_error">Oups, une erreur technique est survenue.</string>
 
+    <!-- AUTH -->
+    <string name="auth_screen_welcoming_text">Bienvenue sur Kaizen</string>
+    <string name="auth_screen_email_input_label">Mail</string>
+    <string name="auth_screen_email_input_placeholder">kaizen@innerchange.com</string>
+    <string name="auth_screen_password_input_label">Mot de passe</string>
+    <string name="auth_screen_password_input_placeholder">Mot de passe compliqué</string>
+    <string name="auth_screen_submit_button">Accéder à Kaizen</string>
+    <!-- AUTH ERRORS -->
+    <string name="auth_screen_empty_email_error">Le champ email ne doit pas être vide.</string>
+    <string name="auth_screen_empty_password_error">Le champ mot de passe ne doit pas être vide.</string>
+    <string name="auth_screen_not_authorized_error">Vous n'êtes pas autorisé.</string>
+    <string name="auth_screen_wrong_credentials_error">Email ou mot de passe invalide.</string>
+    <string name="auth_screen_weak_password_error">Votre mot de passe doit contenir au moins 6 caractères.</string>
+    <string name="auth_screen_send_email_error">Votre compte a été créé, mais nous n'avons pas pu envoyer votre email de vérification.</string>
+
     <!-- HOME -->
     <string name="home_user_title">Mes kaizen</string>
+    <string name="home_screen_empty_friends_text">Ajoute des amis en favori pour voir leurs kaizen ici.</string>
 
     <!-- CHALLENGES -->
     <string name="challenge_day_count">Jour %1$s</string>

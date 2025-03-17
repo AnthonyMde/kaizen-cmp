@@ -36,16 +36,23 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import kaizen.composeapp.generated.resources.Res
-import kaizen.composeapp.generated.resources.landscape_icon
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.viewmodel.koinViewModel
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PasswordTextField
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.auth_screen_email_input_label
+import kaizen.composeapp.generated.resources.auth_screen_email_input_placeholder
+import kaizen.composeapp.generated.resources.auth_screen_password_input_label
+import kaizen.composeapp.generated.resources.auth_screen_password_input_placeholder
+import kaizen.composeapp.generated.resources.auth_screen_submit_button
+import kaizen.composeapp.generated.resources.auth_screen_welcoming_text
+import kaizen.composeapp.generated.resources.landscape_icon
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AuthScreenRoot(
@@ -109,7 +116,7 @@ fun AuthScreen(
                 modifier = Modifier.size(64.dp)
             )
             Text(
-                text = "Welcome to Kaizen",
+                text = stringResource(Res.string.auth_screen_welcoming_text),
                 style = MaterialTheme.typography.headlineMedium,
             )
 
@@ -120,8 +127,8 @@ fun AuthScreen(
                 onValueChange = { text ->
                     onAction(AuthAction.OnEmailInputTextChanged(text))
                 },
-                label = { Text("Email") },
-                placeholder = { PlaceholderText("kaizen@challenge.com") },
+                label = { Text(stringResource(Res.string.auth_screen_email_input_label)) },
+                placeholder = { PlaceholderText(stringResource(Res.string.auth_screen_email_input_placeholder)) },
                 singleLine = true,
                 isError = state.emailInputError != null,
                 keyboardOptions = KeyboardOptions().copy(
@@ -136,7 +143,7 @@ fun AuthScreen(
             Spacer(modifier = Modifier.height(6.dp))
 
             state.emailInputError?.let {
-                FormErrorText(it)
+                FormErrorText(stringResource(it))
             }
 
             PasswordTextField(
@@ -150,8 +157,8 @@ fun AuthScreen(
                         AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
                     )
                 },
-                label = { Text("Password") },
-                placeholder = { PlaceholderText("Strong password") },
+                label = { Text(stringResource(Res.string.auth_screen_password_input_label),) },
+                placeholder = { PlaceholderText(stringResource(Res.string.auth_screen_password_input_placeholder),) },
                 singleLine = true,
                 isError = state.passwordInputError != null,
                 modifier = Modifier
@@ -162,7 +169,7 @@ fun AuthScreen(
             Spacer(modifier = Modifier.height(6.dp))
 
             state.passwordInputError?.let {
-                FormErrorText(it)
+                FormErrorText(stringResource(it))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -176,7 +183,7 @@ fun AuthScreen(
                 },
                 enabled = !state.onSubmitLoading,
                 isLoading = state.onSubmitLoading,
-                label = "Access Kaizen",
+                label = stringResource(Res.string.auth_screen_submit_button),
                 shrinkToText = true
             )
 

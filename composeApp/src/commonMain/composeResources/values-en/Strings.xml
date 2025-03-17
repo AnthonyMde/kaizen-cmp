@@ -2,8 +2,24 @@
     <!-- DEFAULT ERRORS -->
     <string name="unknown_error">Oops, a technical issue occurred.</string>
 
+    <!-- AUTH -->
+    <string name="auth_screen_welcoming_text">Welcome to Kaizen</string>
+    <string name="auth_screen_email_input_label">Email</string>
+    <string name="auth_screen_email_input_placeholder">kaizen@innerchange.com</string>
+    <string name="auth_screen_password_input_label">Password</string>
+    <string name="auth_screen_password_input_placeholder">Strong password</string>
+    <string name="auth_screen_submit_button">Access Kaizen</string>
+    <!-- AUTH ERRORS -->
+    <string name="auth_screen_empty_email_error">Email field should not be empty.</string>
+    <string name="auth_screen_empty_password_error">Password field should not be empty.</string>
+    <string name="auth_screen_not_authorized_error">You are not authorized.</string>
+    <string name="auth_screen_wrong_credentials_error">Email or password invalid.</string>
+    <string name="auth_screen_weak_password_error">You password should be at least 6 characters long.</string>
+    <string name="auth_screen_send_email_error">Your account has been created but we failed to send your verification email.</string>
+
     <!-- HOME -->
     <string name="home_user_title">My kaizens</string>
+    <string name="home_screen_empty_friends_text">Add friends as favorite to watch their kaizen here.</string>
 
     <!-- CHALLENGES -->
     <string name="challenge_day_count">Day %1$s</string>
