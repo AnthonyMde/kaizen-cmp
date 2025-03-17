@@ -28,6 +28,7 @@ import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.cancel_icon
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SentFriendRequestView(
@@ -49,7 +50,7 @@ fun SentFriendRequestView(
             request.receiver.profilePictureIndex?.let { index ->
                 Image(
                     painter = painterResource(avatars[index].drawable),
-                    contentDescription = avatars[index].description,
+                    contentDescription = stringResource(avatars[index].description),
                     modifier = Modifier
                         .size(44.dp)
                 )

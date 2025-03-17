@@ -53,6 +53,7 @@ import org.koin.compose.koinInject
 import com.makapp.kaizen.ui.models.Avatar
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.components.LoadingButton
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun OnboardingProfileScreenRoot(
@@ -94,7 +95,7 @@ fun OnboardingProfileScreen(
         Spacer(modifier = Modifier.height(24.dp))
         Image(
             painter = painterResource(avatars[state.avatarSelectedIndex].drawable),
-            contentDescription = avatars[state.avatarSelectedIndex].description,
+            contentDescription = stringResource(avatars[state.avatarSelectedIndex].description),
             modifier = Modifier.clip(CircleShape).align(Alignment.CenterHorizontally).size(90.dp)
         )
 
@@ -198,7 +199,7 @@ fun OnboardingProfileScreen(
                     val isSelected = state.avatarSelectedIndex == index
                     Box {
                         Image(painter = painterResource(avatar.drawable),
-                            contentDescription = avatar.description,
+                            contentDescription = stringResource(avatar.description),
                             modifier = Modifier.clip(CircleShape).clickable {
                                 onAction(OnBoardingProfileAction.OnAvatarSelected(index))
                             })

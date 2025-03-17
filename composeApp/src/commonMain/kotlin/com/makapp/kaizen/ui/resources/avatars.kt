@@ -11,42 +11,53 @@ import kaizen.composeapp.generated.resources.avatar_7
 import kaizen.composeapp.generated.resources.avatar_8
 import kaizen.composeapp.generated.resources.avatar_9
 import com.makapp.kaizen.ui.models.Avatar
+import kaizen.composeapp.generated.resources.avatar_1_description
+import kaizen.composeapp.generated.resources.avatar_2_description
+import kaizen.composeapp.generated.resources.avatar_3_description
+import kaizen.composeapp.generated.resources.avatar_4_description
+import kaizen.composeapp.generated.resources.avatar_5_description
+import kaizen.composeapp.generated.resources.avatar_6_description
+import kaizen.composeapp.generated.resources.avatar_7_description
+import kaizen.composeapp.generated.resources.avatar_8_description
+import kaizen.composeapp.generated.resources.avatar_9_description
+import kaizen.composeapp.generated.resources.home_user_title
+import org.jetbrains.compose.resources.stringResource
 
 val avatars = listOf(
     Avatar(
         drawable = Res.drawable.avatar_1,
-        description = "A cheerful character with dark curly hair surrounded by sparkles"
+        description = Res.string.avatar_1_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_2,
-        description = "A playful character with pink hair winking, set against a yellow background."
+        description = Res.string.avatar_2_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_3,
-        description = "A bright character with blonde hair in a ponytail, wearing large glasses and a teal background."
+        description = Res.string.avatar_3_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_4,
-        description = "A happy character with purple hair and heart-shaped eyes, surrounded by sparkles."
+        description = Res.string.avatar_4_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_5,
-        description = "A smiling character with light blonde hair and a yellow shirt with sparkles."
+        description = Res.string.avatar_5_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_6,
-        description = "A cheerful character with dark short hair and a peach shirt, surrounded by sparkles."
+        description = Res.string.avatar_6_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_7,
-        description = "A friendly character with dark brown hair, earrings, and a big smile."
+        description = Res.string.avatar_7_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_8,
-        description = "A quirky character with green hair, glasses, and a winking eye."
+        description = Res.string.avatar_8_description
     ),
     Avatar(
         drawable = Res.drawable.avatar_9,
-        description = "A cute character with light pink hair, rosy cheeks, and sparkles."
+        description = Res.string.avatar_9_description
     )
 )

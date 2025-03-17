@@ -27,7 +27,10 @@ import com.makapp.kaizen.domain.models.Friend
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.home.HomeAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.friend_empty_challenges_title
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FriendWithChallengesView(
@@ -101,7 +104,7 @@ fun FriendViewEmptyChallengesView(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "$friendName does not have any challenges yet",
+                    text = stringResource(Res.string.friend_empty_challenges_title, friendName),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface

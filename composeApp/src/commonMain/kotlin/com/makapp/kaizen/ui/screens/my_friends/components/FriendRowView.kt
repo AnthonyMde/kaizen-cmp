@@ -25,6 +25,7 @@ import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.filled_star_icon
 import kaizen.composeapp.generated.resources.outlined_star_icon
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FriendRowView(
@@ -45,7 +46,7 @@ fun FriendRowView(
         friend.profilePictureIndex.let { index ->
             Image(
                 painter = painterResource(avatars[index].drawable),
-                contentDescription = avatars[index].description,
+                contentDescription = stringResource(avatars[index].description),
                 modifier = Modifier
                     .size(44.dp)
             )

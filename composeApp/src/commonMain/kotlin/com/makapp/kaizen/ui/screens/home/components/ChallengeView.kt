@@ -34,6 +34,8 @@ import kaizen.composeapp.generated.resources.challenge_failed_stamp
 import org.jetbrains.compose.resources.painterResource
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.theme.customColors
+import kaizen.composeapp.generated.resources.challenge_day_count
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ChallengeView(
@@ -90,7 +92,7 @@ fun ChallengeView(
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                "Day ${challenge.days}",
+                stringResource(Res.string.challenge_day_count, challenge.days),
                 style = MaterialTheme.typography.titleSmall.copy(
                     fontSize = 16.sp
                 ),

@@ -27,6 +27,7 @@ import org.jetbrains.compose.resources.painterResource
 import com.makapp.kaizen.domain.models.FriendRequest
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ReceivedFriendRequestView(
@@ -47,7 +48,7 @@ fun ReceivedFriendRequestView(
         request.sender.profilePictureIndex?.let { index ->
             Image(
                 painter = painterResource(avatars[index].drawable),
-                contentDescription = avatars[index].description,
+                contentDescription = stringResource(avatars[index].description),
                 modifier = Modifier
                     .size(44.dp)
             )

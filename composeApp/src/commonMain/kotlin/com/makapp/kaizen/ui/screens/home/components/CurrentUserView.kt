@@ -26,6 +26,12 @@ import com.makapp.kaizen.domain.models.User
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.home.HomeAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.email_verification_modal_title
+import kaizen.composeapp.generated.resources.home_user_title
+import kaizen.composeapp.generated.resources.user_empty_challenges_subtitle
+import kaizen.composeapp.generated.resources.user_empty_challenges_title
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CurrentUserView(
@@ -42,7 +48,7 @@ fun CurrentUserView(
         }
 
         Text(
-            "My challenges",
+            stringResource(Res.string.home_user_title),
             color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp),
         )
@@ -115,14 +121,14 @@ fun CurrentUserEmptyChallengesView(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "No Challenges Yet",
+                    text = stringResource(Res.string.user_empty_challenges_title),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Tap to create a new challenge!",
+                    text = stringResource(Res.string.user_empty_challenges_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)

@@ -1,0 +1,58 @@
+<resources>
+    <!-- HOME -->
+    <string name="home_user_title">Mes kaizen</string>
+
+    <!-- CHALLENGES -->
+    <string name="challenge_day_count">Jour %1$s</string>
+
+    <!-- USER CHALLENGES -->
+    <string name="user_empty_challenges_title">Aucun kaizen pour l'instant</string>
+    <string name="user_empty_challenges_subtitle">Touchez pour créer un nouveau kaizen !</string>
+
+    <!-- FRIENDS CHALLENGES -->
+    <string name="friend_empty_challenges_title">%1$s n'a pas encore de kaizen</string>
+
+    <!-- ACCOUNT SCREEN -->
+    <string name="account_screen_title">Mon compte</string>
+    <string name="account_back_description">Retour à l'accueil</string>
+    <string name="account_logout_description">Se déconnecter</string>
+    <string name="account_profile_username">@%1$s</string>
+    <string name="account_profile_picture_description">Photo de profil</string>
+    <string name="account_create_challenge_row_title">Créer un kaizen</string>
+    <string name="account_create_challenge_row_description">Créer un nouveau kaizen</string>
+    <string name="account_friends_row_title">Amis</string>
+    <string name="account_friends_row_description">Mes amis</string>
+    <string name="account_delete_account_button_title">Supprimer mon compte</string>
+
+    <!-- EMAIL VERIFICATION MODAL -->
+    <string name="email_verification_modal_title">Vérification de l'email</string>
+    <string name="email_verification_modal_subtitle">Vérifiez vos emails pour confirmer votre compte et profiter de Kaizen.</string>
+    <string name="email_verification_modal_button">C'est bon maintenant !</string>
+
+    <!-- LOGOUT MODAL -->
+    <string name="account_logout_modal_title">Déconnexion</string>
+    <string name="account_logout_modal_subtitle">Êtes-vous sûr de vouloir vous déconnecter ?</string>
+    <string name="account_logout_modal_button">Se déconnecter</string>
+
+    <!-- DELETE ACCOUNT MODAL -->
+    <string name="account_delete_modal_title">Attention</string>
+    <string name="account_delete_modal_subtitle">Vous êtes sur le point de supprimer votre compte. Cette action est irréversible.\n\nVous perdrez tous vos amis, défis et statistiques.\n\nToutes vos données seront effacées de nos serveurs.</string>
+    <string name="account_delete_modal_button">Supprimer mon compte (irréversible)</string>
+
+    <!-- STEPPER COMPONENT -->
+    <string name="stepper_minus_description">Diminuer</string>
+    <string name="stepper_plus_description">Augmenter</string>
+
+    <!-- AVATAR DESCRIPTIONS -->
+    <string name="avatar_1_description">Un personnage joyeux aux cheveux bouclés foncés entouré d'étincelles.</string>
+    <string name="avatar_2_description">Un personnage espiègle aux cheveux roses faisant un clin d'œil, sur un fond jaune.</string>
+    <string name="avatar_3_description">Un personnage lumineux avec des cheveux blonds attachés en queue de cheval, portant de grandes lunettes et sur un fond bleu sarcelle.</string>
+    <string name="avatar_4_description">Un personnage heureux aux cheveux violets et aux yeux en forme de cœur, entouré d'étincelles.</string>
+    <string name="avatar_5_description">Un personnage souriant avec des cheveux blond clair et un t-shirt jaune, entouré d'étincelles.</string>
+    <string name="avatar_6_description">Un personnage joyeux aux cheveux courts foncés et un t-shirt couleur pêche, entouré d'étincelles.</string>
+    <string name="avatar_7_description">Un personnage amical aux cheveux brun foncé, portant des boucles d'oreilles et affichant un grand sourire.</string>
+    <string name="avatar_8_description">Un personnage excentrique avec des cheveux verts, des lunettes et un clin d'œil.</string>
+    <string name="avatar_9_description">Un personnage mignon aux cheveux rose clair, aux joues rosées et entouré d'étincelles.</string>
+
+
+</resources>

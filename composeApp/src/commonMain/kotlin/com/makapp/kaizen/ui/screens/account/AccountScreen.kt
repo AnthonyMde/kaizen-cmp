@@ -46,6 +46,23 @@ import com.makapp.kaizen.ui.screens.account.components.AccountRowView
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.components.ConfirmationModal
 import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
+import kaizen.composeapp.generated.resources.account_back_description
+import kaizen.composeapp.generated.resources.account_create_challenge_row_description
+import kaizen.composeapp.generated.resources.account_create_challenge_row_title
+import kaizen.composeapp.generated.resources.account_delete_account_button_title
+import kaizen.composeapp.generated.resources.account_delete_modal_button
+import kaizen.composeapp.generated.resources.account_delete_modal_subtitle
+import kaizen.composeapp.generated.resources.account_delete_modal_title
+import kaizen.composeapp.generated.resources.account_friends_row_description
+import kaizen.composeapp.generated.resources.account_friends_row_title
+import kaizen.composeapp.generated.resources.account_logout_description
+import kaizen.composeapp.generated.resources.account_logout_modal_button
+import kaizen.composeapp.generated.resources.account_logout_modal_subtitle
+import kaizen.composeapp.generated.resources.account_logout_modal_title
+import kaizen.composeapp.generated.resources.account_profile_picture_description
+import kaizen.composeapp.generated.resources.account_profile_username
+import kaizen.composeapp.generated.resources.account_screen_title
+import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
@@ -98,9 +115,9 @@ fun AccountScreen(
         Scaffold(
             topBar = {
                 BackTopAppBar(
-                    title = "Account",
+                    title = stringResource(Res.string.account_screen_title),
                     onNavigateUp = { onAction(AccountAction.OnNavigateUp) },
-                    backDescription = "Go back home.",
+                    backDescription = stringResource(Res.string.account_back_description),
                     actions = {
                         IconButton(
                             onClick = { onAction(AccountAction.OnLogoutClicked) },
@@ -108,7 +125,7 @@ fun AccountScreen(
                             content = {
                                 Icon(
                                     painter = painterResource(Res.drawable.logout_icon),
-                                    contentDescription = "Logout.",
+                                    contentDescription = stringResource(Res.string.account_logout_description),
                                     tint = MaterialTheme.colorScheme.secondary
                                 )
                             }
@@ -142,7 +159,7 @@ fun AccountScreen(
                 ) {
                     Image(
                         painter = painterResource(avatars[state.user.profilePictureIndex].drawable),
-                        contentDescription = "Profile picture",
+                        contentDescription = stringResource(Res.string.account_profile_picture_description),
                         modifier = Modifier
                             .size(60.dp)
                             .clip(CircleShape)
@@ -158,7 +175,7 @@ fun AccountScreen(
                             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                         )
                         Text(
-                            "@${state.user.name}",
+                            stringResource(Res.string.account_profile_username, state.user.name),
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(top = 4.dp)
                         )
@@ -171,18 +188,18 @@ fun AccountScreen(
                     onAction = {
                         onAction(AccountAction.GoToCreateChallenge)
                     },
-                    title = "Create challenge",
+                    title = stringResource(Res.string.account_create_challenge_row_title),
                     icon = painterResource(Res.drawable.landscape_icon),
-                    description = "Create a new challenge.",
+                    description = stringResource(Res.string.account_create_challenge_row_description),
                 )
 
                 AccountRowView(
                     onAction = {
                         onAction(AccountAction.GoToMyFriends)
                     },
-                    title = "Friends",
+                    title = stringResource(Res.string.account_friends_row_title),
                     icon = rememberVectorPainter(Icons.Filled.Face),
-                    description = "My friends.",
+                    description = stringResource(Res.string.account_friends_row_description),
                     modifier = Modifier.padding(top = 8.dp)
                 )
 
@@ -194,7 +211,7 @@ fun AccountScreen(
                     },
                     content = {
                         Text(
-                            "Delete my account",
+                            stringResource(Res.string.account_delete_account_button_title),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier
@@ -223,9 +240,9 @@ private fun LogoutConfirmationModal(
     isLoading: Boolean
 ) {
     ConfirmationModal(
-        title = "Leaving?",
-        subtitle = "Please confirm to logout",
-        confirmationButtonText = "Logout",
+        title = stringResource(Res.string.account_logout_modal_title),
+        subtitle = stringResource(Res.string.account_logout_modal_subtitle),
+        confirmationButtonText = stringResource(Res.string.account_logout_modal_button),
         onConfirmed = {
             onAction(AccountAction.OnLogoutConfirmed)
         },
@@ -243,9 +260,9 @@ private fun DeleteAccountConfirmationModal(
     error: String?
 ) {
     ConfirmationModal(
-        title = "Be careful",
-        subtitle = "You are about to delete your account. This operation cannot be reverted.\n\nYou will lost all your friends, challenges and statictics.\n\nAll your data will be erased from our servers.",
-        confirmationButtonText = "Delete my account (irreversible)",
+        title = stringResource(Res.string.account_delete_modal_title),
+        subtitle = stringResource(Res.string.account_delete_modal_subtitle),
+        confirmationButtonText = stringResource(Res.string.account_delete_modal_button),
         onConfirmed = {
             onAction(AccountAction.OnDeleteAccountConfirmed)
         },

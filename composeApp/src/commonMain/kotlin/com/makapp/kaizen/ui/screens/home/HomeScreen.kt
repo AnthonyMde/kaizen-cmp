@@ -32,8 +32,13 @@ import com.makapp.kaizen.ui.screens.home.components.CurrentUserView
 import com.makapp.kaizen.ui.screens.home.components.FriendWithChallengesView
 import com.makapp.kaizen.ui.screens.home.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.home.components.Header
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.email_verification_modal_button
+import kaizen.composeapp.generated.resources.email_verification_modal_subtitle
+import kaizen.composeapp.generated.resources.email_verification_modal_title
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -99,9 +104,9 @@ fun HomeScreen(
         // TODO: make it a non-blocking snackbar + implement a cron to remove unverified accounts.
         if (state.userSession?.isEmailVerified == false) {
             ConfirmationModal(
-                title = "Email verification",
-                subtitle = "Check your emails to verify your account and enjoy Kaizen.",
-                confirmationButtonText = "It's good now!",
+                title = stringResource(Res.string.email_verification_modal_title),
+                subtitle = stringResource(Res.string.email_verification_modal_subtitle),
+                confirmationButtonText = stringResource(Res.string.email_verification_modal_button),
                 onConfirmed = {
                     onAction(HomeAction.OnEmailVerified)
                 },

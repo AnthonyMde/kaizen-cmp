@@ -1,0 +1,57 @@
+<resources>
+    <!-- HOME -->
+    <string name="home_user_title">My kaizens</string>
+
+    <!-- CHALLENGES -->
+    <string name="challenge_day_count">Day %1$s</string>
+
+    <!-- USER CHALLENGES -->
+    <string name="user_empty_challenges_title">No Kaizen Yet</string>
+    <string name="user_empty_challenges_subtitle">Tap to create a new kaizen!</string>
+
+    <!-- FRIENDS CHALLENGES -->
+    <string name="friend_empty_challenges_title">%1$s does not have any kaizen yet</string>
+
+    <!-- ACCOUNT SCREEN -->
+    <string name="account_screen_title">My account</string>
+    <string name="account_back_description">Go back home</string>
+    <string name="account_logout_description">Log out</string>
+    <string name="account_profile_username">@%1$s</string>
+    <string name="account_profile_picture_description">Profile picture</string>
+    <string name="account_create_challenge_row_title">Create kaizen</string>
+    <string name="account_create_challenge_row_description">Create a new kaizen</string>
+    <string name="account_friends_row_title">Friends</string>
+    <string name="account_friends_row_description">My friends</string>
+    <string name="account_delete_account_button_title">Delete my account</string>
+
+    <!-- EMAIL VERIFICATION MODAL -->
+    <string name="email_verification_modal_title">Email verification</string>
+    <string name="email_verification_modal_subtitle">Check your emails to verify your account and enjoy Kaizen.</string>
+    <string name="email_verification_modal_button">It's good now!</string>
+
+    <!-- LOG OUT MODAL -->
+    <string name="account_logout_modal_title">Log out</string>
+    <string name="account_logout_modal_subtitle">Are you sure you want to log out?</string>
+    <string name="account_logout_modal_button">Log out</string>
+
+    <!-- DELETE ACCOUNT MODAL -->
+    <string name="account_delete_modal_title">Be careful</string>
+    <string name="account_delete_modal_subtitle">You are about to delete your account. This operation cannot be reverted.\n\nYou will lost all your friends, challenges and statictics.\n\nAll your data will be erased from our servers.</string>
+    <string name="account_delete_modal_button">Delete my account (irreversible)</string>
+
+    <!-- STEPPER COMPONENT -->
+    <string name="stepper_minus_description">Decrease</string>
+    <string name="stepper_plus_description">Increase</string>
+
+    <!-- AVATAR DESCRIPTIONS -->
+    <string name="avatar_1_description">A cheerful character with dark curly hair surrounded by sparkles</string>
+    <string name="avatar_2_description">A playful character with pink hair winking, set against a yellow background.</string>
+    <string name="avatar_3_description">A bright character with blonde hair in a ponytail, wearing large glasses and a teal background.</string>
+    <string name="avatar_4_description">A happy character with purple hair and heart-shaped eyes, surrounded by sparkles.</string>
+    <string name="avatar_5_description">A smiling character with light blonde hair and a yellow shirt with sparkles.</string>
+    <string name="avatar_6_description">A cheerful character with dark short hair and a peach shirt, surrounded by sparkles.</string>
+    <string name="avatar_7_description">A friendly character with dark brown hair, earrings, and a big smile.</string>
+    <string name="avatar_8_description">A quirky character with green hair, glasses, and a winking eye.</string>
+    <string name="avatar_9_description">A cute character with light pink hair, rosy cheeks, and sparkles.</string>
+
+</resources>
