@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.makapp.kaizen.data.appVersion
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.landscape_icon
 import kaizen.composeapp.generated.resources.logout_icon
@@ -194,6 +195,7 @@ fun AccountScreen(
                     content = {
                         Text(
                             "Delete my account",
+                            style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.error,
                             modifier = Modifier
                         )
@@ -201,6 +203,13 @@ fun AccountScreen(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                 )
+
+                Text(
+                    appVersion,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally))
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
