@@ -20,3 +20,5 @@ composeApp/kaizen-release-key.jks
 kaizen-release-key.jks
 keystore.properties
 composeApp/release/
+composeApp/google-services.json
+iosApp/iosApp/GoogleService-Info.plist
