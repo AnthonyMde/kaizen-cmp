@@ -17,6 +17,25 @@
     <string name="auth_screen_weak_password_error">Votre mot de passe doit contenir au moins 6 caractères.</string>
     <string name="auth_screen_send_email_error">Votre compte a été créé, mais nous n'avons pas pu envoyer votre email de vérification.</string>
 
+    <!-- ONBOARDING -->
+    <string name="onboarding_profile_screen_title">Qui es-tu?</string>
+    <string name="onboarding_profile_screen_username_input_label">Pseudo</string>
+    <string name="onboarding_profile_screen_username_support_text">Il doit être unique.</string>
+    <string name="onboarding_profile_screen_displayname_input_label">Nom d'affichage</string>
+    <string name="onboarding_profile_screen_displayname_input_support_text">Ce que les autres verront (optionnel).</string>
+    <string name="onboarding_profile_screen_avatar_section_title">avatars</string>
+    <string name="onboarding_profile_screen_avatar_section_subtitle">par %1$s</string>
+    <string name="onboarding_profile_screen_submit_button">Créer</string>
+    <!-- ONBOARDING ERRORS -->
+    <string name="onboarding_profile_screen_username_cannot_be_verified_error">Oups, impossible de vérifier ton pseudo pour le moment. Réessaye plus tard.</string>
+    <string name="onboarding_profile_screen_username_already_used_error">Ce pseudo est déjà pris.</string>
+    <string name="onboarding_profile_screen_username_empty_error">Le pseudo ne doit pas être vide.</string>
+    <string name="onboarding_profile_screen_username_length_error">Le pseudo doit contenir entre 1 et 30 caractères.</string>
+    <string name="onboarding_profile_screen_username_special_error">Seuls les caractères spéciaux "_" et "." sont autorisés.</string>
+    <string name="onboarding_profile_screen_username_double_special_error">Les caractères "_" et "." ne peuvent pas être doublés.</string>
+    <string name="onboarding_profile_screen_username_start_special_error">Les caractères "_" et "." ne peuvent pas être au début ou à la fin.</string>
+    <string name="onboarding_profile_screen_displayname_length_error">Le nom d'affichage doit contenir entre 1 et 30 caractères.</string>
+
     <!-- HOME -->
     <string name="home_user_title">Mes kaizen</string>
     <string name="home_screen_empty_friends_text">Ajoute des amis en favori pour voir leurs kaizen ici.</string>
@@ -86,7 +105,7 @@
     <string name="challenge_info_screen_done_button">Suivant</string>
     <!-- COMMITMENT STEP -->
     <string name="commitment_screen_title">Engagement</string>
-    <string name="commitment_screen_info_text">Kaizen est une aventure de 365 jours 🌴\nPour aller au bout, fixe toi un minimum quotidien réaliste !\nDe petites étincelles allument de grands feux ! 🔥</string>
+    <string name="commitment_screen_info_text">Kaizen est une aventure de 365 jours 🌴\nPour aller au bout, fixe-toi un minimum quotidien réaliste !\nDe petites étincelles allument de grands feux ! 🔥</string>
     <string name="commitment_screen_commitment_input_placeholder">Exemple (lecture): "Je dois lire au minimum une page par jour."</string>
     <string name="commitment_screen_update_button">Mettre à jour</string>
     <string name="commitment_screen_done_button">Terminer</string>

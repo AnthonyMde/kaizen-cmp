@@ -47,13 +47,22 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.collectLatest
-import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
 import com.makapp.kaizen.ui.models.Avatar
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.components.LoadingButton
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_avatar_section_subtitle
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_avatar_section_title
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_displayname_input_label
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_displayname_input_support_text
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_submit_button
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_title
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_input_label
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_support_text
+import kotlinx.coroutines.flow.collectLatest
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 fun OnboardingProfileScreenRoot(
@@ -102,7 +111,7 @@ fun OnboardingProfileScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            "Nice to meet you!",
+            stringResource(Res.string.onboarding_profile_screen_title),
             style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -110,13 +119,18 @@ fun OnboardingProfileScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = state.usernameInputValue,
+        TextField(
+            value = state.usernameInputValue,
             onValueChange = { username ->
                 onAction(OnBoardingProfileAction.OnUsernameInputValueChanged(username))
             },
-            label = { Text("Your username") },
+            label = { Text(stringResource(Res.string.onboarding_profile_screen_username_input_label)) },
             singleLine = true,
-            supportingText = { Text(state.usernameInputError ?: "It should be unique.") },
+            supportingText = {
+                val stringRes = state.usernameInputError
+                    ?: Res.string.onboarding_profile_screen_username_support_text
+                Text(stringResource(stringRes))
+            },
             isError = state.usernameInputError != null,
             trailingIcon = {
                 if (state.usernameInputError != null) Icon(
@@ -138,13 +152,18 @@ fun OnboardingProfileScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(value = state.displayNameInputValue,
+        TextField(
+            value = state.displayNameInputValue,
             onValueChange = { displayName ->
                 onAction(OnBoardingProfileAction.OnDisplayNameInputValueChanged(displayName))
             },
-            label = { Text("Your display name") },
+            label = { Text(stringResource(Res.string.onboarding_profile_screen_displayname_input_label)) },
             singleLine = true,
-            supportingText = { Text(state.displayNameInputError ?: "What others will see (optional).") },
+            supportingText = {
+                val stringRes = state.displayNameInputError
+                    ?: Res.string.onboarding_profile_screen_displayname_input_support_text
+                Text(stringResource(stringRes))
+            },
             isError = state.displayNameInputError != null,
             trailingIcon = {
                 if (state.displayNameInputError != null) Icon(
@@ -178,13 +197,16 @@ fun OnboardingProfileScreen(
         Spacer(modifier = Modifier.height(2.dp))
 
         Text(
-            "avatars",
+            stringResource(Res.string.onboarding_profile_screen_avatar_section_title),
             style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            "by pikisuperstar",
+            stringResource(
+                Res.string.onboarding_profile_screen_avatar_section_subtitle,
+                "pikisuperstar"
+            ),
             style = MaterialTheme.typography.labelSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -225,7 +247,7 @@ fun OnboardingProfileScreen(
             },
             enabled = !state.isFormSubmissionLoading,
             isLoading = state.isFormSubmissionLoading,
-            label = "Create",
+            label = stringResource(Res.string.onboarding_profile_screen_submit_button),
             modifier = Modifier.fillMaxWidth()
         )
 

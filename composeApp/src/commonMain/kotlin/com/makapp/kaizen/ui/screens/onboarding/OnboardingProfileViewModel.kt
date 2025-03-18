@@ -2,6 +2,20 @@ package com.makapp.kaizen.ui.screens.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.makapp.kaizen.domain.exceptions.DomainException
+import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.usecases.CreateUserParams
+import com.makapp.kaizen.domain.usecases.CreateUserUseCase
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_displayname_length_error
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_already_used_error
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_cannot_be_verified_error
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_double_special_error
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_empty_error
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_length_error
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_special_error
+import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_start_special_error
+import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,10 +23,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.makapp.kaizen.domain.exceptions.DomainException
-import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.usecases.CreateUserParams
-import com.makapp.kaizen.domain.usecases.CreateUserUseCase
 
 class OnboardingProfileViewModel(
     private val createUserUseCase: CreateUserUseCase,
@@ -90,20 +100,20 @@ class OnboardingProfileViewModel(
         when (result.throwable) {
             is DomainException.User.Username -> {
                 val errorMessage = when (result.throwable) {
-                    DomainException.User.Username.CannotBeVerified -> "Sorry, we cannot verify your username by now, retry later."
-                    DomainException.User.Username.AlreadyUsed -> "This username is already used."
-                    DomainException.User.Username.IsEmpty -> "Username must not be empty."
-                    DomainException.User.Username.IncorrectLength -> "Username must be 1-30 characters long."
-                    DomainException.User.Username.DoubleSpecialCharNotAuthorized -> "Characters \"_\" and \".\" must not be doubled."
-                    DomainException.User.Username.SpecialCharAtStartOrEndNotAuthorized -> "Characters \"_\" and \".\" must not start or end username."
-                    DomainException.User.Username.SpecialCharNotAuthorized -> "Only special characters \"_\" and \".\" are authorized."
+                    DomainException.User.Username.CannotBeVerified -> Res.string.onboarding_profile_screen_username_cannot_be_verified_error
+                    DomainException.User.Username.AlreadyUsed -> Res.string.onboarding_profile_screen_username_already_used_error
+                    DomainException.User.Username.IsEmpty -> Res.string.onboarding_profile_screen_username_empty_error
+                    DomainException.User.Username.IncorrectLength -> Res.string.onboarding_profile_screen_username_length_error
+                    DomainException.User.Username.DoubleSpecialCharNotAuthorized -> Res.string.onboarding_profile_screen_username_double_special_error
+                    DomainException.User.Username.SpecialCharAtStartOrEndNotAuthorized -> Res.string.onboarding_profile_screen_username_start_special_error
+                    DomainException.User.Username.SpecialCharNotAuthorized -> Res.string.onboarding_profile_screen_username_special_error
                 }
                 _state.update { it.copy(usernameInputError = errorMessage) }
             }
 
             is DomainException.User.DisplayName -> {
                 val errorMessage = when (result.throwable) {
-                    DomainException.User.DisplayName.IncorrectLength -> "Display name must be 1-30 characters long."
+                    DomainException.User.DisplayName.IncorrectLength -> Res.string.onboarding_profile_screen_displayname_length_error
                 }
                 _state.update { it.copy(displayNameInputError = errorMessage) }
             }
@@ -111,7 +121,7 @@ class OnboardingProfileViewModel(
             else -> {
                 _state.update {
                     it.copy(
-                        usernameInputError = result.throwable?.message ?: ""
+                        usernameInputError = Res.string.unknown_error
                     )
                 }
             }

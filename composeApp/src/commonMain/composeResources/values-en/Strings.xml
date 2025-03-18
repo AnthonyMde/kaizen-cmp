@@ -17,6 +17,25 @@
     <string name="auth_screen_weak_password_error">You password should be at least 6 characters long.</string>
     <string name="auth_screen_send_email_error">Your account has been created but we failed to send your verification email.</string>
 
+    <!-- ONBOARDING -->
+    <string name="onboarding_profile_screen_title">Who are you?</string>
+    <string name="onboarding_profile_screen_username_input_label">Username</string>
+    <string name="onboarding_profile_screen_username_support_text">It must be unique.</string>
+    <string name="onboarding_profile_screen_displayname_input_label">Display name</string>
+    <string name="onboarding_profile_screen_displayname_input_support_text">What others will see (optional).</string>
+    <string name="onboarding_profile_screen_avatar_section_title">avatars</string>
+    <string name="onboarding_profile_screen_avatar_section_subtitle">by %1$s</string>
+    <string name="onboarding_profile_screen_submit_button">Create</string>
+    <!-- ONBOARDING ERRORS -->
+    <string name="onboarding_profile_screen_username_cannot_be_verified_error">Oops, we cannot verify your username by now, please retry later.</string>
+    <string name="onboarding_profile_screen_username_already_used_error">This username is already used.</string>
+    <string name="onboarding_profile_screen_username_empty_error">Username must not be empty.</string>
+    <string name="onboarding_profile_screen_username_length_error">Username must be 1-30 characters long.</string>
+    <string name="onboarding_profile_screen_username_special_error">Only special characters "_" and "." are authorized.</string>
+    <string name="onboarding_profile_screen_username_double_special_error">Characters "_" and "." must not be doubled.</string>
+    <string name="onboarding_profile_screen_username_start_special_error">Characters "_" and "." must not start or end username.</string>
+    <string name="onboarding_profile_screen_displayname_length_error">Display name must be 1-30 characters long.</string>
+
     <!-- HOME -->
     <string name="home_user_title">My kaizen</string>
     <string name="home_screen_empty_friends_text">Add friends as favorite to watch their kaizen here.</string>
