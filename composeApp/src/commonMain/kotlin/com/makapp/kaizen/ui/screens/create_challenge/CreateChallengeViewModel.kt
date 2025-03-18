@@ -2,6 +2,7 @@ package com.makapp.kaizen.ui.screens.create_challenge
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.models.UpdateChallengeFields
@@ -12,6 +13,7 @@ import com.makapp.kaizen.ui.screens.create_challenge.expectations.CreateChalleng
 import com.makapp.kaizen.ui.screens.create_challenge.infos.CreateChallengeInfosAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_title_input_error
+import kaizen.composeapp.generated.resources.challenge_info_screen_lives_invalid_args_error
 import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -58,12 +60,13 @@ class CreateChallengeViewModel(
 
             is CreateChallengeInfosAction.OnNumberOfLivesChanged -> {
                 val numberOfLives = action.numberOfLives.takeIf {
-                    it in _createChallengeFunnelState.value.minimumLives..MAX_LIVES_ALLOWED
+                    it in _createChallengeFunnelState.value.minimumLives..13
                 }
                 if (numberOfLives != null) {
                     _createChallengeFunnelState.update {
                         it.copy(
-                            numberOfLivesValue = numberOfLives
+                            numberOfLivesValue = numberOfLives,
+                            numberOfLivesError = null
                         )
                     }
                 }
@@ -99,10 +102,15 @@ class CreateChallengeViewModel(
                     ).collectLatest { result ->
                         when (result) {
                             is Resource.Error -> {
+                                val error = if (result.throwable is DomainException.Common.InvalidArguments) {
+                                    Res.string.challenge_info_screen_lives_invalid_args_error
+                                } else {
+                                    Res.string.unknown_error
+                                }
                                 _createChallengeFunnelState.update {
                                     it.copy(
                                         isUpdateInfosLoading = false,
-                                        challengeNameInputError = Res.string.unknown_error
+                                        numberOfLivesError = error
                                     )
                                 }
                             }
@@ -111,7 +119,7 @@ class CreateChallengeViewModel(
                                 _createChallengeFunnelState.update {
                                     it.copy(
                                         isUpdateInfosLoading = true,
-                                        challengeNameInputError = null
+                                        numberOfLivesError = null
                                     )
                                 }
                             }
@@ -119,7 +127,8 @@ class CreateChallengeViewModel(
                             is Resource.Success -> {
                                 _createChallengeFunnelState.update {
                                     it.copy(
-                                        isUpdateInfosLoading = false
+                                        isUpdateInfosLoading = false,
+                                        numberOfLivesError = null
                                     )
                                 }
                                 _navigationEvents.tryEmit(CreateChallengeNavigationEvent.NavigateUp)

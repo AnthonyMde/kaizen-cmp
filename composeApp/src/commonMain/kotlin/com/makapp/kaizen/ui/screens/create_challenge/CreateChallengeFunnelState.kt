@@ -7,6 +7,7 @@ data class CreateChallengeFunnelState(
     val challengeNameInputValue: String = "",
     val challengeNameInputError: StringResource? = null,
     val numberOfLivesValue: Int = 0,
+    val numberOfLivesError: StringResource? = null,
     val minimumLives: Int = 0,
 
     val isUpdateInfosLoading: Boolean = false,

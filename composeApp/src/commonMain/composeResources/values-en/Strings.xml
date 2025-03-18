@@ -104,6 +104,8 @@
     <string name="challenge_info_screen_challenge_life_counter_creating_info">Your lives represent how many times you can miss your challenge (max. 12).</string>
     <string name="challenge_info_screen_update_button">Update</string>
     <string name="challenge_info_screen_done_button">Next</string>
+    <!-- INFO STEP ERRORS -->
+    <string name="challenge_info_screen_lives_invalid_args_error">You cannot decrease your lives count or exceed %1$s lives.</string>
     <!-- COMMITMENT STEP -->
     <string name="commitment_screen_title">Commitment</string>
     <string name="commitment_screen_info_text">Kaizen is a 365-day adventure 🌴\nSet a realistic daily minimum - doable even on your worst days.\nTiny sparks ignite great fires! 🔥</string>

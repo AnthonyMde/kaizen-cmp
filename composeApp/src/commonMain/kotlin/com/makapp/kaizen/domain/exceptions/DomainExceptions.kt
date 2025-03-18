@@ -1,11 +1,11 @@
 package com.makapp.kaizen.domain.exceptions
 
 sealed class DomainException(message: String? = null) : Throwable(message) {
-    sealed class Common(message: String? = null) : DomainException(message) {
-        class Unknown(message: String? = null) : Common(message)
-        class InvalidArguments(message: String? = null) : Common(message)
-        class NotFound(message: String? = null) : Common(message)
-        class ServerInternalError(message: String? = null) : Common(message)
+    sealed class Common(override val message: String? = null) : DomainException(message = message) {
+        data class Unknown(override val message: String? = null) : Common(message = message)
+        data object InvalidArguments : Common()
+        data object NotFound : Common()
+        data object ServerInternalError : Common()
     }
 
     sealed class Auth : DomainException() {

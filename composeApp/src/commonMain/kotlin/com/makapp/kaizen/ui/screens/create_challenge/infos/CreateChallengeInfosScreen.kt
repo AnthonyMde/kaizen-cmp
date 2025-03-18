@@ -40,11 +40,13 @@ import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.components.LimitedCharTextField
 import com.makapp.kaizen.ui.components.Stepper
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.components.LoadingButton
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
+import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel.Companion.MAX_LIVES_ALLOWED
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_life_counter_creating_info
 import kaizen.composeapp.generated.resources.challenge_info_screen_challenge_life_counter_editing_info
@@ -188,9 +190,13 @@ fun CreateChallengeInfos(
                         onDecrease = { lives ->
                             onAction(CreateChallengeInfosAction.OnNumberOfLivesChanged(lives))
                         },
-                        max = CreateChallengeViewModel.MAX_LIVES_ALLOWED,
+                        max = 13,
                         min = state.minimumLives
                     )
+                }
+
+                state.numberOfLivesError?.let {
+                    FormErrorText(stringResource(it, MAX_LIVES_ALLOWED), modifier = Modifier.padding(top = 2.dp))
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))

@@ -15,7 +15,7 @@ class GetFriendPreviewUseCase(
     operator fun invoke(username: String): Flow<Resource<FriendSearchPreview>> = flow {
         val trimmedUsername = username.trim()
         if (trimmedUsername.isBlank()) {
-            emit(Resource.Error(DomainException.Common.InvalidArguments()))
+            emit(Resource.Error(DomainException.Common.InvalidArguments))
             return@flow
         }
         val currentUsername = usersRepository.getUser()?.name

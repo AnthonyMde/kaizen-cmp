@@ -104,6 +104,8 @@
     <string name="challenge_info_screen_challenge_life_counter_creating_info">Tes vies représentent le nombre de fois où tu peux manquer ton kaizen (max. 12).</string>
     <string name="challenge_info_screen_update_button">Mettre à jour</string>
     <string name="challenge_info_screen_done_button">Suivant</string>
+    <!-- INFO STEP ERRORS -->
+    <string name="challenge_info_screen_lives_invalid_args_error">Tu ne peux pas baisser le nombre de vie ou dépasser %1$s vies.</string>
     <!-- COMMITMENT STEP -->
     <string name="commitment_screen_title">Engagement</string>
     <string name="commitment_screen_info_text">Kaizen est une aventure de 365 jours 🌴\nPour aller au bout, fixe-toi un minimum quotidien réaliste !\nDe petites étincelles allument de grands feux ! 🔥</string>

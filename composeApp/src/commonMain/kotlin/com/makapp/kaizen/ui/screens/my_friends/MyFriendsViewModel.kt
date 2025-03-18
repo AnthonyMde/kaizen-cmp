@@ -110,7 +110,7 @@ class MyFriendsViewModel(
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
                         DomainException.Auth.UserNotAuthenticated -> Res.string.friends_search_not_authorized_error
-                        DomainException.Common.InvalidArguments() -> Res.string.friends_search_cannot_find_friend_id
+                        DomainException.Common.InvalidArguments -> Res.string.friends_search_cannot_find_friend_id
                         else -> Res.string.unknown_error
                     }
                     _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
@@ -218,9 +218,9 @@ class MyFriendsViewModel(
             when (result) {
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
-                        DomainException.Common.NotFound() -> Res.string.friends_search_cannot_find_friend_id
+                        DomainException.Common.NotFound -> Res.string.friends_search_cannot_find_friend_id
                         DomainException.Auth.UserNotAuthenticated -> Res.string.friends_search_not_authorized_error
-                        DomainException.Common.InvalidArguments() -> Res.string.friends_search_username_is_empty_error
+                        DomainException.Common.InvalidArguments -> Res.string.friends_search_username_is_empty_error
                         DomainException.Friend.CannotSearchForYourself -> Res.string.friends_search_request_to_yourself
                         else -> Res.string.unknown_error
                     }
