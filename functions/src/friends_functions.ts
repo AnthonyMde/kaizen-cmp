@@ -18,10 +18,14 @@ export const getFriendSearchPreview = onCall(async (request) => {
         throw new HttpsError("invalid-argument", "The function must be called with friend username.")
     }
 
-    const lowercasedName = friendUsername.toLowerCase()
+    let sanitizedName = friendUsername.toLowerCase()
+    if (sanitizedName.startsWith('@')) {
+        sanitizedName = sanitizedName.slice(1)
+    }
+
     const friendDocs = await getFirestore()
         .collection(Collection.USERS)
-        .where("name", "==", lowercasedName)
+        .where("name", "==", sanitizedName)
         .limit(1)
         .get()
         .then((snapshot) => snapshot.docs)
