@@ -110,7 +110,7 @@ fun HomeScreen(
                 onConfirmed = {
                     onAction(HomeAction.OnEmailVerified)
                 },
-                canBeDismissed = false
+                canBeDismissed = true
             )
         }
         Header(
