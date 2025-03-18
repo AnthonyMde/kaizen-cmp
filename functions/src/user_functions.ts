@@ -84,7 +84,7 @@ export const createUserAccount = onCall(async (request) => {
     const user = {
         id: userId,
         email: body.email,
-        name: body.name,
+        name: body.name.toLowerCase(),
         displayName: body.displayName,
         profilePictureIndex: body.profilePictureIndex
     } as User
