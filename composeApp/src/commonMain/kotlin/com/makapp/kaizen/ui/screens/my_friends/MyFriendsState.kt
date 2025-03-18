@@ -3,11 +3,12 @@ package com.makapp.kaizen.ui.screens.my_friends
 import com.makapp.kaizen.domain.models.FriendPreview
 import com.makapp.kaizen.domain.models.FriendRequest
 import com.makapp.kaizen.domain.models.FriendSearchPreview
+import org.jetbrains.compose.resources.StringResource
 
 data class MyFriendsState(
     // Search friend
     val friendUsernameInputValue: String = "",
-    val friendUsernameInputError: String? = null,
+    val friendUsernameInputError: StringResource? = null,
 
     // Search Friend Preview
     val isFriendPreviewLoading: Boolean = false,

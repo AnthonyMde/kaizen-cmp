@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.friends_screen_empty_view_text
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FriendsEmptyView(
@@ -23,7 +26,7 @@ fun FriendsEmptyView(
             .padding(horizontal = 24.dp, vertical = 16.dp)
     ) {
         Text(
-            text = "You do not have any friends yet.",
+            text = stringResource(Res.string.friends_screen_empty_view_text),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface,

@@ -109,6 +109,32 @@
     <string name="account_friends_row_description">Mes amis</string>
     <string name="account_delete_account_button_title">Supprimer mon compte</string>
 
+    <!-- MY FRIENDS -->
+    <string name="friends_screen_title">Amis</string>
+    <string name="friends_screen_back_description">Revenir au compte.</string>
+    <string name="friends_screen_friends_requests_section_title">Demande d'amis (%1$s)</string>
+    <string name="friends_screen_friends_section_title">Amis</string>
+    <string name="friends_screen_add_as_favorite_description">Ajouter cet ami aux favoris.</string>
+    <string name="friends_screen_remove_as_favorite_description">Retirer cet ami des favoris.</string>
+    <string name="friends_screen_empty_view_text">Tu n'as pas encore d'amis.</string>
+    <!-- FRIEND SEARCH VIEW -->
+    <string name="friends_search_view_input_label">Ajouter un ami</string>
+    <string name="friends_search_view_input_placeholder">Pseudo (@ami)</string>
+    <string name="friends_search_button_description">Chercher un ami par pseudo.</string>
+    <!-- FRIEND SEARCH ERRORS -->
+    <string name="friends_search_username_is_empty_error">Le pseudo ne doit pas être vide.</string>
+    <string name="friends_search_request_to_yourself">Tu ne peux pas t'envoyer une requête à toi-même.</string>
+    <string name="friends_search_not_authorized_error">Tu n'es pas authentifié.</string>
+    <string name="friends_search_cannot_find_friend_id">Aucun pseudo ne correspond à ta recherche.</string>
+    <!-- FRIEND SEARCH PREVIEW -->
+    <string name="friends_search_preview_send_friend_request_description">Envoyer une demande d'ami.</string>
+    <!-- FRIEND REQUEST -->
+    <string name="friends_request_accept_button">Accepter</string>
+    <string name="friends_request_decline_button_description">Décliner la demande d'ami.</string>
+    <string name="friends_request_pending_request">En attente de %1$s</string>
+    <string name="friends_request_cancel_request_description">Annuler la demande d'ami.</string>
+
+
     <!-- EMAIL VERIFICATION MODAL -->
     <string name="email_verification_modal_title">Vérification de l'email</string>
     <string name="email_verification_modal_subtitle">Vérifiez vos emails pour confirmer votre compte et profiter de Kaizen.</string>

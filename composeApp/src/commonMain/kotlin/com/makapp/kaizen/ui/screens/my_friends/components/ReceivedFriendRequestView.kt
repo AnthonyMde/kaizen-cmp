@@ -23,10 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
 import com.makapp.kaizen.domain.models.FriendRequest
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.friends_request_accept_button
+import kaizen.composeapp.generated.resources.friends_request_decline_button_description
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -86,7 +89,10 @@ private fun RequestActionButtons(
             )
         },
         content = {
-            Text("Accept", style = MaterialTheme.typography.bodyMedium.copy())
+            Text(
+                text = stringResource(Res.string.friends_request_accept_button),
+                style = MaterialTheme.typography.bodyMedium.copy()
+            )
         },
         modifier = Modifier.height(28.dp),
         contentPadding = PaddingValues(horizontal = 16.dp)
@@ -106,7 +112,7 @@ private fun RequestActionButtons(
         content = {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Decline friend request",
+                contentDescription = stringResource(Res.string.friends_request_decline_button_description),
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         },

@@ -35,6 +35,13 @@ import com.makapp.kaizen.ui.screens.my_friends.components.FriendRowView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendSearchView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.my_friends.components.PendingRequestsView
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.friends_screen_back_description
+import kaizen.composeapp.generated.resources.friends_screen_friends_requests_section_title
+import kaizen.composeapp.generated.resources.friends_screen_friends_section_title
+import kaizen.composeapp.generated.resources.friends_screen_title
+import kaizen.composeapp.generated.resources.friends_search_button_description
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -69,9 +76,9 @@ fun MyFriendsScreen(
     Scaffold(
         topBar = {
             BackTopAppBar(
-                title = "Friends",
+                title = stringResource(Res.string.friends_screen_title),
                 onNavigateUp = { onAction(MyFriendsAction.OnNavigateUp) },
-                backDescription = "Go back to account."
+                backDescription = stringResource(Res.string.friends_screen_back_description),
             )
         },
         containerColor = MaterialTheme.colorScheme.surface
@@ -96,7 +103,7 @@ fun MyFriendsScreen(
         ) {
             FriendSearchView(
                 usernameInputValue = state.friendUsernameInputValue,
-                usernameInputError = state.friendUsernameInputError,
+                usernameInputError = state.friendUsernameInputError?.let { stringResource(it) },
                 friendSearchPreview = state.friendSearchPreview,
                 isSearchLoading = state.isFriendPreviewLoading,
                 isSendRequestLoading = state.isSendFriendRequestLoading,
@@ -106,7 +113,10 @@ fun MyFriendsScreen(
             if (state.totalRequests > 0) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Friend requests (${state.totalRequests})",
+                    text = stringResource(
+                        Res.string.friends_screen_friends_requests_section_title,
+                        state.totalRequests
+                    ),
                     modifier = Modifier
                         .fillMaxWidth(),
                     textAlign = TextAlign.Center,
@@ -126,7 +136,7 @@ fun MyFriendsScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Friends",
+                text = stringResource(Res.string.friends_screen_friends_section_title),
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
@@ -180,7 +190,7 @@ fun getTrailingIcon(
         content = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = "Search friend by name",
+                contentDescription = stringResource(Res.string.friends_search_button_description),
                 tint = MaterialTheme.colorScheme.primary
             )
         },

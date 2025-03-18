@@ -28,6 +28,8 @@ import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.cancel_icon
+import kaizen.composeapp.generated.resources.friends_request_cancel_request_description
+import kaizen.composeapp.generated.resources.friends_request_pending_request
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -57,7 +59,7 @@ fun SentFriendRequestView(
                 Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
-                    "Waiting ${request.receiver.getName()}'s answer",
+                    text = stringResource(Res.string.friends_request_pending_request, request.receiver.getName()),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     maxLines = 2,
@@ -109,7 +111,7 @@ private fun RequestActionButton(
         content = {
             Icon(
                 painter = painterResource(Res.drawable.cancel_icon),
-                contentDescription = "Cancel friend request",
+                contentDescription = stringResource(Res.string.friends_request_cancel_request_description),
                 tint = MaterialTheme.colorScheme.secondary,
             )
         },

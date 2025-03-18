@@ -23,6 +23,8 @@ import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.filled_star_icon
+import kaizen.composeapp.generated.resources.friends_screen_add_as_favorite_description
+import kaizen.composeapp.generated.resources.friends_screen_remove_as_favorite_description
 import kaizen.composeapp.generated.resources.outlined_star_icon
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -77,7 +79,10 @@ fun FriendRowView(
                     Icon(
                         painter = if (friend.isFavorite) painterResource(Res.drawable.filled_star_icon)
                         else painterResource(Res.drawable.outlined_star_icon),
-                        contentDescription = if (friend.isFavorite) "Unmark friend as favorite" else "Mark friend as favorite",
+                        contentDescription = if (friend.isFavorite)
+                            stringResource(Res.string.friends_screen_remove_as_favorite_description)
+                        else
+                            stringResource(Res.string.friends_screen_add_as_favorite_description),
                         tint = MaterialTheme.colorScheme.inversePrimary
                     )
                 }

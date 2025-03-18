@@ -28,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.FriendSearchPreview
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.friends_search_preview_send_friend_request_description
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FriendSearchPreviewView(
@@ -79,7 +82,7 @@ fun FriendSearchPreviewView(
                 content = {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.Send,
-                        contentDescription = "Send friend request",
+                        contentDescription = stringResource(Res.string.friends_search_preview_send_friend_request_description),
                         modifier = Modifier.size(24.dp)
                     )
                 }

@@ -22,6 +22,10 @@ import com.makapp.kaizen.domain.models.FriendSearchPreview
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import com.makapp.kaizen.ui.screens.my_friends.getTrailingIcon
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.friends_search_view_input_label
+import kaizen.composeapp.generated.resources.friends_search_view_input_placeholder
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FriendSearchView(
@@ -37,8 +41,8 @@ fun FriendSearchView(
         onValueChange = { text ->
             onAction(MyFriendsAction.OnFriendUsernameInputChanged(text))
         },
-        label = { Text("Add new friend") },
-        placeholder = { PlaceholderText("Friend's username") },
+        label = { Text(stringResource(Res.string.friends_search_view_input_label)) },
+        placeholder = { PlaceholderText(stringResource(Res.string.friends_search_view_input_placeholder)) },
         supportingText = if (friendSearchPreview == null && usernameInputError != null) {
             { Text(usernameInputError) }
         } else {

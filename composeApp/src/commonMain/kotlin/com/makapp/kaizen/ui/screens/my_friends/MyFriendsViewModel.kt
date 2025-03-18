@@ -9,6 +9,12 @@ import com.makapp.kaizen.domain.services.FriendRequestsService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
 import com.makapp.kaizen.domain.usecases.GetFriendPreviewUseCase
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.friends_search_cannot_find_friend_id
+import kaizen.composeapp.generated.resources.friends_search_not_authorized_error
+import kaizen.composeapp.generated.resources.friends_search_request_to_yourself
+import kaizen.composeapp.generated.resources.friends_search_username_is_empty_error
+import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -103,9 +109,9 @@ class MyFriendsViewModel(
             when (result) {
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
-                        DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
-                        DomainException.Common.InvalidArguments() -> "Cannot find friend id."
-                        else -> "Impossible to send your friend request."
+                        DomainException.Auth.UserNotAuthenticated -> Res.string.friends_search_not_authorized_error
+                        DomainException.Common.InvalidArguments() -> Res.string.friends_search_cannot_find_friend_id
+                        else -> Res.string.unknown_error
                     }
                     _myFriendsState.update { it.copy(friendUsernameInputError = errorMessage) }
                 }
@@ -212,11 +218,11 @@ class MyFriendsViewModel(
             when (result) {
                 is Resource.Error -> {
                     val errorMessage = when (result.throwable) {
-                        DomainException.Common.NotFound() -> "No user is matching this username."
-                        DomainException.Auth.UserNotAuthenticated -> "You are not authenticated."
-                        DomainException.Common.InvalidArguments() -> "Username should not be empty."
-                        DomainException.Friend.CannotSearchForYourself -> "You cannot send friend request to yourself."
-                        else -> "Something went wrong. Please, verify this username is valid or contact us."
+                        DomainException.Common.NotFound() -> Res.string.friends_search_cannot_find_friend_id
+                        DomainException.Auth.UserNotAuthenticated -> Res.string.friends_search_not_authorized_error
+                        DomainException.Common.InvalidArguments() -> Res.string.friends_search_username_is_empty_error
+                        DomainException.Friend.CannotSearchForYourself -> Res.string.friends_search_request_to_yourself
+                        else -> Res.string.unknown_error
                     }
                     _myFriendsState.update {
                         it.copy(

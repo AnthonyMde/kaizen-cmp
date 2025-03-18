@@ -18,16 +18,16 @@
     <string name="auth_screen_send_email_error">Your account has been created but we failed to send your verification email.</string>
 
     <!-- HOME -->
-    <string name="home_user_title">My kaizens</string>
+    <string name="home_user_title">My kaizen</string>
     <string name="home_screen_empty_friends_text">Add friends as favorite to watch their kaizen here.</string>
 
     <!-- CHALLENGES -->
     <string name="challenge_day_count">Day %1$s</string>
-    <string name="challenge_status_ongoing">En cours</string>
-    <string name="challenge_status_paused">En pause</string>
-    <string name="challenge_status_done">Terminé</string>
-    <string name="challenge_status_failed">Échoué</string>
-    <string name="challenge_status_abandoned">Abandonné</string>
+    <string name="challenge_status_ongoing">Ongoing</string>
+    <string name="challenge_status_paused">Paused</string>
+    <string name="challenge_status_done">Done</string>
+    <string name="challenge_status_failed">Failed</string>
+    <string name="challenge_status_abandoned">Abandoned</string>
 
     <!-- CHALLENGE DETAILS -->
     <string name="challenge_details_screen_back_description">Go back</string>
@@ -109,6 +109,33 @@
     <string name="account_friends_row_title">Friends</string>
     <string name="account_friends_row_description">My friends</string>
     <string name="account_delete_account_button_title">Delete my account</string>
+
+    <!-- MY FRIENDS -->
+    <string name="friends_screen_title">Friends</string>
+    <string name="friends_screen_back_description">Go back to account.</string>
+    <string name="friends_screen_friends_requests_section_title">Friend requests (%1$s)</string>
+    <string name="friends_screen_friends_section_title">Friends</string>
+    <string name="friends_screen_add_as_favorite_description">Mark friend as favorite.</string>
+    <string name="friends_screen_remove_as_favorite_description">Unmark friend as favorite.</string>
+    <string name="friends_screen_empty_view_text">You do not have any friends yet.</string>
+    <!-- FRIEND SEARCH VIEW -->
+    <string name="friends_search_view_input_label">Add new friend</string>
+    <string name="friends_search_view_input_placeholder">Username (@friend)</string>
+    <string name="friends_search_button_description">Search friend by username.</string>
+    <!-- FRIEND SEARCH ERRORS -->
+    <string name="friends_search_username_is_empty_error">Username must not be empty.</string>
+    <string name="friends_search_request_to_yourself">You cannot send a request to yourself.</string>
+    <string name="friends_search_not_authorized_error">You are not authenticated.</string>
+    <string name="friends_search_cannot_find_friend_id">We cannot find this friend username.</string>
+
+    <!-- FRIEND SEARCH PREVIEW -->
+    <string name="friends_search_preview_send_friend_request_description">Send friend request</string>
+    <!-- FRIEND REQUEST -->
+    <string name="friends_request_accept_button">Accept</string>
+    <string name="friends_request_decline_button_description">Decline friend request.</string>
+    <string name="friends_request_pending_request">Waiting %1$s's answer</string>
+    <string name="friends_request_cancel_request_description">Cancel friend request.</string>
+
 
     <!-- EMAIL VERIFICATION MODAL -->
     <string name="email_verification_modal_title">Email verification</string>
