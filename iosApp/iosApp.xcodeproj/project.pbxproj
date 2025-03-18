@@ -13,6 +13,7 @@
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		8A1D73712D0F6DC500E118D3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8A1D73702D0F6DC500E118D3 /* FirebaseFirestore */; };
 		8A1D73772D1385D200E118D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A1D73762D1385D200E118D3 /* LaunchScreen.storyboard */; };
+		8A27CAC52D89D2530045D9B4 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8A27CAC42D89D2530045D9B4 /* FirebaseCrashlytics */; };
 		8A2DF45D2D414898007B676D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A2DF45C2D414898007B676D /* GoogleService-Info.plist */; };
 		8A522D2C2D2854DE00C94EE1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8A522D2B2D2854DE00C94EE1 /* FirebaseAuth */; };
 		8A522D2E2D2854DE00C94EE1 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8A522D2D2D2854DE00C94EE1 /* FirebaseCore */; };
@@ -38,6 +39,7 @@
 			files = (
 				8A1D73712D0F6DC500E118D3 /* FirebaseFirestore in Frameworks */,
 				8A522D2E2D2854DE00C94EE1 /* FirebaseCore in Frameworks */,
+				8A27CAC52D89D2530045D9B4 /* FirebaseCrashlytics in Frameworks */,
 				8A522D2C2D2854DE00C94EE1 /* FirebaseAuth in Frameworks */,
 				8A7B90BE2D357153002820F2 /* FirebaseFunctions in Frameworks */,
 			);
@@ -123,6 +125,7 @@
 				8A522D2B2D2854DE00C94EE1 /* FirebaseAuth */,
 				8A522D2D2D2854DE00C94EE1 /* FirebaseCore */,
 				8A7B90BD2D357153002820F2 /* FirebaseFunctions */,
+				8A27CAC42D89D2530045D9B4 /* FirebaseCrashlytics */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* Debug Kaizen.app */;
@@ -443,6 +446,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8A1D736F2D0F6DC500E118D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		8A27CAC42D89D2530045D9B4 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A1D736F2D0F6DC500E118D3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		8A522D2B2D2854DE00C94EE1 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

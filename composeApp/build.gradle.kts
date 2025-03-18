@@ -1,3 +1,4 @@
+import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
@@ -8,6 +9,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.playServices)
+    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     kotlin("plugin.serialization")
@@ -60,6 +62,7 @@ kotlin {
             implementation(libs.gitlive.firebase.firestore)
             implementation(libs.gitlive.firebase.auth)
             implementation(libs.gitlive.firebase.functions)
+            implementation(libs.gitlive.firebase.crashlytics)
 
             implementation(libs.room.runtime)
             implementation(libs.sqlite)
@@ -125,6 +128,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = true
+            }
             ndk {
                 debugSymbolLevel = "FULL" // Generates full native debug symbols
             }
@@ -133,6 +139,9 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isMinifyEnabled = false
+            configure<CrashlyticsExtension> {
+                mappingFileUploadEnabled = true
+            }
             manifestPlaceholders["usesClearTextTraffic"] = "true"
         }
     }

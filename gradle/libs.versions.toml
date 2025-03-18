@@ -20,6 +20,7 @@ ktor = "3.0.3"
 room = "2.7.0-alpha12"
 ksp = "2.1.0-1.0.29"
 sqlite = "2.5.0-alpha12"
+craslytics-plugin = "3.0.3"
 
 [libraries]
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activityCompose" }
@@ -42,6 +43,7 @@ sqlite = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sq
 gitlive-firebase-firestore = { group = "dev.gitlive", name = "firebase-firestore", version.ref = "gitlive" }
 gitlive-firebase-auth = { group = "dev.gitlive", name = "firebase-auth", version.ref = "gitlive" }
 gitlive-firebase-functions = { group = "dev.gitlive", name = "firebase-functions", version.ref = "gitlive" }
+gitlive-firebase-crashlytics = { group = "dev.gitlive", name = "firebase-crashlytics", version.ref = "gitlive"}
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
@@ -63,5 +65,6 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-playServices = { id = "com.google.gms.google-services", version.ref = "google-play-services" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "craslytics-plugin"}
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
