@@ -67,7 +67,7 @@ fun FriendWithChallengesView(
             friend.challenges.forEach { challenge ->
                 ChallengeView(
                     challenge,
-                    onClick = {
+                    onRowClick = {
                         onAction(
                             HomeAction.OnChallengeClicked(
                                 navArgs = ChallengeDetailsNavArgs(

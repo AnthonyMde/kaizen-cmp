@@ -42,6 +42,7 @@
 
     <!-- CHALLENGES -->
     <string name="challenge_day_count">Jour %1$s</string>
+    <string name="challenge_row_on_paused_text">En pause</string>
     <string name="challenge_status_ongoing">En cours</string>
     <string name="challenge_status_paused">En pause</string>
     <string name="challenge_status_done">Terminé</string>

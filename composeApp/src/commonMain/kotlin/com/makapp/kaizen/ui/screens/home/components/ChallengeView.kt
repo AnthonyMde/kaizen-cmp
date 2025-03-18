@@ -23,17 +23,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.makapp.kaizen.domain.models.Challenge
 import com.makapp.kaizen.ui.theme.customColors
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_day_count
 import kaizen.composeapp.generated.resources.challenge_failed_stamp
+import kaizen.composeapp.generated.resources.challenge_row_on_paused_text
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -42,7 +44,7 @@ fun ChallengeView(
     challenge: Challenge,
     onToggleChallenge: ((challengeId: String, isChecked: Boolean) -> Unit)? = null,
     belongToCurrentUser: Boolean = false,
-    onClick: () -> Unit
+    onRowClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -58,7 +60,7 @@ fun ChallengeView(
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
                 .clickable {
-                    onClick()
+                    onRowClick()
                 }
                 .background(
                     color = backgroundColor,
@@ -87,14 +89,16 @@ fun ChallengeView(
                 challenge.name,
                 style = MaterialTheme.typography.bodyLarge,
                 color = challenge.getChallengeTextColor(),
-                modifier = Modifier.weight(1f),
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp)
             )
             Text(
                 stringResource(Res.string.challenge_day_count, challenge.days),
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontSize = 16.sp
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.SemiBold
                 ),
                 color = when {
                     challenge.isFailed() -> MaterialTheme.customColors.failedChallengeText
@@ -133,7 +137,8 @@ fun ChallengeView(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    "PAUSED",
+                    stringResource(Res.string.challenge_row_on_paused_text)
+                        .toUpperCase(Locale.current),
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.SemiBold,
                         letterSpacing = TextUnit(0.8f, TextUnitType.Sp),

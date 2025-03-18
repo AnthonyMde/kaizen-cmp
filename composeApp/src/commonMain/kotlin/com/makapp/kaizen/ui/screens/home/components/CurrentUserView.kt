@@ -79,7 +79,7 @@ fun CurrentUserView(
                         },
                         challenge = challenge,
                         belongToCurrentUser = true,
-                        onClick = {
+                        onRowClick = {
                             onAction(
                                 HomeAction.OnChallengeClicked(
                                     navArgs = ChallengeDetailsNavArgs(
