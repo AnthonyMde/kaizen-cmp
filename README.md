@@ -23,11 +23,9 @@ This project is both a tool to put a deep change in your life and a great way to
 
 ## 🎥 Preview
 
-<!-- <div style="text-align: center;">
-  <img src="assets/screenshots/app_preview_1.png" alt="Screenshot 1" style="width: 45%; margin: 0 10px;">
-  <img src="assets/screenshots/app_preview_2.png" alt="Screenshot 2" style="width: 45%; margin: 0 10px;">
-</div> -->
-// TODO
+| Create Account                                                                                                           | Add Friends                                                                                                              | Watch & Customize                                                                                                        |
+|--------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| <img src="https://github.com/user-attachments/assets/cbb45e39-44b7-4839-80d3-5cef6e687e8f" alt="Preview 1" height="500"> | <img src="https://github.com/user-attachments/assets/877303a0-bdc1-4243-960d-9c9b1090b457" alt="Preview 2" height="500"> | <img src="https://github.com/user-attachments/assets/a7342804-4789-4641-9405-00fb80604d22" alt="Preview 3" height="500"> |
 
 <br>
 
