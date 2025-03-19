@@ -142,7 +142,7 @@
     <string name="friends_screen_empty_view_text">You do not have any friends yet.</string>
     <!-- FRIEND SEARCH VIEW -->
     <string name="friends_search_view_input_label">Add new friend</string>
-    <string name="friends_search_view_input_placeholder">Username (@friend)</string>
+    <string name="friends_search_view_input_placeholder">@username</string>
     <string name="friends_search_button_description">Search friend by username.</string>
     <!-- FRIEND SEARCH ERRORS -->
     <string name="friends_search_username_is_empty_error">Username must not be empty.</string>

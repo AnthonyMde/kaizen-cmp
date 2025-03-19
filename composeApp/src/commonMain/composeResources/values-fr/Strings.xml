@@ -127,21 +127,21 @@
     <string name="account_profile_picture_description">Photo de profil</string>
     <string name="account_create_challenge_row_title">Créer un kaizen</string>
     <string name="account_create_challenge_row_description">Créer un nouveau kaizen</string>
-    <string name="account_friends_row_title">Amis</string>
+    <string name="account_friends_row_title">Mes amis</string>
     <string name="account_friends_row_description">Mes amis</string>
     <string name="account_delete_account_button_title">Supprimer mon compte</string>
 
     <!-- MY FRIENDS -->
-    <string name="friends_screen_title">Amis</string>
+    <string name="friends_screen_title">Mes amis</string>
     <string name="friends_screen_back_description">Revenir au compte.</string>
     <string name="friends_screen_friends_requests_section_title">Demande d'amis (%1$s)</string>
-    <string name="friends_screen_friends_section_title">Amis</string>
+    <string name="friends_screen_friends_section_title">Mes amis</string>
     <string name="friends_screen_add_as_favorite_description">Ajouter cet ami aux favoris.</string>
     <string name="friends_screen_remove_as_favorite_description">Retirer cet ami des favoris.</string>
     <string name="friends_screen_empty_view_text">Tu n'as pas encore d'amis.</string>
     <!-- FRIEND SEARCH VIEW -->
     <string name="friends_search_view_input_label">Ajouter un ami</string>
-    <string name="friends_search_view_input_placeholder">Pseudo (@ami)</string>
+    <string name="friends_search_view_input_placeholder">@pseudo</string>
     <string name="friends_search_button_description">Chercher un ami par pseudo.</string>
     <!-- FRIEND SEARCH ERRORS -->
     <string name="friends_search_username_is_empty_error">Le pseudo ne doit pas être vide.</string>
