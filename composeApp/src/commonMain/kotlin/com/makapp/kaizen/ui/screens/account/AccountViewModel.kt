@@ -70,12 +70,27 @@ class AccountViewModel(
             }
 
             AccountAction.OnDeleteAccountConfirmed -> {
-                deleteAccount()
+                _accountScreenState.update {
+                    it.copy(
+                        showDeleteUserAccountConfirmationModal = false,
+                        showDeleteFinalConfirmationModal = true
+                    )
+                }
             }
 
             AccountAction.OnDeleteAccountDismissed -> {
                 _accountScreenState.update {
                     it.copy(showDeleteUserAccountConfirmationModal = false)
+                }
+            }
+
+            AccountAction.OnDeleteFinalConfirmationClicked -> {
+                deleteAccount()
+            }
+
+            AccountAction.OnDeleteFinalConfirmationDismissed -> {
+                _accountScreenState.update {
+                    it.copy(showDeleteFinalConfirmationModal = false)
                 }
             }
 
@@ -99,7 +114,7 @@ class AccountViewModel(
                     _accountScreenState.update {
                         it.copy(
                             isDeleteUserAccountLoading = false,
-                            showDeleteUserAccountConfirmationModal = false
+                            showDeleteFinalConfirmationModal = false
                         )
                     }
                     _accountEvents.tryEmit(AccountEvent.PopToLogin)

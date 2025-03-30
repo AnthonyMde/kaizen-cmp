@@ -8,6 +8,7 @@ data class AccountScreenState(
     val showLogoutConfirmationModal: Boolean = false,
     val isDeleteUserAccountLoading: Boolean = false,
     val showDeleteUserAccountConfirmationModal: Boolean = false,
+    val showDeleteFinalConfirmationModal: Boolean = false,
     val deleteUserAccountError: StringResource? = null,
     val user: User? = null
 )

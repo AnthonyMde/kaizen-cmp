@@ -171,9 +171,13 @@
 
     <!-- DELETE ACCOUNT MODAL -->
     <string name="account_delete_modal_title">Attention</string>
-    <string name="account_delete_modal_subtitle">Vous êtes sur le point de supprimer votre compte. Cette action est irréversible.\n\nVous perdrez tous vos amis, kaizen et statistiques.\n\nToutes vos données seront effacées de nos serveurs.</string>
-    <string name="account_delete_modal_button">Supprimer mon compte (irréversible)</string>
-    <string name="account_delete_error">Une erreur est survenue lors de la suppression. Veuillez réessayer ou contacter le support.</string>
+    <string name="account_delete_modal_subtitle">Tu es sur le point de supprimer ton compte. Cette action est irréversible.\nTu perdras tous tes amis, kaizen et statistiques.\n\nToutes tes données seront effacées de nos serveurs.</string>
+    <string name="account_delete_modal_button">Supprimer mon compte</string>
+    <!-- DELETE FINAL CONFIRMATION ACCOUNT MODAL -->
+    <string name="account_delete_final_confirmation_modal_title">Dernière confirmation</string>
+    <string name="account_delete_final_confirmation_modal_subtitle">Merci de confirmer de nouveau cette action pour supprimer ton compte définitivement.</string>
+    <string name="account_delete_final_confirmation_modal_button">Supprimer (irréversible)</string>
+    <string name="account_delete_error">Une erreur est survenue lors de la suppression. Réessaye ou contacte le support.</string>
 
     <!-- STEPPER COMPONENT -->
     <string name="stepper_minus_description">Diminuer</string>

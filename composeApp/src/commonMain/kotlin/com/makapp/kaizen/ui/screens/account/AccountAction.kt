@@ -10,4 +10,6 @@ sealed class AccountAction {
     data object OnDeleteAccountClicked : AccountAction()
     data object OnDeleteAccountConfirmed : AccountAction()
     data object OnDeleteAccountDismissed : AccountAction()
+    data object OnDeleteFinalConfirmationClicked: AccountAction()
+    data object OnDeleteFinalConfirmationDismissed: AccountAction()
 }

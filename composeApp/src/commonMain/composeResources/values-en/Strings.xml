@@ -175,6 +175,10 @@
     <string name="account_delete_modal_title">Be careful</string>
     <string name="account_delete_modal_subtitle">You are about to delete your account. This operation cannot be reverted.\n\nYou will lost all your friends, kaizen and statistics.\n\nAll your data will be erased from our servers.</string>
     <string name="account_delete_modal_button">Delete my account (irreversible)</string>
+    <!-- DELETE FINAL CONFIRMATION ACCOUNT MODAL -->
+    <string name="account_delete_final_confirmation_modal_title">Confirm again</string>
+    <string name="account_delete_final_confirmation_modal_subtitle">Please confirm again your intent to delete your account permanently.</string>
+    <string name="account_delete_final_confirmation_modal_button">Delete (permanent)</string>
     <string name="account_delete_error">Something went wrong during deletion. Please, retry or contact support.</string>
 
     <!-- STEPPER COMPONENT -->
