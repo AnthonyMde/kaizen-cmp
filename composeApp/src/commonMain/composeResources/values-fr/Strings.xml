@@ -12,10 +12,10 @@
     <!-- AUTH ERRORS -->
     <string name="auth_screen_empty_email_error">Le champ email ne doit pas être vide.</string>
     <string name="auth_screen_empty_password_error">Le champ mot de passe ne doit pas être vide.</string>
-    <string name="auth_screen_not_authorized_error">Vous n'êtes pas autorisé.</string>
+    <string name="auth_screen_not_authorized_error">Tu n'as pas les autorisations nécessaires.</string>
     <string name="auth_screen_wrong_credentials_error">Email ou mot de passe invalide.</string>
-    <string name="auth_screen_weak_password_error">Votre mot de passe doit contenir au moins 6 caractères.</string>
-    <string name="auth_screen_send_email_error">Votre compte a été créé, mais nous n'avons pas pu envoyer votre email de vérification.</string>
+    <string name="auth_screen_weak_password_error">Ton mot de passe doit contenir au moins 6 caractères.</string>
+    <string name="auth_screen_send_email_error">Ton compte a été créé, mais nous n'avons pas pu envoyer ton email de vérification.</string>
 
     <!-- ONBOARDING -->
     <string name="onboarding_profile_screen_title">Qui es-tu?</string>
@@ -74,21 +74,21 @@
     <string name="challenge_details_change_status_modal_ongoing_title">Reprendre ce kaizen</string>
     <string name="challenge_details_change_status_modal_pause_title">Suspendre ce kaizen</string>
     <string name="challenge_details_change_status_modal_abandoned_title">Abandonner ce kaizen</string>
-    <string name="challenge_details_change_status_modal_ongoing_subtitle">Votre progression reprendra et vous devrez faire votre kaizen aujourd'hui.</string>
-    <string name="challenge_details_change_status_modal_pause_subtitle">Votre progression sera mise en pause.\nVous pourrez reprendre votre kaizen à tout moment.</string>
-    <string name="challenge_details_change_status_modal_abandoned_subtitle">Ce kaizen ne pourra pas être récupéré une fois abandonné.\n\nCependant, vous pourrez toujours le consulter dans votre profil, dans la section Kaizen Archivés.</string>
+    <string name="challenge_details_change_status_modal_ongoing_subtitle">Ta progression reprendra et tu devras faire ton kaizen aujourd'hui.</string>
+    <string name="challenge_details_change_status_modal_pause_subtitle">Ta progression sera mise en pause.\nTu pourras reprendre ton kaizen à tout moment.</string>
+    <string name="challenge_details_change_status_modal_abandoned_subtitle">Ce kaizen ne pourra pas être récupéré une fois abandonné.\n\nCependant, tu pourras toujours le consulter dans ton profil, dans la section Kaizen Archivés.</string>
     <string name="challenge_details_change_status_modal_ongoing_button">Reprendre</string>
     <string name="challenge_details_change_status_modal_pause_button">Suspendre</string>
     <string name="challenge_details_change_status_modal_abandoned_button">Abandonner</string>
 
     <!-- CHALLENGE DETAILS DELETE MODAL -->
     <string name="challenge_details_delete_modal_title">Supprimer ce kaizen</string>
-    <string name="challenge_details_delete_modal_subtitle">>Ce kaizen sera définitivement supprimé et ne pourra pas être repris.\n\nVous ne pourrez pas le retrouver dans votre section Kaizen Archivés.</string>
+    <string name="challenge_details_delete_modal_subtitle">>Ce kaizen sera définitivement supprimé et ne pourra pas être repris.\n\Tu ne pourras pas le retrouver dans ta section Kaizen Archivés.</string>
     <string name="challenge_details_delete_modal_button">Supprimer définitivement</string>
 
     <!-- USER CHALLENGES -->
     <string name="user_empty_challenges_title">Aucun kaizen pour l'instant</string>
-    <string name="user_empty_challenges_subtitle">Touchez pour créer un nouveau kaizen !</string>
+    <string name="user_empty_challenges_subtitle">Clique pour créer un nouveau kaizen !</string>
 
     <!-- FRIENDS CHALLENGES -->
     <string name="friend_empty_challenges_title">%1$s n'a pas encore de kaizen</string>
@@ -161,12 +161,12 @@
 
     <!-- EMAIL VERIFICATION MODAL -->
     <string name="email_verification_modal_title">Vérification de l'email</string>
-    <string name="email_verification_modal_subtitle">Vérifiez vos emails pour confirmer votre compte et profiter de Kaizen.</string>
+    <string name="email_verification_modal_subtitle">Vérifie tes emails pour confirmer ton compte et profiter de Kaizen.</string>
     <string name="email_verification_modal_button">C'est bon maintenant !</string>
 
     <!-- LOGOUT MODAL -->
     <string name="account_logout_modal_title">Déconnexion</string>
-    <string name="account_logout_modal_subtitle">Êtes-vous sûr de vouloir vous déconnecter ?</string>
+    <string name="account_logout_modal_subtitle">Es-tu sûr de vouloir te déconnecter ?</string>
     <string name="account_logout_modal_button">Se déconnecter</string>
 
     <!-- DELETE ACCOUNT MODAL -->
