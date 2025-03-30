@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsViewModel
 import com.makapp.kaizen.utils.DateUtils.toShortDateFormat

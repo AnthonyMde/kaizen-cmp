@@ -2,8 +2,8 @@ package com.makapp.kaizen.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import com.makapp.kaizen.domain.models.Challenge
-import com.makapp.kaizen.domain.models.Challenge.Status
+import com.makapp.kaizen.domain.models.challenge.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge.Status
 import com.makapp.kaizen.utils.DateUtils.toLocalDate
 
 @Serializable

@@ -2,7 +2,7 @@ package com.makapp.kaizen.data.local.room.friendRequests
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendRequest
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -1,6 +1,6 @@
 package com.makapp.kaizen.ui.screens.my_friends
 
-import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendRequest
 
 sealed class MyFriendsAction {
     data class OnFriendUsernameInputChanged(val username: String) : MyFriendsAction()

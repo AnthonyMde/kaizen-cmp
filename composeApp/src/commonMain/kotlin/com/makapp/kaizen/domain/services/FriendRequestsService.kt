@@ -1,7 +1,7 @@
 package com.makapp.kaizen.domain.services
 
 import com.makapp.kaizen.domain.exceptions.DomainException
-import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendRequest
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendRequestsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository

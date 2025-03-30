@@ -2,8 +2,8 @@ package com.makapp.kaizen.previews
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.makapp.kaizen.domain.models.FriendRequest
-import com.makapp.kaizen.domain.models.FriendRequestProfile
+import com.makapp.kaizen.domain.models.friend.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendRequestProfile
 import com.makapp.kaizen.ui.screens.my_friends.components.PendingRequestsView
 
 @Composable

@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_details_bs_abandoned_button

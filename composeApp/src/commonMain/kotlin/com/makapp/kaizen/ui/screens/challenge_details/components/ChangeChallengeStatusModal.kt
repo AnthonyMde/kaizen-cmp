@@ -1,7 +1,7 @@
 package com.makapp.kaizen.ui.screens.challenge_details.components
 
 import androidx.compose.runtime.Composable
-import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import com.makapp.kaizen.ui.screens.components.ConfirmationModal
 import com.makapp.kaizen.ui.screens.components.ConfirmationModalType

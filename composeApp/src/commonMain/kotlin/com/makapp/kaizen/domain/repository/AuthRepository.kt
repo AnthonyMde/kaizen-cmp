@@ -2,7 +2,7 @@ package com.makapp.kaizen.domain.repository
 
 import kotlinx.coroutines.flow.StateFlow
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.UserSession
+import com.makapp.kaizen.domain.models.user.UserSession
 
 interface AuthRepository {
     suspend fun signUp(email: String, password: String): Resource<Unit>

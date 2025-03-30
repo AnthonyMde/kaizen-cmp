@@ -30,7 +30,7 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.ui.theme.customColors
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_day_count

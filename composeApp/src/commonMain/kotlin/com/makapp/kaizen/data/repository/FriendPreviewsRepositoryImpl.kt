@@ -5,8 +5,8 @@ import com.makapp.kaizen.data.local.room.friendPreviews.FriendPreviewsDao
 import com.makapp.kaizen.data.local.room.user.UserDao
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.toDomainException
-import com.makapp.kaizen.domain.models.FriendPreview
-import com.makapp.kaizen.domain.models.FriendSearchPreview
+import com.makapp.kaizen.domain.models.friend.FriendPreview
+import com.makapp.kaizen.domain.models.friend.FriendSearchPreview
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
 import kotlinx.coroutines.flow.Flow

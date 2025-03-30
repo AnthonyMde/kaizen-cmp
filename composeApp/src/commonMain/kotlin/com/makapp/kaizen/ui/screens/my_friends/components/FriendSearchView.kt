@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.makapp.kaizen.domain.models.FriendSearchPreview
+import com.makapp.kaizen.domain.models.friend.FriendSearchPreview
 import com.makapp.kaizen.ui.screens.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import com.makapp.kaizen.ui.screens.my_friends.getTrailingIcon

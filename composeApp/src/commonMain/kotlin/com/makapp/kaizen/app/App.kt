@@ -12,7 +12,7 @@ import com.makapp.kaizen.app.navigation.defaultEnterTransition
 import com.makapp.kaizen.app.navigation.defaultPopEnterTransition
 import com.makapp.kaizen.app.navigation.defaultPopExitTransition
 import com.makapp.kaizen.app.navigation.sharedViewModel
-import com.makapp.kaizen.domain.models.UserSession
+import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot

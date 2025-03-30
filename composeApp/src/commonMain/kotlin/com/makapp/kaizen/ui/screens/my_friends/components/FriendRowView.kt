@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.domain.models.FriendPreview
+import com.makapp.kaizen.domain.models.friend.FriendPreview
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import kaizen.composeapp.generated.resources.Res

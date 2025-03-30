@@ -1,8 +1,8 @@
 package com.makapp.kaizen.ui.screens.my_friends
 
-import com.makapp.kaizen.domain.models.FriendPreview
-import com.makapp.kaizen.domain.models.FriendRequest
-import com.makapp.kaizen.domain.models.FriendSearchPreview
+import com.makapp.kaizen.domain.models.friend.FriendPreview
+import com.makapp.kaizen.domain.models.friend.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendSearchPreview
 import org.jetbrains.compose.resources.StringResource
 
 data class MyFriendsState(

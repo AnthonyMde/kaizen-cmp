@@ -1,6 +1,6 @@
-package com.makapp.kaizen.domain.models
+package com.makapp.kaizen.domain.models.challenge
 
-import com.makapp.kaizen.domain.models.Challenge.Status
+import com.makapp.kaizen.domain.models.challenge.Challenge.Status
 
 data class UpdateChallengeFields(
     val name: String? = null,

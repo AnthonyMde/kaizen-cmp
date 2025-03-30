@@ -1,6 +1,6 @@
 package com.makapp.kaizen.ui.screens.account
 
-import com.makapp.kaizen.domain.models.User
+import com.makapp.kaizen.domain.models.user.User
 import org.jetbrains.compose.resources.StringResource
 
 data class AccountScreenState(

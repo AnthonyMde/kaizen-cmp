@@ -1,4 +1,4 @@
-package com.makapp.kaizen.domain.models
+package com.makapp.kaizen.domain.models.user
 
 data class UserSession(
     val uid: String,

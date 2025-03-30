@@ -3,7 +3,7 @@ package com.makapp.kaizen.domain.repository
 import com.makapp.kaizen.data.remote.dto.CreateUserRequest
 import kotlinx.coroutines.flow.Flow
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.User
+import com.makapp.kaizen.domain.models.user.User
 
 interface UsersRepository {
     fun watchCurrentUser(): Flow<Resource<User?>>

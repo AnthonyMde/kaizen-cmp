@@ -6,8 +6,8 @@ import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestProfileEnti
 import com.makapp.kaizen.data.local.room.friendRequests.FriendRequestWithProfilesEntity
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.toDomainException
-import com.makapp.kaizen.domain.models.FriendRequest
-import com.makapp.kaizen.domain.models.FriendRequestProfile
+import com.makapp.kaizen.domain.models.friend.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendRequestProfile
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendRequestsRepository
 import kotlinx.coroutines.flow.Flow

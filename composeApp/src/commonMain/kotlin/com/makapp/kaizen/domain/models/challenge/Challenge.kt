@@ -1,4 +1,4 @@
-package com.makapp.kaizen.domain.models
+package com.makapp.kaizen.domain.models.challenge
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

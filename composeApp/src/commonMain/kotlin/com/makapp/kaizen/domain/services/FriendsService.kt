@@ -1,6 +1,6 @@
 package com.makapp.kaizen.domain.services
 
-import com.makapp.kaizen.domain.models.Friend
+import com.makapp.kaizen.domain.models.friend.Friend
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
 import com.makapp.kaizen.domain.repository.FriendsRepository

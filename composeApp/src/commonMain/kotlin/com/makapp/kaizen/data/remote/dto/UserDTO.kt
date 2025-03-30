@@ -1,8 +1,8 @@
 package com.makapp.kaizen.data.remote.dto
 
 import kotlinx.serialization.Serializable
-import com.makapp.kaizen.domain.models.Challenge
-import com.makapp.kaizen.domain.models.User
+import com.makapp.kaizen.domain.models.challenge.Challenge
+import com.makapp.kaizen.domain.models.user.User
 
 @Serializable
 data class UserDTO(

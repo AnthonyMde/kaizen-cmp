@@ -3,7 +3,7 @@ package com.makapp.kaizen.domain.services
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.User
+import com.makapp.kaizen.domain.models.user.User
 import com.makapp.kaizen.domain.repository.UsersRepository
 
 class UsersService(

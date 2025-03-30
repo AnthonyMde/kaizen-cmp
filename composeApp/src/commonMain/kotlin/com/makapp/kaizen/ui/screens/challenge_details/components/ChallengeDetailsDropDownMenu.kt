@@ -17,14 +17,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_details_drop_down_menu_delete
 import kaizen.composeapp.generated.resources.challenge_details_drop_down_menu_description
 import kaizen.composeapp.generated.resources.challenge_details_drop_down_menu_rename
 import kaizen.composeapp.generated.resources.ic_bin_outlined
-import kaizen.composeapp.generated.resources.ic_flag_outlined
 import kaizen.composeapp.generated.resources.ic_pen_outlined
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource

@@ -6,7 +6,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.mp.KoinPlatform
-import com.makapp.kaizen.domain.models.UserSession
+import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
 

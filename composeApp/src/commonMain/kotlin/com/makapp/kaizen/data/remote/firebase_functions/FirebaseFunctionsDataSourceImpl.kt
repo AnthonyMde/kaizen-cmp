@@ -5,8 +5,8 @@ import com.makapp.kaizen.data.remote.dto.FriendDTO
 import com.makapp.kaizen.data.remote.dto.IsUsernameAvailableDTO
 import com.makapp.kaizen.data.repository.entities.CreateChallengeRequest
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
-import com.makapp.kaizen.domain.models.FriendRequest
-import com.makapp.kaizen.domain.models.FriendSearchPreview
+import com.makapp.kaizen.domain.models.friend.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendSearchPreview
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.functions.functions
 

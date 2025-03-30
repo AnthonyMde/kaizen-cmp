@@ -1,7 +1,7 @@
 package com.makapp.kaizen.domain.repository
 
-import com.makapp.kaizen.domain.models.FriendPreview
-import com.makapp.kaizen.domain.models.FriendSearchPreview
+import com.makapp.kaizen.domain.models.friend.FriendPreview
+import com.makapp.kaizen.domain.models.friend.FriendSearchPreview
 import com.makapp.kaizen.domain.models.Resource
 import kotlinx.coroutines.flow.Flow
 

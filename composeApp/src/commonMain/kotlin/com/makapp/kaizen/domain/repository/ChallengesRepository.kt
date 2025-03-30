@@ -1,10 +1,10 @@
 package com.makapp.kaizen.domain.repository
 
-import com.makapp.kaizen.domain.models.Challenge
-import com.makapp.kaizen.domain.models.CreateChallengeForm
+import com.makapp.kaizen.domain.models.challenge.Challenge
+import com.makapp.kaizen.domain.models.challenge.CreateChallengeForm
 import kotlinx.coroutines.flow.Flow
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.UpdateChallengeFields
+import com.makapp.kaizen.domain.models.challenge.UpdateChallengeFields
 
 interface ChallengesRepository {
     suspend fun toggleStatus(

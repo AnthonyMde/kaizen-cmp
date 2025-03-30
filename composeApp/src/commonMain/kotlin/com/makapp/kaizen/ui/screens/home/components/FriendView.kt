@@ -23,7 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.domain.models.Friend
+import com.makapp.kaizen.domain.models.friend.Friend
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.home.HomeAction

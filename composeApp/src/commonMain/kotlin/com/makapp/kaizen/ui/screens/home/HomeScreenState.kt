@@ -1,8 +1,8 @@
 package com.makapp.kaizen.ui.screens.home
 
-import com.makapp.kaizen.domain.models.Friend
-import com.makapp.kaizen.domain.models.User
-import com.makapp.kaizen.domain.models.UserSession
+import com.makapp.kaizen.domain.models.friend.Friend
+import com.makapp.kaizen.domain.models.user.User
+import com.makapp.kaizen.domain.models.user.UserSession
 import org.jetbrains.compose.resources.StringResource
 
 data class HomeScreenState(

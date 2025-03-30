@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendRequest
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 
 @Composable

@@ -2,8 +2,7 @@ package com.makapp.kaizen.previews
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.makapp.kaizen.domain.models.Challenge
-import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreen
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsState
 import com.makapp.kaizen.utils.DateUtils

@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
-import com.makapp.kaizen.domain.models.FriendRequest
+import com.makapp.kaizen.domain.models.friend.FriendRequest
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsAction
 import kaizen.composeapp.generated.resources.Res

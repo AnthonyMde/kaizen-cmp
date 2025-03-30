@@ -1,6 +1,6 @@
 package com.makapp.kaizen.ui.screens.challenge_details
 
-import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import org.jetbrains.compose.resources.StringResource
 
 data class ChallengeDetailsState(

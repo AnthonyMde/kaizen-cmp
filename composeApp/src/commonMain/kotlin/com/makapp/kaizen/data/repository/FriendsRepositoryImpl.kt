@@ -5,7 +5,7 @@ import com.makapp.kaizen.data.local.room.friends.toFriendDTO
 import com.makapp.kaizen.data.local.room.friends.toFriendWithChallengesEntity
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.toDomainException
-import com.makapp.kaizen.domain.models.Friend
+import com.makapp.kaizen.domain.models.friend.Friend
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.FriendsRepository
 import kotlinx.coroutines.flow.Flow

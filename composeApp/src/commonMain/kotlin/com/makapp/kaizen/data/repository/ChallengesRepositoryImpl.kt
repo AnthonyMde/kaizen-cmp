@@ -8,10 +8,10 @@ import com.makapp.kaizen.data.repository.entities.ToggleStatusRequest
 import com.makapp.kaizen.data.repository.sources.FirebaseFunctionsDataSource
 import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
 import com.makapp.kaizen.data.toDomainException
-import com.makapp.kaizen.domain.models.Challenge
-import com.makapp.kaizen.domain.models.CreateChallengeForm
+import com.makapp.kaizen.domain.models.challenge.Challenge
+import com.makapp.kaizen.domain.models.challenge.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.UpdateChallengeFields
+import com.makapp.kaizen.domain.models.challenge.UpdateChallengeFields
 import com.makapp.kaizen.domain.repository.ChallengesRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
 import dev.gitlive.firebase.firestore.Timestamp

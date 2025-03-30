@@ -1,4 +1,4 @@
-package com.makapp.kaizen.domain.models
+package com.makapp.kaizen.domain.models.friend
 
 import kotlinx.serialization.Serializable
 

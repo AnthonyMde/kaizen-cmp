@@ -22,7 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.makapp.kaizen.domain.models.User
+import com.makapp.kaizen.domain.models.user.User
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.components.FormErrorText
 import com.makapp.kaizen.ui.screens.home.HomeAction

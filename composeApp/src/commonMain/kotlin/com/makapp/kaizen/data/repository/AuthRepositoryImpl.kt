@@ -12,7 +12,7 @@ import com.makapp.kaizen.data.repository.sources.FirebaseAuthDataSource
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.UserSession
+import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(

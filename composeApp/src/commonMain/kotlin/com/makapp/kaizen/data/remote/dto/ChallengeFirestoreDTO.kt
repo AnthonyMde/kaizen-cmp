@@ -3,8 +3,8 @@ package com.makapp.kaizen.data.remote.dto
 import com.makapp.kaizen.data.local.room.challenges.ChallengeEntity
 import dev.gitlive.firebase.firestore.Timestamp
 import kotlinx.serialization.Serializable
-import com.makapp.kaizen.domain.models.Challenge
-import com.makapp.kaizen.domain.models.Challenge.Status
+import com.makapp.kaizen.domain.models.challenge.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge.Status
 import com.makapp.kaizen.utils.DateUtils
 import com.makapp.kaizen.utils.DateUtils.toLocalDate
 

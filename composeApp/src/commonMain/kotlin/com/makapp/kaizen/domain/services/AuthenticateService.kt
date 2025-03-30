@@ -3,7 +3,7 @@ package com.makapp.kaizen.domain.services
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import com.makapp.kaizen.domain.exceptions.DomainException
-import com.makapp.kaizen.domain.models.AuthSuccess
+import com.makapp.kaizen.domain.models.auth.AuthSuccess
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
 

@@ -12,7 +12,7 @@ import com.makapp.kaizen.data.repository.sources.FirestoreDataSource
 import com.makapp.kaizen.data.toDomainException
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.User
+import com.makapp.kaizen.domain.models.user.User
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
 import dev.gitlive.firebase.firestore.FirebaseFirestoreException

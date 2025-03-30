@@ -3,9 +3,9 @@ package com.makapp.kaizen.ui.screens.create_challenge
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makapp.kaizen.domain.exceptions.DomainException
-import com.makapp.kaizen.domain.models.CreateChallengeForm
+import com.makapp.kaizen.domain.models.challenge.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.models.UpdateChallengeFields
+import com.makapp.kaizen.domain.models.challenge.UpdateChallengeFields
 import com.makapp.kaizen.domain.repository.ChallengesRepository
 import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.ui.screens.create_challenge.commitment.CreateChallengeCommitmentAction

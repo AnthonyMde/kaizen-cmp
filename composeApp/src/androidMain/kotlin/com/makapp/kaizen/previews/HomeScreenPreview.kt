@@ -2,9 +2,9 @@ package com.makapp.kaizen.previews
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.makapp.kaizen.domain.models.Challenge
-import com.makapp.kaizen.domain.models.Friend
-import com.makapp.kaizen.domain.models.User
+import com.makapp.kaizen.domain.models.challenge.Challenge
+import com.makapp.kaizen.domain.models.friend.Friend
+import com.makapp.kaizen.domain.models.user.User
 import com.makapp.kaizen.ui.screens.home.HomeScreen
 import com.makapp.kaizen.ui.screens.home.HomeScreenState
 import com.makapp.kaizen.utils.DateUtils

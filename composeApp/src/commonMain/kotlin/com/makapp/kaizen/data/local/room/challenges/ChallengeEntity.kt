@@ -3,14 +3,14 @@ package com.makapp.kaizen.data.local.room.challenges
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.makapp.kaizen.data.remote.dto.ChallengeDTO
-import com.makapp.kaizen.domain.models.Challenge.Status
+import com.makapp.kaizen.domain.models.challenge.Challenge
 
 @Entity
 data class ChallengeEntity(
     @PrimaryKey val id: String,
     val userId: String,
     val name: String,
-    val status: Status,
+    val status: Challenge.Status,
     val createdAt: ChallengeDTO.Timestamp,
     val updatedAt: ChallengeDTO.Timestamp,
     val days:  Int,

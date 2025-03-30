@@ -1,7 +1,7 @@
 package com.makapp.kaizen.data.remote.dto
 
-import com.makapp.kaizen.domain.models.Friend
-import com.makapp.kaizen.domain.models.FriendPreview
+import com.makapp.kaizen.domain.models.friend.Friend
+import com.makapp.kaizen.domain.models.friend.FriendPreview
 import kotlinx.serialization.Serializable
 
 @Serializable

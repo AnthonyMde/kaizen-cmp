@@ -1,6 +1,6 @@
 package com.makapp.kaizen.ui.screens.challenge_details
 
-import com.makapp.kaizen.domain.models.Challenge
+import com.makapp.kaizen.domain.models.challenge.Challenge
 
 sealed class ChallengeDetailsAction {
     data class GoToChallengeInfos(val title: String, val maxLives: Int) : ChallengeDetailsAction()
