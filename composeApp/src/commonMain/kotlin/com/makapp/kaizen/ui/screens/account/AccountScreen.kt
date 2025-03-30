@@ -44,7 +44,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import com.makapp.kaizen.ui.resources.avatars
 import com.makapp.kaizen.ui.screens.account.components.AccountRowView
 import com.makapp.kaizen.ui.screens.components.BackTopAppBar
-import com.makapp.kaizen.ui.screens.components.ConfirmationModal
+import com.makapp.kaizen.ui.screens.components.ConfirmationModalView
 import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
 import kaizen.composeapp.generated.resources.account_back_description
 import kaizen.composeapp.generated.resources.account_create_challenge_row_description
@@ -240,7 +240,7 @@ private fun LogoutConfirmationModal(
     onAction: (AccountAction) -> Unit,
     isLoading: Boolean
 ) {
-    ConfirmationModal(
+    ConfirmationModalView(
         title = stringResource(Res.string.account_logout_modal_title),
         subtitle = stringResource(Res.string.account_logout_modal_subtitle),
         confirmationButtonText = stringResource(Res.string.account_logout_modal_button),
@@ -260,7 +260,7 @@ private fun DeleteAccountConfirmationModal(
     isLoading: Boolean,
     error: String?
 ) {
-    ConfirmationModal(
+    ConfirmationModalView(
         title = stringResource(Res.string.account_delete_modal_title),
         subtitle = stringResource(Res.string.account_delete_modal_subtitle),
         confirmationButtonText = stringResource(Res.string.account_delete_modal_button),

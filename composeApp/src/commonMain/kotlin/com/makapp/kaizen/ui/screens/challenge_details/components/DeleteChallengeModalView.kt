@@ -2,7 +2,7 @@ package com.makapp.kaizen.ui.screens.challenge_details.components
 
 import androidx.compose.runtime.Composable
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
-import com.makapp.kaizen.ui.screens.components.ConfirmationModal
+import com.makapp.kaizen.ui.screens.components.ConfirmationModalView
 import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_details_delete_modal_button
@@ -17,7 +17,7 @@ fun DeleteChallengeModalView(
     error: String?,
     onAction: (ChallengeDetailsAction) -> Unit,
 ) {
-    ConfirmationModal(
+    ConfirmationModalView(
         title = stringResource(Res.string.challenge_details_delete_modal_title),
         subtitle = stringResource(Res.string.challenge_details_delete_modal_subtitle),
         confirmationButtonText = stringResource(Res.string.challenge_details_delete_modal_button),

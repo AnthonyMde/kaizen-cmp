@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
-import com.makapp.kaizen.ui.screens.components.ConfirmationModal
+import com.makapp.kaizen.ui.screens.components.ConfirmationModalView
 import com.makapp.kaizen.ui.screens.home.components.CurrentUserView
 import com.makapp.kaizen.ui.screens.home.components.FriendWithChallengesView
 import com.makapp.kaizen.ui.screens.home.components.FriendsEmptyView
@@ -103,7 +103,7 @@ fun HomeScreen(
     ) {
         // TODO: make it a non-blocking snackbar + implement a cron to remove unverified accounts.
         if (state.userSession?.isEmailVerified == false) {
-            ConfirmationModal(
+            ConfirmationModalView(
                 title = stringResource(Res.string.email_verification_modal_title),
                 subtitle = stringResource(Res.string.email_verification_modal_subtitle),
                 confirmationButtonText = stringResource(Res.string.email_verification_modal_button),

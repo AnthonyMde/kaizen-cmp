@@ -156,6 +156,8 @@
     <string name="friends_request_pending_request">En attente de %1$s</string>
     <string name="friends_request_cancel_request_description">Annuler la demande d'ami.</string>
 
+    <!-- MODAL VIEW -->
+    <string name="confirmation_modal_view_cancel_button">Annuler</string>
 
     <!-- EMAIL VERIFICATION MODAL -->
     <string name="email_verification_modal_title">Vérification de l'email</string>

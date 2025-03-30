@@ -1,9 +1,10 @@
 package com.makapp.kaizen.ui.screens.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BasicAlertDialog
@@ -12,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,10 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.confirmation_modal_view_cancel_button
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConfirmationModal(
+fun ConfirmationModalView(
     title: String? = null,
     subtitle: String? = null,
     confirmationButtonText: String,
@@ -44,11 +49,12 @@ fun ConfirmationModal(
         ),
         content = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.primaryContainer)
-                    .padding(24.dp)
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 24.dp)
             ) {
                 title?.let {
                     Text(
@@ -60,6 +66,9 @@ fun ConfirmationModal(
                             .fillMaxWidth()
                     )
                 }
+
+                Spacer(Modifier.height(16.dp))
+
                 subtitle?.let {
                     Text(
                         subtitle,
@@ -70,19 +79,35 @@ fun ConfirmationModal(
                             .fillMaxWidth()
                     )
                 }
+
+                Spacer(Modifier.height(16.dp))
+
                 LoadingButton(
                     onClick = onConfirmed,
                     label = confirmationButtonText,
                     isLoading = isConfirmationLoading,
                     enabled = !isConfirmationLoading,
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
                         .fillMaxWidth(),
                     buttonColors = getButtonColors(type)
                 )
                 error?.let {
                     FormErrorText(error, textAlign = TextAlign.Center)
                 }
+
+                Spacer(Modifier.height(4.dp))
+
+                TextButton(
+                    onClick = { onDismissed() },
+                    content = {
+                        Text(stringResource(Res.string.confirmation_modal_view_cancel_button),
+                            style = MaterialTheme.typography.bodyMedium)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+
+                Spacer(Modifier.height(16.dp))
             }
         },
         modifier = Modifier
