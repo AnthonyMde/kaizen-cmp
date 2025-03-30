@@ -10,7 +10,6 @@ sealed class HomeAction {
     ) : HomeAction()
 
     data object OnAccountClicked : HomeAction()
-    data object OnEmailVerified : HomeAction()
     data object OnCreateFirstChallengeClicked : HomeAction()
     data object OnSwipeToRefreshFriendList : HomeAction()
     data object OnFriendEmptyViewClicked : HomeAction()

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,15 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
-import com.makapp.kaizen.ui.screens.components.ConfirmationModalView
 import com.makapp.kaizen.ui.screens.home.components.CurrentUserView
 import com.makapp.kaizen.ui.screens.home.components.FriendWithChallengesView
 import com.makapp.kaizen.ui.screens.home.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.home.components.Header
-import kaizen.composeapp.generated.resources.Res
-import kaizen.composeapp.generated.resources.email_verification_modal_button
-import kaizen.composeapp.generated.resources.email_verification_modal_subtitle
-import kaizen.composeapp.generated.resources.email_verification_modal_title
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -98,24 +94,12 @@ fun HomeScreen(
     Column(
         modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp)
             .padding(top = 24.dp),
     ) {
-        // TODO: make it a non-blocking snackbar + implement a cron to remove unverified accounts.
-        if (state.userSession?.isEmailVerified == false) {
-            ConfirmationModalView(
-                title = stringResource(Res.string.email_verification_modal_title),
-                subtitle = stringResource(Res.string.email_verification_modal_subtitle),
-                confirmationButtonText = stringResource(Res.string.email_verification_modal_button),
-                onConfirmed = {
-                    onAction(HomeAction.OnEmailVerified)
-                },
-                canBeDismissed = true
-            )
-        }
         Header(
             onAction = onAction,
-            profilePictureIndex = state.currentChallenger?.profilePictureIndex
+            profilePictureIndex = state.currentChallenger?.profilePictureIndex,
+            isEmailVerified = state.userSession?.isEmailVerified == false
         )
         CurrentUserView(
             user = state.currentChallenger,
@@ -124,11 +108,15 @@ fun HomeScreen(
             isLoading = state.isCurrentChallengerLoading,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 24.dp)
                 .padding(top = 16.dp)
                 .align(Alignment.CenterHorizontally)
         )
+
+        Spacer(Modifier.height(24.dp))
+
         HorizontalDivider(
-            Modifier.padding(top = 24.dp),
+            Modifier.padding(horizontal = 24.dp),
             color = MaterialTheme.colorScheme.primary
         )
 
@@ -138,7 +126,7 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .height(2.dp)
                     .padding(top = 8.dp)
-                    .padding(horizontal = 24.dp)
+                    .padding(horizontal = 48.dp)
             )
         }
 
@@ -146,6 +134,7 @@ fun HomeScreen(
             FriendsEmptyView(
                 modifier = Modifier
                     .padding(top = 16.dp)
+                    .padding(horizontal = 24.dp)
                     .clickable { onAction(HomeAction.OnFriendEmptyViewClicked) }
             )
         } else {
@@ -160,7 +149,9 @@ fun HomeScreen(
                         FriendWithChallengesView(
                             friend = friend,
                             onAction = onAction,
-                            modifier = Modifier.padding(top = 16.dp),
+                            modifier = Modifier
+                                .padding(top = 16.dp)
+                                .padding(horizontal = 24.dp),
                         )
                     }
                 }

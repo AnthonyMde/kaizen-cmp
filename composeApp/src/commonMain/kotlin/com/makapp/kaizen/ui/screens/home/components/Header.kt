@@ -4,8 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -26,37 +30,52 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun Header(
     onAction: (HomeAction) -> Unit,
-    profilePictureIndex: Int?
+    profilePictureIndex: Int?,
+    isEmailVerified: Boolean
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        Text(
-            text = DateUtils.getTodaysDate(),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.weight(2f)
-        )
+        if (isEmailVerified) {
+            VerifyAccountBannerView()
+            Spacer(Modifier.height(8.dp))
+        }
 
-        if (profilePictureIndex == null) {
-            Box(modifier = Modifier
-                .size(55.dp)
-                .clip(CircleShape)
-                .background(color = Color.LightGray))
-        } else {
-            Image(
-                painter = painterResource(avatars[profilePictureIndex].drawable),
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .size(55.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        onAction(HomeAction.OnAccountClicked)
-                    }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = DateUtils.getTodaysDate(),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(2f)
             )
+
+            if (profilePictureIndex == null) {
+                Box(
+                    modifier = Modifier
+                        .size(55.dp)
+                        .clip(CircleShape)
+                        .background(color = Color.LightGray)
+                )
+            } else {
+                Image(
+                    painter = painterResource(avatars[profilePictureIndex].drawable),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .size(55.dp)
+                        .clip(CircleShape)
+                        .clickable {
+                            onAction(HomeAction.OnAccountClicked)
+                        }
+                )
+            }
         }
     }
 }

@@ -39,6 +39,7 @@
     <!-- HOME -->
     <string name="home_user_title">Mes kaizen</string>
     <string name="home_screen_empty_friends_text">Ajoute des amis en favori pour voir leurs kaizen ici.</string>
+    <string name="home_header_view_email_verification_banner_text">Confirme ton email pour profiter de Kaizen. Sans confirmation, ton compte sera supprimé sous 48 heures.</string>
 
     <!-- CHALLENGES -->
     <string name="challenge_day_count">Jour %1$s</string>
@@ -158,11 +159,6 @@
 
     <!-- MODAL VIEW -->
     <string name="confirmation_modal_view_cancel_button">Annuler</string>
-
-    <!-- EMAIL VERIFICATION MODAL -->
-    <string name="email_verification_modal_title">Vérification de l'email</string>
-    <string name="email_verification_modal_subtitle">Vérifie tes emails pour confirmer ton compte et profiter de Kaizen.</string>
-    <string name="email_verification_modal_button">C'est bon maintenant !</string>
 
     <!-- LOGOUT MODAL -->
     <string name="account_logout_modal_title">Déconnexion</string>
