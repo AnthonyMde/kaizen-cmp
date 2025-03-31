@@ -1,4 +1,4 @@
-package com.makapp.kaizen.domain.usecases
+package com.makapp.kaizen.domain.usecases.friend
 
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.friend.FriendSearchPreview

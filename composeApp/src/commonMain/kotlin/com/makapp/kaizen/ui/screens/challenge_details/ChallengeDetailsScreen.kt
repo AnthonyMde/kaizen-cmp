@@ -28,7 +28,7 @@ import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetail
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusBottomSheet
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusModalView
 import com.makapp.kaizen.ui.screens.challenge_details.components.DeleteChallengeModalView
-import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.components.BackTopAppBar
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_details_expectations_emptyview_subtitle
 import kaizen.composeapp.generated.resources.challenge_details_expectations_emptyview_title

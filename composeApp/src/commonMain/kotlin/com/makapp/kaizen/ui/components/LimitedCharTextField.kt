@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.ui.screens.components.FormErrorText
 
 @Composable
 fun LimitedCharTextField(

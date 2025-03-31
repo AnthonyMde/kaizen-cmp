@@ -2,7 +2,7 @@ package com.makapp.kaizen.ui.screens.account.components.modal
 
 import androidx.compose.runtime.Composable
 import com.makapp.kaizen.ui.screens.account.AccountAction
-import com.makapp.kaizen.ui.screens.components.ConfirmationModalView
+import com.makapp.kaizen.ui.components.ConfirmationModalView
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.account_logout_modal_button
 import kaizen.composeapp.generated.resources.account_logout_modal_subtitle

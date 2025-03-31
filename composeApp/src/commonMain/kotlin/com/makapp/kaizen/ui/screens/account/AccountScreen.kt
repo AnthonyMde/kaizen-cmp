@@ -31,7 +31,7 @@ import com.makapp.kaizen.ui.screens.account.components.AccountRowView
 import com.makapp.kaizen.ui.screens.account.components.modal.DeleteAccountConfirmationModalView
 import com.makapp.kaizen.ui.screens.account.components.modal.DeleteFinalConfirmationModalView
 import com.makapp.kaizen.ui.screens.account.components.modal.LogoutConfirmationModalView
-import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.components.BackTopAppBar
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.account_back_description
 import kaizen.composeapp.generated.resources.account_create_challenge_row_description

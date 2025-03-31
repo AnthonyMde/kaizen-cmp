@@ -1,9 +1,12 @@
-package com.makapp.kaizen.domain.usecases
+package com.makapp.kaizen.domain.usecases.user
 
 import com.makapp.kaizen.data.remote.dto.CreateUserRequest
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.UsersRepository
+import com.makapp.kaizen.domain.usecases.VerifyDisplayNameUseCase
+import com.makapp.kaizen.domain.usecases.VerifyUsernameAvailableUseCase
+import com.makapp.kaizen.domain.usecases.VerifyUsernameFormatUseCase
 
 class CreateUserUseCase(
     private val usersRepository: UsersRepository,

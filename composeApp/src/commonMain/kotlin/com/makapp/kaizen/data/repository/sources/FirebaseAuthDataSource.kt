@@ -8,4 +8,5 @@ interface FirebaseAuthDataSource {
     suspend fun signIn(email: String, password: String): AuthResult
     suspend fun logout()
     fun getUserSession(): FirebaseUser?
+    suspend fun sendResetPasswordEmail(email: String)
 }

@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -36,13 +37,16 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.ui.screens.components.FormErrorText
-import com.makapp.kaizen.ui.screens.components.LoadingButton
-import com.makapp.kaizen.ui.screens.components.PasswordTextField
-import com.makapp.kaizen.ui.screens.components.PlaceholderText
+import com.makapp.kaizen.ui.components.FormErrorText
+import com.makapp.kaizen.ui.components.LoadingButton
+import com.makapp.kaizen.ui.components.PasswordTextField
+import com.makapp.kaizen.ui.components.PlaceholderText
+import com.makapp.kaizen.ui.screens.login.component.ResetPasswordModalView
+import com.makapp.kaizen.ui.screens.login.component.ResetPasswordSentModal
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.auth_screen_email_input_label
 import kaizen.composeapp.generated.resources.auth_screen_email_input_placeholder
+import kaizen.composeapp.generated.resources.auth_screen_forgot_password
 import kaizen.composeapp.generated.resources.auth_screen_password_input_label
 import kaizen.composeapp.generated.resources.auth_screen_password_input_placeholder
 import kaizen.composeapp.generated.resources.auth_screen_submit_button
@@ -60,18 +64,20 @@ fun AuthScreenRoot(
     goToHomeScreen: () -> Unit,
     goToOnboardingProfile: () -> Unit
 ) {
-    val loginScreenState by viewModel.authScreenState.collectAsState()
+    val loginScreenState by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
+
     LaunchedEffect(true) {
         scope.launch {
-            viewModel.navigationEvents.collectLatest { event ->
+            viewModel.events.collectLatest { event ->
                 when (event) {
-                    AuthNavigationEvent.GoToHomeScreen -> goToHomeScreen()
-                    AuthNavigationEvent.GoToOnboardingProfile -> goToOnboardingProfile()
+                    AuthEvent.GoToHomeScreen -> goToHomeScreen()
+                    AuthEvent.GoToOnboardingProfile -> goToOnboardingProfile()
                 }
             }
         }
     }
+
     AuthScreen(
         state = loginScreenState,
         onAction = viewModel::onAction,
@@ -90,6 +96,22 @@ fun AuthScreen(
     val keyboard = LocalSoftwareKeyboardController.current
     val focus = LocalFocusManager.current
     val scroll = rememberScrollState()
+
+    if (state.isResetPasswordModalDisplayed) {
+        ResetPasswordModalView(
+            emailValue = state.emailToSendForgotPasswordResetLink,
+            isLoading = state.isResetPasswordRequestLoading,
+            error = state.resetPasswordError,
+            onAction = onAction
+        )
+    }
+
+    if (state.isResetPasswordSentModalDisplayed) {
+        ResetPasswordSentModal(
+            email = state.emailToSendForgotPasswordResetLink,
+            onAction = onAction
+        )
+    }
 
     Box(
         modifier = Modifier
@@ -140,11 +162,11 @@ fun AuthScreen(
                     .fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
-
             state.emailInputError?.let {
                 FormErrorText(stringResource(it))
             }
+
+            Spacer(modifier = Modifier.height(4.dp))
 
             PasswordTextField(
                 value = state.passwordInputValue,
@@ -157,22 +179,33 @@ fun AuthScreen(
                         AuthAction.OnAuthSubmit(state.emailInputValue, state.passwordInputValue)
                     )
                 },
-                label = { Text(stringResource(Res.string.auth_screen_password_input_label),) },
-                placeholder = { PlaceholderText(stringResource(Res.string.auth_screen_password_input_placeholder),) },
+                label = { Text(stringResource(Res.string.auth_screen_password_input_label)) },
+                placeholder = { PlaceholderText(stringResource(Res.string.auth_screen_password_input_placeholder)) },
                 singleLine = true,
                 isError = state.passwordInputError != null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
             )
-
-            Spacer(modifier = Modifier.height(6.dp))
 
             state.passwordInputError?.let {
                 FormErrorText(stringResource(it))
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            TextButton(
+                onClick = {
+                    onAction(AuthAction.OnForgetPasswordClicked)
+                },
+                modifier = Modifier
+                    .align(Alignment.End)
+            ) {
+                Text(
+                    stringResource(Res.string.auth_screen_forgot_password),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
 
             LoadingButton(
                 onClick = {

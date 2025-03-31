@@ -1,10 +1,10 @@
 package com.makapp.kaizen.data.remote.firebase_auth
 
+import com.makapp.kaizen.data.repository.sources.FirebaseAuthDataSource
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.AuthResult
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
-import com.makapp.kaizen.data.repository.sources.FirebaseAuthDataSource
 
 class FirebaseAuthDataSourceImpl: FirebaseAuthDataSource {
     private val auth = Firebase.auth
@@ -22,4 +22,8 @@ class FirebaseAuthDataSourceImpl: FirebaseAuthDataSource {
     }
 
     override fun getUserSession(): FirebaseUser? = auth.currentUser
+
+    override suspend fun sendResetPasswordEmail(email: String) {
+        auth.sendPasswordResetEmail(email)
+    }
 }

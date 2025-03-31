@@ -8,7 +8,7 @@ import com.makapp.kaizen.domain.services.FriendPreviewsService
 import com.makapp.kaizen.domain.services.FriendRequestsService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
-import com.makapp.kaizen.domain.usecases.GetFriendPreviewUseCase
+import com.makapp.kaizen.domain.usecases.friend.GetFriendPreviewUseCase
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.friends_search_cannot_find_friend_id
 import kaizen.composeapp.generated.resources.friends_search_not_authorized_error

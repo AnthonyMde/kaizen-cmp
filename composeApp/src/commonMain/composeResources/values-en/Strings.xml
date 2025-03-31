@@ -9,6 +9,15 @@
     <string name="auth_screen_password_input_label">Password</string>
     <string name="auth_screen_password_input_placeholder">Strong password</string>
     <string name="auth_screen_submit_button">Access Kaizen</string>
+    <string name="auth_screen_forgot_password">Forgot password</string>
+    <string name="auth_screen_forgot_password_reset_modal_title">Need a new password?</string>
+    <string name="auth_screen_forgot_password_reset_modal_subtitle">We'll send a password reset link to the email address you provide.</string>
+    <string name="auth_screen_forgot_password_reset_modal_button">Send reset link</string>
+    <string name="auth_screen_forgot_password_reset_modal_input_placeholder">Email address</string>
+    <string name="auth_screen_forgot_password_reset_success_modal_title">Password reset</string>
+    <string name="auth_screen_forgot_password_reset_success_modal_subtitle">A reset link has just been sent to:\n %1$s.</string>
+    <string name="auth_screen_forgot_password_reset_success_modal_cta">Got it</string>
+
     <!-- AUTH ERRORS -->
     <string name="auth_screen_empty_email_error">Email field should not be empty.</string>
     <string name="auth_screen_empty_password_error">Password field should not be empty.</string>
@@ -16,6 +25,7 @@
     <string name="auth_screen_wrong_credentials_error">Email or password invalid.</string>
     <string name="auth_screen_weak_password_error">You password should be at least 6 characters long.</string>
     <string name="auth_screen_send_email_error">Your account has been created but we failed to send your verification email.</string>
+    <string name="auth_screen_reset_password_error">An error occurred while sending your reset password email.</string>
 
     <!-- ONBOARDING -->
     <string name="onboarding_profile_screen_title">Who are you?</string>

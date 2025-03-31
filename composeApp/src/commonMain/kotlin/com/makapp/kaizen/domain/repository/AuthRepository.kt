@@ -8,6 +8,7 @@ interface AuthRepository {
     suspend fun signUp(email: String, password: String): Resource<Unit>
     suspend fun signIn(email: String, password: String): Resource<Unit>
     suspend fun sendVerificationEmail()
+    suspend fun sendResetPasswordEmail(email: String): Resource<Unit>
     suspend fun logout()
     fun getUserSession(): UserSession?
     @Throws(Exception::class)

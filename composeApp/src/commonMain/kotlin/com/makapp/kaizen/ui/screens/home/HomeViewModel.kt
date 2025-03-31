@@ -10,7 +10,7 @@ import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
-import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import com.makapp.kaizen.domain.usecases.user.GetReloadedUserSessionUseCase
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.unknown_error
 import kotlinx.coroutines.channels.BufferOverflow

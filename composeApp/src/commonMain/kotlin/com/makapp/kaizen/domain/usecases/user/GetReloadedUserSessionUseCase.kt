@@ -1,4 +1,4 @@
-package com.makapp.kaizen.domain.usecases
+package com.makapp.kaizen.domain.usecases.user
 
 import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.domain.repository.AuthRepository

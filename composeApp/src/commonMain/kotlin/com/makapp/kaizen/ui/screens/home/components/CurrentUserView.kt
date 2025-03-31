@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.makapp.kaizen.domain.models.user.User
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
-import com.makapp.kaizen.ui.screens.components.FormErrorText
+import com.makapp.kaizen.ui.components.FormErrorText
 import com.makapp.kaizen.ui.screens.home.HomeAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.home_user_title

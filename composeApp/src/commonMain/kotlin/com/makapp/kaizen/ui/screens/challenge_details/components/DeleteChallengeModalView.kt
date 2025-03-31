@@ -2,8 +2,8 @@ package com.makapp.kaizen.ui.screens.challenge_details.components
 
 import androidx.compose.runtime.Composable
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsAction
-import com.makapp.kaizen.ui.screens.components.ConfirmationModalView
-import com.makapp.kaizen.ui.screens.components.ConfirmationModalType
+import com.makapp.kaizen.ui.components.ConfirmationModalView
+import com.makapp.kaizen.ui.components.ConfirmationModalType
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_details_delete_modal_button
 import kaizen.composeapp.generated.resources.challenge_details_delete_modal_subtitle

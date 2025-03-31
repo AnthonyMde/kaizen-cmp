@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import org.koin.mp.KoinPlatform
 import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.domain.repository.AuthRepository
-import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import com.makapp.kaizen.domain.usecases.user.GetReloadedUserSessionUseCase
 
 fun initializeUserSession(): UserSession? {
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)

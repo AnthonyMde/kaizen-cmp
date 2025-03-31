@@ -1,4 +1,4 @@
-package com.makapp.kaizen.ui.screens.components
+package com.makapp.kaizen.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -47,14 +47,15 @@ fun ConfirmationModalView(
             dismissOnClickOutside = canBeDismissed,
             dismissOnBackPress = canBeDismissed
         ),
+        modifier = Modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.primaryContainer)
+            .padding(24.dp),
         content = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.primaryContainer)
-                    .padding(horizontal = 24.dp)
-                    .padding(top = 24.dp)
             ) {
                 title?.let {
                     Text(
@@ -95,24 +96,19 @@ fun ConfirmationModalView(
                     FormErrorText(error, textAlign = TextAlign.Center)
                 }
 
-                Spacer(Modifier.height(4.dp))
-
                 TextButton(
                     onClick = { onDismissed() },
                     content = {
-                        Text(stringResource(Res.string.confirmation_modal_view_cancel_button),
-                            style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            stringResource(Res.string.confirmation_modal_view_cancel_button),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                 )
-
-                Spacer(Modifier.height(16.dp))
             }
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
     )
 }
 

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.usecases.CreateUserParams
-import com.makapp.kaizen.domain.usecases.CreateUserUseCase
+import com.makapp.kaizen.domain.usecases.user.CreateUserParams
+import com.makapp.kaizen.domain.usecases.user.CreateUserUseCase
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.onboarding_profile_screen_displayname_length_error
 import kaizen.composeapp.generated.resources.onboarding_profile_screen_username_already_used_error

@@ -8,4 +8,9 @@ data class AuthScreenState(
     val passwordInputValue: String = "",
     val passwordInputError: StringResource? = null,
     val onSubmitLoading: Boolean = false,
+    val isResetPasswordModalDisplayed: Boolean = false,
+    val isResetPasswordRequestLoading: Boolean = false,
+    val resetPasswordError: StringResource? = null,
+    val isResetPasswordSentModalDisplayed: Boolean = false,
+    val emailToSendForgotPasswordResetLink: String = ""
 )

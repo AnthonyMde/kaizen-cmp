@@ -1,4 +1,4 @@
-package com.makapp.kaizen.ui.screens.components
+package com.makapp.kaizen.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

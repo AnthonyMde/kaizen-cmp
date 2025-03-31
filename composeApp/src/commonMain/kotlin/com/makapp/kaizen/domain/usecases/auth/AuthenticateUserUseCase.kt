@@ -1,4 +1,4 @@
-package com.makapp.kaizen.domain.services
+package com.makapp.kaizen.domain.usecases.auth
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -7,7 +7,7 @@ import com.makapp.kaizen.domain.models.auth.AuthSuccess
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
 
-class AuthenticateService(
+class AuthenticateUserUseCase(
     private val authRepository: AuthRepository,
 ) {
     operator fun invoke(email: String, password: String): Flow<Resource<AuthSuccess>> =

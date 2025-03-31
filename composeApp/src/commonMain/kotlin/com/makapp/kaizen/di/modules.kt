@@ -27,18 +27,19 @@ import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
 import com.makapp.kaizen.domain.repository.FriendRequestsRepository
 import com.makapp.kaizen.domain.repository.FriendsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
-import com.makapp.kaizen.domain.services.AuthenticateService
+import com.makapp.kaizen.domain.usecases.auth.AuthenticateUserUseCase
 import com.makapp.kaizen.domain.services.ChallengesService
 import com.makapp.kaizen.domain.services.FriendPreviewsService
 import com.makapp.kaizen.domain.services.FriendRequestsService
 import com.makapp.kaizen.domain.services.FriendsService
 import com.makapp.kaizen.domain.services.UsersService
-import com.makapp.kaizen.domain.usecases.CreateUserUseCase
-import com.makapp.kaizen.domain.usecases.GetFriendPreviewUseCase
-import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import com.makapp.kaizen.domain.usecases.user.CreateUserUseCase
+import com.makapp.kaizen.domain.usecases.friend.GetFriendPreviewUseCase
+import com.makapp.kaizen.domain.usecases.user.GetReloadedUserSessionUseCase
 import com.makapp.kaizen.domain.usecases.VerifyDisplayNameUseCase
 import com.makapp.kaizen.domain.usecases.VerifyUsernameAvailableUseCase
 import com.makapp.kaizen.domain.usecases.VerifyUsernameFormatUseCase
+import com.makapp.kaizen.domain.usecases.auth.SendResetPasswordEmailUseCase
 import com.makapp.kaizen.ui.screens.account.AccountViewModel
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsViewModel
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
@@ -68,7 +69,7 @@ val commonModules = module {
 
     // Service
     singleOf(::UsersService)
-    singleOf(::AuthenticateService)
+    singleOf(::AuthenticateUserUseCase)
     singleOf(::ChallengesService)
     singleOf(::FriendRequestsService)
     singleOf(::FriendsService)
@@ -81,6 +82,7 @@ val commonModules = module {
     singleOf(::VerifyUsernameFormatUseCase)
     singleOf(::VerifyDisplayNameUseCase)
     singleOf(::GetFriendPreviewUseCase)
+    singleOf(::SendResetPasswordEmailUseCase)
 
     // Repository
     singleOf(::UsersRepositoryImpl).bind<UsersRepository>()

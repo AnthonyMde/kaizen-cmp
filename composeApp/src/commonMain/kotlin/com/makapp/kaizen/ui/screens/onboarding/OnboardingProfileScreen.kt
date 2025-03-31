@@ -49,7 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.models.Avatar
 import com.makapp.kaizen.ui.resources.avatars
-import com.makapp.kaizen.ui.screens.components.LoadingButton
+import com.makapp.kaizen.ui.components.LoadingButton
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.onboarding_profile_screen_avatar_section_subtitle
 import kaizen.composeapp.generated.resources.onboarding_profile_screen_avatar_section_title

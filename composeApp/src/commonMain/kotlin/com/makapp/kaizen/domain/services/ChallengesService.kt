@@ -5,7 +5,7 @@ import com.makapp.kaizen.domain.models.challenge.CreateChallengeForm
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.repository.AuthRepository
 import com.makapp.kaizen.domain.repository.ChallengesRepository
-import com.makapp.kaizen.domain.usecases.GetReloadedUserSessionUseCase
+import com.makapp.kaizen.domain.usecases.user.GetReloadedUserSessionUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

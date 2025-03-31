@@ -39,10 +39,10 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.ui.components.LimitedCharTextField
 import com.makapp.kaizen.ui.components.Stepper
-import com.makapp.kaizen.ui.screens.components.BackTopAppBar
-import com.makapp.kaizen.ui.screens.components.FormErrorText
-import com.makapp.kaizen.ui.screens.components.LoadingButton
-import com.makapp.kaizen.ui.screens.components.PlaceholderText
+import com.makapp.kaizen.ui.components.BackTopAppBar
+import com.makapp.kaizen.ui.components.FormErrorText
+import com.makapp.kaizen.ui.components.LoadingButton
+import com.makapp.kaizen.ui.components.PlaceholderText
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeFunnelState
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeNavigationEvent
 import com.makapp.kaizen.ui.screens.create_challenge.CreateChallengeViewModel
@@ -93,7 +93,7 @@ fun CreateChallengeInfosScreenRoot(
         }
     }
 
-    CreateChallengeInfos(
+    CreateChallengeInfoScreen(
         state = state,
         navArgs = navArgs,
         onAction = { action ->
@@ -106,7 +106,7 @@ fun CreateChallengeInfosScreenRoot(
 }
 
 @Composable
-fun CreateChallengeInfos(
+fun CreateChallengeInfoScreen(
     state: CreateChallengeFunnelState,
     navArgs: ChallengeInfosNavArgs,
     onAction: (CreateChallengeInfosAction) -> Unit

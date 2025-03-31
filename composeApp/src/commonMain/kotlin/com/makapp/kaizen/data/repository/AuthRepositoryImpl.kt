@@ -33,6 +33,7 @@ class AuthRepositoryImpl(
             is FirebaseAuthUserCollisionException -> {
                 Resource.Error(DomainException.Auth.EmailAddressAlreadyUsed)
             }
+
             else -> Resource.Error(e.toDomainException())
         }
     }
@@ -89,5 +90,14 @@ class AuthRepositoryImpl(
             email = email,
             isEmailVerified = isEmailVerified
         )
+    }
+
+    override suspend fun sendResetPasswordEmail(email: String): Resource<Unit> {
+        return try {
+            firebaseAuth.sendResetPasswordEmail(email)
+            Resource.Success()
+        } catch (e: Exception) {
+            Resource.Error(e.toDomainException())
+        }
     }
 }

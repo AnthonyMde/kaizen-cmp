@@ -30,7 +30,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.makapp.kaizen.ui.screens.components.BackTopAppBar
+import com.makapp.kaizen.ui.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendRowView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendSearchView
 import com.makapp.kaizen.ui.screens.my_friends.components.FriendsEmptyView

@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
-import com.makapp.kaizen.domain.services.AuthenticateService
+import com.makapp.kaizen.domain.usecases.auth.AuthenticateUserUseCase
+import com.makapp.kaizen.domain.usecases.auth.SendResetPasswordEmailUseCase
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.auth_screen_empty_email_error
 import kaizen.composeapp.generated.resources.auth_screen_empty_password_error
 import kaizen.composeapp.generated.resources.auth_screen_not_authorized_error
+import kaizen.composeapp.generated.resources.auth_screen_reset_password_error
 import kaizen.composeapp.generated.resources.auth_screen_send_email_error
 import kaizen.composeapp.generated.resources.auth_screen_weak_password_error
 import kaizen.composeapp.generated.resources.auth_screen_wrong_credentials_error
@@ -24,31 +26,33 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 
 class AuthViewModel(
-    private val authenticateService: AuthenticateService,
+    private val authenticateUserUseCase: AuthenticateUserUseCase,
+    private val sendResetPasswordEmailUseCase: SendResetPasswordEmailUseCase
 ) : ViewModel() {
-    private val _authScreenState = MutableStateFlow(AuthScreenState())
-    val authScreenState = _authScreenState.asStateFlow()
+    private val _state = MutableStateFlow(AuthScreenState())
+    val state = _state.asStateFlow()
 
-    private val _navigationEvents = MutableSharedFlow<AuthNavigationEvent>(
+    private val _events = MutableSharedFlow<AuthEvent>(
         replay = 0,
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_LATEST
     )
-    val navigationEvents = _navigationEvents.asSharedFlow()
+    val events = _events.asSharedFlow()
 
     fun onAction(action: AuthAction) {
         when (action) {
             is AuthAction.OnEmailInputTextChanged -> {
-                _authScreenState.update {
+                _state.update {
                     it.copy(
                         emailInputValue = action.text,
-                        emailInputError = null
+                        emailInputError = null,
+                        emailToSendForgotPasswordResetLink = action.text
                     )
                 }
             }
 
             is AuthAction.OnPasswordInputTextChanged -> {
-                _authScreenState.update {
+                _state.update {
                     it.copy(
                         passwordInputValue = action.password,
                         passwordInputError = null
@@ -64,43 +68,69 @@ class AuthViewModel(
                     return
                 }
 
-                viewModelScope.launch {
-                    authenticateService(email, password)
-                        .collectLatest { result ->
-                            when (result) {
-                                is Resource.Error -> {
-                                    _authScreenState.update {
-                                        it.copy(
-                                            onSubmitLoading = false,
-                                            passwordInputError = getLoginErrorMessage(result.throwable)
-                                        )
-                                    }
-                                }
+                authenticateUser(email, password)
+            }
 
-                                is Resource.Loading -> {
-                                    _authScreenState.update {
-                                        it.copy(
-                                            onSubmitLoading = true,
-                                            emailInputError = null,
-                                            passwordInputError = null
-                                        )
-                                    }
-                                }
+            AuthAction.OnForgetPasswordClicked -> {
+                _state.update {
+                    it.copy(isResetPasswordModalDisplayed = true)
+                }
+            }
 
-                                is Resource.Success -> {
-                                    _authScreenState.update {
-                                        it.copy(
-                                            onSubmitLoading = false,
-                                        )
-                                    }
+            AuthAction.OnResetPasswordModalConfirmed -> {
+                sendResetPasswordEmail()
+            }
 
-                                    if (result.data?.isSignUp == true)
-                                        _navigationEvents.tryEmit(AuthNavigationEvent.GoToOnboardingProfile)
-                                    else
-                                        _navigationEvents.tryEmit(AuthNavigationEvent.GoToHomeScreen)
-                                }
-                            }
-                        }
+            AuthAction.OnResetPasswordModalDismissed -> {
+                _state.update {
+                    it.copy(isResetPasswordModalDisplayed = false)
+                }
+            }
+
+            AuthAction.OnResetPasswordSentModalDismissed -> {
+                _state.update {
+                    it.copy(isResetPasswordSentModalDisplayed = false)
+                }
+            }
+
+            is AuthAction.OnResetPasswordEmailInputChanged -> {
+               _state.update {
+                   it.copy(emailToSendForgotPasswordResetLink = action.text)
+               }
+            }
+        }
+    }
+
+    private fun sendResetPasswordEmail() = viewModelScope.launch {
+        val email = _state.value.emailToSendForgotPasswordResetLink
+
+        sendResetPasswordEmailUseCase(email).collectLatest { result ->
+            when (result) {
+                is Resource.Error -> {
+                    _state.update {
+                        it.copy(
+                            isResetPasswordRequestLoading = false,
+                            resetPasswordError = Res.string.auth_screen_reset_password_error
+                        )
+                    }
+                }
+
+                is Resource.Loading -> {
+                    _state.update {
+                        it.copy(
+                            isResetPasswordRequestLoading = true,
+                            resetPasswordError = null
+                        )
+                    }
+                }
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            isResetPasswordRequestLoading = false,
+                            isResetPasswordModalDisplayed = false,
+                            isResetPasswordSentModalDisplayed = true
+                        )
+                    }
                 }
             }
         }
@@ -110,17 +140,56 @@ class AuthViewModel(
         val isEmailEmpty = email.isBlank()
         val isPasswordEmpty = password.isBlank()
         if (isEmailEmpty) {
-            _authScreenState.update {
+            _state.update {
                 it.copy(emailInputError = Res.string.auth_screen_empty_email_error)
             }
         }
         if (isPasswordEmpty) {
-            _authScreenState.update {
+            _state.update {
                 it.copy(passwordInputError = Res.string.auth_screen_empty_password_error)
             }
         }
 
         return !isEmailEmpty && !isPasswordEmpty
+    }
+
+    private fun authenticateUser(email: String, password: String) = viewModelScope.launch {
+        authenticateUserUseCase(email, password)
+            .collectLatest { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        _state.update {
+                            it.copy(
+                                onSubmitLoading = false,
+                                passwordInputError = getLoginErrorMessage(result.throwable)
+                            )
+                        }
+                    }
+
+                    is Resource.Loading -> {
+                        _state.update {
+                            it.copy(
+                                onSubmitLoading = true,
+                                emailInputError = null,
+                                passwordInputError = null
+                            )
+                        }
+                    }
+
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                onSubmitLoading = false,
+                            )
+                        }
+
+                        if (result.data?.isSignUp == true)
+                            _events.tryEmit(AuthEvent.GoToOnboardingProfile)
+                        else
+                            _events.tryEmit(AuthEvent.GoToHomeScreen)
+                    }
+                }
+            }
     }
 
     private fun getLoginErrorMessage(throwable: Throwable?): StringResource {
