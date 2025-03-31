@@ -93,7 +93,7 @@
 
     <!-- CHALLENGE DETAILS DELETE MODAL -->
     <string name="challenge_details_delete_modal_title">Supprimer ce kaizen</string>
-    <string name="challenge_details_delete_modal_subtitle">>Ce kaizen sera définitivement supprimé et ne pourra pas être repris.\n\Tu ne pourras pas le retrouver dans ta section Kaizen Archivés.</string>
+    <string name="challenge_details_delete_modal_subtitle">Ce kaizen sera définitivement supprimé et ne pourra pas être repris.\nTu ne pourras pas le retrouver dans ta section Kaizen Archivés.</string>
     <string name="challenge_details_delete_modal_button">Supprimer définitivement</string>
 
     <!-- USER CHALLENGES -->
