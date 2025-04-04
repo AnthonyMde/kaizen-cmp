@@ -1,5 +1,6 @@
 package com.makapp.kaizen.domain.usecases.user
 
+import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.domain.repository.AuthRepository
 
@@ -10,7 +11,10 @@ class GetReloadedUserSessionUseCase(
         return try {
             authRepository.reloadUserSession()
         } catch (e: Exception) {
-            authRepository.logout()
+            if (e !is DomainException.Common.NoNetworkError) {
+                authRepository.logout()
+            }
+
             null
         }
     }

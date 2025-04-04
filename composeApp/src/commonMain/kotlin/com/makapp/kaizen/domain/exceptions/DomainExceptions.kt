@@ -1,11 +1,12 @@
 package com.makapp.kaizen.domain.exceptions
 
-sealed class DomainException(message: String? = null) : Throwable(message) {
+sealed class DomainException(message: String? = null) : Exception(message) {
     sealed class Common(override val message: String? = null) : DomainException(message = message) {
         data class Unknown(override val message: String? = null) : Common(message = message)
         data object InvalidArguments : Common()
         data object NotFound : Common()
         data object ServerInternalError : Common()
+        data object NoNetworkError : Common()
     }
 
     sealed class Auth : DomainException() {
@@ -33,7 +34,7 @@ sealed class DomainException(message: String? = null) : Throwable(message) {
         }
 
         sealed class DisplayName : User() {
-            data object IncorrectLength: DisplayName()
+            data object IncorrectLength : DisplayName()
         }
     }
 

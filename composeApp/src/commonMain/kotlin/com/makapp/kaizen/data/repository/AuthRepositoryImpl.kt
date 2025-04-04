@@ -14,6 +14,7 @@ import com.makapp.kaizen.domain.exceptions.DomainException
 import com.makapp.kaizen.domain.models.Resource
 import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.domain.repository.AuthRepository
+import dev.gitlive.firebase.FirebaseNetworkException
 
 class AuthRepositoryImpl(
     private val firebaseAuth: FirebaseAuthDataSource,
@@ -73,7 +74,15 @@ class AuthRepositoryImpl(
      */
     @Throws(Exception::class)
     override suspend fun reloadUserSession(): UserSession? {
-        firebaseAuth.getUserSession()?.reload()
+        try {
+            firebaseAuth.getUserSession()?.reload()
+        } catch (e: Exception) {
+            if (e is FirebaseNetworkException) {
+                throw DomainException.Common.NoNetworkError
+            } else {
+                throw e
+            }
+        }
 
         _watchUserSession.update {
             firebaseAuth.getUserSession()?.toUserSession()
