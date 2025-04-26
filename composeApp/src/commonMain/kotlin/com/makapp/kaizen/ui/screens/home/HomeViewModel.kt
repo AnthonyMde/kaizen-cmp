@@ -13,13 +13,12 @@ import com.makapp.kaizen.domain.services.UsersService
 import com.makapp.kaizen.domain.usecases.user.GetReloadedUserSessionUseCase
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.unknown_error
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -43,12 +42,8 @@ class HomeViewModel(
                 )
             }
         }
-    private val _navigationEvents = MutableSharedFlow<HomeNavigationEvent>(
-        replay = 0,
-        onBufferOverflow = BufferOverflow.DROP_LATEST,
-        extraBufferCapacity = 1
-    )
-    val navigationEvents = _navigationEvents.asSharedFlow()
+    private val _events = Channel<HomeNavigationEvent>()
+    val events = _events.receiveAsFlow()
 
     init {
         watchUserSession()
@@ -58,7 +53,7 @@ class HomeViewModel(
         viewModelScope.launch {
             authRepository.watchUserSession.collectLatest { userSession ->
                 if (userSession == null) {
-                    _navigationEvents.tryEmit(HomeNavigationEvent.PopToLogin)
+                    _events.send(HomeNavigationEvent.PopToLogin)
                 }
             }
         }
@@ -93,7 +88,7 @@ class HomeViewModel(
             when (result) {
                 is Resource.Error -> {
                     if (result.throwable is DomainException.User.NoUserAccountFound) {
-                        _navigationEvents.tryEmit(HomeNavigationEvent.GoToUserAccountCreation)
+                        _events.send(HomeNavigationEvent.GoToUserAccountCreation)
                     } else {
                         _homeScreenState.update {
                             it.copy(

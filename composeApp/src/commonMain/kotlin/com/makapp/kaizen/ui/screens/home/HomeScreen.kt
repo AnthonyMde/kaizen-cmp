@@ -19,21 +19,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.home.components.CurrentUserView
 import com.makapp.kaizen.ui.screens.home.components.FriendWithChallengesView
 import com.makapp.kaizen.ui.screens.home.components.FriendsEmptyView
 import com.makapp.kaizen.ui.screens.home.components.Header
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -47,17 +44,14 @@ fun HomeScreenRoot(
     goToFriendsScreen: () -> Unit,
     goToChallengeDetails: (args: ChallengeDetailsNavArgs) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    val homeScreenState by homeViewModel.homeScreenState.collectAsState(HomeScreenState())
+    val homeScreenState by homeViewModel.homeScreenState.collectAsStateWithLifecycle(HomeScreenState())
+    val homeNavigationEvent by homeViewModel.events.collectAsStateWithLifecycle(null)
 
-    LaunchedEffect(true) {
-        scope.launch {
-            homeViewModel.navigationEvents.collectLatest { event ->
-                when (event) {
-                    HomeNavigationEvent.PopToLogin -> popToLogin()
-                    HomeNavigationEvent.GoToUserAccountCreation -> goToCreateUserAccount()
-                }
-            }
+    LaunchedEffect(homeNavigationEvent) {
+        when (homeNavigationEvent) {
+            HomeNavigationEvent.PopToLogin -> popToLogin()
+            HomeNavigationEvent.GoToUserAccountCreation -> goToCreateUserAccount()
+            null -> {}
         }
     }
 
@@ -75,6 +69,7 @@ fun HomeScreenRoot(
                 is HomeAction.OnChallengeClicked -> {
                     goToChallengeDetails(action.navArgs)
                 }
+
                 else -> homeViewModel.onAction(action)
             }
         },
