@@ -38,7 +38,7 @@ fun Header(
             .fillMaxWidth()
     ) {
         if (isEmailVerified) {
-            VerifyAccountBannerView()
+            VerifyAccountBannerView(modifier = Modifier.fillMaxWidth())
             Spacer(Modifier.height(8.dp))
         }
 
