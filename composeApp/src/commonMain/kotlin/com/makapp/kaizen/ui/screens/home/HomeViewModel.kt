@@ -27,7 +27,7 @@ class HomeViewModel(
     private val authRepository: AuthRepository,
     private val challengesService: ChallengesService,
     private val friendsService: FriendsService,
-    private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase
+    private val getReloadedUserSessionUseCase: GetReloadedUserSessionUseCase,
 ) : ViewModel() {
     private val _homeScreenState = MutableStateFlow(HomeScreenState())
     val homeScreenState = _homeScreenState.asStateFlow()
