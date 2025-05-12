@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.savedstate.read
 import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
@@ -131,9 +132,9 @@ fun AppNavHost(
             popEnterTransition = { defaultPopEnterTransition() },
             popExitTransition = { defaultPopExitTransition() }
         ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id") ?: return@composable
+            val id = backStackEntry.arguments?.read { getStringOrNull("id") } ?: return@composable
             val readOnly =
-                backStackEntry.arguments?.getBoolean("readOnly") ?: return@composable
+                backStackEntry.arguments?.read { getBooleanOrNull("readOnly") } ?: return@composable
 
             ChallengeDetailsScreenRoot(
                 navArgs = ChallengeDetailsNavArgs(

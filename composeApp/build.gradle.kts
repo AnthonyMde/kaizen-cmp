@@ -51,6 +51,8 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            implementation(libs.compose.icons)
             implementation(libs.compose.navigation)
 
             implementation(libs.lifecycle.viewmodel)
