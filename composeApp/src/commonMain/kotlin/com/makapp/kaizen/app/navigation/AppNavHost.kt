@@ -13,6 +13,7 @@ import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
 import com.makapp.kaizen.ui.screens.login.AuthScreenRoot
 import com.makapp.kaizen.ui.screens.my_friends.MyFriendsScreenRoot
 import com.makapp.kaizen.ui.screens.onboarding.OnboardingProfileScreenRoot
+import com.makapp.kaizen.ui.screens.profile.ProfileScreenRoot
 
 @Composable
 fun AppNavHost(
@@ -107,6 +108,22 @@ fun AppNavHost(
                 },
                 goToCreateChallenge = {
                     navController.navigate(Route.CreateChallengeGraph)
+                },
+                goToProfile = {
+                    navController.navigate(Route.Profile)
+                }
+            )
+        }
+
+        // PROFILE
+        composable<Route.Profile>(
+            enterTransition = { defaultEnterTransition() },
+            popEnterTransition = { defaultPopEnterTransition() },
+            popExitTransition = { defaultPopExitTransition() }
+        ) {
+            ProfileScreenRoot(
+                onNavigateUp = {
+                    navController.navigateUp()
                 }
             )
         }

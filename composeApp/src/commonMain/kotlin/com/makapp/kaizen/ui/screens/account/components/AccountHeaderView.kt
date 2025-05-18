@@ -1,6 +1,8 @@
 package com.makapp.kaizen.ui.screens.account.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,12 +13,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.makapp.kaizen.domain.models.user.User
 import com.makapp.kaizen.ui.resources.avatars
+import com.makapp.kaizen.ui.screens.account.AccountAction
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.account_profile_picture_description
 import kaizen.composeapp.generated.resources.account_profile_username
@@ -25,11 +29,18 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AccountHeaderView(
-    user: User
+    user: User,
+    onAction: (AccountAction) -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) {
+                onAction(AccountAction.OnProfileRowClicked)
+            }
     ) {
         Image(
             painter = painterResource(avatars[user.profilePictureIndex].drawable),

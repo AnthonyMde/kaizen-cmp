@@ -1,8 +1,8 @@
 package com.makapp.kaizen.domain.usecases.friend
 
 import com.makapp.kaizen.domain.exceptions.DomainException
-import com.makapp.kaizen.domain.models.friend.FriendSearchPreview
 import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.models.friend.FriendSearchPreview
 import com.makapp.kaizen.domain.repository.FriendPreviewsRepository
 import com.makapp.kaizen.domain.repository.UsersRepository
 import kotlinx.coroutines.flow.Flow

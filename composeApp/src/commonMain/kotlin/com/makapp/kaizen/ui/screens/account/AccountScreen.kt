@@ -56,6 +56,7 @@ fun AccountScreenRoot(
     popToLogin: () -> Unit,
     goToMyFriends: () -> Unit,
     goToCreateChallenge: () -> Unit,
+    goToProfile: () -> Unit,
     viewModel: AccountViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -78,6 +79,7 @@ fun AccountScreenRoot(
                 AccountAction.OnNavigateUp -> popToHome()
                 AccountAction.GoToMyFriends -> goToMyFriends()
                 AccountAction.GoToCreateChallenge -> goToCreateChallenge()
+                AccountAction.OnProfileRowClicked -> goToProfile()
                 else -> viewModel.onAction(action)
             }
         })
@@ -137,7 +139,7 @@ fun AccountScreen(
                     )
                 }
 
-                AccountHeaderView(user = state.user)
+                AccountHeaderView(user = state.user, onAction = onAction)
 
                 HorizontalDivider(Modifier.fillMaxWidth().padding(24.dp))
 
