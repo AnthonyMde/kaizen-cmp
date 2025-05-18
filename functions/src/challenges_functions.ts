@@ -136,6 +136,10 @@ export const forgotToCheckChallenge = onCall(async (request) => {
         throw new HttpsError("invalid-argument", "You cannot forgot an error twice a day.")
     }
 
+    if (targetChallenge.lastFailureDate == null || targetChallenge.failureCount == 0) {
+        throw new HttpsError("invalid-argument", "You don't have any errors to forgot.")
+    }
+
     if (targetChallenge.lastFailureDate != null) {
         const now = Timestamp.now().toDate().getTime()
         const lastFailureTime = targetChallenge.lastFailureDate.toDate().getTime()
