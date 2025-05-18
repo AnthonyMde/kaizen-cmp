@@ -143,6 +143,14 @@
     <string name="account_friends_row_description">My friends</string>
     <string name="account_delete_account_button_title">Delete my account</string>
 
+    <!-- ARCHIVED KAIZENS -->
+    <string name="archived_kaizens_screen_title">My archived kaizens</string>
+    <string name="archived_kaizens_back_description">Go back to account</string>
+    <string name="archived_kaizens_abandoned_section_title">My abandoned kaizens</string>
+    <string name="archived_kaizens_failed_section_title">My failed kaizens</string>
+    <string name="archived_kaizens_empty_view_title">No archived kaizens</string>
+    <string name="archived_kaizens_empty_view_subtitle">Find here all your failed and abandoned kaizens.</string>
+
     <!-- MY FRIENDS -->
     <string name="friends_screen_title">Friends</string>
     <string name="friends_screen_back_description">Go back to account.</string>

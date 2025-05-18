@@ -141,6 +141,14 @@
     <string name="account_friends_row_description">Mes amis</string>
     <string name="account_delete_account_button_title">Supprimer mon compte</string>
 
+    <!-- ARCHIVED KAIZENS -->
+    <string name="archived_kaizens_screen_title">Mon kaizens archivés</string>
+    <string name="archived_kaizens_back_description">Retour au compte</string>
+    <string name="archived_kaizens_abandoned_section_title">Mes kaizens abandonnés</string>
+    <string name="archived_kaizens_failed_section_title">Mes kaizens échoués</string>
+    <string name="archived_kaizens_empty_view_title">Aucun kaizen archivé</string>
+    <string name="archived_kaizens_empty_view_subtitle">Retrouve ici tous tes kaizens échoués ou abandonnés.</string>
+
     <!-- MY FRIENDS -->
     <string name="friends_screen_title">Mes amis</string>
     <string name="friends_screen_back_description">Revenir au compte.</string>

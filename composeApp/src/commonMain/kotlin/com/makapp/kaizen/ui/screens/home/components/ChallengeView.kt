@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,11 +45,11 @@ fun ChallengeView(
     challenge: Challenge,
     onToggleChallenge: ((challengeId: String, isChecked: Boolean) -> Unit)? = null,
     belongToCurrentUser: Boolean = false,
-    onRowClick: () -> Unit
+    onRowClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
-            .padding(vertical = 4.dp)
+        modifier = modifier,
     ) {
         val backgroundColor by animateColorAsState(
             targetValue = if (challenge.isDoneForToday) MaterialTheme.colorScheme.tertiaryContainer
@@ -66,25 +67,30 @@ fun ChallengeView(
                     color = backgroundColor,
                     shape = RoundedCornerShape(16.dp)
                 )
-                .padding(vertical = 6.dp),
+                .height(64.dp)
+                .padding(start = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(
-                checked = challenge.isDoneForToday,
-                onCheckedChange = { isChecked ->
-                    onToggleChallenge?.invoke(challenge.id, isChecked)
-                },
-                enabled = belongToCurrentUser && !challenge.isFailed(),
-                colors = CheckboxDefaults.colors()
-                    .copy(
-                        checkedBoxColor = MaterialTheme.colorScheme.tertiary,
-                        checkedBorderColor = MaterialTheme.colorScheme.tertiary,
-                        disabledUncheckedBorderColor = if (challenge.isFailed())
-                            MaterialTheme.customColors.failedChallengeText
-                        else CheckboxDefaults.colors().disabledBorderColor
-                    ),
-                modifier = Modifier.padding(start = 8.dp)
-            )
+            onToggleChallenge?.let { toggle ->
+                Checkbox(
+                    checked = challenge.isDoneForToday,
+                    onCheckedChange = { isChecked ->
+                        toggle(challenge.id, isChecked)
+                    },
+                    enabled = belongToCurrentUser && !challenge.isFailed(),
+                    colors = CheckboxDefaults.colors()
+                        .copy(
+                            checkedBoxColor = MaterialTheme.colorScheme.tertiary,
+                            checkedBorderColor = MaterialTheme.colorScheme.tertiary,
+                            disabledUncheckedBorderColor = if (challenge.isFailed())
+                                MaterialTheme.customColors.failedChallengeText
+                            else CheckboxDefaults.colors().disabledBorderColor
+                        ),
+                )
+            } ?: run {
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+
             Text(
                 challenge.name,
                 style = MaterialTheme.typography.bodyLarge,

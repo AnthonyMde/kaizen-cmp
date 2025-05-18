@@ -141,7 +141,15 @@ fun AppNavHost(
             ArchivedKaizensScreenRoot(
                 onNavigateUp = {
                     navController.navigateUp()
-                }
+                },
+                goToChallengeDetails = { id ->
+                    navController.navigate(
+                        Route.ChallengeDetails(
+                            id = id,
+                            readOnly = false,
+                        )
+                    )
+                },
             )
         }
 

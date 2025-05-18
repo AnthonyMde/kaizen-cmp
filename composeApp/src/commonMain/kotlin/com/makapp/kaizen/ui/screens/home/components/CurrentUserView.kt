@@ -88,7 +88,8 @@ fun CurrentUserView(
                                     )
                                 )
                             )
-                        }
+                        },
+                        modifier = Modifier.padding(vertical = 4.dp),
                     )
                 }
             }
