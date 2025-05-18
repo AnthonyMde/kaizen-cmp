@@ -27,7 +27,7 @@ class ChallengesService(
         }
     }
 
-    suspend fun create(form: CreateChallengeForm): Flow<Resource<Unit>> {
+    fun create(form: CreateChallengeForm): Flow<Resource<Unit>> {
         if (form.name.isBlank()) {
             return flowOf(Resource.Error(DomainException.Challenge.HasNoName))
         }

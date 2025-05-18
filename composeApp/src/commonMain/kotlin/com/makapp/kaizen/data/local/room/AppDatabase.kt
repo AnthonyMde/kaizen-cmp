@@ -34,7 +34,7 @@ const val ROOM_DB_FILE_NAME = "kaizen_room.db"
         FriendPreviewEntity::class,
         ChallengeEntity::class
     ],
-    version = 2
+    version = 3
 )
 @TypeConverters(TimestampConverters::class, StringListConverters::class)
 @ConstructedBy(AppDatabaseConstructor::class)
@@ -56,7 +56,7 @@ fun getRoomDatabase(
     builder: RoomDatabase.Builder<AppDatabase>
 ): AppDatabase {
     return builder
-        .fallbackToDestructiveMigrationOnDowngrade(dropAllTables = true)
+        .fallbackToDestructiveMigration(dropAllTables = true)
         .setDriver(BundledSQLiteDriver())
         .build()
 }

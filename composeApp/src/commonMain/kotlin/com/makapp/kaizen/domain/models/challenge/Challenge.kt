@@ -16,6 +16,8 @@ data class Challenge(
     val maxAuthorizedFailures: Int, // TODO: rename to maxFailuresAllowed
     val commitment: String?, // The minimum a user must commit to each day to validate their challenge.
     val expectations: String?, // What the user expects for this challenge.
+    val lastFailureDate: LocalDate?,
+    val didUseForgotFeatureToday: Boolean,
 ) {
     companion object {
         const val MAX_POSSIBLE_FAILURES = 12

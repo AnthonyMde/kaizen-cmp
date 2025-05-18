@@ -104,4 +104,12 @@ class FirebaseFunctionsDataSourceImpl : FirebaseFunctionsDataSource {
             .httpsCallable("updateChallenge")
             .invoke(request)
     }
+
+    override suspend fun forgotToCheckChallenge(id: String) {
+        val body = mapOf("id" to id)
+
+        functions
+            .httpsCallable("forgotToCheckChallenge")
+            .invoke(body)
+    }
 }

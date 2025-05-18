@@ -71,6 +71,7 @@
     <string name="challenge_details_expectations_title">My expectations 🧘‍♂️</string>
     <string name="challenge_details_expectations_emptyview_title">My expectations 🧘‍♂️</string>
     <string name="challenge_details_expectations_emptyview_subtitle">Describe what do you expect from this 365-days adventure.</string>
+    <string name="challenge_details_forgot_to_check_button">Forgot to check</string>
 
     <!-- CHALLENGE DETAILS DASHBOARD -->
     <string name="challenge_details_dashboard_day_count">days</string>

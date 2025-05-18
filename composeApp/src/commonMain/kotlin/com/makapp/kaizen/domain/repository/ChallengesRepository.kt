@@ -12,14 +12,11 @@ interface ChallengesRepository {
         challengeId: String,
         isChecked: Boolean
     ): Resource<Unit>
-    suspend fun create(
-        form: CreateChallengeForm
-    ): Flow<Resource<Unit>>
-    suspend fun update(
+    fun create(form: CreateChallengeForm): Flow<Resource<Unit>>
+    fun update(
         id: String,
         fields: UpdateChallengeFields
     ): Flow<Resource<Unit>>
-    suspend fun watchChallengeById(
-        id: String
-    ): Flow<Resource<Challenge>>
+    fun watchChallengeById(id: String): Flow<Resource<Challenge>>
+    fun forgotToCheckChallenge(id: String): Flow<Resource<Unit>>
 }

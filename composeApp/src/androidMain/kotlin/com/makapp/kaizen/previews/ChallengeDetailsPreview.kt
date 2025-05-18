@@ -25,7 +25,9 @@ fun ChallengeDetailsPreview() {
                 failureCount = 2,
                 maxAuthorizedFailures = 4,
                 commitment = "I must write one line each day",
-                expectations = "I want writing to be part of my life."
+                expectations = "I want writing to be part of my life.",
+                lastFailureDate = null,
+                didUseForgotFeatureToday = false,
             ),
             challengeError = null
         ),

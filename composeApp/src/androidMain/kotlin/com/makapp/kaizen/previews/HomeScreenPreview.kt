@@ -32,7 +32,9 @@ fun HomeScreenPreview() {
                         status = Challenge.Status.ON_GOING,
                         days = 23,
                         commitment = null,
-                        expectations = null
+                        expectations = null,
+                        lastFailureDate = null,
+                        didUseForgotFeatureToday = false,
                     ),
                     Challenge(
                         id= "2",
@@ -45,7 +47,9 @@ fun HomeScreenPreview() {
                         status = Challenge.Status.ON_GOING,
                         days = 54,
                         commitment = null,
-                        expectations = null
+                        expectations = null,
+                        lastFailureDate = null,
+                        didUseForgotFeatureToday = false,
                     )
                 )
             ),
@@ -68,7 +72,9 @@ fun HomeScreenPreview() {
                             status = Challenge.Status.ON_GOING,
                             days = 54,
                             commitment = null,
-                            expectations = null
+                            expectations = null,
+                            lastFailureDate = null,
+                            didUseForgotFeatureToday = false,
                         ),
                         Challenge(
                             id= "2",
@@ -81,7 +87,9 @@ fun HomeScreenPreview() {
                             status = Challenge.Status.ON_GOING,
                             days = 54,
                             commitment = null,
-                            expectations = null
+                            expectations = null,
+                            lastFailureDate = null,
+                            didUseForgotFeatureToday = false,
                         )
                     )
                 ),
@@ -103,7 +111,9 @@ fun HomeScreenPreview() {
                             status = Challenge.Status.ON_GOING,
                             days = 54,
                             commitment = null,
-                            expectations = null
+                            expectations = null,
+                            lastFailureDate = null,
+                            didUseForgotFeatureToday = false,
                         ),
                         Challenge(
                             id= "2",
@@ -116,7 +126,9 @@ fun HomeScreenPreview() {
                             status = Challenge.Status.ON_GOING,
                             days = 54,
                             commitment = null,
-                            expectations = null
+                            expectations = null,
+                            lastFailureDate = null,
+                            didUseForgotFeatureToday = false,
                         )
                     )
                 )

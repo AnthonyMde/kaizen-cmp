@@ -45,7 +45,7 @@ class ChallengesRepositoryImpl(
         Resource.Error(e.toDomainException())
     }
 
-    override suspend fun create(
+    override fun create(
         form: CreateChallengeForm
     ): Flow<Resource<Unit>> = flow<Resource<Unit>> {
         emit(Resource.Loading())
@@ -64,7 +64,7 @@ class ChallengesRepositoryImpl(
         emit(Resource.Error(e.toDomainException()))
     }
 
-    override suspend fun update(
+    override fun update(
         id: String,
         fields: UpdateChallengeFields
     ): Flow<Resource<Unit>> = flow<Resource<Unit>> {
@@ -91,10 +91,19 @@ class ChallengesRepositoryImpl(
         emit(Resource.Error(e.toDomainException()))
     }
 
-    override suspend fun watchChallengeById(id: String) =
+    override fun watchChallengeById(id: String) =
         challengesDao.watchById(id).map {
             Resource.Success(it.toChallengeDTO().toChallenge())
         }.catch { e ->
             Resource.Error<Resource<Challenge>>(e.toDomainException())
         }
+
+    override fun forgotToCheckChallenge(id: String): Flow<Resource<Unit>> = flow<Resource<Unit>> {
+        emit(Resource.Loading())
+        firebaseFunctions.forgotToCheckChallenge(id)
+        emit(Resource.Success())
+    }.catch { e ->
+        println("DEBUG: (firestore) Cannot use forgotToCheckChallenge because $e")
+        emit(Resource.Error(e.toDomainException()))
+    }
 }

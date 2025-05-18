@@ -18,17 +18,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import com.makapp.kaizen.ui.components.BackTopAppBar
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsClickableTextBoxView
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDashboardCard
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChallengeDetailsDropDownMenu
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusBottomSheet
 import com.makapp.kaizen.ui.screens.challenge_details.components.ChangeChallengeStatusModalView
 import com.makapp.kaizen.ui.screens.challenge_details.components.DeleteChallengeModalView
-import com.makapp.kaizen.ui.components.BackTopAppBar
+import com.makapp.kaizen.ui.screens.challenge_details.components.ForgotChallengeButtonView
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.challenge_details_expectations_emptyview_subtitle
 import kaizen.composeapp.generated.resources.challenge_details_expectations_emptyview_title
@@ -123,6 +125,7 @@ fun ChallengeDetailsScreen(
                 .padding(bottom = 24.dp)
         ) {
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
@@ -141,10 +144,8 @@ fun ChallengeDetailsScreen(
                     )
                 }
                 if (state.challenge != null && !state.isDetailsLoading) {
-                    val challenge = state.challenge
-
                     ChallengeDetailsDashboardCard(
-                        challenge = challenge,
+                        challenge = state.challenge,
                         isEditable = isEditable,
                         onAction = onAction
                     )
@@ -183,6 +184,14 @@ fun ChallengeDetailsScreen(
                         }
                     )
 
+                    if (state.shouldDisplayForgotToCheckButton) {
+                        ForgotChallengeButtonView(
+                            challengeId = state.challenge.id,
+                            isLoading = state.isForgotToCheckButtonLoading,
+                            onAction = onAction,
+                        )
+                    }
+
                     if (state.isBottomSheetOpened) {
                         ChangeChallengeStatusBottomSheet(onAction, state.challenge.status)
                     }
@@ -190,7 +199,7 @@ fun ChallengeDetailsScreen(
                     if (state.isChangeStatusModalDisplayed && state.newStatusRequested != null) {
                         ChangeChallengeStatusModalView(
                             newRequestedStatus = state.newStatusRequested,
-                            challengeId = challenge.id,
+                            challengeId = state.challenge.id,
                             isLoading = state.isChangeStatusRequestLoading,
                             error = state.changeStatusRequestError?.let { stringResource(it) },
                             onAction = onAction

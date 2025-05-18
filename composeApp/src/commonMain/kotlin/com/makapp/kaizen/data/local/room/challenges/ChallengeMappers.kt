@@ -16,7 +16,9 @@ fun ChallengeDTO.toChallengeEntity(userId: String): ChallengeEntity {
         maxAuthorizedFailures = maxAuthorizedFailures,
         isDeleted = isDeleted,
         commitment = commitment,
-        expectations = expectations
+        expectations = expectations,
+        lastFailureDate = lastFailureDate,
+        didUseForgotFeatureToday = didUseForgotFeatureToday,
     )
 }
 
@@ -33,6 +35,8 @@ fun ChallengeEntity.toChallengeDTO(): ChallengeDTO {
         maxAuthorizedFailures = maxAuthorizedFailures,
         isDeleted = isDeleted,
         commitment = commitment,
-        expectations = expectations
+        expectations = expectations,
+        lastFailureDate = lastFailureDate,
+        didUseForgotFeatureToday = didUseForgotFeatureToday,
     )
 }

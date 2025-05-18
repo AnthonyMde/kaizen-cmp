@@ -70,6 +70,7 @@
     <string name="challenge_details_expectations_title">Ta motivation 🧘‍♂️</string>
     <string name="challenge_details_expectations_emptyview_title">Ta motivation 🧘‍♂️</string>
     <string name="challenge_details_expectations_emptyview_subtitle">Décris ici ce que tu espères retirer de cette aventure de 365 jours.</string>
+    <string name="challenge_details_forgot_to_check_button">J'ai oublié de cocher</string>
 
     <!-- CHALLENGE DETAILS DASHBOARD -->
     <string name="challenge_details_dashboard_day_count">jours</string>

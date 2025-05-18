@@ -2,10 +2,11 @@ package com.makapp.kaizen.ui.screens.challenge_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.domain.models.Resource
+import com.makapp.kaizen.domain.models.challenge.Challenge
 import com.makapp.kaizen.domain.models.challenge.UpdateChallengeFields
 import com.makapp.kaizen.domain.repository.ChallengesRepository
+import com.makapp.kaizen.domain.repository.UsersRepository
 import com.makapp.kaizen.domain.services.ChallengesService
 import kaizen.composeapp.generated.resources.Res
 import kaizen.composeapp.generated.resources.ic_broken_heart
@@ -20,11 +21,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
 import org.jetbrains.compose.resources.DrawableResource
 
 class ChallengeDetailsViewModel(
     private val challengesService: ChallengesService,
-    private val challengesRepository: ChallengesRepository
+    private val challengesRepository: ChallengesRepository,
+    private val usersRepository: UsersRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(ChallengeDetailsState())
     val state = _state.asStateFlow()
@@ -116,6 +123,10 @@ class ChallengeDetailsViewModel(
                 deleteChallenge(action.challengeId)
             }
 
+            is ChallengeDetailsAction.OnForgotToCheckButtonClicked -> {
+                forgotToCheckChallenge(action.challengeId)
+            }
+
             else -> {}
         }
     }
@@ -138,14 +149,26 @@ class ChallengeDetailsViewModel(
 
                 is Resource.Success -> {
                     _state.update {
+                        val challenge = result.data
+
                         it.copy(
                             isDetailsLoading = false,
-                            challenge = result.data
+                            challenge = challenge,
+                            shouldDisplayForgotToCheckButton = getShouldDisplayForgotButton(challenge),
                         )
                     }
                 }
             }
         }
+    }
+
+    // TODO: move logic only to backend
+    private fun getShouldDisplayForgotButton(challenge: Challenge?): Boolean {
+        challenge ?: return false
+
+        return isFailureStillForgettable(challenge.lastFailureDate)
+                && !challenge.didUseForgotFeatureToday
+                && (challenge.isOngoing() || challenge.isFailed())
     }
 
     fun getHeartIcon(maxFailures: Int, failures: Int): DrawableResource {
@@ -161,6 +184,49 @@ class ChallengeDetailsViewModel(
 
     fun isChallengeEditable(challenge: Challenge?, readOnly: Boolean): Boolean =
         !readOnly && (challenge?.isPaused() == true || challenge?.isOngoing() == true)
+
+    // TODO: move this only to backend side (should wait ktor backend)
+    private fun isFailureStillForgettable(date: LocalDate?): Boolean {
+        date ?: return false // if null might be user never lost a life.
+
+        val failureDateTime = date.atTime(4, 0)
+            .toInstant(TimeZone.currentSystemDefault())
+
+        val now = Clock.System.now()
+        val hours = (now - failureDateTime).inWholeHours
+
+        return hours < 24
+    }
+
+    private fun forgotToCheckChallenge(challengeId: String) = viewModelScope.launch {
+        challengesRepository.forgotToCheckChallenge(challengeId)
+            .collectLatest { result ->
+                when (result) {
+                    is Resource.Error -> {
+                        // TODO
+                        _state.update {
+                            it.copy(
+                                isForgotToCheckButtonLoading = false,
+                            )
+                        }
+                    }
+                    is Resource.Loading -> {
+                        _state.update {
+                            it.copy(
+                                isForgotToCheckButtonLoading = true,
+                            )
+                        }
+                    }
+                    is Resource.Success -> {
+                        _state.update {
+                            it.copy(
+                                isForgotToCheckButtonLoading = false,
+                            )
+                        }
+                    }
+                }
+            }
+    }
 
     private fun deleteChallenge(challengeId: String) = viewModelScope.launch {
         challengesRepository.update(
@@ -186,6 +252,7 @@ class ChallengeDetailsViewModel(
                         )
                     }
                 }
+
                 is Resource.Success -> {
                     _state.update {
                         it.copy(
