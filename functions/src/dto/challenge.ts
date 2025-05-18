@@ -12,7 +12,9 @@ export interface Challenge {
     maxAuthorizedFailures: number,
     isDeleted?: boolean,
     commitment?: string,
-    expectations?: string
+    expectations?: string,
+    lastFailureDate?: Timestamp,
+    didUseForgotFeatureToday?: boolean,
 }
 
 export enum ChallengeStatus {
@@ -21,3 +23,4 @@ export enum ChallengeStatus {
 
 export const NUMBER_OF_DAYS_FOR_DONE = 365
 export const MAX_LIVES_ALLOWED = 12
+export const MAX_TIME_TO_MARK_CHALLENGE_AS_FORGOT = 24 // hours

@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import * as admin from 'firebase-admin'
+import { Timestamp } from 'firebase-admin/firestore'
 import { describe } from 'mocha'
 import * as sinon from 'sinon'
 import * as tsSinon from 'ts-sinon'
@@ -66,7 +67,8 @@ describe("Update challenge tests", () => {
             status: ChallengeStatus[ChallengeStatus.ON_GOING],
             days: 1,
             failureCount: 0,
-            maxAuthorizedFailures: 1
+            maxAuthorizedFailures: 1,
+            lastFailureDate: undefined,
         } as Challenge)
         stubTestSession(firestoreStub)
         const { checkUserChallengesCron } = await import('../src/testIndex'); // should be done after mocking admin.initializedApp()
@@ -83,9 +85,11 @@ describe("Update challenge tests", () => {
         expect(challengeDoc.ref.update.calledWith(
             {
                 isDoneForToday: false,
+                didUseForgotFeatureToday: false,
                 failureCount: 0,
                 status: ChallengeStatus[ChallengeStatus.ON_GOING],
-                days: 2
+                days: 2,
+                lastFailureDate: undefined,
             }
         )).to.be.true;
     });
@@ -96,7 +100,8 @@ describe("Update challenge tests", () => {
             status: ChallengeStatus[ChallengeStatus.ON_GOING],
             days: 1,
             failureCount: 0,
-            maxAuthorizedFailures: 1
+            maxAuthorizedFailures: 1,
+            lastFailureDate: undefined,
         } as Challenge)
         stubTestSession(firestoreStub)
         const { checkUserChallengesCron } = await import('../src/testIndex'); // should be done after mocking admin.initializedApp()
@@ -112,9 +117,13 @@ describe("Update challenge tests", () => {
         expect(challengeDoc.ref.update.calledWith(
             {
                 isDoneForToday: false,
+                didUseForgotFeatureToday: false,
                 failureCount: 1,
                 status: ChallengeStatus[ChallengeStatus.ON_GOING],
-                days: 2
+                days: 2,
+                lastFailureDate: sinon.match((value: any) => {
+                    return value instanceof Timestamp && value.toDate() <= new Date();
+                }, "Expected lastFailureDate to be a recent Timestamp"),
             }
         )).to.be.true;
     })
@@ -125,7 +134,8 @@ describe("Update challenge tests", () => {
             status: ChallengeStatus[ChallengeStatus.ON_GOING],
             days: 1,
             failureCount: 0,
-            maxAuthorizedFailures: 0
+            maxAuthorizedFailures: 0,
+            lastFailureDate: undefined,
         } as Challenge)
         stubTestSession(firestoreStub)
         const { checkUserChallengesCron } = await import('../src/testIndex'); // should be done after mocking admin.initializedApp()
@@ -141,9 +151,13 @@ describe("Update challenge tests", () => {
         expect(challengeDoc.ref.update.calledWith(
             {
                 isDoneForToday: false,
+                didUseForgotFeatureToday: false,
                 failureCount: 1,
                 status: ChallengeStatus[ChallengeStatus.FAILED],
-                days: 1
+                days: 1,
+                lastFailureDate: sinon.match((value: any) => {
+                    return value instanceof Timestamp && value.toDate() <= new Date();
+                }, "Expected lastFailureDate to be a recent Timestamp"),
             }
         )).to.be.true;
     })
@@ -170,9 +184,11 @@ describe("Update challenge tests", () => {
         expect(challengeDoc.ref.update.calledWith(
             {
                 isDoneForToday: false,
+                didUseForgotFeatureToday: false,
                 failureCount: 0,
                 status: ChallengeStatus[ChallengeStatus.DONE],
-                days: NUMBER_OF_DAYS_FOR_DONE
+                days: NUMBER_OF_DAYS_FOR_DONE,
+                lastFailureDate: undefined,
             }
         )).to.be.true;
     })
@@ -199,9 +215,13 @@ describe("Update challenge tests", () => {
         expect(challengeDoc.ref.update.calledWith(
             {
                 isDoneForToday: false,
+                didUseForgotFeatureToday: false,
                 failureCount: 1,
                 status: ChallengeStatus[ChallengeStatus.DONE],
-                days: NUMBER_OF_DAYS_FOR_DONE
+                days: NUMBER_OF_DAYS_FOR_DONE,
+                lastFailureDate: sinon.match((value: any) => {
+                    return value instanceof Timestamp && value.toDate() <= new Date();
+                }, "Expected lastFailureDate to be a recent Timestamp"),
             }
         )).to.be.true;
     })

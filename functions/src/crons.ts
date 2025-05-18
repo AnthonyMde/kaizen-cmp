@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin";
+import { Timestamp } from "firebase-admin/firestore";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import { Collection } from "./collection";
 import { Challenge, ChallengeStatus, NUMBER_OF_DAYS_FOR_DONE } from "./dto/challenge";
@@ -20,9 +21,11 @@ export const checkUserChallengesCron = onSchedule({ schedule: "0 4 * * *", timeZ
                 let failureCount: number = challenge.failureCount
                 let status: string = challenge.status
                 let days: number = challenge.days
+                let failureDate = challenge.lastFailureDate
 
                 if (!challenge.isDoneForToday) {
                     failureCount++
+                    failureDate = Timestamp.now()
                 }
 
                 const isFailed = () => failureCount > challenge.maxAuthorizedFailures
@@ -38,9 +41,11 @@ export const checkUserChallengesCron = onSchedule({ schedule: "0 4 * * *", timeZ
 
                 await challengeDoc.ref.update({
                     isDoneForToday: false,
+                    didUseForgotFeatureToday: false,
                     failureCount: failureCount,
                     status: status,
-                    days: days
+                    days: days,
+                    lastFailureDate: failureDate,
                 });
             }
         }
