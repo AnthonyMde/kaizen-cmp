@@ -41,6 +41,7 @@ import kaizen.composeapp.generated.resources.account_friends_row_description
 import kaizen.composeapp.generated.resources.account_friends_row_title
 import kaizen.composeapp.generated.resources.account_logout_description
 import kaizen.composeapp.generated.resources.account_screen_title
+import kaizen.composeapp.generated.resources.ic_package_outlined
 import kaizen.composeapp.generated.resources.landscape_icon
 import kaizen.composeapp.generated.resources.logout_icon
 import kotlinx.coroutines.flow.collectLatest
@@ -57,6 +58,7 @@ fun AccountScreenRoot(
     goToMyFriends: () -> Unit,
     goToCreateChallenge: () -> Unit,
     goToProfile: () -> Unit,
+    goToArchivedKaizens: () -> Unit,
     viewModel: AccountViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
@@ -80,6 +82,7 @@ fun AccountScreenRoot(
                 AccountAction.GoToMyFriends -> goToMyFriends()
                 AccountAction.GoToCreateChallenge -> goToCreateChallenge()
                 AccountAction.OnProfileRowClicked -> goToProfile()
+                AccountAction.GoToArchivedKaizen -> goToArchivedKaizens()
                 else -> viewModel.onAction(action)
             }
         })
@@ -159,6 +162,16 @@ fun AccountScreen(
                     title = stringResource(Res.string.account_friends_row_title),
                     icon = rememberVectorPainter(Icons.Filled.Face),
                     description = stringResource(Res.string.account_friends_row_description),
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                AccountRowView(
+                    onAction = {
+                        onAction(AccountAction.GoToArchivedKaizen)
+                    },
+                    title = "Mes kaizens archivés",
+                    icon = painterResource(Res.drawable.ic_package_outlined),
+                    description = "Mes kaizens archivés",
                     modifier = Modifier.padding(top = 8.dp)
                 )
 

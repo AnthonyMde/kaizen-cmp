@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.savedstate.read
 import com.makapp.kaizen.domain.models.user.UserSession
 import com.makapp.kaizen.ui.screens.account.AccountScreenRoot
+import com.makapp.kaizen.ui.screens.archived_kaizens.ArchivedKaizensScreenRoot
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsNavArgs
 import com.makapp.kaizen.ui.screens.challenge_details.ChallengeDetailsScreenRoot
 import com.makapp.kaizen.ui.screens.home.HomeScreenRoot
@@ -111,7 +112,10 @@ fun AppNavHost(
                 },
                 goToProfile = {
                     navController.navigate(Route.Profile)
-                }
+                },
+                goToArchivedKaizens = {
+                    navController.navigate(Route.ArchivedKaizens)
+                },
             )
         }
 
@@ -122,6 +126,19 @@ fun AppNavHost(
             popExitTransition = { defaultPopExitTransition() }
         ) {
             ProfileScreenRoot(
+                onNavigateUp = {
+                    navController.navigateUp()
+                }
+            )
+        }
+
+        // ARCHIVED KAIZENS
+        composable<Route.ArchivedKaizens>(
+            enterTransition = { defaultEnterTransition() },
+            popEnterTransition = { defaultPopEnterTransition() },
+            popExitTransition = { defaultPopExitTransition() }
+        ) {
+            ArchivedKaizensScreenRoot(
                 onNavigateUp = {
                     navController.navigateUp()
                 }

@@ -6,6 +6,7 @@ sealed interface AccountAction {
     data object OnLogoutConfirmed : AccountAction
     data object OnLogoutDismissed : AccountAction
     data object GoToMyFriends : AccountAction
+    data object GoToArchivedKaizen : AccountAction
     data object GoToCreateChallenge : AccountAction
     data object OnDeleteAccountClicked : AccountAction
     data object OnDeleteAccountConfirmed : AccountAction

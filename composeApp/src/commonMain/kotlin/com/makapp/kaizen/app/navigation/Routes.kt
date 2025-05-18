@@ -25,6 +25,9 @@ sealed class Route {
     data object Profile : Route()
 
     @Serializable
+    data object ArchivedKaizens : Route()
+
+    @Serializable
     data class CreateChallengeInfosStep(
         val editing: Boolean,
         val title: String? = null,
