@@ -83,7 +83,10 @@ fun AccountScreenRoot(
                 AccountAction.OnNavigateUp -> popToHome()
                 AccountAction.GoToMyFriends -> goToMyFriends()
                 AccountAction.GoToCreateChallenge -> goToCreateChallenge()
-                AccountAction.OnProfileRowClicked -> goToProfile()
+                AccountAction.OnProfileRowClicked -> {
+                    // TODO: Profile is wip.
+                    //goToProfile()
+                }
                 AccountAction.GoToArchivedKaizen -> goToArchivedKaizens()
                 else -> viewModel.onAction(action)
             }
