@@ -140,6 +140,8 @@
     <string name="account_create_challenge_row_description">Créer un nouveau kaizen</string>
     <string name="account_friends_row_title">Mes amis</string>
     <string name="account_friends_row_description">Mes amis</string>
+    <string name="account_archived_challenges_row_title">Mes kaizens archivés</string>
+    <string name="account_archived_challenges_row_description">Mes kaizens archivés</string>
     <string name="account_delete_account_button_title">Supprimer mon compte</string>
 
     <!-- ARCHIVED KAIZENS -->

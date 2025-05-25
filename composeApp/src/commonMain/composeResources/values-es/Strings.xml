@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DEFAULT ERRORS -->
+    <string name="unknown_error">Ups, ocurrió un error técnico.</string>
+
+    <!-- AUTH -->
+    <string name="auth_screen_welcoming_text">Bienvenido a Kaizen</string>
+    <string name="auth_screen_email_input_label">Correo electrónico</string>
+    <string name="auth_screen_email_input_placeholder">kaizen@innerchange.com</string>
+    <string name="auth_screen_password_input_label">Contraseña</string>
+    <string name="auth_screen_password_input_placeholder">Contraseña segura</string>
+    <string name="auth_screen_submit_button">Acceder a Kaizen</string>
+    <string name="auth_screen_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="auth_screen_forgot_password_reset_modal_title">¿Necesitas una nueva contraseña?</string>
+    <string name="auth_screen_forgot_password_reset_modal_subtitle">Te enviaremos un enlace de restablecimiento a la dirección de correo indicada.</string>
+    <string name="auth_screen_forgot_password_reset_modal_button">Enviar el enlace</string>
+    <string name="auth_screen_forgot_password_reset_modal_input_placeholder">Dirección de correo electrónico</string>
+    <string name="auth_screen_forgot_password_reset_success_modal_title">Contraseña restablecida</string>
+    <string name="auth_screen_forgot_password_reset_success_modal_subtitle">Se ha enviado un enlace de restablecimiento a la dirección:\n %1$s.</string>
+    <string name="auth_screen_forgot_password_reset_success_modal_button">Entendido</string>
+    <!-- AUTH ERRORS -->
+    <string name="auth_screen_empty_email_error">El campo de correo no debe estar vacío.</string>
+    <string name="auth_screen_empty_password_error">El campo de contraseña no debe estar vacío.</string>
+    <string name="auth_screen_not_authorized_error">No tienes los permisos necesarios.</string>
+    <string name="auth_screen_wrong_credentials_error">Correo electrónico o contraseña inválidos.</string>
+    <string name="auth_screen_weak_password_error">Tu contraseña debe tener al menos 6 caracteres.</string>
+    <string name="auth_screen_send_email_error">Tu cuenta ha sido creada, pero no pudimos enviar el correo de verificación.</string>
+    <string name="auth_screen_reset_password_error">Se produjo un error al enviar la nueva contraseña.</string>
+
+    <!-- ONBOARDING -->
+    <string name="onboarding_profile_screen_title">¿Quién eres?</string>
+    <string name="onboarding_profile_screen_username_input_label">Usuario</string>
+    <string name="onboarding_profile_screen_username_support_text">Debe ser único.</string>
+    <string name="onboarding_profile_screen_displayname_input_label">Nombre visible</string>
+    <string name="onboarding_profile_screen_displayname_input_support_text">Lo que los demás verán (opcional).</string>
+    <string name="onboarding_profile_screen_avatar_section_title">avatares</string>
+    <string name="onboarding_profile_screen_avatar_section_subtitle">por %1$s</string>
+    <string name="onboarding_profile_screen_submit_button">Crear</string>
+    <!-- ONBOARDING ERRORS -->
+    <string name="onboarding_profile_screen_username_cannot_be_verified_error">Ups, no se puede verificar tu nombre de usuario por el momento. Intenta de nuevo más tarde.</string>
+    <string name="onboarding_profile_screen_username_already_used_error">Este nombre de usuario ya está en uso.</string>
+    <string name="onboarding_profile_screen_username_empty_error">El nombre de usuario no debe estar vacío.</string>
+    <string name="onboarding_profile_screen_username_length_error">El nombre de usuario debe tener entre 1 y 30 caracteres.</string>
+    <string name="onboarding_profile_screen_username_special_error">Solo se permiten los caracteres especiales "_" y ".".</string>
+    <string name="onboarding_profile_screen_username_double_special_error">Los caracteres "_" y "." no pueden repetirse.</string>
+    <string name="onboarding_profile_screen_username_start_special_error">Los caracteres "_" y "." no pueden estar al inicio ni al final.</string>
+    <string name="onboarding_profile_screen_displayname_length_error">El nombre visible debe tener entre 1 y 30 caracteres.</string>
+
+    <!-- HOME -->
+    <string name="home_user_title">Mis kaizen</string>
+    <string name="home_screen_empty_friends_text">Agrega amigos como favoritos para ver sus kaizen aquí.</string>
+    <string name="home_header_view_email_verification_banner_text">Confirma tu correo para disfrutar de Kaizen. Sin confirmación, tu cuenta será eliminada en 48 horas.</string>
+
+    <!-- CHALLENGES -->
+    <string name="challenge_day_count">Día %1$s</string>
+    <string name="challenge_row_on_paused_text">En pausa</string>
+    <string name="challenge_status_ongoing">En curso</string>
+    <string name="challenge_status_paused">En pausa</string>
+    <string name="challenge_status_done">Terminado</string>
+    <string name="challenge_status_failed">Fallido</string>
+    <string name="challenge_status_abandoned">Abandonado</string>
+
+    <!-- CHALLENGE DETAILS -->
+    <string name="challenge_details_screen_back_description">Volver atrás</string>
+    <string name="challenge_details_drop_down_menu_description">Configuración del kaizen</string>
+    <string name="challenge_details_drop_down_menu_rename">Renombrar</string>
+    <string name="challenge_details_drop_down_menu_delete">Eliminar</string>
+    <string name="challenge_details_min_commitment_title">Compromiso mínimo 🔥</string>
+    <string name="challenge_details_min_commitment_emptyview_title">Compromiso mínimo 🔥</string>
+    <string name="challenge_details_min_commitment_emptyview_subtitle">Indica aquí el mínimo que debes realizar cada día.</string>
+    <string name="challenge_details_expectations_title">Tu motivación 🧘‍♂️</string>
+    <string name="challenge_details_expectations_emptyview_title">Tu motivación 🧘‍♂️</string>
+    <string name="challenge_details_expectations_emptyview_subtitle">Describe aquí lo que esperas obtener de esta aventura de 365 días.</string>
+    <string name="challenge_details_forgot_to_check_button">Olvidé marcar</string>
+
+    <!-- CHALLENGE DETAILS DASHBOARD -->
+    <string name="challenge_details_dashboard_day_count">días</string>
+    <string name="challenge_details_dashboard_life_counter_description">Vidas restantes</string>
+
+    <!-- CHALLENGE DETAILS BOTTOM SHEET -->
+    <string name="challenge_details_bs_resumed_button">Reanudar este kaizen</string>
+    <string name="challenge_details_bs_paused_button">Pausar este kaizen</string>
+    <string name="challenge_details_bs_abandoned_button">Abandonar este kaizen</string>
+
+    <!-- CHALLENGE DETAILS CHANGE STATUS MODAL -->
+    <string name="challenge_details_change_status_modal_ongoing_title">Reanudar este kaizen</string>
+    <string name="challenge_details_change_status_modal_pause_title">Pausar este kaizen</string>
+    <string name="challenge_details_change_status_modal_abandoned_title">Abandonar este kaizen</string>
+    <string name="challenge_details_change_status_modal_ongoing_subtitle">Tu progreso continuará y deberás hacer tu kaizen hoy.</string>
+    <string name="challenge_details_change_status_modal_pause_subtitle">Tu progreso se pausará.\nPodrás reanudar tu kaizen en cualquier momento.</string>
+    <string name="challenge_details_change_status_modal_abandoned_subtitle">Este kaizen no podrá recuperarse una vez abandonado.\n\nSin embargo, aún podrás consultarlo en tu perfil, en la sección de Kaizen Archivados.</string>
+    <string name="challenge_details_change_status_modal_ongoing_button">Reanudar</string>
+    <string name="challenge_details_change_status_modal_pause_button">Pausar</string>
+    <string name="challenge_details_change_status_modal_abandoned_button">Abandonar</string>
+
+    <!-- CHALLENGE DETAILS DELETE MODAL -->
+    <string name="challenge_details_delete_modal_title">Eliminar este kaizen</string>
+    <string name="challenge_details_delete_modal_subtitle">Este kaizen se eliminará permanentemente y no podrá recuperarse.\nNo lo encontrarás en tu sección de Kaizen Archivados.</string>
+    <string name="challenge_details_delete_modal_button">Eliminar permanentemente</string>
+
+    <!-- USER CHALLENGES -->
+    <string name="user_empty_challenges_title">Aún no hay kaizen</string>
+    <string name="user_empty_challenges_subtitle">¡Haz clic para crear un nuevo kaizen!</string>
+
+    <!-- FRIENDS CHALLENGES -->
+    <string name="friend_empty_challenges_title">%1$s aún no tiene kaizen</string>
+
+    <!-- CREATE CHALLENGE -->
+    <!-- INFO STEP -->
+    <string name="challenge_info_screen_title">Información</string>
+    <string name="challenge_info_screen_challenge_title_input_label">Título</string>
+    <string name="challenge_info_screen_challenge_title_input_placeholder">Lectura</string>
+    <string name="challenge_info_screen_challenge_title_input_error">Debes darle un nombre a tu kaizen.</string>
+    <string name="challenge_info_screen_challenge_life_counter_title">Número de vidas</string>
+    <string name="challenge_info_screen_challenge_life_counter_editing_info">Solo puedes aumentar tu número de vidas (máx. 12).</string>
+    <string name="challenge_info_screen_challenge_life_counter_creating_info">Tus vidas representan la cantidad de veces que puedes fallar tu kaizen (máx. 12).</string>
+    <string name="challenge_info_screen_update_button">Actualizar</string>
+    <string name="challenge_info_screen_done_button">Siguiente</string>
+    <!-- INFO STEP ERRORS -->
+    <string name="challenge_info_screen_lives_invalid_args_error">No puedes reducir el número de vidas ni superar las %1$s vidas.</string>
+
+    <!-- COMMITMENT STEP -->
+    <string name="commitment_screen_title">Compromiso</string>
+    <string name="commitment_screen_info_text">Kaizen es una aventura de 365 días 🌴\nPara lograrlo, fija un mínimo diario realista.\n¡Pequeñas chispas encienden grandes fuegos! 🔥</string>
+    <string name="commitment_screen_commitment_input_placeholder">Ejemplo (lectura): "Debo leer al menos una página por día."</string>
+    <string name="commitment_screen_update_button">Actualizar</string>
+    <string name="commitment_screen_done_button">Finalizar</string>
+
+    <!-- EXPECTATIONS STEP -->
+    <string name="expectations_screen_title">Mi motivación</string>
+    <string name="expectations_screen_info_text">Kaizen es una aventura personal, no se trata de objetivos a cumplir 🧘‍♂️\n¿Dónde quieres estar dentro de 365 días?\nDescríbelo, ¡es el primer paso de tu aventura! 🚀</string>
+    <string name="expectations_screen_expectations_input_placeholder">Ejemplo (lectura): "Quiero recuperar mi amor por la lectura e integrarlo nuevamente en mi día a día."</string>
+    <string name="expectations_screen_update_button">Actualizar</string>
+    <string name="expectations_screen_done_button">Siguiente</string>
+
+    <!-- ACCOUNT SCREEN -->
+    <string name="account_screen_title">Mi cuenta</string>
+    <string name="account_back_description">Volver al inicio</string>
+    <string name="account_logout_description">Cerrar sesión</string>
+    <string name="account_profile_username">@%1$s</string>
+    <string name="account_profile_picture_description">Foto de perfil</string>
+    <string name="account_create_challenge_row_title">Crear un kaizen</string>
+    <string name="account_create_challenge_row_description">Crear un nuevo kaizen</string>
+    <string name="account_friends_row_title">Mis amigos</string>
+    <string name="account_friends_row_description">Mis amigos</string>
+    <string name="account_archived_challenges_row_title">Mis kaizens archivados</string>
+    <string name="account_archived_challenges_row_description">Mis kaizens archivados</string>
+    <string name="account_delete_account_button_title">Eliminar mi cuenta</string>
+
+    <!-- ARCHIVED KAIZENS -->
+    <string name="archived_kaizens_screen_title">Mis kaizen archivados</string>
+    <string name="archived_kaizens_back_description">Volver a la cuenta</string>
+    <string name="archived_kaizens_abandoned_section_title">Mis kaizen abandonados</string>
+    <string name="archived_kaizens_failed_section_title">Mis kaizen fallidos</string>
+    <string name="archived_kaizens_empty_view_title">Ningún kaizen archivado</string>
+    <string name="archived_kaizens_empty_view_subtitle">Aquí encontrarás todos tus kaizen fallidos o abandonados.</string>
+
+    <!-- MY FRIENDS -->
+    <string name="friends_screen_title">Mis amigos</string>
+    <string name="friends_screen_back_description">Volver a la cuenta</string>
+    <string name="friends_screen_friends_requests_section_title">Solicitudes de amistad (%1$s)</string>
+    <string name="friends_screen_friends_section_title">Mis amigos</string>
+    <string name="friends_screen_add_as_favorite_description">Añadir este amigo a favoritos.</string>
+    <string name="friends_screen_remove_as_favorite_description">Eliminar este amigo de favoritos.</string>
+    <string name="friends_screen_empty_view_text">Aún no tienes amigos.</string>
+
+    <!-- FRIEND SEARCH VIEW -->
+    <string name="friends_search_view_input_label">Añadir un amigo</string>
+    <string name="friends_search_view_input_placeholder">@usuario</string>
+    <string name="friends_search_button_description">Buscar un amigo por nombre de usuario.</string>
+
+    <!-- FRIEND SEARCH ERRORS -->
+    <string name="friends_search_username_is_empty_error">El nombre de usuario no debe estar vacío.</string>
+    <string name="friends_search_request_to_yourself">No puedes enviarte una solicitud a ti mismo.</string>
+    <string name="friends_search_not_authorized_error">No estás autenticado.</string>
+    <string name="friends_search_cannot_find_friend_id">Ningún usuario coincide con tu búsqueda.</string>
+
+    <!-- FRIEND SEARCH PREVIEW -->
+    <string name="friends_search_preview_send_friend_request_description">Enviar solicitud de amistad.</string>
+
+    <!-- FRIEND REQUEST -->
+    <string name="friends_request_accept_button">Aceptar</string>
+    <string name="friends_request_decline_button_description">Rechazar la solicitud de amistad.</string>
+    <string name="friends_request_pending_request">Pendiente de %1$s</string>
+    <string name="friends_request_cancel_request_description">Cancelar la solicitud de amistad.</string>
+
+    <!-- MODAL VIEW -->
+    <string name="confirmation_modal_view_cancel_button">Cancelar</string>
+
+    <!-- LOGOUT MODAL -->
+    <string name="account_logout_modal_title">Cerrar sesión</string>
+    <string name="account_logout_modal_subtitle">¿Estás seguro de que deseas cerrar sesión?</string>
+    <string name="account_logout_modal_button">Cerrar sesión</string>
+
+    <!-- DELETE ACCOUNT MODAL -->
+    <string name="account_delete_modal_title">Atención</string>
+    <string name="account_delete_modal_subtitle">Estás a punto de eliminar tu cuenta. Esta acción es irreversible.\nPerderás todos tus amigos, kaizen y estadísticas.\n\nTodos tus datos serán eliminados de nuestros servidores.</string>
+    <string name="account_delete_modal_button">Eliminar mi cuenta</string>
+
+    <!-- DELETE FINAL CONFIRMATION ACCOUNT MODAL -->
+    <string name="account_delete_final_confirmation_modal_title">Confirmación final</string>
+    <string name="account_delete_final_confirmation_modal_subtitle">Por favor, confirma nuevamente esta acción para eliminar tu cuenta de forma definitiva.</string>
+    <string name="account_delete_final_confirmation_modal_button">Eliminar (irreversible)</string>
+    <string name="account_delete_error">Se produjo un error durante la eliminación. Intenta de nuevo o contacta al soporte.</string>
+
+    <!-- STEPPER COMPONENT -->
+    <string name="stepper_minus_description">Disminuir</string>
+    <string name="stepper_plus_description">Aumentar</string>
+
+    <!-- AVATAR DESCRIPTIONS -->
+    <string name="avatar_1_description">Un personaje alegre con cabello rizado oscuro rodeado de chispas.</string>
+    <string name="avatar_2_description">Un personaje travieso con cabello rosa guiñando un ojo, sobre un fondo amarillo.</string>
+    <string name="avatar_3_description">Un personaje radiante con cabello rubio en coleta, usando gafas grandes y sobre un fondo azul verdoso.</string>
+    <string name="avatar_4_description">Un personaje feliz con cabello violeta y ojos en forma de corazón, rodeado de chispas.</string>
+    <string name="avatar_5_description">Un personaje sonriente con cabello rubio claro y camiseta amarilla, rodeado de chispas.</string>
+    <string name="avatar_6_description">Un personaje alegre con cabello corto oscuro y camiseta color durazno, rodeado de chispas.</string>
+    <string name="avatar_7_description">Un personaje amigable con cabello castaño oscuro, con aretes y una gran sonrisa.</string>
+    <string name="avatar_8_description">Un personaje excéntrico con cabello verde, gafas y un guiño.</string>
+    <string name="avatar_9_description">Un personaje tierno con cabello rosa claro, mejillas sonrojadas y rodeado de chispas.</string>
+
+    <!-- BACK TOP APP BAR -->
+    <string name="back_top_appbar_default_description">Volver atrás</string>
+
+    <!-- PASSWORD TEXT FIELD -->
+    <string name="password_text_field_hide_description">Mostrar</string>
+    <string name="password_text_field_show_description">Ocultar</string>
+</resources>

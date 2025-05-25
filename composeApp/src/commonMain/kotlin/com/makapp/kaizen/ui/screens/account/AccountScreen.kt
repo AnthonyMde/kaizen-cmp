@@ -33,6 +33,8 @@ import com.makapp.kaizen.ui.screens.account.components.modal.DeleteFinalConfirma
 import com.makapp.kaizen.ui.screens.account.components.modal.LogoutConfirmationModalView
 import com.makapp.kaizen.ui.components.BackTopAppBar
 import kaizen.composeapp.generated.resources.Res
+import kaizen.composeapp.generated.resources.account_archived_challenges_row_description
+import kaizen.composeapp.generated.resources.account_archived_challenges_row_title
 import kaizen.composeapp.generated.resources.account_back_description
 import kaizen.composeapp.generated.resources.account_create_challenge_row_description
 import kaizen.composeapp.generated.resources.account_create_challenge_row_title
@@ -169,9 +171,9 @@ fun AccountScreen(
                     onAction = {
                         onAction(AccountAction.GoToArchivedKaizen)
                     },
-                    title = "Mes kaizens archivés",
+                    title = stringResource(Res.string.account_archived_challenges_row_title),
                     icon = painterResource(Res.drawable.ic_package_outlined),
-                    description = "Mes kaizens archivés",
+                    description = stringResource(Res.string.account_archived_challenges_row_description),
                     modifier = Modifier.padding(top = 8.dp)
                 )
 
