@@ -52,6 +52,6 @@ sealed class Route {
     @Serializable
     data class ChallengeDetails(
         val id: String,
-        val readOnly: Boolean
+        val isOwner: Boolean
     ) : Route()
 }

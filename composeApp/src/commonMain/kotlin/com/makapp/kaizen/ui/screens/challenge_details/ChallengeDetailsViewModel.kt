@@ -182,8 +182,8 @@ class ChallengeDetailsViewModel(
     fun isHeartButtonClickable(isEditable: Boolean, challenge: Challenge): Boolean =
         isEditable && challenge.maxAuthorizedFailures < Challenge.MAX_POSSIBLE_FAILURES
 
-    fun isChallengeEditable(challenge: Challenge?, readOnly: Boolean): Boolean =
-        !readOnly && (challenge?.isPaused() == true || challenge?.isOngoing() == true)
+    fun isChallengeEditable(challenge: Challenge?, isOwner: Boolean): Boolean =
+        isOwner && (challenge?.isPaused() == true || challenge?.isOngoing() == true)
 
     // TODO: move this only to backend side (should wait ktor backend)
     private fun isFailureStillForgettable(date: LocalDate?): Boolean {

@@ -11,6 +11,7 @@ import com.makapp.kaizen.utils.DateUtils
 @Composable
 fun ChallengeDetailsPreview() {
     ChallengeDetailsScreen(
+        isOwner = true,
         isEditable = true,
         state = ChallengeDetailsState(
             isDetailsLoading = false,

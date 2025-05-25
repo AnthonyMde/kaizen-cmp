@@ -82,7 +82,7 @@ fun AppNavHost(
                     navController.navigate(
                         Route.ChallengeDetails(
                             args.id,
-                            args.readOnly
+                            args.isOwner
                         )
                     )
                 }
@@ -146,7 +146,7 @@ fun AppNavHost(
                     navController.navigate(
                         Route.ChallengeDetails(
                             id = id,
-                            readOnly = false,
+                            isOwner = true,
                         )
                     )
                 },
@@ -175,13 +175,13 @@ fun AppNavHost(
             popExitTransition = { defaultPopExitTransition() }
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.read { getStringOrNull("id") } ?: return@composable
-            val readOnly =
-                backStackEntry.arguments?.read { getBooleanOrNull("readOnly") } ?: return@composable
+            val isOwner =
+                backStackEntry.arguments?.read { getBooleanOrNull("isOwner") } ?: return@composable
 
             ChallengeDetailsScreenRoot(
                 navArgs = ChallengeDetailsNavArgs(
                     id,
-                    readOnly
+                    isOwner
                 ),
                 navigateUp = {
                     navController.popBackStack()

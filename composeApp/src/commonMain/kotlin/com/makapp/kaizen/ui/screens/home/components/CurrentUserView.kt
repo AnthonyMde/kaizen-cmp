@@ -84,7 +84,7 @@ fun CurrentUserView(
                                 HomeAction.OnChallengeClicked(
                                     navArgs = ChallengeDetailsNavArgs(
                                         challenge.id,
-                                        readOnly = false
+                                        isOwner = true
                                     )
                                 )
                             )

@@ -72,7 +72,8 @@ fun ChallengeDetailsScreenRoot(
 
     ChallengeDetailsScreen(
         state = state,
-        isEditable = viewModel.isChallengeEditable(state.challenge, navArgs.readOnly),
+        isOwner = navArgs.isOwner,
+        isEditable = viewModel.isChallengeEditable(state.challenge, navArgs.isOwner),
         onAction = { action ->
             when (action) {
                 ChallengeDetailsAction.OnNavigateUp -> navigateUp()
@@ -93,6 +94,7 @@ fun ChallengeDetailsScreenRoot(
 
 @Composable
 fun ChallengeDetailsScreen(
+    isOwner: Boolean,
     isEditable: Boolean,
     state: ChallengeDetailsState,
     onAction: (ChallengeDetailsAction) -> Unit,
@@ -184,7 +186,7 @@ fun ChallengeDetailsScreen(
                         }
                     )
 
-                    if (state.shouldDisplayForgotToCheckButton) {
+                    if (isOwner && state.shouldDisplayForgotToCheckButton) {
                         ForgotChallengeButtonView(
                             challengeId = state.challenge.id,
                             isLoading = state.isForgotToCheckButtonLoading,

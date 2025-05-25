@@ -72,7 +72,7 @@ fun FriendWithChallengesView(
                             HomeAction.OnChallengeClicked(
                                 navArgs = ChallengeDetailsNavArgs(
                                     challenge.id,
-                                    readOnly = true
+                                    isOwner = false
                                 )
                             )
                         )
