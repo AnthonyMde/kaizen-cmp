@@ -93,6 +93,9 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    lint {
+        disable.add("NullSafeMutableLiveData")
+    }
     namespace = "com.makapp.kaizen"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 

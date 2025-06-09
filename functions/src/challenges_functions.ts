@@ -16,6 +16,10 @@ export const createChallenge = onCall(async (request) => {
         throw new HttpsError("invalid-argument", "No challenge name provided.")
     } else if (body.maxFailures == null) {
         throw new HttpsError("invalid-argument", "No challenge maxFailures provided.")
+    } else if (body.maxFailures > MAX_LIVES_ALLOWED) {
+        throw new HttpsError("invalid-argument", `You cannot have more than ${MAX_LIVES_ALLOWED} lives.`)
+    } else if (body.maxFailures < 0) {
+        throw new HttpsError("invalid-argument", `You cannot have a negative number of lives.`)
     }
 
     const challenge = {

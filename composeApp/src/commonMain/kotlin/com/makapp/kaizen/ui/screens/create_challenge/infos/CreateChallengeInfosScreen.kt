@@ -190,7 +190,7 @@ fun CreateChallengeInfoScreen(
                         onDecrease = { lives ->
                             onAction(CreateChallengeInfosAction.OnNumberOfLivesChanged(lives))
                         },
-                        max = 13,
+                        max = MAX_LIVES_ALLOWED,
                         min = state.minimumLives
                     )
                 }
